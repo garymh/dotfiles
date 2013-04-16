@@ -1,0 +1,121 @@
+[user]
+	name = Gary Holtz
+	email = code@garyh.org
+
+[core]
+	excludesfile = ~/.gitignore_global
+	whitespace = trailing-space,space-before-tab
+
+[alias]
+tags = tag -l
+branches = branch -a
+remotes = remote -v
+
+root = rev-parse --show-toplevel
+
+graft = cherry-pick -x
+
+l   = log -18 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
+ll  = log     --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
+gl  = log -12 --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
+gll = log     --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
+
+pull = pull --ff-only
+up = merge --ff-only
+
+join = merge --no-ff
+
+d = !git diff | sbul -
+di = !git diff --cached | subl -
+
+discard-merge = reset --hard HEAD
+
+ack = log --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset' --full-history -S
+
+ci = commit
+cm = commit -m
+
+d = !git diff | subl -R -
+di = !git diff --cached | subl -R -
+
+co = checkout
+id = rev-parse
+
+stat = status
+st = status
+
+unstage = reset HEAD
+uns = reset HEAD
+
+delete-local-branch = branch -D
+delete-remote-branch = push origin --delete
+delete-local-reference-to-remote-branch = branch -rd
+
+currentbranch = rev-parse --abbrev-ref HEAD
+
+fo = fetch origin
+fu = fetch upstream
+
+po = push origin
+
+mo = !git merge --no-ff origin/`git currentbranch`
+mu = !git merge --no-ff upstream/`git currentbranch`
+
+uo = !git merge --ff-only origin/`git currentbranch`
+uu = !git merge --ff-only upstream/`git currentbranch`
+
+addremove = !git add . && git add -u
+addrem = !git addremove
+
+ksdiff = difftool -y -t Kaleidoscope
+ksshow = "!sh -c 'git ksdiff $1^..$1;' -"
+	switch = !legit switch \"$@\"
+	sprout = !legit sprout \"$@\"
+	unpublish = !legit unpublish \"$@\"
+	harvest = !legit harvest \"$@\"
+	sync = !legit sync \"$@\"
+	publish = !legit publish \"$@\"
+
+[push]
+default = current
+
+[color]
+branch = auto
+diff = auto
+interactive = auto
+status = auto
+
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+
+[difftool]
+prompt = false
+
+[diff]
+tool = Kaleidoscope
+
+[merge]
+tool = Kaleidoscope
+	stat = true
+
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustExitCode = true
+
+[web]
+browser = open
+
+[color]
+	ui = auto
+	diff = auto
+	interactive = auto
+	status = auto
+
+[credential]
+
+[github]
+	user = garymh
+
+[advice]
+	pushNonFastForward = false
+	statusHints = false

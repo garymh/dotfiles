@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<root>
+  <item>
+    <name>Action Buttons (F16)</name>
+  <item>
+    <name>iTerm action button (^-b)</name>
+    <only>TERMINAL</only>
+    <identifier>private.action_iterm</identifier>
+    <autogen>
+      --KeyOverlaidModifier--
+      KeyCode::F16,
+      KeyCode::CONTROL_L,
+      KeyCode::B, ModifierFlag::CONTROL_L
+    </autogen>
+  </item>
+<item>
+    <name>PathFinder action button (⌘-n)</name>
+    <only>TERMINAL</only>
+    <identifier>private.action_pathfinder</identifier>
+    <autogen>
+      --KeyOverlaidModifier--
+      KeyCode::F16,
+      KeyCode::CONTROL_L,
+      KeyCode::N, ModifierFlag::COMMAND_L
+    </autogen>
+  </item>
+
+  <item>
+    <name>Evernote action button (^⌘-s)</name>
+    <only>EVERNOTE</only>
+    <identifier>private.action_evernote</identifier>
+    <autogen>
+      --KeyOverlaidModifier--
+      KeyCode::F16,
+      KeyCode::CONTROL_L,
+      KeyCode::S, ModifierFlag::CONTROL_L | ModifierFlag::COMMAND_L
+    </autogen>
+  </item>
+
+  <item>
+    <name>iTunes action button (⌘^m)</name>
+    <only>ITUNES</only>
+    <identifier>private.action_itunes</identifier>
+    <autogen>
+      --KeyOverlaidModifier--
+      KeyCode::F16,
+      KeyCode::CONTROL_L,
+      KeyCode::M, ModifierFlag::OPTION_L | ModifierFlag::COMMAND_L
+    </autogen>
+  </item>
+
+  <item>
+    <name>Reeder action button (⌘-R)</name>
+    <only>REEDER</only>
+    <identifier>private.action_reeder</identifier>
+    <autogen>
+      --KeyOverlaidModifier--
+      KeyCode::F16,
+      KeyCode::CONTROL_L,
+      KeyCode::R, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
+    </autogen>
+  </item>
+
+  <item>
+    <name>Tweetbot action button (⌘-R)</name>
+    <only>TWEETBOT</only>
+    <identifier>private.action_tweetbot</identifier>
+    <autogen>
+      --KeyOverlaidModifier--
+      KeyCode::F16,
+      KeyCode::CONTROL_L,
+      KeyCode::R, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
+    </autogen>
+  </item>
+
+
+  <item>
+    <name>Safari action button (⌘-t)</name>
+    <only>SAFARI</only>
+    <identifier>private.action_safari</identifier>
+    <autogen>
+      --KeyOverlaidModifier--
+      KeyCode::F16,
+      KeyCode::CONTROL_L,
+      KeyCode::T, ModifierFlag::COMMAND_L
+    </autogen>
+  </item>
+
+
+  <item>
+    <name>Sparrow action button (⌘-6)</name>
+    <only>SPARROW</only>
+    <identifier>private.action_sparrow</identifier>
+    <autogen>
+      --KeyOverlaidModifier--
+      KeyCode::F16,
+      KeyCode::CONTROL_L,
+      KeyCode::KEYPAD_6, ModifierFlag::COMMAND_L
+    </autogen>
+  </item>
+
+  <item>
+    <name>Sublime action button (^-p)</name>
+    <only>SUBLIME</only>
+    <identifier>private.action_sublime</identifier>
+    <autogen>
+      --KeyOverlaidModifier--
+      KeyCode::F16,
+      KeyCode::CONTROL_L,
+      KeyCode::F16, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
+    </autogen>
+  </item>
+</item>
+
+<item>
+  <name>Shift Backquote(`) to ~</name>
+  <identifier>remap.backquote_to_tilde2</identifier>
+  <autogen>--KeyToKey-- KeyCode::BACKQUOTE, VK_SHIFT, KeyCode::BACKQUOTE, ModifierFlag::SHIFT_L</autogen>
+</item>
+  <item>
+          <name>Backquote to F18</name>
+          <identifier>remap.backquote_to_f18</identifier>
+          <autogen>--KeyToKey-- KeyCode::BACKQUOTE, KeyCode::F18</autogen>
+</item>
+
+  <item>
+    <name>Fn key to F17</name>
+    <appendix>(F17 to Hyper + F17 Only, send escape)</appendix>
+    <identifier>remap.fntof17</identifier>
+    <autogen>
+      --KeyOverlaidModifier--
+      KeyCode::FN,
+      KeyCode::COMMAND_L,
+      ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+      KeyCode::F17
+    </autogen>
+  </item>
+  <item>
+    <name>Brightness overrides</name>
+    <identifier>remap.brightnessoverrides</identifier>
+    <autogen>--KeyToConsumer-- KeyCode::F1, ModifierFlag::COMMAND_R | ModifierFlag::OPTION_R, ConsumerKeyCode::BRIGHTNESS_DOWN</autogen>
+    <autogen>--KeyToConsumer-- KeyCode::F2, ModifierFlag::COMMAND_R | ModifierFlag::OPTION_R, ConsumerKeyCode::BRIGHTNESS_UP</autogen>
+  </item>
+  <item>
+    <name>CONTROL_L to F17</name>
+    <appendix>(F17 to Hyper + F17 Only, send escape)</appendix>
+    <identifier>remap.lcontroltof17</identifier>
+    <autogen>
+      --KeyOverlaidModifier--
+      KeyCode::CONTROL_L,
+      KeyCode::COMMAND_L,
+      ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+      KeyCode::F17
+    </autogen>
+  </item>
+
+  <item>
+    <name>F16(CAPSLOCK) to F16 (ACTION BUTTON FALLBACK)</name>
+    <appendix>(F16 to Control + F16 Only, send escape)</appendix>
+    <identifier>private.f162f16_escape</identifier>
+    <autogen>
+      --KeyOverlaidModifier--
+      KeyCode::F16,
+      KeyCode::CONTROL_L,
+      KeyCode::F16
+    </autogen>
+  </item>
+  <item>
+          <name>Application Key to F18</name>
+          <identifier>remap.pc_application2f18</identifier>
+          <autogen>--KeyToKey-- KeyCode::PC_APPLICATION, KeyCode::F18</autogen>
+</item>
+
+  <item>
+    <name>Simultaneous Key Presses [;+'] to PC Application Key</name>
+    <identifier>remap.simultaneouskeypresses_semiquote2pc_application</identifier>
+    <autogen>--SimultaneousKeyPresses-- KeyCode::SEMICOLON, KeyCode::QUOTE, KeyCode::PC_APPLICATION, SimultaneousKeyPresses::Option::RAW</autogen>
+  </item>
+  <item>
+    <name>Simultaneous Key Presses [.+/] to F13</name>
+    <identifier>remap.simultaneouskeypresses_commaslash2f13</identifier>
+    <autogen>--SimultaneousKeyPresses-- KeyCode::DOT, KeyCode::SLASH, KeyCode::F13</autogen>
+  </item>
+
+  <appdef>
+    <appname>SUBLIME</appname>
+    <equal>com.sublimetext.2</equal>
+  </appdef>
+
+  <appdef>
+    <appname>PATHFINDER</appname>
+    <equal>com.cocoatech.pathfinder</equal>
+  </appdef>
+
+  <appdef>
+    <appname>SPARROW</appname>
+    <equal>com.sparrowmailapp.sparrow</equal>
+  </appdef>
+
+  <appdef>
+    <appname>CLEAR</appname>
+    <equal>com.realmacsoftware.clear.mac</equal>
+  </appdef>
+
+  <appdef>
+    <appname>TWEETBOT</appname>
+    <equal>com.tapbots.TweetbotMac</equal>
+  </appdef>
+
+  <appdef>
+    <appname>EVERNOTE</appname>
+    <equal>com.evernote.Evernote</equal>
+  </appdef>
+
+  <appdef>
+    <appname>REEDER</appname>
+    <equal>com.reederapp.mac</equal>
+  </appdef>
+
+
+
+</root>
