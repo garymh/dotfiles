@@ -1,0 +1,121 @@
+[core]
+  excludesfile = ~/code/dotfiles/home/gitignore_global
+  whitespace   = space-before-tab,-indent-with-non-tab,trailing-space
+	pager = diff-so-fancy | less --tabs=4 -RFX
+  editor       = nvim
+
+  # Make `git rebase` safer on OS X
+  # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+  trustctime = false
+
+  # Prevent showing files whose names contain non-ASCII symbols as unversioned.
+  # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+  precomposeunicode = false
+
+[alias]
+  amend                 = commit -a --amend
+  co                    = checkout
+  back-to-origin        = !git reset --hard origin/`git symbolic-ref --short HEAD`
+  delete-local-branch   = branch -D
+  changes               = "!git diff $(git merge-base master HEAD)"
+  discard               = checkout --
+  explode               = !git reset --hard HEAD && git clean -d -f
+  fuckthis              = !git reset --hard HEAD && git clean -d -f
+  ksdiff                = difftool
+  mr                    = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
+  ours                  = "!f() { git co --ours $@ && git add $@; }; f"
+  rmfiles               = clean -fdx
+  remotes               = remote -v
+  set-security-upstream = !git branch --set-upstream-to=security/`git symbolic-ref --short HEAD`
+  set-upstream          = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
+  stashes               = stash list
+  theirs                = "!f() { git co --theirs $@ && git add $@; }; f"
+  uncommit              = reset --mixed HEAD~
+  undo                  = reset --mixed HEAD~
+  url                   = "!open $(glhelper)"
+  up                    = !git pull --rebase --prune $@ && git submodule update --init --recursive
+  update-submodules     = submodule update --init --recursive
+
+[color]
+  branch      = auto
+  diff        = auto
+  interactive = auto
+  status      = auto
+  ui = true
+[web]
+  browser     = open
+[status]
+  showUntrackedFiles = all
+[help]
+  autocorrect   = 1
+[difftool "kitty"]
+  cmd = kitty +kitten diff $LOCAL $REMOTE
+[difftool "kitty.gui"]
+  cmd = kitty kitty +kitten diff $LOCAL $REMOTE
+[difftool "Kaleidoscope"]
+  cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[mergetool "Kaleidoscope"]
+  cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+  trustexitcode = true
+[merge]
+  ff = only
+  tool = Kaleidoscope
+  renamelimit = 2305
+[mergetool]
+  tool       = Kaleidoscope
+  prompt     = false
+  keepBackup = false
+[diff]
+  tool = Kaleidoscope
+[commit]
+  gpgsign      = true
+[filter "lfs"]
+  required     = true
+  clean        = git-lfs clean -- %f
+  smudge       = git-lfs smudge -- %f
+  process      = git-lfs filter-process
+ [include]
+   path         = ~/.gitconfig.local
+ [includeIf "gitdir:~/code/work/"]
+   path         = ~/.gitconfig.work
+[rebase]
+  autoStash = true
+  autosquash = true
+[apply]
+  whitespace = nowarn
+[branch]
+  autosetuprebase = always
+[gpg]
+  program = gpg2
+[push]
+  default = upstream
+[pull]
+  default = current
+  ff = only
+[url "git@github.com:"]
+  insteadOf = https://github.com/
+[url "git@gitlab.com:"]
+  insteadOf = https://gitlab.com/
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+  template = ~/code/dotfiles/git/commit.template
+
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = yellow
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[diff-so-fancy]
+	first-run = false

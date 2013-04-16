@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# vi:syntax=ruby
+
+require_relative 'glhelper'
+
+mrs = JSON.parse(File.read('/tmp/gitlab/mrs.json'))
+mr  = mrs.find { |i| i["source_branch"] == @branch }
+
+`open #{mr["web_url"]}`

@@ -1,0 +1,2 @@
+
+alias hello="ls -a"

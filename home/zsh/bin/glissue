@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# vi:syntax=ruby
+
+require_relative 'glhelper'
+
+issues = JSON.parse(File.read('/tmp/gitlab/issues.json'))
+issue = issues.find { |i| i["iid"] == @branch.split("-").first.to_i }
+
+`open #{issue["web_url"]}`

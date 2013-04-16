@@ -1,0 +1,239 @@
+#!/usr/local/bin/zsh
+typeset -F4 SECONDS=0
+
+source $HOME/.zsh/misc/_utility.zsh
+
+# export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
+# export SSH_AUTH_SOCK=/Users/gary/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
+
+export DOTFILES="$HOME/code/dotfiles"
+export VIMFILES="$HOME/code/dotfiles/home/vim"
+export OCI_DIR=/usr/local/lib
+export HOMEBREW_CASK_OPTS="--fontdir=~/Library/Fonts"
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_BUNDLE_FILE_PATH="$DOTFILES/Brewfile"
+export LDFLAGS="-L/usr/local/opt/icu4c/lib"
+export CPPFLAGS="-I/usr/local/opt/icu4c/include"
+export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
+
+export PATH="/usr/local/opt/postgresql@10/bin:/usr/local/opt/node@12/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+export PATH=$HOME_DIR/zsh/bin:$PATH
+
+export NAVI_PATH="$DOTFILES/home/doc"
+export NEXTWORD_DATA_PATH="$HOME/.config/nextword-data"
+export GPG_TTY=$(tty)
+
+if _exists nvim; then
+  export VISUAL='nvim'
+fi
+
+export EDITOR="$VISUAL"
+
+# if _exists moar; then
+#   export PAGER="moar"
+# fi
+
+if _exists go; then export PATH=$PATH:$HOME/code/go/bin; fi
+if _exists cargo; then export PATH=$PATH:$HOME/.cargo/bin; fi
+
+export PATH="/usr/local/sbin:$PATH"
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-rust \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-bin-gem-node
+
+### End of Zinit's installer chunk
+
+omz_libs=(
+  functions
+  misc
+  key-bindings
+  history
+  git
+  directories
+  compfix
+)
+
+omz_plugins=(
+  bundler
+  zsh_reload
+  chruby
+  fasd
+  git
+  github
+  # git-extras
+  thefuck
+)
+
+for plugin in ${omz_libs[@]}; do zinit snippet OMZ::lib/$plugin.zsh; done
+for plugin in ${omz_plugins[@]}; do zinit snippet OMZP::$plugin; done
+
+zinit ice wait'1' lucid
+zinit light $HOME/code/fzf-widgets
+
+zinit ice pick'init.zsh' compile'*.zsh'
+zinit light laggardkernel/zsh-iterm2
+
+export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES=":q gco g rubocop"
+# export ZSH_PLUGINS_ALIAS_TIPS_FORCE=1
+export ZSH_PLUGINS_ALIAS_TIPS_REVEAL=1
+zinit ice wait'0' lucid
+zinit load djui/alias-tips
+
+zinit ice wait'0' lucid
+zinit load ael-code/zsh-colored-man-pages
+
+# From: https://github.com/sgleizes/dotfiles/blob/0b9fa9ced2ba2bc189ba6ba47d8672b8a8f4fa8e/.xsh/zsh/module/git/%40interactive.zsh
+# Automatically detect and escape zsh globbing meta-characters when used with
+# git refspec characters like `[^~{}]`. NOTE: This must be loaded _after_
+# url-quote-magic, which is the motivation for the zinit 'wait slot'.
+# The plugin is patched to work with all defined git wrappers and aliases.
+zinit ice wait'0b' lucid depth=1 reset \
+  atclone'sed -i "s;(\*/|)git;(*/|)("${(j:|:)$(_list_git_wrappers)}");g" git-escape-magic' \
+  atpull'%atclone' nocompile'!' \
+  pick'git-escape-magic'
+zinit light knu/zsh-git-escape-magic
+# zinit ice wait'1' lucid
+# zinit load knu/zsh-git-escape-magic
+
+# zinit ice wait'1' lucid
+# zinit load unixorn/git-extra-commands
+
+#################################################################
+zinit ice depth=1 wait blockf lucid atpull"zinit creinstall -q ."
+zinit light clarketm/zsh-completions
+
+zinit ice wait'1' lucid atinit"zpcompinit"
+zinit light zdharma/fast-syntax-highlighting
+
+export ZSH_AUTOSUGGEST_USE_ASYNC="true"
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
+zinit ice wait lucid atload"_zsh_autosuggest_start"
+zinit light zsh-users/zsh-autosuggestions
+#################################################################
+
+zinit load mafredri/zsh-async
+
+zinit ice atclone"gdircolors -b LS_COLORS > clrs.zsh" \
+    atpull'%atclone' pick"clrs.zsh" nocompile'!' \
+    atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
+zinit light trapd00r/LS_COLORS
+
+if [[ $(zsh --version | awk '{print $2}') > 5.0.7 ]]; then
+  export SPACESHIP_PROMPT_ORDER=(
+    time          # Time stamps section
+    user          # Username section
+    dir           # Current directory section
+    host          # Hostname section
+    hg            # Mercurial section (hg_branch  + hg_status)
+    package       # Package version
+    ruby          # Ruby section
+    elixir        # Elixir section
+    xcode         # Xcode section
+    swift         # Swift section
+    golang        # Go section
+    php           # PHP section
+    rust          # Rust section
+    haskell       # Haskell Stack section
+    julia         # Julia section
+    aws           # Amazon Web Services section
+    venv          # virtualenv section
+    conda         # conda virtualenv section
+    pyenv         # Pyenv section
+    dotnet        # .NET section
+    ember         # Ember.js section
+    # kubecontext   # Kubectl context section
+    terraform     # Terraform workspace section
+    exec_time     # Execution time
+    # git          # Git section (git_branch + git_status)
+    line_sep      # Line break
+    battery       # Battery level and status
+    vi_mode       # Vi-mode indicator
+    jobs          # Background jobs indicator
+    exit_code     # Exit code section
+    char          # Prompt character
+  )
+
+  export SPACESHIP_RPROMPT_ORDER=(
+    git
+  )
+
+  export SPACESHIP_VI_MODE_SHOW="false"
+  export SPACESHIP_CHAR_SYMBOL="➜  "
+  export SPACESHIP_RUBY_SYMBOL="\e[0;31m \e[0m"
+  export SPACESHIP_PROMPT_SEPARATE_LINE="true"
+  export SPACESHIP_PROMPT_DEFAULT_PREFIX="· "
+  export SPACESHIP_GIT_STATUS_PREFIX=" "
+  export SPACESHIP_GIT_STATUS_SUFFIX=""
+  export SPACESHIP_EXIT_CODE_SHOW="1"
+
+  zinit light denysdovhan/spaceship-prompt
+
+  zinit ice silent wait"0" pick"autopair.zsh"
+  zinit load "hlissner/zsh-autopair"
+fi
+
+autoload -Uz compinit
+compinit
+
+e_header "[zshrc] zinit block took ${(M)$(( SECONDS * 1000 ))#*.?} ms"
+
+if [[ ! -d ~/.tmux/plugins/tpm ]]; then
+  git clone https://github.com/tmux-plugins/tpm.git --depth 1 ~/.tmux/plugins/tpm 2> /dev/null
+fi
+
+for f ($HOME/.zsh/*.zsh) { source $f }
+
+for f in ~/.zsh/private/*.zsh(N); do
+  [ -e "$f" ] && source $f || break
+done
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# if _exists fasd; then
+#   fasd_cache="${ZSH_CACHE_DIR}/fasd-init-cache"
+#   if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+#     fasd --init auto >| "$fasd_cache"
+#   fi
+#   source "$fasd_cache"
+#   unset fasd_cache
+
+#   alias v="f -e \"$VISUAL\""
+#   alias o='a -e open'
+# fi
+
+set -o ignoreeof
+
+bindkey '^U' backward-kill-line
+
+set -o monitor
+
+unalias sd
+
+export ZSH_TMUX_AUTOSTART="true"
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+
+zinit ice svn
+zinit snippet OMZP::tmux
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

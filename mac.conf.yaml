@@ -1,0 +1,50 @@
+- defaults:
+    link:
+        create: true
+        relink: true
+
+- link:
+    ~/iCloud: "~/Library/Mobile Documents/com~apple~CloudDocs"
+    ~/.zsh/private: ~/iCloud/Internal/private
+    ~/.mackup.cfg: ~/iCloud/Mackup/mackup.cfg
+    ~/.gvimrc: home/gvimrc
+    ~/.config/karabiner/karabiner.json: home/karabiner.json
+    ~/.config/cistern: home/zsh/private/cistern
+    ~/.ssh: home/zsh/private/ssh/
+    ~/.whereami: home/zsh/private/whereami/
+    ~/.gnupg: home/zsh/private/gnupg/
+    ~/.netrc: home/zsh/private/netrc
+    ~/.hammerspoon: home/hammerspoon/
+    ~/.ruby-version: home/current_ruby
+    ~/Library/Preferences/topgrade.toml: home/topgrade.toml
+    ~/.gitconfig.work: home/zsh/private/gitconfig.work
+    ~/.config/alacritty: home/alacritty
+    ~/.config/kitty: home/kitty
+
+    ~/.vimrc.local: home/zsh/private/vimrc.local
+    ~/.config/hub: home/zsh/private/hub
+    ~/.ncspot: home/zsh/private/ncspot
+
+    ~/.gitconfig.local: home/zsh/private/gitconfig.local
+    ~/.gitconfig.work: home/zsh/private/gitconfig.work
+
+- shell:
+    - ["xcode-select -p && echo 'Xcode tools installed' || xcode-select --install", "Installing Xcode command tools"]
+    - ["/usr/bin/ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"", "Installing homebrew"]
+
+- brewfile:
+    - Brewfile
+
+- shell:
+    - ["./npm_modules.sh", "Installing npm modules"]
+    - ["ruby-install --latest --no-reinstall --cleanup ruby", "Installing latest ruby"]
+    - ["./dockutil_init.sh", "Fixing up Dock"]
+    - ["bundle", "Installing rubygems"]
+
+- pip:
+    file: requirements.txt
+    binary: /usr/local/bin/pip3
+    user: true
+
+- duti:
+    file: Dutifile

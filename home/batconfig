@@ -1,0 +1,9 @@
+--theme="1337"
+--style="changes,numbers"
+--italic-text=always
+--map-syntax .ignore:.gitignore
+--map-syntax Rakefile:Ruby
+--map-syntax Gemfile:Ruby
+--map-syntax Capfile:Ruby
+--map-syntax .pryrc:Ruby
+--map-syntax Brewfile:Ruby

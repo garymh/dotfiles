@@ -1,1 +1,5 @@
-vm
+/home/zsh/private/*
+!/home/zsh/private/.keep
+/home/zsh/bundle/*
+*.zwc
+/home/hammerspoon/Spoons

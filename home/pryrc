@@ -1,0 +1,221 @@
+
+global_gemset = ENV['GEM_PATH'].split(':').first
+all_global_gem_paths = Dir.glob("#{global_gemset}/gems/*")
+all_global_gem_paths.each do |p|
+  gem_path = "#{p}/lib"
+  $LOAD_PATH << gem_path
+end
+
+# require 'rubygems'
+# is this better below?
+
+# Gem.path.each do |gemset|
+#   $:.concat(Dir.glob("#{gemset}/gems/pry-*/lib"))
+# end if defined?(Bundler)
+# $:.uniq!
+
+# require 'pry-loudmouth'
+
+Pry::Commands.block_command 'trace', 'caller omitting any third party code' do
+  _pry_.input = StringIO.new 'caller.grep(Regexp.new(Dir.pwd)).map { |path| path.gsub "#{Dir.pwd}/", "" }'
+end
+
+def show_screen
+  if respond_to?(:save_screenshot)
+    page.save_screenshot("screenshot.png")
+    system("open 'screenshot.png'")
+  end
+end
+
+# Lots below stolen from Juanito Fatas
+# https://github.com/JuanitoFatas/dotpryrc
+
+Pry.config.theme = "tomorrow"
+Pry.config.color = true
+
+Pry.config.ls.separator = "\n" # new lines between methods
+Pry.config.ls.heading_color = :magenta
+Pry.config.ls.public_method_color = :green
+Pry.config.ls.protected_method_color = :yellow
+Pry.config.ls.private_method_color = :bright_black
+
+require "#{ENV['HOME']}/.pryrc-helpers.rb"
+
+# ___ is to Avoid name conflict
+___ = PryrcHelpers
+
+___daily_gems  = %w[benchmark yaml json]
+___pry_gems = %w[awesome_print hirb pry-clipboard pry-doc pry-inline pry-loudmouth pry-theme pry-toys]
+
+___daily_gems.___require_gems
+___pry_gems.___require_gems
+
+if defined? AwesomePrint
+  AwesomePrint.pry!
+  Pry.config.print = proc {|output, value| Pry::Helpers::BaseHelpers.stagger_output("-> #{value.ai(
+    indent: 2,
+    ruby19_syntax: true
+    )}", output)}
+
+  if defined? Minitest
+    module Minitest::Assertions
+      def mu_pp(obj)
+        obj.awesome_inspect
+      end
+    end
+  end
+end
+
+# _table Question.limit(5), fields: %i(id questionnaire_id text)
+def _table(*args)
+  print Hirb::Helpers::AutoTable.render(*args)
+end
+
+Pry.config.history_file = "~/.irb_history"
+
+Pry::Commands.block_command('cheat', 'Display Cheatsheet') do
+  puts 'Shortcuts:'
+  puts '@ : whereami'
+  puts '? : show-doc'
+  puts 'hl : Pry.history.load load whole history'
+  puts 'hh : hist -a -T20 Last 20 commands'
+  puts 'hn : hist -a -T20 -n Last 20 command no numbers'
+  puts 'hg : hist -a -G Commands matching expression'
+  puts 'hr : hist -a -r hist -r <command number> to run a command'
+  puts 'help alias See all the aliases available'
+end
+
+if defined?(PryBloodline)
+  PryBloodline.setup!
+  PryBloodline.configure do |c|
+    if defined?(Rails)
+      c.name = Rails.application.class.to_s.split("::").first.gsub("Gitlab", "GitLab")
+    end
+    c.line_color = :red
+    c.name_color = :white
+    c.path_color = :light_blue
+    c.separator = "⚡"
+  end
+end
+
+# Pry.config.exception_handler = proc do |output, exception, _|
+#   puts ___.colorize "#{exception.class}: #{exception.message}", 31
+#   puts ___.colorize "from #{exception.backtrace.first}", 31
+#   puts ___.colorize "hello #{exception.backtrace.inspect}", 31
+# end
+# Colorize exceptions
+#
+
+Pry.config.exception_handler = proc do |output, exception, _|
+  output.puts "\n\033[1;32m❢❢❢ \033[1;31m#{exception.class}\033[0m: \033[1m#{exception.message}\033[0m"
+  output.puts "\033[1;32m❢❢❢\033[0m  from #{exception.backtrace.first}\n\n"
+end
+
+# if defined? PG
+#   original_handler = Pry.config.exception_handler
+#   Pry.config.exception_handler = proc do |output, exception, _pry_|
+#     case exception.cause
+#     when PG::InFailedSqlTransaction
+#       ActiveRecord::Base.connection.rollback_transaction
+#       ActiveRecord::Base.connection.begin_transaction(joinable: false)
+#     end
+#     original_handler.call output, exception, _pry_
+#   end
+# end
+
+Pry.config.should_trap_interrupts = true
+
+Pry.config.commands.alias_command 'w', 'whereami'
+Pry.config.commands.alias_command 'clear', '.clear'
+Pry.commands.alias_command '..', 'cd ..'
+Pry.commands.alias_command '...', 'cd ../..'
+Pry.commands.alias_command '....', 'cd ../../..'
+Pry.commands.alias_command 'ed', 'edit'
+Pry.commands.alias_command 'e',  'edit'
+Pry.commands.alias_command 'em', 'edit -m'
+Pry.commands.alias_command 'ec', 'edit -c'
+Pry.commands.alias_command 'la', 'ls -ppp'
+Pry.commands.alias_command 'll', 'ls -M'
+Pry.commands.alias_command 'rm', 'reload-method'
+Pry.commands.alias_command 'src', 'show-source'
+Pry.commands.alias_command 'fm', 'find-method'
+Pry.commands.alias_command 'q', '!!!'
+Pry.commands.alias_command 'hh', 'hist -a -T20'
+Pry.commands.alias_command 'hn', 'hist -a -T20 -n'
+Pry.commands.alias_command 'hg', 'hist -a -G'
+Pry.commands.alias_command 'hr', 'hist -a -r'
+
+Pry::Commands.block_command "reload", "reload rails" do
+  Rails.application.reloader.reload!
+  output.puts "Reloading..."
+end
+
+Pry::Commands.block_command "nolog", "silences database logs" do
+  ActiveRecord::Base.logger = nil
+  output.puts "Database logs silenced"
+end
+
+Pry::Commands.block_command "log", "adds database logs" do
+  ActiveRecord::Base.logger = Logger.new(STDOUT)
+  output.puts "Database logs shown"
+end
+
+alias :r :require
+alias :l :load
+
+### Copy to clipboard!
+
+# https://github.com/hotchpotch/pry-clipboard
+
+# ==============================
+#   pbcopy
+# ==============================
+# Create command 'pbcopy' : Copy the last returned value in the Mac OS clipboard
+# options : -m : Multiline copy
+# Usage :
+#         a => [1, 2, 3]
+#         pbcopy
+#         [1, 2, 3]
+#         pbcopy -m
+#          [
+#           1,
+#           2,
+#           3,
+#          ]
+if RUBY_PLATFORM =~ /darwin/i # OSX only.
+  # The pbcopy manual page for Mac OS X
+  # http://goo.gl/o3nGsr
+  def cp_sql
+    IO.popen('pbcopy', 'w') { |f| f << self.to_sql }
+  end
+
+  # def pbcopy
+  #   IO.popen('pbcopy', 'r+') { |io| io.print self }
+  # end
+
+  # Pry.config.commands.command "pbcopy", "Copy last returned object to clipboard, -m for multiline copy" do
+
+  #   multiline = arg_string == '-m'
+  #   pbcopy _pry_.last_result.ai(:plain => true,
+  #                               :indent => 2,
+  #                               :index => false,
+  #                               :multiline => multiline)
+  #   output.puts "Copied #{multiline ? 'multilined' : ''}!"
+  # end
+
+  # Pry.config.commands.alias_command 'cp', 'pbcopy'
+end
+
+# ==============================
+#   Rails
+# ==============================
+
+if defined?(Rails)
+  begin
+    require "rails/console/app"
+    require "rails/console/helpers"
+  rescue LoadError => e
+    require "console_app"
+    require "console_with_helpers"
+  end
+end

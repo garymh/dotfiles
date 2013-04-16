@@ -1,0 +1,34 @@
+
+" ~/.vimrc
+" vim:fdm=marker
+" thanks to the brilliant @tpope, @skwp, @nelstrom, @bling, @mhinz
+" @r00k, @spf13, @AndrewRadev, @junegunn, @wincent, and @sjl for unknowingly
+" allowing me to borrow from their dotfiles.
+
+call plug#begin()
+" standard {{{ "
+  Plug 'tpope/vim-unimpaired'
+  Plug 'EinfachToll/DidYouMean'
+  Plug 'tpope/vim-sleuth'
+" }}} standard "
+
+" almost standard {{{ "
+  " Plug 'editorconfig/editorconfig-vim'
+  " Plug 'junegunn/fzf',            { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+  " Plug 'junegunn/fzf.vim'
+  " Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+  " Plug 'mhinz/vim-sayonara',      { 'on': 'Sayonara' }
+  " Plug 'pgdouyon/vim-evanesco'
+  " Plug 'takac/vim-commandcaps'
+  " Plug 'tpope/vim-commentary'
+  " Plug 'tpope/vim-repeat'
+  " Plug 'pbogut/fzf-mru.vim'
+" }}} almost standard "
+
+" looks {{{ "
+  " Plug 'blueyed/vim-diminactive'
+  " Plug 'cocopon/iceberg.vim'
+  Plug 'airblade/vim-gitgutter'
+" }}} looks "
+
+call plug#end()

@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+# vi:syntax=ruby
+
+require_relative 'glhelper'
+
+`source $PRIVATE_FILE`
+
+g = Gitlab.client
+mr_number = ARGV[0].split("/").last
+mr = @g.merge_request(THE_PROJECT, mr_number)
+
+puts mr.source_branch

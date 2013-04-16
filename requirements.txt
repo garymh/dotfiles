@@ -1,0 +1,4 @@
+proselint
+neovim
+whereami
+neovim-remote

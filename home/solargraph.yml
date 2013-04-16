@@ -1,0 +1,13 @@
+include:
+- "lib/**/*.rb"
+- "app/**/*.rb"
+- "ee/app/**/*.rb"
+- "ee/lib/**/*.rb"
+exclude:
+- spec/**/*
+- test/**/*
+- vendor/**/*
+reporters:
+  - rubocop
+  - require_not_found
+max_files: 0

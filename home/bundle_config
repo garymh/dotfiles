@@ -1,0 +1,5 @@
+---
+BUNDLE_GITHUB__HTTPS: "true"
+BUNDLE_SUPPRESS_INSTALL_USING_MESSAGES: "true"
+BUNDLE_JOBS: "4"
+BUNDLE_BUILD__EVENTMACHINE: "--with-cppflags=-I/usr/local/opt/openssl/include"

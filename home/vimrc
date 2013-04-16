@@ -1,0 +1,343 @@
+" ~/.vimrc
+" vim:fdm=marker
+" thanks to the brilliant @tpope, @skwp, @nelstrom, @bling, @mhinz, @Blacksuan19,
+" @r00k, @spf13, @AndrewRadev, @junegunn, @wincent, and @sjl for unknowingly
+" allowing me to borrow from their dotfiles.
+scriptencoding utf-8
+
+let g:plug_shallow      = 0
+let g:plug_window       = 'enew'
+let g:plug_pwindow      = 'vertical rightbelow new'
+let g:polyglot_disabled = ['git', 'gitcommit']
+
+if empty($DOTFILES)
+  let $DOTFILES = $HOME . "/code/dotfiles"
+endif
+
+if empty(glob('$DOTFILES/home/vim/autoload/plug.vim'))
+  silent !curl -fLo $DOTFILES/home/vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  augroup installvimplug
+    autocmd!
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  augroup END
+endif
+call plug#begin()
+
+function! Cond(cond, ...)
+  let opts = get(a:000, 0, {})
+  return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
+
+" standard {{{ "
+  Plug 'tpope/vim-unimpaired'
+  Plug 'EinfachToll/DidYouMean'
+  Plug 'tpope/vim-sleuth'
+" }}} standard "
+
+" almost standard {{{ "
+  Plug 'editorconfig/editorconfig-vim'
+  Plug 'junegunn/fzf',            { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+  Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+  Plug 'mhinz/vim-sayonara',      { 'on': 'Sayonara' }
+  Plug 'pgdouyon/vim-evanesco'
+  Plug 'takac/vim-commandcaps'
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-repeat'
+  Plug 'pbogut/fzf-mru.vim'
+  Plug 'lambdalisue/suda.vim'
+" }}} almost standard "
+
+" looks {{{ "
+  " Plug 'blueyed/vim-diminactive'
+  " Plug 'cocopon/iceberg.vim'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'chuling/equinusocio-material.vim'
+  Plug 'frazrepo/vim-rainbow'
+  Plug 'google/vim-searchindex'
+  Plug 'itchyny/vim-gitbranch'
+  Plug 'sainnhe/artify.vim'
+  Plug 'Yggdroot/indentLine'
+
+  Plug 'kyazdani42/blue-moon'
+  Plug 'nanotech/jellybeans.vim'
+  Plug 'wadackel/vim-dogrun'
+" }}} looks "
+
+" ruby {{{ "
+  let ruby_filetypes = { 'for': ['ruby', 'eruby', 'slim', 'haml', 'rspec'] }
+  Plug 'janko-m/vim-test'
+  Plug 'ngmy/vim-rubocop',  ruby_filetypes
+  Plug 'tpope/vim-endwise', ruby_filetypes
+  Plug 'tpope/vim-rails',   ruby_filetypes
+  Plug 'benmills/vimux',    Cond($TMUX != '')
+
+  if has('nvim')
+    Plug 'tpope/vim-rake',    ruby_filetypes
+    Plug 'tpope/vim-bundler', ruby_filetypes
+  endif
+" }}} ruby "
+
+" syntax {{{ "
+  " Plug 'lambdalisue/nerdfont.vim'
+  " Plug 'keith/rspec.vim'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'sheerun/vim-polyglot'
+  Plug 'tpope/vim-apathy'
+  Plug 'dkarter/bullets.vim'
+  Plug 'jkramer/vim-checkbox'
+" }}} syntax "
+
+" misc {{{ "
+  Plug 'wsdjeg/vim-fetch'
+  Plug 'AndrewRadev/rails_extra.vim'
+  Plug 'AndrewRadev/undoquit.vim'
+  Plug 'tpope/vim-fugitive'
+  Plug 'shumphrey/fugitive-gitlab.vim'
+  Plug 'AndrewRadev/sideways.vim',    { 'on': [
+        \ 'SidewaysLeft',
+        \ 'SidewaysRight',
+        \ 'SidewaysJumpLeft',
+        \ 'SidewaysJumpRight',
+        \ '<Plug>SidewaysArgumentTextobjA',
+        \ '<Plug>SidewaysArgumentTextobjI'
+        \ ] }
+  Plug 'AndrewRadev/splitjoin.vim' ,  { 'on': [
+        \ 'SplitjoinSplit',
+        \ 'SplitjoinJoin'
+        \ ]}
+  Plug 'AndrewRadev/multichange.vim', { 'on': 'Multichange' }
+  Plug 'AndrewRadev/switch.vim',      { 'on': ['Switch', 'SwitchReverse', '<Plug>switch'] }
+  Plug 'christoomey/vim-sort-motion'
+  Plug 'christoomey/vim-tmux-navigator', Cond($TMUX != '')
+  Plug 'dense-analysis/ale'
+  Plug 'dstein64/vim-startuptime'
+  Plug 'duggiefresh/vim-easydir'
+  Plug 'farmergreg/vim-lastplace'
+  Plug 'foosoft/vim-argwrap',         { 'on': 'ArgWrap' }
+  Plug 'justinmk/vim-gtfo'
+  Plug 'kana/vim-niceblock'
+  Plug 'kshenoy/vim-signature'
+  Plug 'liuchengxu/vim-which-key'
+  Plug 'machakann/vim-sandwich'
+  Plug 'ntpeters/vim-better-whitespace'
+  Plug 'rhysd/git-messenger.vim',     { 'on': ['GitMessenger', '<Plug>(git-messenger)'] }
+  Plug 'tmux-plugins/vim-tmux-focus-events', Cond($TMUX != '')
+  Plug 'tpope/vim-abolish'
+  Plug 'tpope/vim-eunuch'
+  Plug 'tpope/vim-projectionist'
+  Plug 'tpope/vim-rsi'
+  Plug 'vim-scripts/BufOnly.vim',     { 'on': 'Bonly' }
+  Plug 'wincent/terminus'
+  Plug 'Shougo/echodoc.vim'
+  Plug 'stsewd/fzf-checkout.vim'
+"}}} misc "
+
+" configure/research me {{{ "
+  " Plug 'drmikehenry/vim-fixkey' " may have to research this. doesn't seem to work
+  " Plug 'simnalamburt/vim-mundo'
+  " Plug 'AndrewRadev/whitespaste.vim'
+  " Plug 'kristijanhusak/vim-dadbod-ui'
+  " Plug 'da-x/name-assign.vim'
+  " Plug 'rhysd/clever-f.vim'
+  Plug 'eugen0329/vim-esearch',  { 'on': '<Plug>(esearch)' }
+  Plug 'AndrewRadev/deleft.vim', { 'on': 'Deleft' }
+  Plug 'airblade/vim-rooter'
+  Plug 'liuchengxu/vista.vim',   { 'on': 'Vista' }
+  Plug 'pechorin/any-jump.vim'
+  Plug 'sedm0784/vim-you-autocorrect'
+  Plug 'sickill/vim-pasta'
+  Plug 'tpope/vim-dadbod'
+  Plug 'honza/vim-snippets'
+  Plug 'SirVer/ultisnips'
+" }}} configure/research me "
+
+" mac/nvim {{{ "
+  if has('nvim')
+    if !has('gui_vimr')
+      " Plug 'nvim-treesitter/nvim-treesitter'
+    endif
+
+    " pretty things {{{ "
+      " Plug 'danilamihailov/beacon.nvim'
+      Plug 'voldikss/vim-floaterm'
+      Plug 'camspiers/lens.vim'
+      Plug 'camspiers/animate.vim'
+      Plug 'ojroques/vim-scrollstatus'
+      Plug 'norcalli/nvim-colorizer.lua'
+      Plug 'lukas-reineke/indent-blankline.nvim'
+    " }}} pretty things "
+
+    " completions {{{ "
+      Plug 'kristijanhusak/vim-dadbod-completion'
+      Plug 'neovim/nvim-lspconfig'
+      Plug 'nvim-lua/completion-nvim'
+      Plug 'nvim-lua/diagnostic-nvim'
+      Plug 'nvim-lua/lsp-status.nvim'
+      Plug 'steelsojka/completion-buffers'
+      Plug 'RishabhRD/popfix'
+      Plug 'RishabhRD/nvim-lsputils'
+    " }}} completions "
+
+    Plug 'svermeulen/vimpeccable'
+    " Plug 'mcchrish/info-window.nvim'
+    Plug 'ripxorip/aerojump.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'lambdalisue/fern-git-status.vim'
+    Plug 'lambdalisue/fern-mapping-project-top.vim'
+    Plug 'lambdalisue/fern-renderer-devicons.vim'
+    Plug 'lambdalisue/fern.vim'
+    Plug 'LumaKernel/fern-mapping-fzf.vim'
+
+  else
+    Plug 'lifepillar/vim-mucomplete'
+    Plug 'tpope/vim-sensible'
+    " Plug 'roxma/nvim-yarp',          v:version >= 800 ? {} : { 'on': [], 'for': [] }
+    " Plug 'roxma/vim-hug-neovim-rpc', v:version >= 800 ? {} : { 'on': [], 'for': [] }
+  endif
+" }}} mac/nvim "
+
+" custom vim objects {{{ "
+  Plug 'kana/vim-textobj-user'
+  Plug 'AndrewRadev/dsf.vim'
+  Plug 'coderifous/textobj-word-column.vim'
+  Plug 'Julian/vim-textobj-variable-segment'
+  Plug 'adriaanzon/vim-textobj-matchit'
+  Plug 'glts/vim-textobj-indblock'
+  Plug 'jceb/vim-textobj-uri'
+  Plug 'kana/vim-textobj-entire'
+  Plug 'kana/vim-textobj-indent'
+  Plug 'kana/vim-textobj-line'
+  Plug 'wellle/targets.vim'
+" }}} custom vim objects "
+call plug#end()
+
+source $DOTFILES/home/vim/scripts/mappings.vim
+source $DOTFILES/home/vim/scripts/plugin_settings.vim
+source $DOTFILES/home/vim/scripts/autocommands.vim
+source $DOTFILES/home/vim/scripts/folders.vim
+source $DOTFILES/home/vim/scripts/statusbar.vim
+source $DOTFILES/home/vim/scripts/openterm.vim
+
+if has('nvim')
+  augroup compl
+    autocmd!
+    autocmd BufEnter * lua require'completion'.on_attach()
+    autocmd BufEnter * lua require'diagnostic'.on_attach()
+  augroup END
+
+  if !has('gui_vimr')
+    luafile $DOTFILES/home/vim/lua/lsp.lua
+  endif
+endif
+
+source $DOTFILES/home/vim/scripts/completions.vim
+
+if filereadable('~/.vimrc.local')
+  source ~/.vimrc.local
+endif
+
+" settings {{{ "
+  if v:version > 703 || v:version == 703 && has('patch541')
+    set formatoptions+=j
+  endif
+
+  if has('nvim-0.3.2')
+    set inccommand=split
+    set fillchars=stlnc:=,vert:│,fold:·,diff:-
+  endif
+
+  if has('nvim-0.4')
+    set wildoptions=pum,tagfile
+    set pumblend=0
+    set winblend=0
+    set signcolumn="yes:1"
+  endif
+
+  set autoindent " ?
+
+  set cmdheight=1                 " trying this out
+  set expandtab
+  set foldlevelstart=20
+  set formatoptions+=n            " smart auto-indenting inside numbered lists
+  set formatprg="par 79"          " respect the 80 character lines
+  set hidden                      " make unsaved buffers hidden
+  set ignorecase
+  set lazyredraw                  " enables faster macros
+  set list                        " show extra characters
+  set listchars=nbsp:⦸,trail:•,tab:├─,precedes:«,extends:»
+  set mouse=a
+  set mousehide                   " Hide the mouse cursor while typing
+  set noemoji                     " @wincent is smart!
+  set nojoinspaces                " don't autoinsert two spaces after '.', '?', '!' for join command
+  set noshowcmd
+  set noshowmode
+  set nowrap
+  set report=0                    " Always report changed lines
+  set shiftround                  " indenting to nearest tabstop
+  set shortmess+=A                " ignore annoying swapfile messages
+  set shortmess+=I                " no splash screen
+  set shortmess+=O                " file-read message overwrites previous
+  set shortmess+=T                " truncate non-file messages in middle
+  set shortmess+=o                " overwrite file-written messages
+  set smartcase                   " smartcase for searching
+  set spellcapcheck=              " smartcase for custom dictionary
+  set spelllang=en_us
+  set synmaxcol=180               " only highlight up to 180 characters
+  set timeoutlen=300              " vim-sensible's is kinda slow
+  set updatetime=100              " 4000 is so long!
+  set virtualedit=block           " allow selection in visual mode
+  set whichwrap=b,h,l,s,<,>,[,],~ " allow <BS>/h/l/<Left>/<Right>/<Space>, ~ to cross line boundaries
+
+  syntax sync minlines=256        " start highlighting from 256 lines backwards
+" }}} settings "
+
+" wildignore {{{ "
+  set wildignore+=.DS_Store
+  set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.psd,*.min.js,*.sock
+  set wildignore+=*/.git/*,*/log/*,*/tmp/*,.keep,.git/*,*/dotbot/*
+  set wildmode=longest:full,full
+" }}} wildignore "
+
+" coloring {{{ "
+  set background=dark
+
+  try
+
+    if has('nvim')
+      let &t_8f = "\e[38;2;%lu;%lu;%lum"
+      let &t_8b = "\e[48;2;%lu;%lu;%lum"
+      set termguicolors
+
+      lua require'colorizer'.setup()
+      highlight Whitespace guibg=None ctermbg=None
+      let g:equinusocio_material_bracket_improved = 1
+      let g:equinusocio_material_less = 50
+      let g:equinusocio_material_style = 'darker'
+      colorscheme equinusocio_material
+    else
+      colorscheme jellybeans
+    endif
+
+
+
+  catch /:E185:/
+    colorscheme jellybeans
+  endtry
+
+  highlight Comment cterm=italic,bold gui=italic,bold
+  highlight Type cterm=bold gui=bold
+  highlight SpecialComment cterm=italic gui=italic
+" }}} coloring "
+
+" folding {{{ "
+  function! CustomFold()
+    let line = getline(v:foldstart)
+    let folded_line_num = v:foldend - v:foldstart
+    let line_text = substitute(line, '^"{\+', '', 'g')
+    let fillcharcount = &textwidth - len(line_text) - len(folded_line_num)
+    return repeat('·', 5) . line_text . repeat('·', fillcharcount) . ' ' . folded_line_num . ' lines '
+  endfunction
+
+  set foldtext=CustomFold()
+" }}} folding "
