@@ -5,6 +5,7 @@ alias vi='vim'
 alias subdir='$EDITOR .'
 alias mate='$EDITOR' #old habits die hard
 alias sub="f -e $EDITOR"
+alias zo="open `f $1`"
 
 # == mac only
 if [[ "$(uname)" == 'Darwin' ]]; then

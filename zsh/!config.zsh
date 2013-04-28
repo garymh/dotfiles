@@ -27,6 +27,8 @@ fi
 
 if [[ "$(uname)" == 'Darwin' ]]; then
   #Oracle >:(
+
+  export DYLD_LIBRARY_PATH="$ORACLE_HOME"
   export TNS_ADMIN="/usr/local/oracle/network/admin/"
   export SQLPATH="/usr/local/oracle/instantclient_11_2"
   export ORACLE_HOME="/usr/local/oracle/instantclient_11_2"
