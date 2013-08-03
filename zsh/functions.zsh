@@ -2,6 +2,12 @@ whats_my_path() {
     echo $PATH | tr ":" "\n" | sort
 }
 
+new_gemset() {
+  rvm gemset create $1
+  rvm gemset use $1
+  rvm gemset list
+}
+
 # Show contents of directory after cd-ing into it
 chpwd() {
   ls -lrthG
@@ -29,7 +35,8 @@ gclo() {
 vm() {
     cd ~/code/vagrant-ubuntu-oracle-xe
     vagrant up
-    vagrant ssh
+    # vagrant ssh
+    cd ~/code/nudais/rails
 }
 
 vmoff() {
@@ -52,6 +59,14 @@ search() {
     sudo find . -iname "*$1*"
 }
 
+bug(){
+  ghi open --message "$*" --claim --label SpaceAllocation bug
+ }
+
+blah() {
+  echo $* > ~/Desktop/blah.txt
+}
+
 new_issue(){
   ghi open --message "$*" --claim --label SpaceAllocation
  }
@@ -60,6 +75,7 @@ issues(){
   ghi list --state open --mine
 }
 alias my_issues='issues'
+alias na='ghi list --state open --mine -L high --milestone 4'
 
 # Remote Mount (sshfs)
 # creates mount folder and mounts the remote filesystem

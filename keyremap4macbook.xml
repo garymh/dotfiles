@@ -1,127 +1,5 @@
 <?xml version="1.0"?>
 <root>
-  <item>
-    <name>Action Buttons (F16)</name>
-  <item>
-    <name>iTerm action button (^-b)</name>
-    <only>TERMINAL</only>
-    <identifier>private.action_iterm</identifier>
-    <autogen>
-      --KeyOverlaidModifier--
-      KeyCode::F16,
-      KeyCode::CONTROL_L,
-      KeyCode::B, ModifierFlag::CONTROL_L
-    </autogen>
-  </item>
-<item>
-    <name>PathFinder action button (⌘-n)</name>
-    <only>TERMINAL</only>
-    <identifier>private.action_pathfinder</identifier>
-    <autogen>
-      --KeyOverlaidModifier--
-      KeyCode::F16,
-      KeyCode::CONTROL_L,
-      KeyCode::N, ModifierFlag::COMMAND_L
-    </autogen>
-  </item>
-
-  <item>
-    <name>Evernote action button (^⌘-s)</name>
-    <only>EVERNOTE</only>
-    <identifier>private.action_evernote</identifier>
-    <autogen>
-      --KeyOverlaidModifier--
-      KeyCode::F16,
-      KeyCode::CONTROL_L,
-      KeyCode::S, ModifierFlag::CONTROL_L | ModifierFlag::COMMAND_L
-    </autogen>
-  </item>
-
-  <item>
-    <name>iTunes action button (⌘^m)</name>
-    <only>ITUNES</only>
-    <identifier>private.action_itunes</identifier>
-    <autogen>
-      --KeyOverlaidModifier--
-      KeyCode::F16,
-      KeyCode::CONTROL_L,
-      KeyCode::M, ModifierFlag::OPTION_L | ModifierFlag::COMMAND_L
-    </autogen>
-  </item>
-
-  <item>
-    <name>Reeder action button (⌘-R)</name>
-    <only>REEDER</only>
-    <identifier>private.action_reeder</identifier>
-    <autogen>
-      --KeyOverlaidModifier--
-      KeyCode::F16,
-      KeyCode::CONTROL_L,
-      KeyCode::R, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
-    </autogen>
-  </item>
-
-  <item>
-    <name>Tweetbot action button (⌘-R)</name>
-    <only>TWEETBOT</only>
-    <identifier>private.action_tweetbot</identifier>
-    <autogen>
-      --KeyOverlaidModifier--
-      KeyCode::F16,
-      KeyCode::CONTROL_L,
-      KeyCode::R, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
-    </autogen>
-  </item>
-
-
-  <item>
-    <name>Safari action button (⌘-t)</name>
-    <only>SAFARI</only>
-    <identifier>private.action_safari</identifier>
-    <autogen>
-      --KeyOverlaidModifier--
-      KeyCode::F16,
-      KeyCode::CONTROL_L,
-      KeyCode::T, ModifierFlag::COMMAND_L
-    </autogen>
-  </item>
-
-
-  <item>
-    <name>Sparrow action button (⌘-6)</name>
-    <only>SPARROW</only>
-    <identifier>private.action_sparrow</identifier>
-    <autogen>
-      --KeyOverlaidModifier--
-      KeyCode::F16,
-      KeyCode::CONTROL_L,
-      KeyCode::KEYPAD_6, ModifierFlag::COMMAND_L
-    </autogen>
-  </item>
-
-  <item>
-    <name>Sublime action button (^-p)</name>
-    <only>SUBLIME</only>
-    <identifier>private.action_sublime</identifier>
-    <autogen>
-      --KeyOverlaidModifier--
-      KeyCode::F16,
-      KeyCode::CONTROL_L,
-      KeyCode::F16, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
-    </autogen>
-  </item>
-</item>
-
-<item>
-  <name>Shift Backquote(`) to ~</name>
-  <identifier>remap.backquote_to_tilde2</identifier>
-  <autogen>--KeyToKey-- KeyCode::BACKQUOTE, VK_SHIFT, KeyCode::BACKQUOTE, ModifierFlag::SHIFT_L</autogen>
-</item>
-  <item>
-          <name>Backquote to F18</name>
-          <identifier>remap.backquote_to_f18</identifier>
-          <autogen>--KeyToKey-- KeyCode::BACKQUOTE, KeyCode::F18</autogen>
-</item>
 
   <item>
     <name>Fn key to F17</name>
@@ -177,9 +55,24 @@
     <autogen>--SimultaneousKeyPresses-- KeyCode::SEMICOLON, KeyCode::QUOTE, KeyCode::PC_APPLICATION, SimultaneousKeyPresses::Option::RAW</autogen>
   </item>
   <item>
+    <name>Simultaneous Key Presses [.+/] to PC Application Key</name>
+    <identifier>remap.simultaneouskeypresses_dotslash2pc_application</identifier>
+    <autogen>--SimultaneousKeyPresses-- KeyCode::DOT, KeyCode::SLASH, KeyCode::PC_APPLICATION, SimultaneousKeyPresses::Option::RAW</autogen>
+  </item>
+  <item>
     <name>Simultaneous Key Presses [.+/] to F13</name>
     <identifier>remap.simultaneouskeypresses_commaslash2f13</identifier>
     <autogen>--SimultaneousKeyPresses-- KeyCode::DOT, KeyCode::SLASH, KeyCode::F13</autogen>
+  </item>
+  <item>
+    <name>Simultaneous Key Presses [j+k] to F13</name>
+    <identifier>remap.simultaneouskeypresses_jk2f13</identifier>
+    <autogen>--SimultaneousKeyPresses-- KeyCode::J, KeyCode::K, KeyCode::F13</autogen>
+  </item>
+  <item>
+    <name>Simultaneous Key Presses [d+f] to Shift+F13</name>
+    <identifier>remap.simultaneouskeypresses_dftoshiftf13</identifier>
+    <autogen>--SimultaneousKeyPresses-- KeyCode::D, KeyCode::F, KeyCode::F13, ModifierFlag::SHIFT_L</autogen>
   </item>
 
   <appdef>

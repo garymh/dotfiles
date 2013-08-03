@@ -6,6 +6,10 @@ alias subdir='$EDITOR .'
 alias mate='$EDITOR' #old habits die hard
 alias sub="f -e $EDITOR"
 alias zo="open `f $1`"
+alias gs="git status"
+
+# stupid apple.
+sudo () { ( unset LD_LIBRARY_PATH DYLD_LIBRARY_PATH; exec command sudo $* ) }
 
 # == mac only
 if [[ "$(uname)" == 'Darwin' ]]; then
@@ -28,9 +32,10 @@ if [[ "$(uname)" == 'Darwin' ]]; then
 fi
 
 
-# alias be="bundle exec"
+alias be="bundle exec"
 alias ccat="src-hilite-lesspipe.sh $1"
 alias gurad='guard'
+alias gemset='rvm gemset use'
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias external_ip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -45,6 +50,9 @@ alias whois="whois -h whois-servers.net"
 alias ungit="find . -name '.git' -exec rm -rf {} \;"
 alias console="cd `d rails` && bundle exec rails console"
 
+alias last_commit="git difftool HEAD~1 HEAD"
+alias last_diff="git difftool HEAD~1 HEAD"
+alias console="rails console test -s"
 #copy output of last command to clipboard
 alias cl="fc -e -|pbcopy"
 
@@ -88,6 +96,7 @@ alias chown='chown -v'
 alias -g G='| grep -in'
 alias -g T='| tail'
 alias -g L='| less'
+alias -g C='| tr -d "\n" | pbcopy'
 
 alias tom_on="tom_on"
 alias tom_off="tom_off"

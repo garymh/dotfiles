@@ -28,14 +28,17 @@ fi
 if [[ "$(uname)" == 'Darwin' ]]; then
   #Oracle >:(
 
-  export DYLD_LIBRARY_PATH="$ORACLE_HOME"
   export TNS_ADMIN="/usr/local/oracle/network/admin/"
   export SQLPATH="/usr/local/oracle/instantclient_11_2"
   export ORACLE_HOME="/usr/local/oracle/instantclient_11_2"
+  export ORACLE_SID="xe"
+  export DYLD_LIBRARY_PATH="$ORACLE_HOME"
   export NLS_LANG=AMERICAN_AMERICA.WE8MSWIN1252
   export PATH="$PATH:$DYLD_LIBRARY_PATH"
   export LIBDIR="/usr/local/lib"
   export RC_ARCHS=x86_64
+
+  export JAVA_OPTS="-Djava.awt.headless=true"
 
   # GRC colorizes nifty unix tools all over the place
   if $(grc &>/dev/null)

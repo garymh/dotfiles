@@ -40,8 +40,9 @@ function ssh_connection() {
 }
 
 function prompt_char {
-    git branch >/dev/null 2>/dev/null && echo "%{$hotpink%}►" && return
-    echo "%{$turquoise%}►"
+    git branch >/dev/null 2>/dev/null && echo "%{$hotpink%}➜ " && return
+    echo "%{$turquoise%}➜ "
+    # ►⌦⌁>∍➜→"
 }
 function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
@@ -100,12 +101,12 @@ function git_time_since_commit() {
             # Totals
             MINUTES=$((seconds_since_last_commit / 60))
             HOURS=$((seconds_since_last_commit/3600))
-           
+
             # Sub-hours and sub-minutes
             DAYS=$((seconds_since_last_commit / 86400))
             SUB_HOURS=$((HOURS % 24))
             SUB_MINUTES=$((MINUTES % 60))
-            
+
             if [[ -n $(git status -s 2> /dev/null) ]]; then
                 if [ "$MINUTES" -gt 30 ]; then
                     COLOR="$ZSH_THEME_GIT_TIME_SINCE_COMMIT_LONG"

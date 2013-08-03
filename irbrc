@@ -34,7 +34,7 @@ if defined?(Gem.post_reset_hooks)
 end
 
 #require 'rubygems' unless defined? Gem # rubygems is only needed in 1.8
-require 'irbtools'
+# require 'irbtools'
 require 'rspec/mocks/standalone'
 
 def copy(str)
