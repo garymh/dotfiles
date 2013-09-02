@@ -55,6 +55,10 @@ if [[ $IS_MAC -eq 1 ]]; then
 
 fi
 
+if [[ $IS_LINUX -eq 1 ]]; then
+  export EDITOR="$HOME/bin/rmate"
+fi
+
 alias be="bundle exec"
 alias ccat="src-hilite-lesspipe.sh $1"
 alias gemset='rvm gemset use'
