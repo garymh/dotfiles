@@ -30,5 +30,8 @@ ln -s $(command pwd)/zsh/eifion zsh/oh-my-zsh/custom/plugins/eifion
 cd fasd
 PREFIX=$HOME make install
 
+mkdir ~/dotfiles/zsh/private
+touch ~/dotfiles/zsh/private/private_files_go_here.zsh
+
 cd ~
-green "Good to go!"
+
