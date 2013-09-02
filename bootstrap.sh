@@ -10,6 +10,8 @@ rm -rf ~/.ssh/config
 rm -rf ~/.ackrc
 rm -rf ~/.gemrc
 rm -rf ~/.gitconfig
+rm -rf ~/.pryrc
+rm -rf ~/.pryrc-helpers.rb
 rm -rf ~/.irbrc
 rm -rf zsh/oh-my-zsh/themes/gary.zsh-theme
 rm -rf zsh/oh-my-zsh/custom/eifion
@@ -22,6 +24,8 @@ ln -s $(command pwd)/ackrc ~/.ackrc
 ln -s $(command pwd)/gemrc ~/.gemrc
 ln -s $(command pwd)/gitconfig ~/.gitconfig
 ln -s $(command pwd)/irbrc ~/.irbrc
+ln -s $(command pwd)/pryrc ~/.pryrc
+ln -s $(command pwd)/pryrc-helpers ~/.pryrc-helpers.rb
 ln -s $(command pwd)/private/config ~/.ssh/config
 ln -s $(command pwd)/zsh/gary.zsh-theme zsh/oh-my-zsh/themes/gary.zsh-theme
 mkdir zsh/oh-my-zsh/custom/plugins

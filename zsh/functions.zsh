@@ -25,7 +25,11 @@ bug(){
 
 new_issue(){
   ghi open --message "$*" --claim --label SpaceAllocation
- }
+}
+
+zopen(){
+  open `a $*`
+}
 
 # Show contents of directory after cd-ing into it
 chpwd() {

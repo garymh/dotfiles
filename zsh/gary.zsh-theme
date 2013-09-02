@@ -44,9 +44,21 @@ function prompt_char {
     echo "%{$turquoise%}➜ "
     # ►⌦⌁>∍➜→"
 }
+
 function box_name {
-    [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
+  if [[ -f ~/.box-name ]]; then
+    if [[ $(cat ~/.box-name) = 'STAGING' ]]; then
+      echo "%{$fg[yellow]STAGING"
+    elif [[ $(cat ~/.box-name) = 'PRODUCTION' ]]; then
+      echo "%{$fg[red]PRODUCTION"
+    else
+      cat ~/.box-name
+    fi
+  else
+    hostname -s
+  fi
 }
+
 function left_bracket {
     echo "%{$baseblue%}╭"
 }
