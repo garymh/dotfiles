@@ -7,18 +7,32 @@ setopt transient_rprompt # only show the rprompt on the current prompt
 
 path=(
   ${HOME}/bin
-  $(brew --prefix)/bin
-  $(brew --prefix)/sbin
-  $(brew --prefix)/share/npm/bin
+  /usr/local/bin
   /usr/bin
   /bin
   /usr/sbin
   /sbin
   /usr/X11/bin
-  $(brew --cellar)/coreutils
   /usr/local/heroku/bin
-  /.rvm/bin
 )
+
+if [[ $HAS_BREW -eq 1 ]]; then
+  path=(
+        $path
+        $(brew --prefix)/bin
+        $(brew --prefix)/sbin
+        $(brew --prefix)/share/npm/bin
+        $(brew --cellar)/coreutils
+        )
+fi
+
+if [[ $IS_LINUX -eq 1 ]]; then
+  path=(
+        $path
+        /.rvm/bin
+        )
+fi
+
 
 if [ $(command -v fasd) ]; then
   fasd_cache="$HOME/.fasd-init-zsh"

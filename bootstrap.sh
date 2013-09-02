@@ -23,4 +23,3 @@ ln -s $(command pwd)/zsh/gary.zsh-theme zsh/oh-my-zsh/themes/gary.zsh-theme
 mkdir zsh/oh-my-zsh/custom/plugins
 ln -s $(command pwd)/zsh/eifion zsh/oh-my-zsh/custom/plugins/eifion
 
-chsh -s zsh
