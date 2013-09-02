@@ -50,6 +50,12 @@ if [[ $IS_MAC -eq 1 ]]; then
   fi
 fi
 
+if [[ $IS_LINUX -eq 1 ]]; then
+  export LD_LIBRARY_PATH="/usr/lib/oracle/11.1/client64/lib:"
+  export ORACLE_HOME="/usr/lib/oracle/11.1/client64"
+  export PATH="/opt/ruby-enterprise/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:$PATH"
+fi
+
 export VISUAL='$EDITOR'
 export LESS='--ignore-case --RAW-CONTROL-CHARS --LONG-PROMPT'
 export PAGER=less
