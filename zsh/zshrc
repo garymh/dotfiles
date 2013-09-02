@@ -2,7 +2,7 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="gary"
 COMPLETION_WAITING_DOTS="true"
 
-plugins=(command-coloring git zsh-syntax-highlighting brew osx heroku gem cap ruby rvm git-flow eifion vagrant nyan battery themes git-hubflow safe-paste zeus zsh-syntax-highlighting git-extras)
+plugins=(command-coloring git zsh-syntax-highlighting brew osx heroku gem cap ruby rvm git-flow eifion vagrant battery themes git-hubflow safe-paste zeus zsh-syntax-highlighting git-extras)
 
 source $ZSH/oh-my-zsh.sh
 for f ($HOME/.zsh/*.zsh) {source $f}

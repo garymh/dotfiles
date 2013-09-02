@@ -5,6 +5,7 @@ alias mate='$EDITOR' #old habits die hard
 alias gs="git status"
 alias my_issues='issues'
 alias na='ghi list --state open --mine -L high --milestone 4'
+alias issues="ghi list --state open --mine"
 
 if [[ $IS_MAC -eq 1 ]]; then
   # stupid apple.
@@ -68,7 +69,6 @@ alias retag='ctags -R --exclude=.svn --exclude=.git --exclude=log --exclude=tmp 
 
 alias whois="whois -h whois-servers.net"
 alias ungit="find . -name '.git' -exec rm -rf {} \;"
-alias console="cd `d rails` && bundle exec rails console"
 
 alias last_commit="git difftool HEAD~1 HEAD"
 alias last_diff="git difftool HEAD~1 HEAD"

@@ -4,34 +4,9 @@ new_gemset() {
   rvm gemset list
 }
 
-# batch change extension
-chgext() {
-  for file in *.$1 ; do mv $file `echo $file | sed "s/\(.*\.\)$1/\1$2/"` ; done
-}
-
-fix_stupid_homebrew_cask() {
-  ls -l /usr/local/Library/Formula | grep phinze-cask | awk '{print $9}' | for evil_symlink in $(cat -); do rm -fv /usr/local/Library/Formula/$evil_symlink; done
-}
-
 gac() {
     hub add --all :/
     hub commit -m "$*"
-}
-
-gclo() {
-    cd ~/code/
-    git clone "$*"
-}
-
-vm() {
-    cd ~/code/vagrant-ubuntu-oracle-xe
-    vagrant up
-    cd ~/code/nudais/rails
-}
-
-vmoff() {
-    cd ~/code/vagrant-ubuntu-oracle-xe
-    vagrant suspend
 }
 
 gitclone() {
@@ -52,12 +27,6 @@ new_issue(){
   ghi open --message "$*" --claim --label SpaceAllocation
  }
 
-issues(){
-  ghi list --state open --mine
-}
-alias my_issues='issues'
-alias na='ghi list --state open --mine -L high --milestone 4'
-
 # Show contents of directory after cd-ing into it
 chpwd() {
   ls -lrthG
@@ -69,6 +38,22 @@ chgext() {
 }
 
 if [[ $IS_MAC -eq 1 ]]; then
+  gclo() {
+      cd ~/code/
+      git clone "$*"
+  }
+
+  vm() {
+      cd ~/code/vagrant-ubuntu-oracle-xe
+      vagrant up
+      cd ~/code/nudais/rails
+  }
+
+  vmoff() {
+      cd ~/code/vagrant-ubuntu-oracle-xe
+      vagrant suspend
+  }
+
   fix_stupid_homebrew_cask() {
     ls -l /usr/local/Library/Formula | grep phinze-cask | awk '{print $9}' | for evil_symlink in $(cat -); do rm -fv /usr/local/Library/Formula/$evil_symlink; done
   }
