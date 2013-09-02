@@ -1,18 +1,18 @@
-# == TEXT
-export EDITOR="$HOME/bin/editor.sh"
-export ACTUAL_EDITOR="$HOME/bin/subl"
 alias vi='vim'
 alias subdir='$EDITOR .'
 alias mate='$EDITOR' #old habits die hard
-alias sub="f -e $EDITOR"
-alias zo="open `f $1`"
+
 alias gs="git status"
+alias my_issues='issues'
+alias na='ghi list --state open --mine -L high --milestone 4'
 
-# stupid apple.
-sudo () { ( unset LD_LIBRARY_PATH DYLD_LIBRARY_PATH; exec command sudo $* ) }
+if [[ $IS_MAC -eq 1 ]]; then
+  # stupid apple.
+  sudo () { ( unset LD_LIBRARY_PATH DYLD_LIBRARY_PATH; exec command sudo $* ) }
 
-# == mac only
-if [[ "$(uname)" == 'Darwin' ]]; then
+  export EDITOR="$HOME/bin/subl"
+  alias sub="f -e $EDITOR"
+  alias zo="open `f $1`"
   alias tomon='sudo ~/Library/Tomcat/libexec/bin/startup.sh'
   alias tomoff='sudo ~/Library/Tomcat/libexec/bin/shutdown.sh'
   alias poston='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
@@ -29,12 +29,33 @@ if [[ "$(uname)" == 'Darwin' ]]; then
   alias tmlog="syslog -F '\$Time \$Message' -k Sender com.apple.backupd-auto -k Time ge -30m | tail -n 1"
   alias timemachine_log="syslog -F '\$Time \$Message' -k Sender com.apple.backupd-auto -k Time ge -30m | tail -n 1"
   alias tp='touch todo.taskpaper && open -a "Taskpaper" todo.taskpaper'
-fi
+  alias rvm-prompt=$HOME/.rvm/bin/rvm-prompt
+  alias vmon='vm'
 
+  #copy output of last command to clipboard
+  alias cl="fc -e -|pbcopy"
+
+  alias ql='qlmanage -p 2>/dev/null' # OS X Quick Look
+  alias oo='open .' # open current directory in OS X Finder
+  alias 'today=calendar -A 0 -f /usr/share/calendar/calendar.mark | sort'
+  alias 'mailsize=du -hs ~/Library/mail'
+  alias 'smart=diskutil info disk0 | grep SMART' # display SMART status of hard drive
+  # Hall of the Mountain King
+  alias cello='say -v cellos "di di di di di di di di di di di di di di di di di di di di di di di di di di"'
+  # alias to show all Mac App store apps
+  alias apps='mdfind "kMDItemAppStoreHasReceipt=1"'
+  # reset Address Book permissions in Mountain Lion (and later presumably)
+  alias resetaddressbook='tccutil reset AddressBook'
+  # refresh brew by upgrading all outdated casks
+  alias refreshbrew='brew outdated | while read cask; do brew upgrade $cask; done'
+  # rebuild Launch Services to remove duplicate entries on Open With menu
+  alias rebuildopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user'
+  alias defhist='history 1 | grep "defaults"'
+
+fi
 
 alias be="bundle exec"
 alias ccat="src-hilite-lesspipe.sh $1"
-alias gurad='guard'
 alias gemset='rvm gemset use'
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -44,8 +65,7 @@ alias killruby='killall -9 ruby'
 alias killrudy='killall -9 ruby' #ruby's brother rudy
 alias ref="source ~/.zshrc"
 alias retag='ctags -R --exclude=.svn --exclude=.git --exclude=log --exclude=tmp *'
-alias rvm-prompt=$HOME/.rvm/bin/rvm-prompt
-alias vmon='vm'     #i'm an idiot and need 2 alises for each command
+
 alias whois="whois -h whois-servers.net"
 alias ungit="find . -name '.git' -exec rm -rf {} \;"
 alias console="cd `d rails` && bundle exec rails console"
@@ -53,8 +73,6 @@ alias console="cd `d rails` && bundle exec rails console"
 alias last_commit="git difftool HEAD~1 HEAD"
 alias last_diff="git difftool HEAD~1 HEAD"
 alias console="rails console test -s"
-#copy output of last command to clipboard
-alias cl="fc -e -|pbcopy"
 
 # top
 alias ttop='top -ocpu -R -F -s 2 -n30'
@@ -74,14 +92,13 @@ alias ltr='ls -Art1 && echo "------Newest--"'
 
 # interactive fasd
 alias zi="fasd -e cd -i"
-
 alias zshconfig="$EDITOR $HOME/.zsh/"
 alias zshtheme="$EDITOR $HOME/Dropbox/Internal/dotfiles/gary.zsh-theme"
 alias ohmyzsh="$EDITOR $HOME/.oh-my-zsh"
 alias edit_theme="$EDITOR $ZSH_CUSTOM/gary.zsh-theme"
 
 alias gca="gac"
-alias gco="gac" # i'm dumb.
+alias gco="gac"
 
 # More verbose fileutils
 alias cp='nocorrect cp -iv'
@@ -92,11 +109,12 @@ alias chmod='chmod -v'
 alias chown='chown -v'
 
 # ZSH global aliases for piping
-# Example : cat myfile.txt G pattern
 alias -g G='| grep -in'
 alias -g T='| tail'
 alias -g L='| less'
 alias -g C='| tr -d "\n" | pbcopy'
+alias -g N='~/code/nudais/rails/'
+alias -g D='~/Desktop/'
 
 alias tom_on="tom_on"
 alias tom_off="tom_off"
@@ -105,3 +123,4 @@ alias post_off="post_off"
 alias cf_on="cf_on"
 alias cf_off="cf_off"
 alias cf_restart="cf_restart"
+

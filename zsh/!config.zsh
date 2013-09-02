@@ -1,7 +1,9 @@
 unsetopt correct_all
 unsetopt correct # so annoying
-
 unsetopt promptcr
+
+setopt prompt_subst # Enable parameter expansion, command substitution, and arithmetic expansion in the prompt
+setopt transient_rprompt # only show the rprompt on the current prompt
 
 path=(
   ${HOME}/bin
@@ -14,6 +16,8 @@ path=(
   /sbin
   /usr/X11/bin
   $(brew --cellar)/coreutils
+  /usr/local/heroku/bin
+  /.rvm/bin
 )
 
 if [ $(command -v fasd) ]; then
@@ -25,9 +29,8 @@ if [ $(command -v fasd) ]; then
   unset fasd_cache
 fi
 
-if [[ "$(uname)" == 'Darwin' ]]; then
+if [[ $IS_MAC -eq 1 ]]; then
   #Oracle >:(
-
   export TNS_ADMIN="/usr/local/oracle/network/admin/"
   export SQLPATH="/usr/local/oracle/instantclient_11_2"
   export ORACLE_HOME="/usr/local/oracle/instantclient_11_2"

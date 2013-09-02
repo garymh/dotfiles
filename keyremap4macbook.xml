@@ -65,14 +65,14 @@
     <autogen>--SimultaneousKeyPresses-- KeyCode::DOT, KeyCode::SLASH, KeyCode::F13</autogen>
   </item>
   <item>
-    <name>Simultaneous Key Presses [j+k] to F13</name>
+    <name>Simultaneous Key Presses [j+k] to Shift+F15</name>
     <identifier>remap.simultaneouskeypresses_jk2f13</identifier>
-    <autogen>--SimultaneousKeyPresses-- KeyCode::J, KeyCode::K, KeyCode::F13</autogen>
+    <autogen>--SimultaneousKeyPresses-- KeyCode::J, KeyCode::K, KeyCode::F15, ModifierFlag::SHIFT_L</autogen>
   </item>
   <item>
-    <name>Simultaneous Key Presses [d+f] to Shift+F13</name>
-    <identifier>remap.simultaneouskeypresses_dftoshiftf13</identifier>
-    <autogen>--SimultaneousKeyPresses-- KeyCode::D, KeyCode::F, KeyCode::F13, ModifierFlag::SHIFT_L</autogen>
+    <name>Simultaneous Key Presses [d+f] to Shift+F14</name>
+    <identifier>remap.simultaneouskeypresses_dftoshiftf14</identifier>
+    <autogen>--SimultaneousKeyPresses-- KeyCode::D, KeyCode::F, KeyCode::F14, ModifierFlag::SHIFT_L</autogen>
   </item>
 
   <appdef>
