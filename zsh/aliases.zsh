@@ -1,12 +1,3 @@
-alias vi='vim'
-alias subdir='$EDITOR .'
-alias mate='$EDITOR' #old habits die hard
-
-alias gs="git status"
-alias my_issues='issues'
-alias na='ghi list --state open --mine -L high --milestone 4'
-alias issues="ghi list --state open --mine"
-
 if [[ $IS_MAC -eq 1 ]]; then
   # stupid apple.
   sudo () { ( unset LD_LIBRARY_PATH DYLD_LIBRARY_PATH; exec command sudo $* ) }
@@ -58,6 +49,16 @@ fi
 if [[ $IS_LINUX -eq 1 ]]; then
   export EDITOR="$HOME/bin/rmate"
 fi
+
+alias vi='vim'
+alias subdir='$EDITOR .'
+alias mate='$EDITOR' #old habits die hard
+
+alias gs="git status"
+alias my_issues='issues'
+alias na='ghi list --state open --mine -L high --milestone 4'
+alias issues="ghi list --state open --mine"
+
 
 alias be="bundle exec"
 alias ccat="src-hilite-lesspipe.sh $1"
