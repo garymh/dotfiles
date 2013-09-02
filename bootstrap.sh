@@ -1,3 +1,7 @@
+
+git submodule init
+git submodule update
+
 rm -rf ~/.oh-my-zsh
 rm -rf ~/.zsh
 rm -rf ~/.zshrc
