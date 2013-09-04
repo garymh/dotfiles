@@ -9,6 +9,11 @@ gac() {
     hub commit -m "$*"
 }
 
+nudais_release() {
+  echo "git flow release start \"v$1\""
+  echo "git flow release finish \"v$1\" -m \"v$1\""
+}
+
 gitclone() {
     cd ~/code/
     git clone "$*"

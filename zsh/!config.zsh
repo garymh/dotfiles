@@ -65,9 +65,10 @@ if [[ $IS_MAC -eq 1 ]]; then
 fi
 
 if [[ $IS_LINUX -eq 1 ]]; then
-  export LD_LIBRARY_PATH="/usr/lib/oracle/11.1/client64/lib:"
+  export LD_LIBRARY_PATH="LD_LIBRARY_PATH=/usr/lib/oracle/11.2/client64//lib:/lib:/usr/lib64:/usr/lib:/usr/local/lib"
   export ORACLE_HOME="/usr/lib/oracle/11.1/client64"
   export PATH="/opt/ruby-enterprise/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:$PATH"
+  export NLS_LANG=AMERICAN_AMERICA.WE8MSWIN1252
 fi
 
 export VISUAL='$EDITOR'
