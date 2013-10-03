@@ -2,19 +2,19 @@ if [[ $IS_MAC -eq 1 ]]; then
   # stupid apple.
   sudo () { ( unset LD_LIBRARY_PATH DYLD_LIBRARY_PATH; exec command sudo $* ) }
 
+  alias super_bundle="bundle install -j4" #utilize those cores!
+
   export EDITOR="$HOME/bin/subl"
   alias sub="f -e $EDITOR"
   alias zo="open `f $1`"
   alias tomon='sudo ~/Library/Tomcat/libexec/bin/startup.sh'
   alias tomoff='sudo ~/Library/Tomcat/libexec/bin/shutdown.sh'
-  alias poston='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
-  alias postoff='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop'
+  alias poston='pg_ctl -D /usr/local/var/postgres9.3 -l /usr/local/var/postgres9.3/server.log start'
+  alias postoff='pg_ctl -D /usr/local/var/postgres9.3 -l /usr/local/var/postgres9.3/server.log stop'
   alias cfon='/Applications/ColdFusion10/cfusion/bin/coldfusion start'
   alias cfoff='/Applications/ColdFusion10/cfusion/bin/coldfusion stop'
   alias cfrestart='/Applications/ColdFusion10/cfusion/bin/coldfusion restart'
   alias fix_keystore='sudo keytool -import -keystore /System/Library/Frameworks/JavaVM.framework/Home/lib/security/cacerts -file /etc/apache2/ssl/server.crt -alias apache_garymbp'
-  alias dev_on='poston && cfon && tomon && vmon'
-  alias dev_off='postoff && cfoff && tomoff && vmoff'
   alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv $HOME/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
   alias clean_dropbox-safe="find . -name \"*conflicted*\" -exec mv {} ~/Dropbox/Internal/DropboxConflicts \;"
   alias clean_dropbox="find . -name \"*conflicted*\" -exec rm {} \;"
@@ -29,9 +29,6 @@ if [[ $IS_MAC -eq 1 ]]; then
 
   alias ql='qlmanage -p 2>/dev/null' # OS X Quick Look
   alias oo='open .' # open current directory in OS X Finder
-  alias 'today=calendar -A 0 -f /usr/share/calendar/calendar.mark | sort'
-  alias 'mailsize=du -hs ~/Library/mail'
-  alias 'smart=diskutil info disk0 | grep SMART' # display SMART status of hard drive
   # Hall of the Mountain King
   alias cello='say -v cellos "di di di di di di di di di di di di di di di di di di di di di di di di di di"'
   # alias to show all Mac App store apps
@@ -129,3 +126,7 @@ alias cf_on="cf_on"
 alias cf_off="cf_off"
 alias cf_restart="cf_restart"
 
+alias dev_on='poston && tomon'
+alias dev_off='tomoff && postoff'
+alias devon='dev_on'
+alias devoff='dev_off'

@@ -14,6 +14,11 @@
     </autogen>
   </item>
   <item>
+    <name>Remap ⌘-Tab</name>
+    <identifier>remap.cmdtabtooptiontab</identifier>
+  <autogen>--KeyToKey-- KeyCode::TAB, VK_COMMAND, KeyCode::TAB, VK_OPTION</autogen>
+  </item>
+  <item>
     <name>Brightness overrides</name>
     <identifier>remap.brightnessoverrides</identifier>
     <autogen>--KeyToConsumer-- KeyCode::F1, ModifierFlag::COMMAND_R | ModifierFlag::OPTION_R, ConsumerKeyCode::BRIGHTNESS_DOWN</autogen>

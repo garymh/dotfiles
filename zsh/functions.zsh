@@ -1,3 +1,5 @@
+# TODO: incorporate mdfind into search?
+
 new_gemset() {
   rvm gemset create $1
   rvm gemset use $1

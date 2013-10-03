@@ -1,3 +1,3 @@
 
 
-alias quick_test="zest test/models test/features"
+alias qtest="zest test/models test/features"

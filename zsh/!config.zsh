@@ -27,10 +27,11 @@ if [[ $HAS_BREW -eq 1 ]]; then
 fi
 
 if [[ $IS_LINUX -eq 1 ]]; then
-  path=(
-        $path
-        /.rvm/bin
-        )
+  export LD_LIBRARY_PATH="/usr/lib/oracle/11.2/client64//lib:/lib:/usr/lib64:/usr/lib:/usr/local/lib"
+  export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/lib/oracle/11.2/client64//bin:/home/gmh219/bin"
+  export ORACLE_HOME="/usr/lib/oracle/11.2/client64/"
+  export export="/usr/bin/ruby:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/lib/oracle/11.2/client64//bin"
+  export USER="gmh219"
 fi
 
 
@@ -62,13 +63,6 @@ if [[ $IS_MAC -eq 1 ]]; then
   then
     source `brew --prefix`/etc/grc.bashrc
   fi
-fi
-
-if [[ $IS_LINUX -eq 1 ]]; then
-  export LD_LIBRARY_PATH="LD_LIBRARY_PATH=/usr/lib/oracle/11.2/client64//lib:/lib:/usr/lib64:/usr/lib:/usr/local/lib"
-  export ORACLE_HOME="/usr/lib/oracle/11.1/client64"
-  export PATH="/opt/ruby-enterprise/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:$PATH"
-  export NLS_LANG=AMERICAN_AMERICA.WE8MSWIN1252
 fi
 
 export VISUAL='$EDITOR'
