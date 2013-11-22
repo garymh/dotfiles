@@ -38,7 +38,7 @@ fi
 if [ $(command -v fasd) ]; then
   fasd_cache="$HOME/.fasd-init-zsh"
   if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-    fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install >| "$fasd_cache"
+    fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
   fi
   source "$fasd_cache"
   unset fasd_cache
@@ -57,6 +57,10 @@ if [[ $IS_MAC -eq 1 ]]; then
   export RC_ARCHS=x86_64
 
   export JAVA_OPTS="-Djava.awt.headless=true"
+
+  # for my mbpr
+  export RUBY_GC_MALLOC_LIMIT=90000000
+  export RUBY_FREE_MIN=200000
 
   # GRC colorizes nifty unix tools all over the place
   if $(grc &>/dev/null)

@@ -24,6 +24,10 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias rvm-prompt=$HOME/.rvm/bin/rvm-prompt
   alias vmon='vm'
 
+  alias keyremap=/Applications/KeyRemap4MacBook.app/Contents/Applications/KeyRemap4MacBook_cli.app/Contents/MacOS/KeyRemap4MacBook_cli
+  alias rpx="keyremap reloadxml"
+  alias epx="mate ~/Dropbox/Internal/dotfiles/keyremap4macbook.xml"
+
   #copy output of last command to clipboard
   alias cl="fc -e -|pbcopy"
 
@@ -118,13 +122,13 @@ alias -g C='| tr -d "\n" | pbcopy'
 alias -g N='~/code/nudais/rails/'
 alias -g D='~/Desktop/'
 
-alias tom_on="tom_on"
-alias tom_off="tom_off"
-alias post_on="post_on"
-alias post_off="post_off"
-alias cf_on="cf_on"
-alias cf_off="cf_off"
-alias cf_restart="cf_restart"
+alias tom_on="tomon"
+alias tom_off="tomoff"
+alias post_on="poston"
+alias post_off="postoff"
+alias cf_on="cfon"
+alias cf_off="cfoff"
+alias cf_restart="cfrestart"
 
 alias dev_on='poston && tomon'
 alias dev_off='tomoff && postoff'

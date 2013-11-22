@@ -1,0 +1,57 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+include FileUtils
+
+$prefs_folder         = ENV['HOME'] + "/Library/Preferences"
+$dropbox_prefs_folder = ENV['HOME'] + "/Dropbox/Internal/preferences"
+
+def app_identifier(app)
+  `mdls -name kMDItemCFBundleIdentifier -r "#{app_name(app)}"`
+end
+
+def app_name(search_string)
+  `mdfind -onlyin /Applications -onlyin ~/Applications -onlyin /Developer/Applications 'kMDItemKind==Application'|awk -F '/' -v re="#{search_string}" 'tolower($NF) ~ re {print $0}'|head -n1`[0..-2]
+end
+
+def dropbox_link(plist)
+  file = "#{$dropbox_prefs_folder}/#{plist}"
+  if File.file?(file)
+    if File.symlink?(file)
+      puts "symlink"
+    else
+      puts "file?"
+    end
+  else
+    puts "Making symlink to dropbox"
+    ln_s "#{$prefs_folder}/#{plist}", file
+  end
+end
+
+def confirm?(file)
+  puts "Copy #{file}.plist? to Dropbox? ([y]/n):"
+  STDIN.gets.chomp() =~ /(y|Y|yes|Yes|YES)/ || response.empty?
+end
+
+if ARGV[0] == nil
+  puts "ERROR: No app specified!"
+  puts "Usage: dropbox_copy [app name]"
+  exit
+else
+  if ARGV[0].include?("com.")
+    # probably passing a preferences file manually.
+    file = "#{ARGV[0].gsub(".plist","")}.plist"
+    if File.exists?("#{$prefs_folder}/#{file}")
+      dropbox_link(file)
+    else
+      raise "Couldn't find preferences file! #{file}"
+    end
+  else
+    app_id = app_identifier(ARGV[0])
+    if confirm?(app_id)
+      dropbox_link("#{app_id}.plist")
+    else
+      puts "\nCanceled. Try passing the .plist file manually if it was incorrect."
+    end
+  end
+end
