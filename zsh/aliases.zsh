@@ -50,9 +50,9 @@ fi
 if [[ $IS_LINUX -eq 1 ]]; then
   export EDITOR="$HOME/bin/rmate"
 
-  alias cfon='service coldfusion_10 start'
-  alias cfoff='service coldfusion_10 stop'
-  alias cfrestart='service coldfusion_10 restart'
+  alias cfon='sudo service coldfusion_10 start'
+  alias cfoff='sudo service coldfusion_10 stop'
+  alias cfrestart='sudo service coldfusion_10 restart'
 fi
 
 alias vi='vim'
