@@ -102,11 +102,11 @@ if defined? AwesomePrint
   # Pry.config.print = lambda { |output, value| output.print "\e[1A\e[18C # => "; output.puts value.inspect }
 
   ## if in bundler, break out, so awesome print doesn't have to be in Gemfile
-  if defined? Bundler
-    Gem.post_reset_hooks.reject! { |hook| hook.source_location.first =~ %r{/bundler/} }
-    Gem::Specification.reset
-    load 'rubygems/custom_require.rb'
-  end
+  # if defined? Bundler
+  #   Gem.post_reset_hooks.reject! { |hook| hook.source_location.first =~ %r{/bundler/} }
+  #   Gem::Specification.reset
+  #   load 'rubygems/custom_require.rb'
+  # end
 end # End of AwesomePrint
 
 ### End of Vendor Stuff
@@ -143,8 +143,10 @@ end
 
 # pretty prompt
 Pry.config.prompt = [
+  # proc { |object, nest_level, pry| colour :red, defined?(Rails) ? "#{Rails.env}" : "" },
   proc do |object, nest_level, pry|
-    prompt  = colour :bright_black, Pry.view_clip(object)
+    prompt = colour :blue, defined?(Rails) ? "[#{Rails.env[0]}] " : ""
+    prompt += colour :bright_black, Pry.view_clip(object)
     prompt += ":#{nest_level}" if nest_level > 0
     prompt += colour :cyan, ' » '
   end, proc { |object, nest_level, pry| colour :cyan, '» ' }

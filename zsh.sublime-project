@@ -4,5 +4,9 @@
 		{
 			"path": "."
 		}
-	]
+	],
+  "folder_exclude_patterns":
+  [
+    "zsh/oh-my-zsh/",
+  ],
 }

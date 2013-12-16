@@ -23,3 +23,6 @@ fi
 
 uptime | cowsay -f stegosaurus
 echo ""
+
+# zsh-bd
+. $HOME/.zsh/plugins/bd/bd.zsh

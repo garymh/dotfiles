@@ -1,0 +1,8 @@
+name: cognos
+root: ~/code/nudais/webroot/
+
+pre:
+
+windows:
+  - console:
+    - bundle exec ruby cognos.rb

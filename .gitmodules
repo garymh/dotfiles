@@ -7,3 +7,6 @@
 [submodule "rmate"]
 	path = rmate
 	url = https://github.com/aurora/rmate
+[submodule "emacs/better-defaults"]
+	path = emacs/better-defaults
+	url = https://github.com/technomancy/better-defaults
