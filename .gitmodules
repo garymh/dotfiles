@@ -10,3 +10,6 @@
 [submodule "emacs/better-defaults"]
 	path = emacs/better-defaults
 	url = https://github.com/technomancy/better-defaults
+[submodule "zsh/cowfiles"]
+	path = zsh/cowfiles
+	url = https://github.com/jmorin/cowfiles
