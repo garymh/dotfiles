@@ -21,7 +21,11 @@ if [[ $IS_LINUX -eq 1 ]]; then
   # [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 fi
 
-uptime | cowsay -f stegosaurus
+if (( $+commands[doge] )) ; then
+  doge
+elif (( $+commands[cowsay] )); then
+  uptime | cowsay -f stegosaurus
+fi
 echo ""
 
 # zsh-bd

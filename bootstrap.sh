@@ -1,6 +1,5 @@
 
-git submodule init
-git submodule update
+git submodule update --recursive --init
 
 rm -rf ~/.oh-my-zsh
 rm -rf ~/.zsh
@@ -28,7 +27,7 @@ ln -s $(command pwd)/pryrc ~/.pryrc
 ln -s $(command pwd)/pryrc-helpers ~/.pryrc-helpers.rb
 ln -s $(command pwd)/private/config ~/.ssh/config
 ln -s $(command pwd)/zsh/gary.zsh-theme zsh/oh-my-zsh/themes/gary.zsh-theme
-mkdir zsh/oh-my-zsh/custom/plugins
+mkdir -p zsh/oh-my-zsh/custom/plugins
 ln -s $(command pwd)/zsh/eifion zsh/oh-my-zsh/custom/plugins/eifion
 
 cd fasd

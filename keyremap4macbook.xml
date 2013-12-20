@@ -157,7 +157,7 @@
       <autogen>--KeyToKey-- KeyCode::J, VK_CONTROL, KeyCode::CURSOR_LEFT</autogen>
       <autogen>--KeyToKey-- KeyCode::L, VK_CONTROL, KeyCode::CURSOR_RIGHT</autogen>
     </item>
-    <item>
+<!--     <item>
       <name>ErgoEmacs Keybindings</name>
       <not>SHORTCAT</not>
       <identifier>remap.ergoemacs</identifier>
@@ -167,6 +167,6 @@
       <autogen>--KeyToKey-- KeyCode::F, VK_CONTROL, KeyCode::FORWARD_DELETE</autogen>
       <autogen>--KeyToKey-- KeyCode::E, VK_CONTROL, KeyCode::DELETE, ModifierFlag::OPTION_L</autogen>
       <autogen>--KeyToKey-- KeyCode::R, VK_CONTROL, KeyCode::FORWARD_DELETE, ModifierFlag::OPTION_L</autogen>
-    </item>
+    </item> -->
   </item>
 </root>
