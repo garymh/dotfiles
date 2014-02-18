@@ -1,0 +1,66 @@
+- MAS store apps
+- Dropbox
+- Safari Extensions
+- Mackup
+- Copy key bindings
+- Link services
+Xcode
+Homebrew
+- rbenv?
+- brew tap caskroom/fonts
+os x settings
+
+system settings
+
+brew cask:
+adium
+alfred
+appcleaner
+bartender
+bettertouchtool
+betterzip
+contexts
+controlplane
+crashplan
+delibar
+dropbox
+evernote
+firefox
+flux
+github
+google-chrome
+instacast
+iterm
+kaleidoscope
+moom
+name mangler
+pckeyboardhack
+skype
+sparrow
+sublime3
+textexpander
+the-unarchiver
+vagrant
+virtualbox
+vlc
+xtrafinder
+
+app store:
+degrees
+frank deloupe
+growl voice
+lingon
+omnifocus
+patterns
+pixelmator
+readkit
+soulver
+transmit
+tweetbot
+
+misc:
+call recorder
+sql developer
+
+pip:
+doge

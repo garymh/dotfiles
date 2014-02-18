@@ -27,21 +27,6 @@ if RUBY_VERSION == "1.8.7"
 end
 
 # ==============================
-#  Some FAQ
-# ==============================
-
-# https://github.com/pry/pry/wiki/FAQ#why-doesnt-pry-work-with-ruby-191
-if RUBY_VERSION == "1.9.1"
-  warn '1.9.1 has known issue with Pry. Please upgrade to 1.9.3-p448.'
-end
-
-## Why is my emacs shell output showing odd characters?
-# [1A[0Ginput> [1B[0Ginput>
-# https://github.com/pry/pry/wiki/FAQ#how-can-i-use-show-method-with-ruby-187
-# This will fix it.
-# Pry.config.auto_indent = false
-
-# ==============================
 #  Vulnerability Reminder
 # ==============================
 
@@ -49,14 +34,6 @@ if RUBY_REVISION < 41671
   print ___.colorize "YOUR RUBY #{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} HAS A VULNERABILITY IN SSL CLIENT, PLEASE CONSIDER UPGRADE TO LATEST VERSION. ", 31
   print ___.colorize "MORE INFORMATION: http://goo.gl/dAfuH\n", 31
 end
-
-# ==============================
-#  Vendor Stuff
-# ==============================
-
-###   Printing!
-# (1) hirb
-# (2) Awesome Print
 
 # ============================
 #   hirb
@@ -122,7 +99,7 @@ Pry.config.history.file = "~/.irb_history"
 #   available options: vim, mvim, mate, emacsclient...etc.
 Pry.config.editor = "subl -w"
 
-Pry.config.theme = 'tomorrow-night'
+Pry.config.theme = 'monokai'
 
 # ==============================
 #   Pry Prompt
@@ -227,15 +204,6 @@ if RUBY_PLATFORM =~ /darwin/i # OSX only.
 
   Pry.config.commands.alias_command 'cp', 'pbcopy'
 end
-
-# ==============================
-#   clipit
-# ==============================
-# Copy to clipboard (If you're not using Mac OSX)
-# First, you need to install jist gem
-# pry> install-command clipit, you're all set now!
-
-### End of Copy to clipboard
 
 # ==============================
 #   Rails

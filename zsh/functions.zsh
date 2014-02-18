@@ -91,6 +91,16 @@ if [[ $IS_MAC -eq 1 ]]; then
       vagrant suspend
   }
 
+  clear_vm() {
+    cd ~/code/vagrant_and_oracle_vm_setup
+    vagrant destroy -f
+    rm -rf vagrant_ansible_inventory_default
+    rm -rf oracle/xe.rsp
+    rm -rf oracle/Disk1
+    rm -rf oracle/dump/*.log
+    rm -rf oracle/dump/*_test_dump.dmp
+  }
+
   fix_stupid_homebrew_cask() {
     ls -l /usr/local/Library/Formula | grep phinze-cask | awk '{print $9}' | for evil_symlink in $(cat -); do rm -fv /usr/local/Library/Formula/$evil_symlink; done
   }

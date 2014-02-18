@@ -175,16 +175,6 @@ class Object
     (self.methods - Object.instance_methods).sort
   end
 
-  ## Safely require gem with message when a LoadError is signaled.
-  # def safe_require(gem, msg)
-  #   begin
-  #     require gem
-  #   rescue LoadError
-  #     puts 'No ' + "#{gem}" ' available.'
-  #     puts msg
-  #   end
-  # end
-
 end
 
 # ==============================

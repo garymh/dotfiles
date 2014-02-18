@@ -28,6 +28,8 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias rpx="keyremap reloadxml"
   alias epx="mate ~/Dropbox/Internal/dotfiles/keyremap4macbook.xml"
 
+
+  alias plistbuddy="/usr/libexec/PlistBuddy"
   #copy output of last command to clipboard
   alias cl="fc -e -|pbcopy"
 
@@ -59,12 +61,12 @@ alias vi='vim'
 alias subdir='$EDITOR .'
 alias mate='$EDITOR' #old habits die hard
 
-alias gs="git status"
+alias gs="git status -sb"
 alias my_issues='issues'
 alias na='ghi list --state open --mine -L high --milestone 4'
 alias issues="ghi list --state open --mine"
 
-
+alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 alias be="bundle exec"
 alias ccat="src-hilite-lesspipe.sh $1"
 alias gemset='rvm gemset use'

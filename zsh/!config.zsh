@@ -56,11 +56,17 @@ if [[ $IS_MAC -eq 1 ]]; then
   export LIBDIR="/usr/local/lib"
   export RC_ARCHS=x86_64
 
+  export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home"
   export JAVA_OPTS="-Djava.awt.headless=true"
+  export SSL_CERT_FILE="/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt"
+
+
+  export DOCKER_HOST=localhost
 
   # for my mbpr
   export RUBY_GC_MALLOC_LIMIT=90000000
   export RUBY_FREE_MIN=200000
+  # export RUBY_GC_HEAP_FREE_SLOTS=200000
 
   # GRC colorizes nifty unix tools all over the place
   if $(grc &>/dev/null)
