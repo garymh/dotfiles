@@ -21,7 +21,6 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias tmlog="syslog -F '\$Time \$Message' -k Sender com.apple.backupd-auto -k Time ge -30m | tail -n 1"
   alias timemachine_log="syslog -F '\$Time \$Message' -k Sender com.apple.backupd-auto -k Time ge -30m | tail -n 1"
   alias tp='touch todo.taskpaper && open -a "Taskpaper" todo.taskpaper'
-  alias rvm-prompt=$HOME/.rvm/bin/rvm-prompt
   alias vmon='vm'
 
   alias keyremap=/Applications/KeyRemap4MacBook.app/Contents/Applications/KeyRemap4MacBook_cli.app/Contents/MacOS/KeyRemap4MacBook_cli
@@ -69,7 +68,6 @@ alias issues="ghi list --state open --mine"
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 alias be="bundle exec"
 alias ccat="src-hilite-lesspipe.sh $1"
-alias gemset='rvm gemset use'
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias external_ip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -98,7 +96,6 @@ alias cpwd='pwd|tr -d "\n"|pbcopy'
 alias lh='ls -a | egrep "^\."'
 alias la="ls -aF"
 alias ld="ls -ld"
-alias ll="ls -l"
 alias lt='ls -At1 && echo "------Oldest--"'
 alias ltr='ls -Art1 && echo "------Newest--"'
 

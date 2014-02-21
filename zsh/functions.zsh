@@ -20,18 +20,6 @@ bid() {
   [[ -z $bundleid || $bundleid = "" ]] && echo "Error getting bundle ID for \"$@\"" || echo "$location: $bundleid"
 }
 
-new_gemset() {
-  rvm gemset create $1
-  rvm gemset use $1
-  rvm gemset list
-}
-
-tmux_colors() {
-  for i in {0..255} ; do
-      printf "\x1b[38;5;${i}mcolour${i}\n"
-  done
-}
-
 gac() {
     hub add --all :/
     hub commit -m "$*"
@@ -95,10 +83,10 @@ if [[ $IS_MAC -eq 1 ]]; then
     cd ~/code/vagrant_and_oracle_vm_setup
     vagrant destroy -f
     rm -rf vagrant_ansible_inventory_default
-    rm -rf oracle/xe.rsp
-    rm -rf oracle/Disk1
-    rm -rf oracle/dump/*.log
-    rm -rf oracle/dump/*_test_dump.dmp
+    rm -rf provisioning/roles/oracle/files/xe.rsp
+    rm -rf provisioning/roles/oracle/files/Disk1
+    rm -rf provisioning/roles/oracle/extra/dump/*.log
+    rm -rf provisioning/roles/oracle/extra/dump/*_test_dump.dmp
   }
 
   fix_stupid_homebrew_cask() {

@@ -2,7 +2,6 @@ unsetopt correct_all
 unsetopt correct # so annoying
 unsetopt promptcr
 
-setopt prompt_subst # Enable parameter expansion, command substitution, and arithmetic expansion in the prompt
 setopt transient_rprompt # only show the rprompt on the current prompt
 
 path=(
@@ -34,6 +33,7 @@ if [[ $IS_LINUX -eq 1 ]]; then
   export USER="gmh219"
 fi
 
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 if [ $(command -v fasd) ]; then
   fasd_cache="$HOME/.fasd-init-zsh"
@@ -43,6 +43,11 @@ if [ $(command -v fasd) ]; then
   source "$fasd_cache"
   unset fasd_cache
 fi
+
+export VISUAL='$EDITOR'
+export LESS='--ignore-case --RAW-CONTROL-CHARS --LONG-PROMPT'
+export TERM=xterm-256color
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 if [[ $IS_MAC -eq 1 ]]; then
   #Oracle >:(
@@ -55,14 +60,10 @@ if [[ $IS_MAC -eq 1 ]]; then
   export PATH="$PATH:$DYLD_LIBRARY_PATH"
   export LIBDIR="/usr/local/lib"
   export RC_ARCHS=x86_64
-
   export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home"
   export JAVA_OPTS="-Djava.awt.headless=true"
   export SSL_CERT_FILE="/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt"
-
-
   export DOCKER_HOST=localhost
-
   # for my mbpr
   export RUBY_GC_MALLOC_LIMIT=90000000
   export RUBY_FREE_MIN=200000
@@ -74,9 +75,3 @@ if [[ $IS_MAC -eq 1 ]]; then
     source `brew --prefix`/etc/grc.bashrc
   fi
 fi
-
-export VISUAL='$EDITOR'
-export LESS='--ignore-case --RAW-CONTROL-CHARS --LONG-PROMPT'
-export PAGER=less
-export TERM=xterm-256color
-export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'

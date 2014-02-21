@@ -44,6 +44,14 @@ vagrant
 virtualbox
 vlc
 xtrafinder
+---
+pref panes:
+brew tap jimbojsb/launchrocket
+launchrocket
+flash
+rcdefaultapp
+default-folder-x
+secrets
 
 app store:
 degrees

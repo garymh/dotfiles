@@ -2,23 +2,18 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="gary"
 COMPLETION_WAITING_DOTS="true"
 
-plugins=(battery brew capistrano command-coloring eifion gem git git-extras git-flow heroku mosh osx rails rake ruby rvm safe-paste themes tmuxinator vagrant zeus zsh-syntax-highlighting)
-
-# autoload bashcompinit
-# bashcompinit
+plugins=(battery brew capistrano command-coloring eifion gem git git-extras git-flow heroku mosh osx rails rake ruby rbenv safe-paste themes tmuxinator vagrant zeus zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 for f ($HOME/.zsh/*.zsh) {source $f}
 for f ($HOME/.zsh/private/*.zsh) {source $f}
 
 if [[ $IS_MAC -eq 1 ]]; then
-  [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
   source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 fi
 
 if [[ $IS_LINUX -eq 1 ]]; then
-  # [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 fi
 
 if (( $+commands[doge] )) ; then
@@ -34,3 +29,7 @@ fi
 
 # zsh-bd
 . $HOME/.zsh/plugins/bd/bd.zsh
+
+function update_terminal_title() {
+  print -Pn "\e]0;%n :: %~/ \a"
+}
