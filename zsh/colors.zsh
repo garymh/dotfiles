@@ -14,3 +14,7 @@ function green() {
 function yellow() {
     echo -e "$YELLOW$*$NORMAL"
 }
+
+fancy_echo() {
+  printf "\n%b\n" "$1"
+}

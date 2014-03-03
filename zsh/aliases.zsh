@@ -101,10 +101,10 @@ alias ltr='ls -Art1 && echo "------Newest--"'
 
 # interactive fasd
 alias zi="fasd -e cd -i"
-alias zshconfig="$EDITOR $HOME/.zsh/"
+# alias zshconfig="$EDITOR $HOME/.zsh/"
+alias zshconfig="sublp ~/Dropbox/Internal/dotfiles/zsh"
 alias zshtheme="$EDITOR $HOME/Dropbox/Internal/dotfiles/gary.zsh-theme"
 alias ohmyzsh="$EDITOR $HOME/.oh-my-zsh"
-alias edit_theme="$EDITOR $ZSH_CUSTOM/gary.zsh-theme"
 
 alias gca="gac"
 alias gco="gac"

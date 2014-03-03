@@ -1,8 +1,8 @@
 ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="gary"
+ZSH_THEME="gary_pure_mod"
 COMPLETION_WAITING_DOTS="true"
 
-plugins=(battery brew capistrano command-coloring eifion gem git git-extras git-flow heroku mosh osx rails rake ruby rbenv safe-paste themes tmuxinator vagrant zeus zsh-syntax-highlighting)
+plugins=(battery brew capistrano command-coloring eifion gem git git-extras git-flow heroku mosh osx rails rake ruby safe-paste themes tmuxinator vagrant zeus zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 for f ($HOME/.zsh/*.zsh) {source $f}
@@ -33,3 +33,5 @@ fi
 function update_terminal_title() {
   print -Pn "\e]0;%n :: %~/ \a"
 }
+
+source ~/.fzf.zsh

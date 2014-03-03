@@ -2,6 +2,11 @@
 #   .pryrc
 # ==============================
 
+Pry.config.ls.heading_color = :bright_green
+Pry.config.ls.public_method_color = :bright_blue
+Pry.config.ls.protected_method_color = :yellow
+Pry.config.ls.private_method_color = :bright_black
+
 # Record how long you hack with Ruby this session.
 pryrc_start_time = Time.now
 
@@ -18,6 +23,13 @@ ___pry_gems = %w[awesome_print hirb sketches]
 
 ___daily_gems.___require_gems
 ___pry_gems.___require_gems
+
+def show_screen
+  if respond_to?(:save_screenshot)
+    page.save_screenshot("screenshot.png")
+    system("open 'screenshot.png'")
+  end
+end
 
 ## Enable Pry's show-method in Ruby 1.8.7
 # https://github.com/pry/pry/wiki/FAQ#how-can-i-use-show-method-with-ruby-187
@@ -92,13 +104,8 @@ end # End of AwesomePrint
 #   Pry Configurations
 # ==============================
 
-# History (Use one history file)
 Pry.config.history.file = "~/.irb_history"
-
-# Editors
-#   available options: vim, mvim, mate, emacsclient...etc.
 Pry.config.editor = "subl -w"
-
 Pry.config.theme = 'monokai'
 
 # ==============================
@@ -122,7 +129,7 @@ end
 Pry.config.prompt = [
   # proc { |object, nest_level, pry| colour :red, defined?(Rails) ? "#{Rails.env}" : "" },
   proc do |object, nest_level, pry|
-    prompt = colour :blue, defined?(Rails) ? "[#{Rails.env[0]}] " : ""
+    prompt = colour :blue, defined?(Rails) ? "[#{Rails.env[0]}] " : "#{RUBY_VERSION}"
     prompt += colour :bright_black, Pry.view_clip(object)
     prompt += ":#{nest_level}" if nest_level > 0
     prompt += colour :cyan, ' » '
@@ -209,13 +216,20 @@ end
 #   Rails
 # ==============================
 
-if defined?(Rails)
-  begin
-    require "rails/console/app"
-    require "rails/console/helpers"
-  rescue LoadError => e
-    require "console_app"
-    require "console_with_helpers"
+# Launch Pry with access to the entire Rails stack.
+rails = File.join(Dir.getwd, 'config', 'environment.rb')
+if File.exist?(rails) && ENV['SKIP_RAILS'].nil?
+  require rails
+  case Rails.version.to_i
+  when 2
+    require 'console_app'
+    require 'console_with_helpers'
+  when 3
+    require 'rails/console/app'
+    require 'rails/console/helpers'
+    extend Rails::ConsoleMethods if Rails.version.to_f >= 3.2
+  else
+    warn '[WARN] cannot load Rails console commands'
   end
 end
 

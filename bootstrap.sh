@@ -8,29 +8,34 @@ rm -rf ~/.ackrc
 rm -rf ~/.gemrc
 rm -rf ~/.gitconfig
 
-ln -s $(command pwd)/zsh/oh-my-zsh ~/.oh-my-zsh
-ln -s $(command pwd)/zsh ~/.zsh
-ln -s $(command pwd)/zsh/zshrc ~/.zshrc
-ln -s $(command pwd)/tmux ~/.tmux
-ln -s $(command pwd)/tmux/tmux.conf ~/.tmux.conf
-ln -s $(command pwd)/tmux/tmuxinator ~/.tmuxinator
-ln -s $(command pwd)/vim/vim ~/.vim
-ln -s $(command pwd)/vim/vimrc ~/.vimrc
-ln -s $(command pwd)/home_dir/gitignore_global ~/.gitignore_global
-ln -s $(command pwd)/home_dir/ackrc ~/.ackrc
-ln -s $(command pwd)/home_dir/gemrc ~/.gemrc
-ln -s $(command pwd)/home_dir/gitconfig ~/.gitconfig
-ln -s $(command pwd)/home_dir/pry ~/.pry
-ln -s $(command pwd)/home_dir/pryrc.rb ~/.pryrc
-ln -s $(command pwd)/home_dir/pryrc-helpers.rb ~/.pryrc-helpers.rb
-ln -s $(command pwd)/home_dir/mackup.cfg ~/.mackup.cfg
-ln -s $(command pwd)/home_dir/mackup ~/.mackup
-ln -s $(command pwd)/private/config ~/.ssh/config
-ln -s $(command pwd)/zsh/gary.zsh-theme zsh/oh-my-zsh/themes/gary.zsh-theme
-ln -s $(command pwd)/private/netrc ~/.netrc
+tmpdir=$(command pwd)
+
+ln -s $tmpdir/zsh/oh-my-zsh ~/.oh-my-zsh
+ln -s $tmpdir/zsh ~/.zsh
+ln -s $tmpdir/zsh/zshrc ~/.zshrc
+ln -s $tmpdir/tmux ~/.tmux
+ln -s $tmpdir/tmux/tmux.conf ~/.tmux.conf
+ln -s $tmpdir/tmux/tmuxinator ~/.tmuxinator
+ln -s $tmpdir/vim/vim ~/.vim
+ln -s $tmpdir/vim/vimrc ~/.vimrc
+ln -s $tmpdir/home_dir/gitignore_global ~/.gitignore_global
+ln -s $tmpdir/home_dir/ackrc ~/.ackrc
+ln -s $tmpdir/home_dir/gemrc ~/.gemrc
+ln -s $tmpdir/home_dir/gitconfig ~/.gitconfig
+ln -s $tmpdir/home_dir/pry ~/.pry
+ln -s $tmpdir/home_dir/pryrc.rb ~/.pryrc
+ln -s $tmpdir/home_dir/pryrc-helpers.rb ~/.pryrc-helpers.rb
+ln -s $tmpdir/home_dir/mackup.cfg ~/.mackup.cfg
+ln -s $tmpdir/home_dir/mackup ~/.mackup
+ln -s $tmpdir/private/config ~/.ssh/config
+ln -s $tmpdir/zsh/gary.zsh-theme zsh/oh-my-zsh/themes/gary.zsh-theme
+ln -s $tmpdir/zsh/gary_pure_mod.zsh-theme zsh/oh-my-zsh/themes/gary_pure_mod.zsh-theme
+ln -s $tmpdir/private/netrc ~/.netrc
+
+[ -f $tmpdir/private/gitconfig.local ] && ln -s $tmpdir/private/gitconfig.local ~/.gitconfig.local
 
 mkdir -p zsh/oh-my-zsh/custom/plugins
-ln -s $(command pwd)/zsh/eifion zsh/oh-my-zsh/custom/plugins/eifion
+ln -s $tmpdir/zsh/plugins/eifion/ $tmpdir/zsh/oh-my-zsh/custom/plugins/eifion
 
 if [[ $(uname) = 'Linux' ]]; then
   cd submodules/fasd
@@ -40,5 +45,5 @@ fi
 
 cp submodules/rmate/rmate ~/bin
 
-mkdir ./zsh/private
+[ -d $tmpdir/private/ ] && echo "hey" || mkdir ./zsh/private
 touch ./zsh/private/private_files_go_here.zsh

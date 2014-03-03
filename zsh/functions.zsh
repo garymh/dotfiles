@@ -20,6 +20,22 @@ bid() {
   [[ -z $bundleid || $bundleid = "" ]] && echo "Error getting bundle ID for \"$@\"" || echo "$location: $bundleid"
 }
 
+sublf() {
+  FILE=$(fzf) && subl "$FILE"
+}
+
+fkill() {
+  ps -ef | sed 1d | fzf -m | awk '{print $2}' | xargs kill -${1:-9}
+}
+
+fd() {
+  DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf) && cd "$DIR"
+}
+
+fda() {
+  DIR=$(find ${1:-.} -type d 2> /dev/null | fzf) && cd "$DIR"
+}
+
 gac() {
     hub add --all :/
     hub commit -m "$*"
@@ -69,17 +85,14 @@ if [[ $IS_MAC -eq 1 ]]; then
   }
 
   vm() {
-      cd ~/code/vagrant-ubuntu-oracle-xe
-      vagrant up
-      cd ~/code/nudais/rails
+      VAGRANT_CWD=~/code/vagrant_and_oracle_vm_setup vagrant up
   }
 
   vmoff() {
-      cd ~/code/vagrant-ubuntu-oracle-xe
-      vagrant suspend
+      VAGRANT_CWD=~/code/vagrant_and_oracle_vm_setup vagrant suspend
   }
 
-  clear_vm() {
+  destroy_vm() {
     cd ~/code/vagrant_and_oracle_vm_setup
     vagrant destroy -f
     rm -rf vagrant_ansible_inventory_default
@@ -87,10 +100,6 @@ if [[ $IS_MAC -eq 1 ]]; then
     rm -rf provisioning/roles/oracle/files/Disk1
     rm -rf provisioning/roles/oracle/extra/dump/*.log
     rm -rf provisioning/roles/oracle/extra/dump/*_test_dump.dmp
-  }
-
-  fix_stupid_homebrew_cask() {
-    ls -l /usr/local/Library/Formula | grep phinze-cask | awk '{print $9}' | for evil_symlink in $(cat -); do rm -fv /usr/local/Library/Formula/$evil_symlink; done
   }
 
 fi
