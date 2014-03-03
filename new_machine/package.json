@@ -1,0 +1,8 @@
+{
+  "name": "new_machine",
+  "version": "1.0.0",
+  "dependencies": {
+    "tldr": "latest",
+    "fuck-you": "latest"
+  }
+}
