@@ -56,9 +56,10 @@ if [[ $IS_MAC -eq 1 ]]; then
   export DYLD_LIBRARY_PATH="$ORACLE_HOME"
   export NLS_LANG=AMERICAN_AMERICA.WE8MSWIN1252
   export PATH="$PATH:$DYLD_LIBRARY_PATH"
+
   export LIBDIR="/usr/local/lib"
   export RC_ARCHS=x86_64
-  export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home"
+  # export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home"
   export JAVA_OPTS="-Djava.awt.headless=true"
   export SSL_CERT_FILE="/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt"
   export DOCKER_HOST=localhost

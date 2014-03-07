@@ -126,15 +126,15 @@ def colour(name, text)
 end
 
 # pretty prompt
-Pry.config.prompt = [
-  # proc { |object, nest_level, pry| colour :red, defined?(Rails) ? "#{Rails.env}" : "" },
-  proc do |object, nest_level, pry|
-    prompt = colour :blue, defined?(Rails) ? "[#{Rails.env[0]}] " : "#{RUBY_VERSION}"
-    prompt += colour :bright_black, Pry.view_clip(object)
-    prompt += ":#{nest_level}" if nest_level > 0
-    prompt += colour :cyan, ' » '
-  end, proc { |object, nest_level, pry| colour :cyan, '» ' }
-]
+# Pry.config.prompt = [
+#   # proc { |object, nest_level, pry| colour :red, defined?(Rails) ? "#{Rails.env}" : "" },
+#   proc do |object, nest_level, pry|
+#     prompt = colour :blue, defined?(Rails) ? "[#{Rails.env[0]}] " : "[#{RUBY_VERSION}] "
+#     prompt += colour :bright_black, Pry.view_clip(object)
+#     prompt += ":#{nest_level}" if nest_level > 0
+#     prompt += colour :cyan, ' » '
+#   end, proc { |object, nest_level, pry| colour :cyan, '» ' }
+# ]
 
 # tell Readline when the window resizes
 old_winch = trap 'WINCH' do
