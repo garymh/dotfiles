@@ -6,6 +6,7 @@ setopt transient_rprompt # only show the rprompt on the current prompt
 
 path=(
   ${HOME}/bin
+  ${HOME}/.zsh/bin
   /usr/local/bin
   /usr/bin
   /bin
@@ -31,6 +32,8 @@ if [[ $IS_LINUX -eq 1 ]]; then
   export ORACLE_HOME="/usr/lib/oracle/11.2/client64/"
   export export="/usr/bin/ruby:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/lib/oracle/11.2/client64//bin"
   export USER="gmh219"
+
+  export EDITOR="$HOME/bin/rmate"
 fi
 
 if [ $(command -v fasd) ]; then

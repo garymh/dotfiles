@@ -2,9 +2,7 @@ if [[ $IS_MAC -eq 1 ]]; then
   # stupid apple.
   sudo () { ( unset LD_LIBRARY_PATH DYLD_LIBRARY_PATH; exec command sudo $* ) }
 
-  alias super_bundle="bundle install -j4" #utilize those cores!
-
-  export EDITOR="$HOME/bin/subl"
+  export EDITOR="vim"
   alias sub="f -e $EDITOR"
   alias zo="open `f $1`"
   alias tomon='sudo ~/Library/Tomcat/libexec/bin/startup.sh'
@@ -49,8 +47,6 @@ if [[ $IS_MAC -eq 1 ]]; then
 fi
 
 if [[ $IS_LINUX -eq 1 ]]; then
-  export EDITOR="$HOME/bin/rmate"
-
   alias cfon='sudo service coldfusion_10 start'
   alias cfoff='sudo service coldfusion_10 stop'
   alias cfrestart='sudo service coldfusion_10 restart'
@@ -102,7 +98,7 @@ alias ltr='ls -Art1 && echo "------Newest--"'
 # interactive fasd
 alias zi="fasd -e cd -i"
 # alias zshconfig="$EDITOR $HOME/.zsh/"
-alias zshconfig="sublp ~/Dropbox/Internal/dotfiles/zsh"
+alias zshconfig="$EDITOR ~/Dropbox/Internal/dotfiles/zsh"
 alias zshtheme="$EDITOR $HOME/Dropbox/Internal/dotfiles/gary.zsh-theme"
 alias ohmyzsh="$EDITOR $HOME/.oh-my-zsh"
 
@@ -132,6 +128,8 @@ alias post_off="postoff"
 alias cf_on="cfon"
 alias cf_off="cfoff"
 alias cf_restart="cfrestart"
+
+alias whereami='echo "$HOST, silly"'
 
 alias dev_on='poston && tomon'
 alias dev_off='tomoff && postoff'

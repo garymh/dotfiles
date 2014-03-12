@@ -1,0 +1,160 @@
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+Bundle 'gmarik/vundle'
+
+Bundle 'tpope/vim-surround'
+Bundle 'kien/ctrlp.vim'
+Bundle 'janx/vim-rubytest'
+Bundle 'tpope/vim-rails'
+Bundle 'sjl/gundo.vim'
+Bundle 'tpope/vim-fugitive'
+Bundle 'rking/ag.vim'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'flazz/vim-colorschemes'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'gcmt/breeze.vim'
+Bundle 'SirVer/ultisnips'
+Bundle 'tomtom/tcomment_vim'
+Bundle 'bling/vim-airline'
+Bundle 'airblade/vim-gitgutter'
+Bundle 'terryma/vim-multiple-cursors'
+Bundle 'tpope/vim-endwise'
+Bundle 'ervandew/supertab'
+Bundle 'tpope/vim-repeat'
+Bundle 'amiorin/vim-project'
+Bundle 'junegunn/vim-easy-align'
+Bundle 'mhinz/vim-startify'
+Bundle 'tpope/vim-vinegar' 
+Bundle 'benmills/vimux'
+
+colorscheme Badwolf
+let g:airline_theme='badwolf'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 0
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+
+inoremap jk <esc>
+let mapleader=","
+
+set autoindent
+set backspace=indent,eol,start
+set complete-=i
+set encoding=utf-8
+set tabstop=2 shiftwidth=2 expandtab
+set listchars=tab:▒░,trail:▓
+set list
+set softtabstop=2
+set expandtab
+set showcmd
+
+set relativenumber 
+set number
+
+set cursorline
+set wildmenu
+set lazyredraw
+set showmatch
+set smarttab
+set incsearch
+set hlsearch
+set shiftround
+set ttimeout
+set ttimeoutlen=50
+set autoread
+set laststatus=2
+set ruler
+
+set nobackup
+set nowritebackup
+set noswapfile
+set fileformats=unix,dos,mac
+
+" exit insert mode
+inoremap <C-c> <Esc>
+
+autocmd BufNewFile,BufRead * set colorcolumn=80
+
+set completeopt=menuone,longest,preview
+
+if has('autocmd')
+  filetype plugin indent on
+endif
+if has('syntax') && !exists('g:syntax_on')
+  syntax enable
+endif
+
+" turn off search highlight
+nnoremap <leader><space> :nohlsearch<CR>
+
+set foldenable
+set foldlevelstart=20
+set foldnestmax=10
+
+" space open/closes folds
+nnoremap <space> za
+
+set foldmethod=syntax
+
+nnoremap j gj
+nnoremap k gk
+
+" highlight last inserted text
+nnoremap gV `[v`]
+
+nnoremap <leader>u :GundoToggle<CR>
+
+nnoremap <silent> <leader>gs :Gstatus<CR>
+
+" edit vimrc/zshrc and load vimrc bindings
+nnoremap <leader>ev :e $MYVIMRC<CR>
+nnoremap <leader>ref :source $MYVIMRC<CR>
+
+let g:rubytest_cmd_test = "rake test %p"
+let g:rubytest_cmd_testcase = "ruby %p -n '%c'"
+
+
+
+" Ultisnips working with youcompleteme
+
+function! g:UltiSnips_Complete()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips#JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+               return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
+
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsListSnippets="<c-e>"
+
+nnoremap <leader>, <C-^>
+inoremap <leader>, <C-^>
+
+nnoremap <leader>q :q<CR>
+nnoremap <leader>w :w<CR>
+
+"startify options:
+let g:startify_list_order = ['sessions', 'dir', 'bookmarks', 'files']
+let g:startify_empty_buffer_key = 'n'
+let g:startify_skiplist = [
+      \ '.DS_Store',
+      \ '^/tmp',
+      \ '/project/.*/documentation'
+      \ ]
+
+" iterm hackery
+nnoremap <silent> ú :bnext<CR>
+nnoremap <silent> ✠ :bprevious<CR>
+inoremap <silent> ú <ESC>:bnext<CR>
+inoremap <silent> ✠ <ESC>:bprevious<CR>
