@@ -3,7 +3,7 @@ unsetopt correct # so annoying
 unsetopt promptcr
 
 setopt transient_rprompt # only show the rprompt on the current prompt
-
+setopt notify
 path=(
   ${HOME}/bin
   ${HOME}/.zsh/bin

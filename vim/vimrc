@@ -1,83 +1,96 @@
-set nocompatible
+" vim:fdm=marker
+" Bundles ----------------------------------------------------------------- {{{
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
-
-Bundle 'tpope/vim-surround'
-Bundle 'kien/ctrlp.vim'
-Bundle 'janx/vim-rubytest'
-Bundle 'tpope/vim-rails'
-Bundle 'sjl/gundo.vim'
-Bundle 'tpope/vim-fugitive'
-Bundle 'rking/ag.vim'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'flazz/vim-colorschemes'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'gcmt/breeze.vim'
-Bundle 'SirVer/ultisnips'
-Bundle 'tomtom/tcomment_vim'
-Bundle 'bling/vim-airline'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'terryma/vim-multiple-cursors'
-Bundle 'tpope/vim-endwise'
+" Bundle 'terryma/vim-multiple-cursors'
+" Bundle 'tpope/vim-bundler'
 Bundle 'ervandew/supertab'
-Bundle 'tpope/vim-repeat'
-Bundle 'amiorin/vim-project'
-Bundle 'junegunn/vim-easy-align'
-Bundle 'mhinz/vim-startify'
-Bundle 'tpope/vim-vinegar' 
+Bundle 'Shougo/neocomplete'
+Bundle 'majutsushi/tagbar'
+Bundle 'godlygeek/tabular'
+Bundle 'Julian/vim-textobj-brace'
+Bundle 'airblade/vim-gitgutter'
+Bundle 'bling/vim-airline'
+Bundle 'christoomey/vim-tmux-navigator'
+Bundle 'flazz/vim-colorschemes'
+Bundle 'glts/vim-textobj-comment'
 Bundle 'benmills/vimux'
+Bundle 'pgr0ss/vimux-ruby-test'
+Bundle 'kana/vim-textobj-indent'
+Bundle 'kana/vim-textobj-line'
+Bundle 'kana/vim-textobj-user'
+Bundle 'kien/ctrlp.vim'
+Bundle 'mhinz/vim-startify'
+Bundle 'mileszs/ack.vim'
+Bundle 'nelstrom/vim-textobj-rubyblock'
+Bundle 'tomtom/tcomment_vim'
+Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-rails'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'tpope/vim-vinegar'
+Bundle 'jonathanfilip/vim-lucius'
+runtime macros/matchit.vim
+" }}}
 
-colorscheme Badwolf
+" Colors/Themes ----------------------------------------------------------- {{{
 let g:airline_theme='badwolf'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 0
 let g:airline_left_sep=''
 let g:airline_right_sep=''
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
+colorscheme lucius 
+" }}}
 
-inoremap jk <esc>
-let mapleader=","
+" General Settings -------------------------------------------------------- {{{
 
-set autoindent
+" set clipboard=unnamed
+exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
+set autoindent " always set autoindenting on
+set autoread
 set backspace=indent,eol,start
 set complete-=i
-set encoding=utf-8
-set tabstop=2 shiftwidth=2 expandtab
-set listchars=tab:▒░,trail:▓
-set list
-set softtabstop=2
-set expandtab
-set showcmd
-
-set relativenumber 
-set number
-
+set completeopt=menuone,longest,preview
 set cursorline
-set wildmenu
-set lazyredraw
-set showmatch
-set smarttab
-set incsearch
+set encoding=utf-8
+set expandtab
+set fileformats=unix,dos,mac
+set foldenable
+set foldlevelstart=20
+set foldmethod=syntax
+set foldnestmax=10
+set gdefault " assume the /g flag on :s substitutions
 set hlsearch
+set incsearch
+set ignorecase
+set laststatus=2
+set lazyredraw
+set list
+set nobackup
+set nojoinspaces  " Use only 1 space after "." when joining lines, not 2
+set noswapfile
+set nowritebackup
+set number
+set relativenumber
+set ruler
 set shiftround
+set showbreak=↪\
+set showcmd
+set showmatch
+set smartcase
+set smartindent
+set smarttab
+set softtabstop=2
+set tabstop=2 shiftwidth=2 expandtab
 set ttimeout
 set ttimeoutlen=50
-set autoread
-set laststatus=2
-set ruler
-
-set nobackup
-set nowritebackup
-set noswapfile
-set fileformats=unix,dos,mac
-
-" exit insert mode
-inoremap <C-c> <Esc>
-
-autocmd BufNewFile,BufRead * set colorcolumn=80
-
-set completeopt=menuone,longest,preview
+set wildmenu
 
 if has('autocmd')
   filetype plugin indent on
@@ -86,75 +99,197 @@ if has('syntax') && !exists('g:syntax_on')
   syntax enable
 endif
 
-" turn off search highlight
-nnoremap <leader><space> :nohlsearch<CR>
+" stupid auto commenting turned off.
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+" }}}
 
-set foldenable
-set foldlevelstart=20
-set foldnestmax=10
+" Version Specific -------------------------------------------------------- {{{
+if v:version > 703 || v:version == 703 && has("patch541")
+set formatoptions+=j      " Delete comment char when joining commented lines
+endif
+" }}}
 
-" space open/closes folds
+" Key Remaps -------------------------------------------------------------- {{{
+let mapleader=","
+
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+inoremap <C-c> <Esc>
+inoremap <c-u> <c-g>u<c-u>
+inoremap <c-w> <c-g>u<c-w>
+map <C-s> <esc>:w<CR>
+map <C-x> <C-w>c
+nmap <CR> o<Esc>
+nmap <leader>, <C-^>
+nmap <leader><space> :nohlsearch<CR>
+nmap <leader>P ]"*P
+nmap <leader>bar :TagbarOpenAutoClose<cr>
+nmap <leader>bi :source ~/.vimrc<cr>:BundleInstall<cr>
+nmap <leader>c :!ctags -R .
+nmap <leader>ev :e $MYVIMRC<CR> " edit vimrc/zshrc and load vimrc bindings
+nmap <leader>fa :sp test/factories.rb<CR>
+nmap <leader>gac :Gcommit -m -a ""<LEFT>
+nmap <leader>gc :Gcommit -m ""<LEFT>
+nmap <leader>gs :Gstatus<CR><C-w>20+
+nmap <leader>i mmgg=G`m<CR>
+nmap <leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
+" nmap <leader>p ]"*p
+nmap <leader>q :bd<CR>
+nmap <leader>mv :call RenameFile()<cr>
+nmap <leader>ra :%s/
+nmap <leader>ref :source $MYVIMRC<CR>
+nmap <leader>sn :e ~/.vim/snippets/ruby.snippets<CR>
+nmap <leader>xx mz:%s/\s\+$//<cr>:let @/=''<cr>`z " Clean trailing whitespace
+nmap <leader>w :w<CR>
+nmap <leader>zz mzzMzvzz15<c-e>`z:Pulse<cr> " fold everything but the stuff you're working on
+nnoremap <C-\> :TmuxNavigatePrevious<cr>
+nnoremap <C-w>h :TmuxNavigateLeft<cr>
+nnoremap <C-w>j :TmuxNavigateDown<cr>
+nnoremap <C-w>k :TmuxNavigateUp<cr>
+nnoremap <C-w>l :TmuxNavigateRight<cr>
 nnoremap <space> za
-
-set foldmethod=syntax
-
+nnoremap J mzJ`z           "Keep the cursor in place while joining lines
+nnoremap <silent> N N:call HLNext(0.4)<cr>
+nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
+nnoremap gV `[v`] " highlight last inserted text
 nnoremap j gj
 nnoremap k gk
+nnoremap <silent> n n:call HLNext(0.4)<cr> " sweet highlight trick for next match
+nnoremap zO zczO " Make zO recursively open whatever fold we're in, even if it's partially open.
+vmap <Leader>b :<C-U>!git blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
 
-" highlight last inserted text
-nnoremap gV `[v`]
+" }}}
 
-nnoremap <leader>u :GundoToggle<CR>
+" Autocommand Groups ------------------------------------------------------ {{{
+augroup ft_vim
+    au!
+    au BufWritePost .vimrc,vimrc so $MYVIMRC
+    au FileType vim setlocal foldmethod=marker
+    au FileType help setlocal textwidth=78
+    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+augroup END
+augroup ft_vagrant
+    au!
+    au BufRead,BufNewFile Vagrantfile set ft=ruby
+augroup END
+" }}}
 
-nnoremap <silent> <leader>gs :Gstatus<CR>
-
-" edit vimrc/zshrc and load vimrc bindings
-nnoremap <leader>ev :e $MYVIMRC<CR>
-nnoremap <leader>ref :source $MYVIMRC<CR>
-
-let g:rubytest_cmd_test = "rake test %p"
-let g:rubytest_cmd_testcase = "ruby %p -n '%c'"
-
-
-
-" Ultisnips working with youcompleteme
-
-function! g:UltiSnips_Complete()
-    call UltiSnips#ExpandSnippet()
-    if g:ulti_expand_res == 0
-        if pumvisible()
-            return "\<C-n>"
-        else
-            call UltiSnips#JumpForwards()
-            if g:ulti_jump_forwards_res == 0
-               return "\<TAB>"
-            endif
-        endif
-    endif
-    return ""
+" Custom Functions--------------------------------------------------------- {{{
+function! RenameFile()
+let old_name = expand('%')
+let new_name = input('New file name: ', expand('%'), 'file')
+if new_name != '' && new_name != old_name
+  exec ':saveas ' . new_name
+  exec ':silent !rm ' . old_name
+  redraw!
+endif
 endfunction
+" }}}
 
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsListSnippets="<c-e>"
+" Ruby Test --------------------------------------------------------------- {{{
 
-nnoremap <leader>, <C-^>
-inoremap <leader>, <C-^>
+map <silent> <leader>t :RunRailsFocusedTest<cr>
+map <silent> <leader>T :RunAllRubyTests<cr>
+map <silent> <leader>l :VimuxRunLastCommand<cr>
+map <silent> <leader>L :call VimuxRunCommand("clear && rake test")<cr>
+let g:vimux_ruby_cmd_unit_test = "bundle exec ruby -Itest"
+let g:vimux_ruby_cmd_all_tests = "bundle exec ruby -Itest"
+" let g:vimux_ruby_cmd_context = "FOO=bar ruby"
+let g:vimux_ruby_clear_console_on_run = 1
+" }}}
 
-nnoremap <leader>q :q<CR>
-nnoremap <leader>w :w<CR>
+" Ack --------------------------------------------------------------------- {{{
+let g:ackprg = 'ag'
+vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
+map <leader>g :Ack
+" }}}
 
-"startify options:
+" Startify ---------------------------------------------------------------- {{{
 let g:startify_list_order = ['sessions', 'dir', 'bookmarks', 'files']
 let g:startify_empty_buffer_key = 'n'
+let g:startify_session_persistence = 1
 let g:startify_skiplist = [
       \ '.DS_Store',
       \ '^/tmp',
       \ '/project/.*/documentation'
       \ ]
+let g:ctrlp_reuse_window = 'startify'
+" }}}
 
-" iterm hackery
+" CTRL-P ------------------------------------------------------------------ {{{
+let g:ctrlp_max_height = 20
+let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
+let g:ctrlp_jump_to_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window_reversed = 1
+let g:ctrlp_split_window = 0
+nnoremap <leader>. :CtrlPTag<cr>
+
+let ctrlp_filter_greps = "".
+    \ "egrep -iv '\\.(" .
+    \ "jar|class|swp|swo|log|so|o|pyc|jpe?g|png|gif|mo|po" .
+    \ ")$' | " .
+    \ "egrep -v '^(\\./)?(" .
+    \ "deploy/|lib/|classes/|libs/|deploy/vendor/|.git/|.hg/|.svn/|.*migrations/|docs/build/" .
+    \ ")'"
+
+let my_ctrlp_user_command = "" .
+    \ "find %s '(' -type f -or -type l ')' -maxdepth 15 -not -path '*/\\.*/*' | " .
+    \ ctrlp_filter_greps
+
+let my_ctrlp_git_command = "" .
+    \ "cd %s && git ls-files --exclude-standard -co | " .
+    \ ctrlp_filter_greps
+
+let my_ctrlp_ffind_command = "ffind --semi-restricted --dir %s --type e -B -f"
+
+let g:ctrlp_user_command = ['.git/', my_ctrlp_ffind_command, my_ctrlp_ffind_command]
+
+" }}}
+
+" iTerm Hacks ------------------------------------------------------------- {{{
 nnoremap <silent> ú :bnext<CR>
 nnoremap <silent> ✠ :bprevious<CR>
 inoremap <silent> ú <ESC>:bnext<CR>
 inoremap <silent> ✠ <ESC>:bprevious<CR>
+nmap ٦ O<Esc>
+" }}}
+
+" Visual Move ------------------------------------------------------------- {{{
+runtime plugin/dragvisuals.vim
+
+vmap  <expr>  <LEFT>   DVB_Drag('left')
+vmap  <expr>  <RIGHT>  DVB_Drag('right')
+vmap  <expr>  <DOWN>   DVB_Drag('down')
+vmap  <expr>  <UP>     DVB_Drag('up')
+vmap  <expr>  D        DVB_Duplicate()
+
+" Remove any introduced trailing whitespace after moving...
+let g:DVB_TrimWS = 1
+" }}}
+
+" Unsorted ---------------------------------------------------------------- {{{
+" map <Leader>ac :sp app/controllers/application_controller.rb<cr>
+" map <Leader>cu :Tabularize /\|<CR>
+" r map <Leader>rs :vsp <C-r>#<cr><C-w>w
+" map <Leader>rt q:?!ruby<cr><cr>
+map <Leader>rw :%s/\s\+$//<cr>:w<cr>
+" map <Leader>sg :sp<cr>:grep
+map <Leader>rm :Rmodel<cr>
+map <Leader>rt :Runittest<cr>
+" map <Leader>sp yss<p>
+" map <Leader>vg :vsp<cr>:grep
+" }}}
+
+" Stolen Plugins ---------------------------------------------------------- {{{
+function! HLNext (blinktime)
+    highlight WhiteOnBlue ctermfg=white ctermbg=blue
+    let [bufnum, lnum, col, off] = getpos('.')
+    let matchlen = strlen(matchstr(strpart(getline('.'),col-1),@/))
+    let target_pat = '\c\%#'.@/
+    let ring = matchadd('WhiteOnBlue', target_pat, 101)
+    redraw
+    exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
+    call matchdelete(ring)
+    redraw
+endfunction
+" }}}

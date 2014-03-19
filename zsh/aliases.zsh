@@ -2,7 +2,7 @@ if [[ $IS_MAC -eq 1 ]]; then
   # stupid apple.
   sudo () { ( unset LD_LIBRARY_PATH DYLD_LIBRARY_PATH; exec command sudo $* ) }
 
-  export EDITOR="vim"
+  export EDITOR="stty stop '' -ixoff ; vim"
   alias sub="f -e $EDITOR"
   alias zo="open `f $1`"
   alias tomon='sudo ~/Library/Tomcat/libexec/bin/startup.sh'
@@ -15,6 +15,7 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias fix_keystore='sudo keytool -import -keystore /System/Library/Frameworks/JavaVM.framework/Home/lib/security/cacerts -file /etc/apache2/ssl/server.crt -alias apache_garymbp'
   alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv $HOME/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
   alias clean_dropbox-safe="find . -name \"*conflicted*\" -exec mv {} ~/Dropbox/Internal/DropboxConflicts \;"
+
   alias clean_dropbox="find . -name \"*conflicted*\" -exec rm {} \;"
   alias tmlog="syslog -F '\$Time \$Message' -k Sender com.apple.backupd-auto -k Time ge -30m | tail -n 1"
   alias timemachine_log="syslog -F '\$Time \$Message' -k Sender com.apple.backupd-auto -k Time ge -30m | tail -n 1"
@@ -53,6 +54,7 @@ if [[ $IS_LINUX -eq 1 ]]; then
 fi
 
 alias vi='vim'
+alias vim="stty stop '' -ixoff ; vim"
 alias subdir='$EDITOR .'
 alias mate='$EDITOR' #old habits die hard
 

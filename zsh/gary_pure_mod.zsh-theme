@@ -1,4 +1,7 @@
 #!/usr/bin/env zsh
+#
+#
+#
 
 # ------------------------------------------------------------------------------
 #
@@ -93,7 +96,7 @@ preexec() {
 #
 precmd() {
     vcs_info # Get version control info before we start outputting stuff
-    print -P "\n$(repo_information) $(box_name) %F{yellow}$(cmd_exec_time)%f"
+    print -P "\n$(repo_information)$(background_jobs) $(box_name) %F{yellow}$(cmd_exec_time)%f"
 }
 
 ruby_version() {
@@ -113,11 +116,13 @@ function box_name {
     hostname -s
   fi
 }
+function background_jobs() {
+  [[ $(jobs -l | wc -l) -gt 0 ]] && echo "⚙"
+}
 
 # Define prompts
 #
 PROMPT="%(?.%F{magenta}.%F{red})❯%f " # Display a red prompt char on failure
-RPROMPT="%F{8}${SSH_TTY:+%n@%m}%f"    # Display username if connected via SSH
 
 # ------------------------------------------------------------------------------
 #
@@ -144,3 +149,27 @@ RPROMPT="%F{8}${SSH_TTY:+%n@%m}%f"    # Display username if connected via SSH
 # %(?..) => prompt conditional - %(condition.true.false)
 #
 # ------------------------------------------------------------------------------
+# vim_ins_mode="%{$fg[cyan]%}[INS]%{$reset_color%}"
+# vim_cmd_mode="%{$fg[green]%}[CMD]%{$reset_color%}"
+# vim_mode=$vim_ins_mode
+#
+# function zle-keymap-select {
+#   vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
+#   zle reset-prompt
+# }
+# zle -N zle-keymap-select
+#
+# function zle-line-finish {
+#   vim_mode=$vim_ins_mode
+# }
+# zle -N zle-line-finish
+#
+# # Fix a bug when you C-c in CMD mode and you'd be prompted with CMD mode indicator, while in fact you would be in INS mode
+# # Fixed by catching SIGINT (C-c), set vim_mode to INS and then repropagate the SIGINT, so if anything else depends on it, we will not break it
+# # Thanks Ron! (see comments)
+# function TRAPINT() {
+#   vim_mode=$vim_ins_mode
+#   return $(( 128 + $1 ))
+# }
+# RPROMPT="${vim_mode}%F{8}${SSH_TTY:+%n@%m}%f"    # Display username if connected via SSH
+# RPROMPT="$(vi_mode_prompt_info)%F{8}${SSH_TTY:+%n@%m}%f"    # Display username if connected via SSH

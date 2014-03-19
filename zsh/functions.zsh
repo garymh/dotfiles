@@ -24,6 +24,10 @@ sublf() {
   FILE=$(fzf) && subl "$FILE"
 }
 
+vimf() {
+  FILE=$(fzf) && vim "$FILE"
+}
+
 fkill() {
   ps -ef | sed 1d | fzf -m | awk '{print $2}' | xargs kill -${1:-9}
 }
