@@ -4,6 +4,3 @@
 [submodule "submodules/fasd"]
 	path = submodules/fasd
 	url = https://github.com/clvv/fasd
-[submodule "submodules/rmate"]
-	path = submodules/rmate
-	url = https://github.com/aurora/rmate

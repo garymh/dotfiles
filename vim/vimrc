@@ -1,97 +1,98 @@
-" vim:fdm=marker
-" Bundles ----------------------------------------------------------------- {{{
+" vim:set ft=vim et tw=78 sw=2:
+
+" ~/.vimrc
+" thanks to the brilliant @tpope, @skwp, @nelstrom, @r00k, and @sjl for unknowingly
+" allowing me to borrow from their dotfiles.
+
+" Bundles (with NeoBundle) {{{1
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
-" Bundle 'terryma/vim-multiple-cursors'
-" Bundle 'tpope/vim-bundler'
-Bundle 'ervandew/supertab'
-Bundle 'Shougo/neocomplete'
-Bundle 'majutsushi/tagbar'
-Bundle 'godlygeek/tabular'
-Bundle 'Julian/vim-textobj-brace'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'bling/vim-airline'
-Bundle 'christoomey/vim-tmux-navigator'
-Bundle 'flazz/vim-colorschemes'
-Bundle 'glts/vim-textobj-comment'
-Bundle 'benmills/vimux'
-Bundle 'pgr0ss/vimux-ruby-test'
-Bundle 'kana/vim-textobj-indent'
-Bundle 'kana/vim-textobj-line'
-Bundle 'kana/vim-textobj-user'
-Bundle 'kien/ctrlp.vim'
-Bundle 'mhinz/vim-startify'
-Bundle 'mileszs/ack.vim'
-Bundle 'nelstrom/vim-textobj-rubyblock'
-Bundle 'tomtom/tcomment_vim'
-Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tpope/vim-vinegar'
-Bundle 'jonathanfilip/vim-lucius'
-runtime macros/matchit.vim
-" }}}
+if has('vim_starting')
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
 
-" Colors/Themes ----------------------------------------------------------- {{{
-let g:airline_theme='badwolf'
+call neobundle#rc(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle 'AndrewRadev/splitjoin.vim'
+NeoBundle 'Julian/vim-textobj-brace'
+NeoBundle 'Shougo/unite-help'
+NeoBundle 'Shougo/unite-session'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'SirVer/ultisnips'
+NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'atimholt/spiffy_foldtext'
+NeoBundle 'beloglazov/vim-textobj-quotes'
+NeoBundle 'benmills/vimux'
+NeoBundle 'bling/vim-airline'
+NeoBundle 'christoomey/vim-tmux-navigator'
+NeoBundle 'duff/vim-scratch'
+NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'garymh/unite-rails'
+NeoBundle 'glts/vim-textobj-comment'
+NeoBundle 'gmarik/vundle'
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'honza/vim-snippets'
+NeoBundle 'jaxbot/github-issues.vim'
+NeoBundle 'kana/vim-textobj-fold'
+NeoBundle 'kana/vim-textobj-indent'
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'kien/rainbow_parentheses.vim'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'mileszs/ack.vim'
+NeoBundle 'nelstrom/vim-textobj-rubyblock'
+NeoBundle 'ngmy/vim-rubocop'
+NeoBundle 'pgr0ss/vimux-ruby-test'
+NeoBundle 'terryma/vim-expand-region'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'tpope/vim-endwise'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-rails'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-sensible'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-unimpaired'
+NeoBundle 'tsukkee/unite-tag'
+NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'Shougo/vimproc', { 'build': {
+      \   'mac': 'make -f make_mac.mak',
+      \   'unix': 'make -f make_unix.mak',
+      \ } }
+NeoBundleCheck
+"}}}2
+
+" Colors, Themes, Airline, and looks {{{1
+colorscheme jellybeans
+let g:airline_theme='luna'
+
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
+
+highlight Folded guibg=#0A0A0A guifg=#9090D0
+
+let g:bufferline_echo=1
+let g:airline_detect_iminsert=1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#whitespace#show_message = 0
 let g:airline_powerline_fonts = 0
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-highlight ColorColumn ctermbg=magenta
-call matchadd('ColorColumn', '\%81v', 100)
-colorscheme lucius 
-" }}}
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
 
-" General Settings -------------------------------------------------------- {{{
+if exists('$TMUX')             " makes the cursor look better in tmux
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+" }}}2
 
-" set clipboard=unnamed
-exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
-set autoindent " always set autoindenting on
-set autoread
-set backspace=indent,eol,start
-set complete-=i
-set completeopt=menuone,longest,preview
-set cursorline
-set encoding=utf-8
-set expandtab
-set fileformats=unix,dos,mac
-set foldenable
-set foldlevelstart=20
-set foldmethod=syntax
-set foldnestmax=10
-set gdefault " assume the /g flag on :s substitutions
-set hlsearch
-set incsearch
-set ignorecase
-set laststatus=2
-set lazyredraw
-set list
-set nobackup
-set nojoinspaces  " Use only 1 space after "." when joining lines, not 2
-set noswapfile
-set nowritebackup
-set number
-set relativenumber
-set ruler
-set shiftround
-set showbreak=↪\
-set showcmd
-set showmatch
-set smartcase
-set smartindent
-set smarttab
-set softtabstop=2
-set tabstop=2 shiftwidth=2 expandtab
-set ttimeout
-set ttimeoutlen=50
-set wildmenu
-
+" General Settings {{{1
 if has('autocmd')
   filetype plugin indent on
 endif
@@ -99,162 +100,317 @@ if has('syntax') && !exists('g:syntax_on')
   syntax enable
 endif
 
-" stupid auto commenting turned off.
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-" }}}
+set completeopt=menu,menuone,longest,preview
+                        " I like menus, longest completions, and previews
 
-" Version Specific -------------------------------------------------------- {{{
-if v:version > 703 || v:version == 703 && has("patch541")
-set formatoptions+=j      " Delete comment char when joining commented lines
+set autowrite           " having an undofile makes this safe, I hope
+set cpoptions+=J
+set cursorline          " highlight the current line
+set cursorcolumn        " and the column! i feel like i'm in Top Gun! woooo!
+set dictionary=/usr/share/dict/words
+set encoding=utf-8
+set expandtab           " auto insert tabs when needed
+set foldmethod=marker   " indent makes sense to me
+set foldnestmax=10      " 10 folds should be plenty
+set gcr=a:blinkon0      " STOP BLINKING
+set gdefault            " assume the /g flag on :s substitutions
+set hidden              " make unsaved buffers hidden
+set hlsearch            " highlight searched phrases
+set ignorecase          " ignore case sensitivity on searches
+set laststatus=2        " always have a statusbar
+set lazyredraw          " make macros faster
+set nofoldenable        " chill out with the folding
+set formatoptions+=j    " delete comment char when joining commented lines
+set nojoinspaces        " use only 1 space after "." when joining lines
+set number              " show line numbers
+set relativenumber      " AND relative numbers!
+set shiftround          " round indenting
+set showbreak=↪\        " show this character for breaks
+set showmatch           " show matching brackets
+set showmode
+set smartcase           " smartcase for searching
+set splitbelow          " default split behavior
+set splitright          " default split behavior
+set ttyfast             " fast terminal
+set vb                  " quit yer beepin'!
+set virtualedit=onemore " allow selection past last character
+
+set scrolloff=8         " start scrolling when we're 8 lines away from margins
+set sidescrolloff=15
+set sidescroll=1
+
+set backupskip=/tmp/*,/private/tmp/*"  " fix vim's crontab problem
+
+set softtabstop=2 tabstop=2 shiftwidth=2 expandtab " sensible tab settings.
+
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮   " highlight tabs/whitespace
+" }}}2
+
+" Backups {{{1
+set undodir=~/.vim/tmp/undo//     " undo files
+set backupdir=~/.vim/tmp/backups// " backups
+set directory=~/.vim/tmp/swap//   " swap files
+set backup                        " enable backups
+set noswapfile
+
+if has('persistent_undo')
+  " silent !mkdir ~/.vim/backups > /dev/null 2>&1
+  set undodir=~/.vim/tmp/backups//
+  set undofile
 endif
-" }}}
+" }}}2
 
-" Key Remaps -------------------------------------------------------------- {{{
+" Wildmenu completion {{{1
+set wildmenu
+set wildmode=list:longest
+
+set wildignore+=.git,.svn                        " Version control
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+set wildignore+=*.spl                            " compiled spelling word lists
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=*.DS_Store                       " OSX crap
+set wildignore+=vendor/rails/**                  " ruby
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+" }}}2
+
+" AutoCommands {{{1
+
+" turn off stupid auto commenting when breaking lines
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" Source the vimrc file after saving it
+if has("autocmd")
+  autocmd bufwritepost .vimrc source $MYVIMRC
+endif
+
+" }}}2
+
+" Key Remaps {{{1
+
+" close window
+map <C-x> <C-w>c
+
+" i never use H or L's defaults, might as well make them useful!
+noremap H ^
+noremap L $
+vnoremap L g_
+
 let mapleader=","
+let maplocalleader = "\\"
 
-cnoremap %% <C-R>=expand('%:h').'/'<cr>
-inoremap <C-c> <Esc>
+" fix movement
+nnoremap j gj
+nnoremap k gk
+
+" fix redo in insert mode
 inoremap <c-u> <c-g>u<c-u>
 inoremap <c-w> <c-g>u<c-w>
-map <C-s> <esc>:w<CR>
-map <C-x> <C-w>c
-nmap <CR> o<Esc>
-nmap <leader>, <C-^>
+
+" Sort lines
+nnoremap <leader>s vip:!sort<cr>
+vnoremap <leader>s :!sort<cr>
+
+map <leader>aa :Tabularize /
+map <leader>fq cs"'
+map <leader>y "+y
+nmap <leader>. :Scratch<CR>
+nmap <leader><leader> <C-^>
 nmap <leader><space> :nohlsearch<CR>
-nmap <leader>P ]"*P
+nmap <leader>= <C-w>=
+nmap <leader>P :set paste<CR>O<esc>"*]P:set nopaste<cr>
 nmap <leader>bar :TagbarOpenAutoClose<cr>
-nmap <leader>bi :source ~/.vimrc<cr>:BundleInstall<cr>
 nmap <leader>c :!ctags -R .
-nmap <leader>ev :e $MYVIMRC<CR> " edit vimrc/zshrc and load vimrc bindings
+nmap <leader>ev :e $MYVIMRC<CR>
 nmap <leader>fa :sp test/factories.rb<CR>
 nmap <leader>gac :Gcommit -m -a ""<LEFT>
 nmap <leader>gc :Gcommit -m ""<LEFT>
 nmap <leader>gs :Gstatus<CR><C-w>20+
-nmap <leader>i mmgg=G`m<CR>
-nmap <leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
-" nmap <leader>p ]"*p
-nmap <leader>q :bd<CR>
 nmap <leader>mv :call RenameFile()<cr>
-nmap <leader>ra :%s/
-nmap <leader>ref :source $MYVIMRC<CR>
-nmap <leader>sn :e ~/.vim/snippets/ruby.snippets<CR>
-nmap <leader>xx mz:%s/\s\+$//<cr>:let @/=''<cr>`z " Clean trailing whitespace
+nmap <leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
+nmap <leader>q :bd<CR>
 nmap <leader>w :w<CR>
-nmap <leader>zz mzzMzvzz15<c-e>`z:Pulse<cr> " fold everything but the stuff you're working on
-nnoremap <C-\> :TmuxNavigatePrevious<cr>
+nnoremap <leader>I :call IndentGuides()<cr>
+nnoremap Q :q<cr>
+nnoremap [unite]<space> za
+nnoremap <silent> [unite]h :bp<CR>
+nnoremap <silent> [unite]l :bn<CR>
+
+" Tmux/vim shared navigation
 nnoremap <C-w>h :TmuxNavigateLeft<cr>
 nnoremap <C-w>j :TmuxNavigateDown<cr>
 nnoremap <C-w>k :TmuxNavigateUp<cr>
 nnoremap <C-w>l :TmuxNavigateRight<cr>
-nnoremap <space> za
-nnoremap J mzJ`z           "Keep the cursor in place while joining lines
-nnoremap <silent> N N:call HLNext(0.4)<cr>
+
+" highlight trick taken from Damian Conway:
+" https://www.youtube.com/watch?v=aHm36-na4-4
+nnoremap <silent> N N:call HLNext(0.1)<cr>zzzv
+nnoremap <silent> n n:call HLNext(0.1)<cr>zzzv
+
+" clean trailing whitespace
+nmap <leader>xx mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+
+" fold everything but the stuff you're working on
+nmap <leader>zz mzzMzvzz15<c-e>`z:Pulse<cr>zz
+
+" reindent the whole file (until beautify ruby comes about.)
+nnoremap <leader>= mqHmwgg=G`wzt`q
+
+" keep the cursor in place while joining lines
+nnoremap J mzJ`z
+
+" highlight last inserted text
+nnoremap gV `[v`]
+
+" redraw the screen
+nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
+
+" source by line
+vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
+nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
+
+" capitalize word in insert mode
+inoremap <C-u> <esc>mzgUiw`za
+
+" split lines, opposite of J
 nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
-nnoremap gV `[v`] " highlight last inserted text
-nnoremap j gj
-nnoremap k gk
-nnoremap <silent> n n:call HLNext(0.4)<cr> " sweet highlight trick for next match
-nnoremap zO zczO " Make zO recursively open whatever fold we're in, even if it's partially open.
+
+onoremap an :<c-u>call <SID>NextTextObject('a', '/')<cr>
+xnoremap an :<c-u>call <SID>NextTextObject('a', '/')<cr>
+onoremap in :<c-u>call <SID>NextTextObject('i', '/')<cr>
+xnoremap in :<c-u>call <SID>NextTextObject('i', '/')<cr>
+
+onoremap al :<c-u>call <SID>NextTextObject('a', '?')<cr>
+xnoremap al :<c-u>call <SID>NextTextObject('a', '?')<cr>
+onoremap il :<c-u>call <SID>NextTextObject('i', '?')<cr>
+xnoremap il :<c-u>call <SID>NextTextObject('i', '?')<cr>
+
+onoremap N :<c-u>call <SID>NumberTextObject(0)<cr>
+xnoremap N :<c-u>call <SID>NumberTextObject(0)<cr>
+onoremap aN :<c-u>call <SID>NumberTextObject(1)<cr>
+xnoremap aN :<c-u>call <SID>NumberTextObject(1)<cr>
+onoremap iN :<c-u>call <SID>NumberTextObject(1)<cr>
+xnoremap iN :<c-u>call <SID>NumberTextObject(1)<cr>
+
+" }}}2
+
+" Visual mode stuff {{{1
+vmap <c-v> <plug>(expand_region_shrink)
+vmap v <plug>(expand_region_expand)
+
+" git blame
 vmap <Leader>b :<C-U>!git blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
 
-" }}}
+xnoremap < <gv
+xnoremap > >gv
 
-" Autocommand Groups ------------------------------------------------------ {{{
-augroup ft_vim
-    au!
-    au BufWritePost .vimrc,vimrc so $MYVIMRC
-    au FileType vim setlocal foldmethod=marker
-    au FileType help setlocal textwidth=78
-    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-augroup END
-augroup ft_vagrant
-    au!
-    au BufRead,BufNewFile Vagrantfile set ft=ruby
-augroup END
-" }}}
+" select entire buffer
+nnoremap vaa ggvGg_
+nnoremap Vaa ggVG
 
-" Custom Functions--------------------------------------------------------- {{{
-function! RenameFile()
-let old_name = expand('%')
-let new_name = input('New file name: ', expand('%'), 'file')
-if new_name != '' && new_name != old_name
-  exec ':saveas ' . new_name
-  exec ':silent !rm ' . old_name
-  redraw!
-endif
+" use * to search in visual mode
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
 endfunction
-" }}}
 
-" Ruby Test --------------------------------------------------------------- {{{
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
+" }}}2
 
+" Ruby Test {{{1
 map <silent> <leader>t :RunRailsFocusedTest<cr>
 map <silent> <leader>T :RunAllRubyTests<cr>
 map <silent> <leader>l :VimuxRunLastCommand<cr>
 map <silent> <leader>L :call VimuxRunCommand("clear && rake test")<cr>
-let g:vimux_ruby_cmd_unit_test = "bundle exec ruby -Itest"
-let g:vimux_ruby_cmd_all_tests = "bundle exec ruby -Itest"
-" let g:vimux_ruby_cmd_context = "FOO=bar ruby"
+
+let g:vimux_ruby_cmd_unit_test = "ruby"
+let g:vimux_ruby_cmd_all_tests = "ruby -Itest"
 let g:vimux_ruby_clear_console_on_run = 1
+" }}}2
+
+" Ack {{{1
+let g:ackprg = 'ag --nogroup --nocolor --column'
 " }}}
 
-" Ack --------------------------------------------------------------------- {{{
-let g:ackprg = 'ag'
-vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
-map <leader>g :Ack
-" }}}
+" Unite {{{1
+nnoremap [unite] <Nop>
+nmap <space> [unite]
 
-" Startify ---------------------------------------------------------------- {{{
-let g:startify_list_order = ['sessions', 'dir', 'bookmarks', 'files']
-let g:startify_empty_buffer_key = 'n'
-let g:startify_session_persistence = 1
-let g:startify_skiplist = [
-      \ '.DS_Store',
-      \ '^/tmp',
-      \ '/project/.*/documentation'
-      \ ]
-let g:ctrlp_reuse_window = 'startify'
-" }}}
+let s:has_ag  = executable('ag')
+let s:has_ack = executable('ack')
+let g:unite_data_directory = '~/.vim/tmp/unite'
+let g:unite_enable_short_source_names = 1
+let g:unite_force_overwrite_statusline = 0
+let g:unite_prompt=' » '
+let g:unite_source_file_mru_long_limit = 5000
+let g:unite_source_session_enable_auto_save = 1
+let g:unite_source_file_mru_time_format = '(%A %e %b, %T) '
+let g:unite_source_history_yank_enable = 1
+let g:unite_source_rec_max_cache_files = 5000
+let g:unite_split_rule = 'botright'
+let g:unite_winheight = 14
+let g:unite_candidate_icon = '-'
+let g:unite_marked_icon = '+'
 
-" CTRL-P ------------------------------------------------------------------ {{{
-let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
-let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_split_window = 0
-nnoremap <leader>. :CtrlPTag<cr>
+" speed up recursive file searches
+if s:has_ag
+  let g:unite_source_rec_async_command = 'ag -l .'
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--smart-case --nogroup --nocolor --line-numbers'
+  let g:unite_source_grep_recursive_opt = ''
+elseif s:has_ack
+  let g:unite_source_rec_async_command = 'ack -f --nofilter'
+  let g:unite_source_grep_command = 'ack'
+  let g:unite_source_grep_default_opts = '--no-color --no-heading'
+  let g:unite_source_grep_recursive_opt = ''
+endif
 
-let ctrlp_filter_greps = "".
-    \ "egrep -iv '\\.(" .
-    \ "jar|class|swp|swo|log|so|o|pyc|jpe?g|png|gif|mo|po" .
-    \ ")$' | " .
-    \ "egrep -v '^(\\./)?(" .
-    \ "deploy/|lib/|classes/|libs/|deploy/vendor/|.git/|.hg/|.svn/|.*migrations/|docs/build/" .
-    \ ")'"
+" unite mappings
+nnoremap <silent> <C-p> :Unite -toggle -start-insert -buffer-name=files file_rec/async:!<CR>
+nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
+nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
+nnoremap <silent> [unite]q :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]o :<C-u>Unite -no-start-insert -buffer-name=outline outline<CR>
+nnoremap <silent> [unite]k :<C-u>Unite -quick-match buffer <CR>
+nnoremap <silent> [unite]rm :<C-u>Unite -buffer-name=models rails/model:.<CR>
+nnoremap <silent> [unite]rc :<C-u>Unite -buffer-name=models rails/controller:.<CR>
+nnoremap <silent> [unite]rt :<C-u>Unite -buffer-name=models rails/test:.<CR>
+nnoremap <silent> [unite]t :<C-u>Unite tag<CR>
+nnoremap <silent> [unite]rm :<C-u>Unite -buffer-name=models rails/model:.<CR>
+nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
+nnoremap <silent> [unite]f :<C-u>Unite -no-start-insert grep:.<cr>
 
-let my_ctrlp_user_command = "" .
-    \ "find %s '(' -type f -or -type l ')' -maxdepth 15 -not -path '*/\\.*/*' | " .
-    \ ctrlp_filter_greps
+autocmd BufEnter *
+\   if empty(&buftype)
+\|      nnoremap <buffer> <C-]> :<C-u>UniteWithCursorWord -immediately tag<CR>
+\|  endif
 
-let my_ctrlp_git_command = "" .
-    \ "cd %s && git ls-files --exclude-standard -co | " .
-    \ ctrlp_filter_greps
+let s:unite_ignores = [
+  \ '\.git', 'deploy', 'dist',
+  \ 'undo', 'tmp', 'backups',
+  \ 'generated', 'build', 'images']
 
-let my_ctrlp_ffind_command = "ffind --semi-restricted --dir %s --type e -B -f"
+call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+  \ 'ignore_pattern', unite#get_all_sources('file_rec')['ignore_pattern'] .
+  \ join(s:unite_ignores, '\|'))
 
-let g:ctrlp_user_command = ['.git/', my_ctrlp_ffind_command, my_ctrlp_ffind_command]
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
-" }}}
+autocmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()
+  imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+  nmap <buffer> <ESC> <Plug>(unite_exit)
+endfunction
 
-" iTerm Hacks ------------------------------------------------------------- {{{
-nnoremap <silent> ú :bnext<CR>
-nnoremap <silent> ✠ :bprevious<CR>
-inoremap <silent> ú <ESC>:bnext<CR>
-inoremap <silent> ✠ <ESC>:bprevious<CR>
-nmap ٦ O<Esc>
-" }}}
+"}}}2
 
-" Visual Move ------------------------------------------------------------- {{{
+" Visual Move {{{1
+" from Damian Conway: https://www.youtube.com/watch?v=aHm36-na4-4
 runtime plugin/dragvisuals.vim
 
 vmap  <expr>  <LEFT>   DVB_Drag('left')
@@ -265,31 +421,320 @@ vmap  <expr>  D        DVB_Duplicate()
 
 " Remove any introduced trailing whitespace after moving...
 let g:DVB_TrimWS = 1
-" }}}
+" }}}2
 
-" Unsorted ---------------------------------------------------------------- {{{
-" map <Leader>ac :sp app/controllers/application_controller.rb<cr>
-" map <Leader>cu :Tabularize /\|<CR>
-" r map <Leader>rs :vsp <C-r>#<cr><C-w>w
-" map <Leader>rt q:?!ruby<cr><cr>
-map <Leader>rw :%s/\s\+$//<cr>:w<cr>
-" map <Leader>sg :sp<cr>:grep
-map <Leader>rm :Rmodel<cr>
-map <Leader>rt :Runittest<cr>
-" map <Leader>sp yss<p>
-" map <Leader>vg :vsp<cr>:grep
-" }}}
+" Stolen Plugins and Functions {{{1
 
-" Stolen Plugins ---------------------------------------------------------- {{{
-function! HLNext (blinktime)
-    highlight WhiteOnBlue ctermfg=white ctermbg=blue
-    let [bufnum, lnum, col, off] = getpos('.')
-    let matchlen = strlen(matchstr(strpart(getline('.'),col-1),@/))
-    let target_pat = '\c\%#'.@/
-    let ring = matchadd('WhiteOnBlue', target_pat, 101)
-    redraw
-    exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
-    call matchdelete(ring)
-    redraw
+" stolen from @r00k
+function! RenameFile()
+  let old_name = expand('%')
+  let new_name = input('New file name: ', expand('%'), 'file')
+  if new_name != '' && new_name != old_name
+    exec ':saveas ' . new_name
+    exec ':silent !rm ' . old_name
+    redraw!
+  endif
 endfunction
-" }}}
+
+" from Damian Conway: https://www.youtube.com/watch?v=aHm36-na4-4
+function! HLNext (blinktime)
+  highlight WhiteOnBlue ctermfg=white ctermbg=blue
+  let [bufnum, lnum, col, off] = getpos('.')
+  let matchlen = strlen(matchstr(strpart(getline('.'),col-1),@/))
+  let target_pat = '\c\%#'.@/
+  let ring = matchadd('WhiteOnBlue', target_pat, 101)
+  redraw
+  exec 'sleep ' . float2nr(a:blinktime * 2000) . 'm'
+  call matchdelete(ring)
+  redraw
+endfunction
+
+" everything beyond this from Steve Losh:
+function! s:Pulse() " {{{
+  redir => old_hi
+      silent execute 'hi CursorLine'
+  redir END
+  let old_hi = split(old_hi, '\n')[0]
+  let old_hi = substitute(old_hi, 'xxx', '', '')
+
+  let steps = 8
+  let width = 1
+  let start = width
+  let end = steps * width
+  let color = 233
+
+  for i in range(start, end, width)
+      execute "hi CursorLine ctermbg=" . (color + i)
+      redraw
+      sleep 6m
+  endfor
+  for i in range(end, start, -1 * width)
+      execute "hi CursorLine ctermbg=" . (color + i)
+      redraw
+      sleep 6m
+  endfor
+
+  execute 'hi ' . old_hi
+endfunction " }}}
+command! -nargs=0 Pulse call s:Pulse()
+
+let g:indentguides_state = 0
+
+function! s:NextTextObject(motion, dir)
+    let c = nr2char(getchar())
+    let d = ''
+
+    if c ==# "b" || c ==# "(" || c ==# ")"
+        let c = "("
+    elseif c ==# "B" || c ==# "{" || c ==# "}"
+        let c = "{"
+    elseif c ==# "r" || c ==# "[" || c ==# "]"
+        let c = "["
+    elseif c ==# "'"
+        let c = "'"
+    elseif c ==# '"'
+        let c = '"'
+    else
+        return
+    endif
+
+    " Find the next opening-whatever.
+    execute "normal! " . a:dir . c . "\<cr>"
+
+    if a:motion ==# 'a'
+        " If we're doing an 'around' method, we just need to select around it
+        " and we can bail out to Vim.
+        execute "normal! va" . c
+    else
+        " Otherwise we're looking at an 'inside' motion.  Unfortunately these
+        " get tricky when you're dealing with an empty set of delimiters because
+        " Vim does the wrong thing when you say vi(.
+
+        let open = ''
+        let close = ''
+
+        if c ==# "("
+            let open = "("
+            let close = ")"
+        elseif c ==# "{"
+            let open = "{"
+            let close = "}"
+        elseif c ==# "["
+            let open = "\\["
+            let close = "\\]"
+        elseif c ==# "'"
+            let open = "'"
+            let close = "'"
+        elseif c ==# '"'
+            let open = '"'
+            let close = '"'
+        endif
+
+        " We'll start at the current delimiter.
+        let start_pos = getpos('.')
+        let start_l = start_pos[1]
+        let start_c = start_pos[2]
+
+        " Then we'll find it's matching end delimiter.
+        if c ==# "'" || c ==# '"'
+            " searchpairpos() doesn't work for quotes, because fuck me.
+            let end_pos = searchpos(open)
+        else
+            let end_pos = searchpairpos(open, '', close)
+        endif
+
+        let end_l = end_pos[0]
+        let end_c = end_pos[1]
+
+        call setpos('.', start_pos)
+
+        if start_l == end_l && start_c == (end_c - 1)
+            " We're in an empty set of delimiters.  We'll append an "x"
+            " character and select that so most Vim commands will do something
+            " sane.  v is gonna be weird, and so is y.  Oh well.
+            execute "normal! ax\<esc>\<left>"
+            execute "normal! vi" . c
+        elseif start_l == end_l && start_c == (end_c - 2)
+            " We're on a set of delimiters that contain a single, non-newline
+            " character.  We can just select that and we're done.
+            execute "normal! vi" . c
+        else
+            " Otherwise these delimiters contain something.  But we're still not
+            " sure Vim's gonna work, because if they contain nothing but
+            " newlines Vim still does the wrong thing.  So we'll manually select
+            " the guts ourselves.
+            let whichwrap = &whichwrap
+            set whichwrap+=h,l
+
+            execute "normal! va" . c . "hol"
+
+            let &whichwrap = whichwrap
+        endif
+    endif
+endfunction
+
+function! IndentGuides() " {{{
+  if g:indentguides_state
+      let g:indentguides_state = 0
+      2match None
+  else
+      let g:indentguides_state = 1
+      execute '2match IndentGuides /\%(\_^\s*\)\@<=\%(\%'.(0*&sw+1).'v\|\%'.(1*&sw+1).'v\|\%'.(2*&sw+1).'v\|\%'.(3*&sw+1).'v\|\%'.(4*&sw+1).'v\|\%'.(5*&sw+1).'v\|\%'.(6*&sw+1).'v\|\%'.(7*&sw+1).'v\)\s/'
+  endif
+endfunction " }}}
+hi def IndentGuides guibg=#303030 ctermbg=234
+
+function! s:NumberTextObject(whole)
+    let num = '\v[0-9]'
+
+    " If the current char isn't a number, walk forward.
+    while getline('.')[col('.') - 1] !~# num
+        normal! l
+    endwhile
+
+    " Now that we're on a number, start selecting it.
+    normal! v
+
+    " If the char after the cursor is a number, select it.
+    while getline('.')[col('.')] =~# num
+        normal! l
+    endwhile
+
+    " If we want an entire word, flip the select point and walk.
+    if a:whole
+        normal! o
+
+        while col('.') > 1 && getline('.')[col('.') - 2] =~# num
+            normal! h
+        endwhile
+    endif
+endfunction
+
+
+" }}}2
+
+" Netrw {{{1
+" Hit enter in the file browser to open the selected
+" file with :vsplit to the right of the browser.
+" let g:netrw_browse_split = 4
+" let g:netrw_altv = 1
+
+" Default to tree mode
+let g:netrw_liststyle=3
+" }}}2
+
+" YCM {{{1
+let g:ycm_confirm_extra_conf = 0
+let g:EclimCompletionMethod = 'omnifunc'
+let g:ycm_filetype_blacklist = {
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'text' : 1,
+      \ 'unite' : 1,
+      \ 'vim' : 1,
+      \ 'vimrc' : 1
+      \}
+" }}}2
+
+" Expand Region {{{1
+
+" Extend the global dictionary
+call expand_region#custom_text_objects({
+      \ 'a]'  :1,
+      \ 'ab'  :1,
+      \ 'aB'  :1,
+      \ 'ii'  :0,
+      \ 'ai'  :0,
+      \ })
+
+" Customize it further for ruby
+call expand_region#custom_text_objects('ruby', {
+      \ 'im' :0,
+      \ 'am' :0,
+      \ })
+
+" Customize it further for html
+call expand_region#custom_text_objects('html', {
+      \ 'it' :1,
+      \ })
+
+" }}}2
+
+" YCM {{{1
+let g:ycm_key_list_select_completion = ['<Down>']
+let g:ycm_key_list_previous_completion = ['<Up>']
+let g:ycm_key_invoke_completion = '<TAB>'
+" }}}2
+" UltiSnips {{{1
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" Make UltiSnips works nicely with YCM
+function! g:UltiSnips_Complete()
+  call UltiSnips#ExpandSnippet()
+  if g:ulti_expand_res == 0
+    if pumvisible()
+      return "\<C-n>"
+    else
+      call UltiSnips#JumpForwards()
+      if g:ulti_jump_forwards_res == 0
+        return "\<TAB>"
+      endif
+    endif
+  endif
+  return ""
+endfunction
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+let g:UltiSnipsSnippetDirectories = ["UltiSnips"]
+" 1}}} "
+" SplitJoin {{{1
+nmap cS :SplitjoinSplit<cr><esc>
+nmap cJ :SplitjoinJoin<cr><esc>
+" 1}}} "
+" Github issues {{{1
+let g:github_access_token = $GHI_TOKEN
+" 1}}} "
+" Ruby {{{1
+let ruby_fold=1
+" 1}}} "
+" Rainbow Parentheses {{{1 "
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+  au VimEnter * RainbowParenthesesToggle
+  au Syntax * RainbowParenthesesLoadRound
+  au Syntax * RainbowParenthesesLoadSquare
+  au Syntax * RainbowParenthesesLoadBraces
+" 1}}} "
+
+" Tabularize {{{1 "
+map <leader>a<bar> :Tabularize /<bar><CR>
+map <leader>ae :Tabularize /=<CR>
+inoremap <silent> = =<Esc>:call <SID>ealign()<CR>a
+function! s:ealign()
+  let p = '^.*=[^>]*$'
+  if exists(':Tabularize') && getline('.') =~# '^.*=' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^=]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*=\s*\zs.*'))
+    Tabularize/=/l1
+    normal! 0
+    call search(repeat('[^=]*=',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
+" 1}}} "

@@ -26,6 +26,7 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias rpx="keyremap reloadxml"
   alias epx="mate ~/Dropbox/Internal/dotfiles/keyremap4macbook.xml"
 
+  alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user'
 
   alias plistbuddy="/usr/libexec/PlistBuddy"
   #copy output of last command to clipboard

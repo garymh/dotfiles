@@ -1,0 +1,4 @@
+MethodDefParentheses:
+  EnforcedStyle: require_no_parentheses
+Documentation:
+  Enabled: false

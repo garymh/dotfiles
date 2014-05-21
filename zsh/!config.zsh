@@ -30,10 +30,10 @@ if [[ $IS_LINUX -eq 1 ]]; then
   export LD_LIBRARY_PATH="/usr/lib/oracle/11.2/client64//lib:/lib:/usr/lib64:/usr/lib:/usr/local/lib"
   export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/lib/oracle/11.2/client64//bin:/home/gmh219/bin"
   export ORACLE_HOME="/usr/lib/oracle/11.2/client64/"
-  export export="/usr/bin/ruby:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/lib/oracle/11.2/client64//bin"
+  # export export="/usr/bin/ruby:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/lib/oracle/11.2/client64//bin"
   export USER="gmh219"
 
-  export EDITOR="$HOME/bin/rmate"
+  # export EDITOR="$HOME/bin/rmate"
 fi
 
 if [ $(command -v fasd) ]; then
@@ -47,7 +47,7 @@ fi
 
 export VISUAL='$EDITOR'
 export LESS='--ignore-case --RAW-CONTROL-CHARS --LONG-PROMPT'
-export TERM=xterm-256color
+export TERM="screen-256color"
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 if [[ $IS_MAC -eq 1 ]]; then
@@ -67,11 +67,18 @@ if [[ $IS_MAC -eq 1 ]]; then
   export SSL_CERT_FILE="/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt"
   export DOCKER_HOST=localhost
   export CC=gcc-4.2
-  # for my mbpr
+
+  # if ruby 2.0
+
+  export RUBY_GC_HEAP_FREE_SLOTS=600000
+  export RUBY_GC_HEAP_INIT_SLOTS=1000000
+  export RUBY_GC_HEAP_SLOTS_INCREMENT=1000000
   export RUBY_GC_MALLOC_LIMIT=1000000000
   export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1.25
   export RUBY_HEAP_MIN_SLOTS=800000
   export RUBY_FREE_MIN=600000
+  # else
+
   export LD_PRELOAD=/usr/lib/libtcmalloc_minimal.so
 
   # GRC colorizes nifty unix tools all over the place

@@ -156,6 +156,7 @@ cask install contexts
 cask install controlplane
 cask install cornerstone
 cask install crashplan
+cask install day-o
 cask install daisydisk
 cask install default-folder-x
 cask install delibar
