@@ -32,8 +32,9 @@ if [[ $IS_LINUX -eq 1 ]]; then
   export ORACLE_HOME="/usr/lib/oracle/11.2/client64/"
   # export export="/usr/bin/ruby:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/lib/oracle/11.2/client64//bin"
   export USER="gmh219"
-
-  # export EDITOR="$HOME/bin/rmate"
+  export DISPLAY=:7
+  export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
+  export rvmsudo_secure_path=1
 fi
 
 if [ $(command -v fasd) ]; then

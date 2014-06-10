@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'active_support'
+# gem 'active_support'
 gem 'amatch'
 gem 'chronic'
 gem 'forecast_io'

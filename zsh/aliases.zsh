@@ -2,7 +2,8 @@ if [[ $IS_MAC -eq 1 ]]; then
   # stupid apple.
   sudo () { ( unset LD_LIBRARY_PATH DYLD_LIBRARY_PATH; exec command sudo $* ) }
 
-  export EDITOR="stty stop '' -ixoff ; vim"
+  alias tmux="TERM=screen-256color-bce tmux"
+
   alias sub="f -e $EDITOR"
   alias zo="open `f $1`"
   alias tomon='sudo ~/Library/Tomcat/libexec/bin/startup.sh'
@@ -54,10 +55,10 @@ if [[ $IS_LINUX -eq 1 ]]; then
   alias cfrestart='sudo service coldfusion_10 restart'
 fi
 
-alias vi='vim'
 alias vim="stty stop '' -ixoff ; vim"
 alias subdir='$EDITOR .'
 alias mate='$EDITOR' #old habits die hard
+export EDITOR="vim"
 
 alias gs="git status -sb"
 alias my_issues='issues'
@@ -107,6 +108,8 @@ alias ohmyzsh="$EDITOR $HOME/.oh-my-zsh"
 
 alias gca="gac"
 alias gco="gac"
+
+alias -g RES='RAILS_ENV=staging'
 
 # More verbose fileutils
 alias cp='nocorrect cp -iv'

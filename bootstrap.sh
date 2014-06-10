@@ -16,8 +16,19 @@ ln -s $tmpdir/zsh/zshrc ~/.zshrc
 ln -s $tmpdir/tmux ~/.tmux
 ln -s $tmpdir/tmux/tmux.conf ~/.tmux.conf
 ln -s $tmpdir/tmux/tmuxinator ~/.tmuxinator
-ln -s $tmpdir/vim/vim ~/.vim
 ln -s $tmpdir/vim/vimrc ~/.vimrc
+mkdir ~/.vim
+ln -s $tmpdir/vim/plugin ~/.vim/plugin
+ln -s $tmpdir/vim/syntax ~/.vim/syntax
+ln -s $tmpdir/vim/UltiSnips ~/.vim/UltiSnips
+mkdir ~/.vim/bundle
+mkdir ~/.vim/view
+mkdir ~/.vim/tmp
+mkdir ~/.vim/tmp/unite
+mkdir ~/.vim/tmp/backups
+mkdir ~/.vim/tmp/swap
+curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh | sh
+
 ln -s $tmpdir/home_dir/gitignore_global ~/.gitignore_global
 ln -s $tmpdir/home_dir/ackrc ~/.ackrc
 ln -s $tmpdir/home_dir/gemrc ~/.gemrc
@@ -43,7 +54,5 @@ if [[ $(uname) = 'Linux' ]]; then
   cd ..
 fi
 
-cp submodules/rmate/rmate ~/bin
-
-[ -d $tmpdir/private/ ] && echo "hey" || mkdir ./zsh/private
+[ -d $tmpdir/private/ ] && echo "Private stuff already exists" || mkdir ./zsh/private
 touch ./zsh/private/private_files_go_here.zsh

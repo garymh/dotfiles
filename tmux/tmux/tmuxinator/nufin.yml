@@ -1,0 +1,15 @@
+name: nufinreporter
+root: ~/code/nufinreporter
+
+pre:
+  - VAGRANT_CWD=~/code/vagrant_and_oracle_vm_setup vagrant up 
+
+windows:
+  - console:
+      layout: 9ed4,283x78,0,0{71x78,0,0,20,88x78,72,0,23,122x78,161,0[122x39,161,0,24,122x38,161,40,25]}
+      panes:
+        - 
+        - vim ~/code/nufinreporter/ 
+        - clear && rails console 
+        - clear && tail -f log/test.log 
+  - misc:

@@ -2,19 +2,14 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="gary_pure_mod"
 COMPLETION_WAITING_DOTS="true"
 
-plugins=(battery brew capistrano command-coloring colored-man colorize eifion gem git gitignore git-extras git-flow history-substring-search heroku mosh osx pip rails rake rake-fast ruby safe-paste themes tmuxinator vundle vagrant zeus zsh-syntax-highlighting)
+plugins=(zsh-syntax-highlighting battery brew capistrano command-coloring colored-man colorize eifion gem git gitignore git-extras git-flow heroku mosh osx pip rails rake rake-fast ruby themes tmuxinator vagrant)
+# disabled: safe-paste
 
 source $ZSH/oh-my-zsh.sh
 for f ($HOME/.zsh/*.zsh) {source $f}
 for f ($HOME/.zsh/private/*.zsh) {source $f}
 
-if [[ $IS_MAC -eq 1 ]]; then
-  source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-fi
-
-if [[ $IS_LINUX -eq 1 ]]; then
-fi
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
 if (( $+commands[cowsay] )); then
   echo "OOOOOOOOOOOOH: $(uptime)" | cowsay -f $HOME/.zsh/plugins/cows/meeseeks.cow
@@ -35,4 +30,7 @@ function update_terminal_title() {
 }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# source /Users/gmh219/.iterm2_shell_integration.zsh
+
+if [[ $IS_LINUX -eq 1 ]]; then
+  source /etc/profile.d/rvm.sh
+fi
