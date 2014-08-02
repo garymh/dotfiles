@@ -1,144 +1,12 @@
-#!/usr/bin/env zsh
-#
-#
-#
+# Pure
+# by Sindre Sorhus
+# https://github.com/sindresorhus/pure
+# MIT License
 
-# ------------------------------------------------------------------------------
-#
-# Pure - A minimal and beautiful theme for oh-my-zsh
-#
-# Based on the custom Zsh-prompt of the same name by Sindre Sorhus. A huge
-# thanks goes out to him for designing the fantastic Pure prompt in the first
-# place! I'd also like to thank Julien Nicoulaud for his "nicoulaj" theme from
-# which I've borrowed both some ideas and some actual code. You can find out
-# more about both of these fantastic two people here:
-#
-# Sindre Sorhus
-#   Github:   https://github.com/sindresorhus
-#   Twitter:  https://twitter.com/sindresorhus
-#
-# Julien Nicoulaud
-#   Github:   https://github.com/nicoulaj
-#   Twitter:  https://twitter.com/nicoulaj
-#
-# License
-#
-# Copyright (c) 2013 Kasper Kronborg Isager
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-#
-# ------------------------------------------------------------------------------
-
-# Set required options
-#
-setopt prompt_subst
-
-# Load required modules
-#
-autoload -Uz vcs_info
-
-# Set vcs_info parameters
-#
-zstyle ':vcs_info:*' enable hg bzr git
-zstyle ':vcs_info:*:*' unstagedstr '!'
-zstyle ':vcs_info:*:*' stagedstr '+'
-zstyle ':vcs_info:*:*' formats "$FX[bold]%r$FX[no-bold]/%S" "%s/%b" "%%u%c"
-zstyle ':vcs_info:*:*' actionformats "$FX[bold]%r$FX[no-bold]/%S" "%s/%b" "%u%c (%a)"
-zstyle ':vcs_info:*:*' nvcsformats "%~" "" ""
-
-# Fastest possible way to check if repo is dirty
-#
-git_dirty() {
-    # Check if we're in a git repo
-    command git rev-parse --is-inside-work-tree &>/dev/null || return
-    # Check if it's dirty
-    command git diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ] && echo "*"
-}
-
-# Display information about the current repository
-#
-repo_information() {
-    echo "%F{blue}${vcs_info_msg_0_%%/.} %F{8}$vcs_info_msg_1_`git_dirty` $vcs_info_msg_2_%f"
-}
-
-# Displays the exec time of the last command if set threshold was exceeded
-#
-cmd_exec_time() {
-    local stop=`date +%s`
-    local start=${cmd_timestamp:-$stop}
-    let local elapsed=$stop-$start
-    [ $elapsed -gt 5 ] && echo ${elapsed}s
-}
-
-# Get the intial timestamp for cmd_exec_time
-#
-preexec() {
-    cmd_timestamp=`date +%s`
-}
-
-# Output additional information about paths, repos and exec time
-#
-precmd() {
-    vcs_info # Get version control info before we start outputting stuff
-    print -P "\n$(repo_information)$(background_jobs) $(box_name) %F{yellow}$(cmd_exec_time)%f"
-}
-
-ruby_version() {
-  $(current_ruby)
-}
-
-function box_name {
-  if [[ -f ~/.box-name ]]; then
-    if [[ $(cat ~/.box-name) = 'STAGING' ]]; then
-      echo "%{$fg[yellow]STAGING"
-    elif [[ $(cat ~/.box-name) = 'PRODUCTION' ]]; then
-      echo "%{$fg[red]PRODUCTION"
-    else
-      cat ~/.box-name
-    fi
-  else
-    hostname -s
-  fi
-}
-function background_jobs() {
-  [[ $(jobs -l | wc -l) -gt 0 ]] && echo "⚙"
-}
-
-# Define prompts
-#
-PROMPT="%(?.%F{magenta}.%F{red})❯%f " # Display a red prompt char on failure
-
-# ------------------------------------------------------------------------------
-#
-# List of vcs_info format strings:
-#
+# For my own and others sanity
+# git:
 # %b => current branch
 # %a => current action (rebase/merge)
-# %s => current version control system
-# %r => name of the root directory of the repository
-# %S => current path relative to the repository root directory
-# %m => in case of Git, show information about stashes
-# %u => show unstaged changes in the repository
-# %c => show staged changes in the repository
-#
-# List of prompt format strings:
-#
 # prompt:
 # %F => color dict
 # %f => reset color
@@ -147,29 +15,125 @@ PROMPT="%(?.%F{magenta}.%F{red})❯%f " # Display a red prompt char on failure
 # %n => username
 # %m => shortname host
 # %(?..) => prompt conditional - %(condition.true.false)
-#
-# ------------------------------------------------------------------------------
-# vim_ins_mode="%{$fg[cyan]%}[INS]%{$reset_color%}"
-# vim_cmd_mode="%{$fg[green]%}[CMD]%{$reset_color%}"
-# vim_mode=$vim_ins_mode
-#
-# function zle-keymap-select {
-#   vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
-#   zle reset-prompt
+
+# function box_name {
+#   if [[ -f ~/.box-name ]]; then
+#     if [[ $(cat ~/.box-name) = 'STAGING' ]]; then
+#       echo "%{$fg[yellow]STAGING"
+#     elif [[ $(cat ~/.box-name) = 'PRODUCTION' ]]; then
+#       echo "%{$fg[red]PRODUCTION"
+#     else
+#       cat ~/.box-name
+#     fi
+#   else
+#     hostname -s
+#   fi
 # }
-# zle -N zle-keymap-select
-#
-# function zle-line-finish {
-#   vim_mode=$vim_ins_mode
+
+# function background_jobs() {
+#   [[ $(jobs -l | wc -l) -gt 0 ]] && echo "⚙"
 # }
-# zle -N zle-line-finish
-#
-# # Fix a bug when you C-c in CMD mode and you'd be prompted with CMD mode indicator, while in fact you would be in INS mode
-# # Fixed by catching SIGINT (C-c), set vim_mode to INS and then repropagate the SIGINT, so if anything else depends on it, we will not break it
-# # Thanks Ron! (see comments)
-# function TRAPINT() {
-#   vim_mode=$vim_ins_mode
-#   return $(( 128 + $1 ))
-# }
-# RPROMPT="${vim_mode}%F{8}${SSH_TTY:+%n@%m}%f"    # Display username if connected via SSH
-# RPROMPT="$(vi_mode_prompt_info)%F{8}${SSH_TTY:+%n@%m}%f"    # Display username if connected via SSH
+
+# turns seconds into human readable time
+# 165392 => 1d 21h 56m 32s
+prompt_pure_human_time() {
+  local tmp=$1
+  local days=$(( tmp / 60 / 60 / 24 ))
+  local hours=$(( tmp / 60 / 60 % 24 ))
+  local minutes=$(( tmp / 60 % 60 ))
+  local seconds=$(( tmp % 60 ))
+  (( $days > 0 )) && echo -n "${days}d "
+  (( $hours > 0 )) && echo -n "${hours}h "
+  (( $minutes > 0 )) && echo -n "${minutes}m "
+  echo "${seconds}s"
+}
+
+# fastest possible way to check if repo is dirty
+prompt_pure_git_dirty() {
+  # check if we're in a git repo
+  command git rev-parse --is-inside-work-tree &>/dev/null || return
+  # check if it's dirty
+  command git diff --quiet --ignore-submodules HEAD &>/dev/null
+
+  (($? == 1)) && echo '*'
+}
+
+# displays the exec time of the last command if set threshold was exceeded
+prompt_pure_cmd_exec_time() {
+  local stop=$EPOCHSECONDS
+  local start=${cmd_timestamp:-$stop}
+  integer elapsed=$stop-$start
+  (($elapsed > ${PURE_CMD_MAX_EXEC_TIME:=5})) && prompt_pure_human_time $elapsed
+}
+
+prompt_pure_preexec() {
+  cmd_timestamp=$EPOCHSECONDS
+
+  # shows the current dir and executed command in the title when a process is active
+  print -Pn "\e]0;"
+  echo -nE "$PWD:t: $2"
+  print -Pn "\a"
+}
+
+# string length ignoring ansi escapes
+prompt_pure_string_length() {
+  echo ${#${(S%%)1//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+}
+
+prompt_pure_precmd() {
+  # shows the full path in the title
+  print -Pn '\e]0;%~\a'
+
+  # git info
+  vcs_info
+
+  local prompt_pure_preprompt="\n%F{blue}%~%F{242}$vcs_info_msg_0_`prompt_pure_git_dirty` $prompt_pure_username%f %F{yellow}`prompt_pure_cmd_exec_time`%f"
+  print -P $prompt_pure_preprompt
+
+  # check async if there is anything to pull
+  (( ${PURE_GIT_PULL:-1} )) && {
+    # check if we're in a git repo
+    command git rev-parse --is-inside-work-tree &>/dev/null &&
+    # check check if there is anything to pull
+    command git fetch &>/dev/null &&
+    # check if there is an upstream configured for this branch
+    command git rev-parse --abbrev-ref @'{u}' &>/dev/null && {
+      local arrows=''
+      (( $(command git rev-list --right-only --count HEAD...@'{u}' 2>/dev/null) > 0 )) && arrows='⇣'
+      (( $(command git rev-list --left-only --count HEAD...@'{u}' 2>/dev/null) > 0 )) && arrows+='⇡'
+      print -Pn "\e7\e[A\e[1G\e[`prompt_pure_string_length $prompt_pure_preprompt`C%F{cyan}${arrows}%f\e8"
+    }
+  } &!
+
+  # reset value since `preexec` isn't always triggered
+  unset cmd_timestamp
+}
+
+
+
+prompt_pure_setup() {
+  # prevent percentage showing up
+  # if output doesn't end with a newline
+  export PROMPT_EOL_MARK=''
+
+  prompt_opts=(cr subst percent)
+
+  zmodload zsh/datetime
+  autoload -Uz add-zsh-hook
+  autoload -Uz vcs_info
+
+  add-zsh-hook precmd prompt_pure_precmd
+  add-zsh-hook preexec prompt_pure_preexec
+
+  zstyle ':vcs_info:*' enable git
+  zstyle ':vcs_info:git*' formats ' %b'
+  zstyle ':vcs_info:git*' actionformats ' %b|%a'
+
+  # show username@host if logged in through SSH
+  [[ "$SSH_CONNECTION" != '' ]] && prompt_pure_username='%n@%m '
+
+  # prompt turns red if the previous command didn't exit with 0
+  PROMPT='%(?.%F{red}.%F{red})❯%f '
+}
+
+prompt_pure_setup "$@"

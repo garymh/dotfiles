@@ -2,6 +2,8 @@
 #   .pryrc
 # ==============================
 
+Pry.auto_resize!
+
 Pry.config.ls.heading_color = :bright_green
 Pry.config.ls.public_method_color = :bright_blue
 Pry.config.ls.protected_method_color = :yellow
@@ -104,8 +106,8 @@ end # End of AwesomePrint
 #   Pry Configurations
 # ==============================
 
-Pry.config.history.file = "~/.irb_history"
-Pry.config.editor = "subl -w"
+# Pry.config.history.file = "~/.irb_history"
+Pry.config.editor = 'vim'
 Pry.config.theme = 'monokai'
 
 # ==============================

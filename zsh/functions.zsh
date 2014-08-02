@@ -1,24 +1,5 @@
 # TODO: incorporate mdfind into search?
 
-bid() {
-  local shortname location
-
-  # combine all args as regex
-  # (and remove ".app" from the end if it exists due to autocomplete)
-  shortname=$(echo "${@%%.app}"|sed 's/ /.*/g')
-  # if the file is a full match in apps folder, roll with it
-  if [ -d "/Applications/$shortname.app" ]; then
-    location="/Applications/$shortname.app"
-  else # otherwise, start searching
-    location=$(mdfind -onlyin /Applications -onlyin ~/Applications -onlyin /Developer/Applications 'kMDItemKind==Application'|awk -F '/' -v re="$shortname" 'tolower($NF) ~ re {print $0}'|head -n1)
-  fi
-  # No results? Die.
-  [[ -z $location || $location = "" ]] && echo "$1 not found, I quit" && return
-  # Otherwise, find the bundleid using spotlight metadata
-  bundleid=$(mdls -name kMDItemCFBundleIdentifier -r "$location")
-  # return the result or an error message
-  [[ -z $bundleid || $bundleid = "" ]] && echo "Error getting bundle ID for \"$@\"" || echo "$location: $bundleid"
-}
 
 sublf() {
   FILE=$(fzf) && subl "$FILE"
@@ -41,8 +22,8 @@ fda() {
 }
 
 gac() {
-    hub add --all :/
-    hub commit -m "$*"
+  hub add --all :/
+  hub commit -m "$*"
 }
 
 nudais_release() {
@@ -51,26 +32,22 @@ nudais_release() {
 }
 
 gitclone() {
-    cd ~/code/
-    git clone "$*"
+  cd ~/code/
+  git clone "$*"
 }
 
 search() {
-    echo "find . -iname \"*$1*\""
-    sudo find . -iname "*$1*"
+  echo "find . -iname \"*$1*\""
+  sudo find . -iname "*$1*"
 }
 
-bug(){
-  ghi open --message "$*" --claim --label SpaceAllocation bug
- }
-
-new_issue(){
-  ghi open --message "$*" --claim --label SpaceAllocation
-}
-
-zopen(){
-  open `a $*`
-}
+# bug(){
+#   ghi open --message "$*" --claim --label SpaceAllocation bug
+#  }
+#
+# new_issue(){
+#   ghi open --message "$*" --claim --label SpaceAllocation
+# }
 
 # Show contents of directory after cd-ing into it
 chpwd() {
@@ -84,16 +61,16 @@ chgext() {
 
 if [[ $IS_MAC -eq 1 ]]; then
   gclo() {
-      cd ~/code/
-      git clone "$*"
+    cd ~/code/
+    git clone "$*"
   }
 
   vm() {
-      VAGRANT_CWD=~/code/vagrant_and_oracle_vm_setup vagrant up
+    VAGRANT_CWD=~/code/vagrant_and_oracle_vm_setup vagrant up
   }
 
   vmoff() {
-      VAGRANT_CWD=~/code/vagrant_and_oracle_vm_setup vagrant suspend
+    VAGRANT_CWD=~/code/vagrant_and_oracle_vm_setup vagrant suspend
   }
 
   destroy_vm() {
@@ -106,6 +83,25 @@ if [[ $IS_MAC -eq 1 ]]; then
     rm -rf provisioning/roles/oracle/extra/dump/*_test_dump.dmp
   }
 
+  bid() {
+    local shortname location
+
+    # combine all args as regex
+    # (and remove ".app" from the end if it exists due to autocomplete)
+    shortname=$(echo "${@%%.app}"|sed 's/ /.*/g')
+    # if the file is a full match in apps folder, roll with it
+    if [ -d "/Applications/$shortname.app" ]; then
+      location="/Applications/$shortname.app"
+    else # otherwise, start searching
+      location=$(mdfind -onlyin /Applications -onlyin ~/Applications -onlyin /Developer/Applications 'kMDItemKind==Application'|awk -F '/' -v re="$shortname" 'tolower($NF) ~ re {print $0}'|head -n1)
+    fi
+    # No results? Die.
+    [[ -z $location || $location = "" ]] && echo "$1 not found, I quit" && return
+    # Otherwise, find the bundleid using spotlight metadata
+    bundleid=$(mdls -name kMDItemCFBundleIdentifier -r "$location")
+    # return the result or an error message
+    [[ -z $bundleid || $bundleid = "" ]] && echo "Error getting bundle ID for \"$@\"" || echo "$location: $bundleid"
+  }
 fi
 
 # alias last and save
@@ -137,14 +133,14 @@ als() {
 # search for running processes
 # -------------------------------------------------------------------
 any() {
-    emulate -L zsh
-    unsetopt KSH_ARRAYS
-    if [[ -z "$1" ]] ; then
-        echo "any - grep for process(es) by keyword" >&2
-        echo "Usage: any " >&2 ; return 1
-    else
-        ps xauwww | grep -i --color=auto "[${1[1]}]${1[2,-1]}"
-    fi
+  emulate -L zsh
+  unsetopt KSH_ARRAYS
+  if [[ -z "$1" ]] ; then
+    echo "any - grep for process(es) by keyword" >&2
+    echo "Usage: any " >&2 ; return 1
+  else
+    ps xauwww | grep -i --color=auto "[${1[1]}]${1[2,-1]}"
+  fi
 }
 
 # -------------------------------------------------------------------
@@ -153,11 +149,11 @@ any() {
 path() {
   echo $PATH | tr ":" "\n" | \
     awk "{ sub(\"/usr\",   \"$fg_no_bold[green]/usr$reset_color\"); \
-           sub(\"/bin\",   \"$fg_no_bold[blue]/bin$reset_color\"); \
-           sub(\"/opt\",   \"$fg_no_bold[cyan]/opt$reset_color\"); \
-           sub(\"/sbin\",  \"$fg_no_bold[magenta]/sbin$reset_color\"); \
-           sub(\"/local\", \"$fg_no_bold[yellow]/local$reset_color\"); \
-           print }"
+    sub(\"/bin\",   \"$fg_no_bold[blue]/bin$reset_color\"); \
+    sub(\"/opt\",   \"$fg_no_bold[cyan]/opt$reset_color\"); \
+    sub(\"/sbin\",  \"$fg_no_bold[magenta]/sbin$reset_color\"); \
+    sub(\"/local\", \"$fg_no_bold[yellow]/local$reset_color\"); \
+    print }"
 }
 
 # -------------------------------------------------------------------
@@ -165,25 +161,25 @@ path() {
 # (from https://github.com/myfreeweb/zshuery/blob/master/zshuery.sh)
 # -------------------------------------------------------------------
 ex() {
-    if [[ -f $1 ]]; then
-        case $1 in
-          *.tar.bz2) tar xvjf $1;;
-          *.tar.gz) tar xvzf $1;;
-          *.tar.xz) tar xvJf $1;;
-          *.tar.lzma) tar --lzma xvf $1;;
+  if [[ -f $1 ]]; then
+    case $1 in
+      *.tar.bz2) tar xvjf $1;;
+    *.tar.gz) tar xvzf $1;;
+  *.tar.xz) tar xvJf $1;;
+*.tar.lzma) tar --lzma xvf $1;;
           *.bz2) bunzip $1;;
-          *.rar) unrar $1;;
-          *.gz) gunzip $1;;
-          *.tar) tar xvf $1;;
-          *.tbz2) tar xvjf $1;;
-          *.tgz) tar xvzf $1;;
+        *.rar) unrar $1;;
+      *.gz) gunzip $1;;
+    *.tar) tar xvf $1;;
+  *.tbz2) tar xvjf $1;;
+*.tgz) tar xvzf $1;;
           *.zip) unzip $1;;
-          *.Z) uncompress $1;;
-          *.7z) 7z x $1;;
-          *.dmg) hdiutul mount $1;; # mount OS X disk images
-          *) red "'$1' cannot be extracted via >ex<";;
-    esac
+        *.Z) uncompress $1;;
+      *.7z) 7z x $1;;
+    *.dmg) hdiutul mount $1;; # mount OS X disk images
+  *) red "'$1' cannot be extracted via >ex<";;
+esac
     else
-        red "'$1' is not a valid file"
+      red "'$1' is not a valid file"
     fi
-}
+  }

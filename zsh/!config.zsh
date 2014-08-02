@@ -48,6 +48,7 @@ fi
 
 export VISUAL='$EDITOR'
 export LESS='--ignore-case --RAW-CONTROL-CHARS --LONG-PROMPT'
+export LESSOPEN="| src-hilite-lesspipe.sh %s"
 export TERM="screen-256color"
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
@@ -69,8 +70,10 @@ if [[ $IS_MAC -eq 1 ]]; then
   export DOCKER_HOST=localhost
   export CC=gcc-4.2
 
-  # if ruby 2.0
+  export HTML_TIDY="$HOME/.tidyrc"
 
+
+  # if ruby 2.0
   export RUBY_GC_HEAP_FREE_SLOTS=600000
   export RUBY_GC_HEAP_INIT_SLOTS=1000000
   export RUBY_GC_HEAP_SLOTS_INCREMENT=1000000

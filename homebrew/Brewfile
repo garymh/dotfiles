@@ -95,8 +95,8 @@ cask install hipchat
 cask install imageoptim
 cask install instacast
 cask install kaleidoscope
+cask install karabiner
 cask install keyboard-cleaner
-cask install keyremap4macbook
 cask install knox
 cask install launchrocket
 cask install lingon-x
@@ -108,9 +108,9 @@ cask install name-mangler
 cask install onepassword
 cask install onyx
 cask install pacifist
-cask install pckeyboardhack
 cask install rcdefaultapp
 cask install secrets
+cask install seil
 cask install shortcat
 cask install skype
 cask install soulver
@@ -125,7 +125,6 @@ cask install vagrant
 cask install virtualbox
 cask install vlc
 cask install xtrafinder
-
 cask install qlcolorcode
 cask install qlmarkdown
 cask install qlprettypatch

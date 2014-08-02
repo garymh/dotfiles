@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'awesome_print'
+gem 'curses'
 gem 'facets'
 gem 'fastri'
 gem 'git'
