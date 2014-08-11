@@ -23,6 +23,13 @@ if [[ $HAS_BREW -eq 1 ]]; then
   )
 fi
 
+if [[ $IS_MAC -eq 1 ]]; then
+  path=(
+  /usr/local/opt/rbenv/shims
+  $path
+  )
+fi
+
 if [[ $(uname) = 'Linux' ]]; then
   IS_LINUX=1
 fi

@@ -517,6 +517,7 @@ nnoremap <Leader>v :MultipleCursorsFind <C-R><C-W><CR>
 
 " Ruby {{{ "
 NeoBundle 'ngmy/vim-rubocop'
+let g:vimrubocop_rubocop_cmd = "/usr/local/opt/rbenv/shims/rubocop"
 NeoBundle 'pgr0ss/vimux-ruby-test'
 NeoBundle 'vim-ruby/vim-ruby'
 let ruby_fold=1
