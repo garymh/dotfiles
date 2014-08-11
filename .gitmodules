@@ -1,12 +1,9 @@
-[submodule "zsh/oh-my-zsh"]
-	path = zsh/oh-my-zsh
-	url = https://github.com/robbyrussell/oh-my-zsh.git
 [submodule "submodules/fasd"]
 	path = submodules/fasd
 	url = https://github.com/clvv/fasd
 [submodule "submodules/LS_COLORS"]
 	path = submodules/LS_COLORS
 	url = https://github.com/trapd00r/LS_COLORS.git
-[submodule "zsh/plugins/zsh-syntax-highlighting"]
-	path = zsh/plugins/zsh-syntax-highlighting
+[submodule "home/zsh/plugins/zsh-syntax-highlighting"]
+	path = home/zsh/plugins/zsh-syntax-highlighting
 	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
