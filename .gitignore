@@ -1,6 +1,4 @@
 vm
-vim/bundle
-vim/session
-vim/.netrwhist
-vim/vim_todos
 tmux/tmuxinator
+private
+.rake_tasks

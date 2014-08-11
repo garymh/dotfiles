@@ -1,0 +1,7 @@
+vpn_status() {
+  scutil --nc status "NU VPN" | sed -n 1p | grep -qv Disconnected
+}
+
+if vpn_status; then
+  echo "VPN 🔒"
+fi

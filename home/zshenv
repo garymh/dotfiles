@@ -1,0 +1,147 @@
+path=(
+  ${HOME}/.zsh/bin
+  /usr/local/bin
+  /usr/bin
+  /usr/sbin
+  /bin
+  /sbin
+  /usr/X11/bin
+  /usr/local/heroku/bin
+  ${HOME}/Library/Python/2.7/bin
+)
+
+if (( $+commands[brew] )) ; then
+  HAS_BREW=1
+fi
+
+if [[ $HAS_BREW -eq 1 ]]; then
+  path=(
+  $(brew --prefix)/sbin
+  $(brew --prefix)/share/npm/bin
+  $(brew --cellar)/coreutils
+  $path
+  )
+fi
+
+if [[ $(uname) = 'Linux' ]]; then
+  IS_LINUX=1
+fi
+
+if [[ $(uname) = 'Darwin' ]]; then
+  IS_MAC=1
+fi
+
+if (( $+commands[yum] )) ; then
+  HAS_YUM=1
+fi
+
+if [ $(command -v fasd) ]; then
+  HAS_FASD=1
+fi
+
+if [ $(command -v cowsay) ]; then
+  HAS_COWSAY=1
+fi
+
+if [[ -f ~/.dir_colors ]]; then
+  HAS_COLORS=1
+fi
+
+if [[ -f ~/.fzf.zsh ]]; then
+  HAS_FZF=1
+fi
+
+if [ $(command -v grc) ]; then
+  HAS_GRC=1
+fi
+
+unsetopt correct_all
+unsetopt correct # so annoying
+unsetopt promptcr
+
+setopt transient_rprompt # only show the rprompt on the current prompt
+setopt notify
+
+export EDITOR='vim'
+export VISUAL='$EDITOR'
+export PAGER='less'
+export LESS='--ignore-case --RAW-CONTROL-CHARS --LONG-PROMPT'
+export LESSOPEN="| src-hilite-lesspipe.sh %s"
+export TERM="screen-256color"
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
+# oracle >:(
+export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
+
+if [[ $IS_LINUX -eq 1 ]]; then
+  export LD_LIBRARY_PATH="/usr/lib/oracle/11.2/client64//lib:/lib:/usr/lib64:/usr/lib:/usr/local/lib"
+  path=(
+  /usr/local/sbin
+  /usr/lib/oracle/11.2/client64/
+  $path
+  )
+  export ORACLE_HOME="/usr/lib/oracle/11.2/client64/"
+  export USER="gmh219"
+  export DISPLAY=:7
+  export rvmsudo_secure_path=1
+fi
+
+if [[ $HAS_FASD -eq 1 ]]; then
+  fasd_cache="$HOME/.fasd-init-zsh"
+  if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+    fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
+  fi
+  source "$fasd_cache"
+  unset fasd_cache
+fi
+
+# GRC colorizes nifty unix tools all over the place
+if [[ $HAS_GRC -eq 1 ]]; then
+  source `brew --prefix`/etc/grc.bashrc
+fi
+
+if [[ $HAS_DIRENV -eq 1 ]]; then
+  eval "$(direnv hook zsh)"
+fi
+
+if [[ $HAS_FZF -eq 1 ]]; then
+  export FZF_DEFAULT_COMMAND='ag -l -g ""'
+  source ~/.fzf.zsh
+fi
+
+if [[ $HAS_COLORS -eq 1 ]]; then
+  eval $(gdircolors ~/.dir_colors)
+  zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+fi
+
+if [[ $IS_LINUX -eq 1 ]]; then
+  source /etc/profile.d/rvm.sh
+fi
+
+if [[ $IS_MAC -eq 1 ]]; then
+  export TNS_ADMIN="/usr/local/oracle/network/admin/"
+  export SQLPATH="/usr/local/oracle/instantclient_11_2"
+  export ORACLE_HOME="/usr/local/oracle/instantclient_11_2"
+  export ORACLE_SID="xe"
+  export DYLD_LIBRARY_PATH="$ORACLE_HOME"
+  export PATH="$PATH:$DYLD_LIBRARY_PATH"
+  export CLICOLOR=1
+
+  export LIBDIR="/usr/local/lib"
+  export RC_ARCHS=x86_64
+  export JAVA_OPTS="-Djava.awt.headless=true"
+  export SSL_CERT_FILE="/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt"
+  export DOCKER_HOST=localhost
+  export CC=gcc-4.2
+  export HTML_TIDY="$HOME/.tidyrc"
+
+  export RUBY_GC_HEAP_FREE_SLOTS=600000
+  export RUBY_GC_HEAP_INIT_SLOTS=1000000
+  export RUBY_GC_HEAP_SLOTS_INCREMENT=1000000
+  export RUBY_GC_MALLOC_LIMIT=1000000000
+  export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1.25
+  export RUBY_HEAP_MIN_SLOTS=800000
+  export RUBY_FREE_MIN=600000
+
+  export LD_PRELOAD=/usr/lib/libtcmalloc_minimal.so
+fi

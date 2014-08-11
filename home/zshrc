@@ -1,0 +1,65 @@
+export ZSH=$HOME/.oh-my-zsh
+export ZSH_THEME='gary_pure_mod'
+
+plugins=(
+  brew
+  brew-cask
+  bundler
+  capistrano
+  colorize
+  gem
+  gary
+  git
+  git-flow
+  gitignore
+  heroku
+  history-substring-search
+  osx
+  pip
+  rails
+  rake
+  rake-fast
+  rbenv
+  ruby
+  themes
+  tmux
+  vim
+  zsh-syntax-highlighting
+)
+
+source $ZSH/oh-my-zsh.sh
+
+for f ($HOME/.zsh/*.zsh) {source $f}
+for f ($HOME/.zsh/private/*.zsh) {source $f}
+
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+ZSH_HIGHLIGHT_STYLES+=(
+  default                       'none'
+  unknown-token                 'fg=red,bold'
+  reserved-word                 'fg=yellow'
+  alias                         'fg=none,bold'
+  builtin                       'fg=none,bold'
+  function                      'fg=none,bold'
+  command                       'fg=none,bold'
+  hashed-command                'fg=none,bold'
+  path                          'fg=cyan'
+  globbing                      'fg=cyan'
+  history-expansion             'fg=blue'
+  single-hyphen-option          'fg=magenta'
+  double-hyphen-option          'fg=magenta'
+  back-quoted-argument          'fg=magenta,bold'
+  single-quoted-argument        'fg=green'
+  double-quoted-argument        'fg=green'
+  dollar-double-quoted-argument 'fg=cyan'
+  back-double-quoted-argument   'fg=cyan'
+  assign                        'none'
+)
+
+[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
+
+if [[ $HAS_COWSAY -eq 1 ]]; then
+  echo "CAN DO!!!" | cowsay -f $HOME/.zsh/plugins/cows/meeseeks.cow
+else
+  uptime
+fi
+echo ""

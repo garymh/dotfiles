@@ -43,8 +43,6 @@ install mackup
 install macvim --override-system-vim --with-lua
 install openssl
 install postgresql
-install python
-install python3
 install rainbarf
 install rbenv
 install rbenv-binstubs
@@ -63,7 +61,6 @@ install the_silver_searcher
 install tig
 install tmux
 install tmux-mem-cpu-load
-install tomcat
 install tree
 install webkit2png
 install zsh
@@ -100,8 +97,6 @@ cask install keyboard-cleaner
 cask install knox
 cask install launchrocket
 cask install lingon-x
-cask install macvim
-cask install marked
 cask install minecraft
 cask install moom
 cask install name-mangler
