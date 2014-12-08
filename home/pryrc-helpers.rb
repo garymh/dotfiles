@@ -140,25 +140,6 @@ class Array
     end
   end
 
-  ## Generate a toy of array to play with.
-  # Array.toy => [1,2,3,4,5,6,7,8,9,10]
-  # Array.toy { |i| i ** 2 }
-  # => [0,1,4,9,16,25,36,49,64,81]
-  def self.toy(n = 10, &block)
-    block_given? ? Array.new(n, &block) : Array.new(n) { |i| i+1 }
-  end
-
-end
-
-class Hash
-
-  ### Generate a toy of hash to play with.
-  # Hash.toy 3
-  # => { 1 => "a", 2 => "b", 3 => "c" }
-  def self.toy(n = 10)
-    Hash[Array.toy(n).zip(Array.toy(n){ |c| (96+(c+1)).chr })]
-  end
-
 end
 
 class Object

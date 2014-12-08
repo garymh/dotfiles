@@ -42,10 +42,11 @@ Icon
 ._*
 
 private
-.cap_tasks~
+.cap_tasks
 .rake_tasks
 todo
 tags
+.tags
 
 *.gem
 *.rbc

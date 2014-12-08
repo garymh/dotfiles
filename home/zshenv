@@ -1,4 +1,5 @@
 path=(
+  /usr/local/opt/rbenv/shims
   ${HOME}/.zsh/bin
   /usr/local/bin
   /usr/bin
@@ -23,12 +24,12 @@ if [[ $HAS_BREW -eq 1 ]]; then
   )
 fi
 
-if [[ $IS_MAC -eq 1 ]]; then
-  path=(
-  /usr/local/opt/rbenv/shims
-  $path
-  )
-fi
+# if [[ $IS_MAC -eq 1 ]]; then
+#   path=(
+#   /usr/local/opt/rbenv/shims
+#   $path
+#   )
+# fi
 
 if [[ $(uname) = 'Linux' ]]; then
   IS_LINUX=1
@@ -42,12 +43,12 @@ if (( $+commands[yum] )) ; then
   HAS_YUM=1
 fi
 
-if [ $(command -v fasd) ]; then
-  HAS_FASD=1
-fi
-
 if [ $(command -v cowsay) ]; then
   HAS_COWSAY=1
+fi
+
+if [ $(command -v img2xterm) ]; then
+  HAS_IMG2XTERM=1
 fi
 
 if [[ -f ~/.dir_colors ]]; then
@@ -70,10 +71,7 @@ setopt transient_rprompt # only show the rprompt on the current prompt
 setopt notify
 
 export EDITOR='vim'
-export VISUAL='$EDITOR'
-export PAGER='less'
-export LESS='--ignore-case --RAW-CONTROL-CHARS --LONG-PROMPT'
-export LESSOPEN="| src-hilite-lesspipe.sh %s"
+export VISUAL='vim'
 export TERM="screen-256color"
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
@@ -93,15 +91,6 @@ if [[ $IS_LINUX -eq 1 ]]; then
   export rvmsudo_secure_path=1
 fi
 
-if [[ $HAS_FASD -eq 1 ]]; then
-  fasd_cache="$HOME/.fasd-init-zsh"
-  if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-    fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
-  fi
-  source "$fasd_cache"
-  unset fasd_cache
-fi
-
 # GRC colorizes nifty unix tools all over the place
 if [[ $HAS_GRC -eq 1 ]]; then
   source `brew --prefix`/etc/grc.bashrc
@@ -116,10 +105,10 @@ if [[ $HAS_FZF -eq 1 ]]; then
   source ~/.fzf.zsh
 fi
 
-if [[ $HAS_COLORS -eq 1 ]]; then
-  eval $(gdircolors ~/.dir_colors)
-  zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-fi
+# if [[ $HAS_COLORS -eq 1 ]]; then
+#   eval `gdircolors ~/.dir_colors`
+#   # zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+# fi
 
 if [[ $IS_LINUX -eq 1 ]]; then
   source /etc/profile.d/rvm.sh
@@ -136,10 +125,11 @@ if [[ $IS_MAC -eq 1 ]]; then
 
   export LIBDIR="/usr/local/lib"
   export RC_ARCHS=x86_64
-  export JAVA_OPTS="-Djava.awt.headless=true"
-  export SSL_CERT_FILE="/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt"
+  # export JAVA_OPTS="-Djava.awt.headless=true"
+  export JAVA_OPTS="-Dapple.awt.UIElement=true"
+  # export SSL_CERT_FILE="/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt"
   export DOCKER_HOST=localhost
-  export CC=gcc-4.2
+  # export CC=gcc-4.2
   export HTML_TIDY="$HOME/.tidyrc"
 
   export RUBY_GC_HEAP_FREE_SLOTS=600000

@@ -3,6 +3,26 @@
 vimf() {
   FILE=$(fzf) && vim "$FILE"
 }
+alias fvim='vimf'
+
+function ol() {
+  open "http://localhost:${1:-3000}"
+}
+function port() {
+  lsof -i ":${1:-80}"
+}
+
+vimp() {
+  local file
+  file=$(find ~/.vim/tmp/unite/session/* -type f | fzf --query="$1" --select-1 --exit-0)
+  [ -n "$file" ] && vim -S "$file"
+}
+
+fe() {
+  local file
+  file=$(fzf --query="$1" --select-1 --exit-0)
+  [ -n "$file" ] && ${EDITOR:-vim} "$file"
+}
 
 fkill() {
   ps -ef | sed 1d | fzf -m | awk '{print $2}' | xargs kill -${1:-9}
@@ -16,6 +36,9 @@ fda() {
   DIR=$(find ${1:-.} -type d 2> /dev/null | fzf) && cd "$DIR"
 }
 
+ls() {
+  gls $*
+}
 
 vpn_status() {
   scutil --nc status "NU VPN" | sed -n 1p | grep -qv Disconnected
@@ -62,11 +85,6 @@ gac() {
   hub commit -m "$*"
 }
 
-nudais_release() {
-  echo "git flow release start \"v$1\""
-  echo "git flow release finish \"v$1\" -m \"v$1\""
-}
-
 gitclone() {
   cd ~/code/
   git clone "$*"
@@ -76,14 +94,6 @@ search() {
   echo "find . -iname \"*$1*\""
   sudo find . -iname "*$1*"
 }
-
-# bug(){
-#   ghi open --message "$*" --claim --label SpaceAllocation bug
-#  }
-#
-# new_issue(){
-#   ghi open --message "$*" --claim --label SpaceAllocation
-# }
 
 # Show contents of directory after cd-ing into it
 chpwd() {
@@ -192,30 +202,3 @@ path() {
     print }"
 }
 
-# -------------------------------------------------------------------
-# compressed file expander
-# (from https://github.com/myfreeweb/zshuery/blob/master/zshuery.sh)
-# -------------------------------------------------------------------
-ex() {
-  if [[ -f $1 ]]; then
-    case $1 in
-      *.tar.bz2) tar xvjf $1;;
-    *.tar.gz) tar xvzf $1;;
-  *.tar.xz) tar xvJf $1;;
-*.tar.lzma) tar --lzma xvf $1;;
-*.bz2) bunzip $1;;
-        *.rar) unrar $1;;
-      *.gz) gunzip $1;;
-    *.tar) tar xvf $1;;
-  *.tbz2) tar xvjf $1;;
-*.tgz) tar xvzf $1;;
-          *.zip) unzip $1;;
-        *.Z) uncompress $1;;
-      *.7z) 7z x $1;;
-    *.dmg) hdiutul mount $1;; # mount OS X disk images
-  *) red "'$1' cannot be extracted via >ex<";;
-esac
-    else
-      red "'$1' is not a valid file"
-    fi
-  }

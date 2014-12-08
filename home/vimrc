@@ -1,97 +1,53 @@
-" vim: set fdm=marker
 " ~/.vimrc
 " thanks to the brilliant @tpope, @skwp, @nelstrom, @bling,
 " @r00k, @AndrewRadev, and @sjl for unknowingly
 " allowing me to borrow from their dotfiles.
 
-" Bundles (with NeoBundle) {{{ "
 filetype off
+if !1 | finish | endif
+
 if has('vim_starting')
+  set nocompatible               " Be iMproved
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
-
-call neobundle#rc(expand('~/.vim/bundle/'))
+call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
-
-NeoBundle 'tpope/vim-abolish'
-NeoBundle 'tpope/vim-endwise'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-rails'
-NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tpope/vim-sensible'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-unimpaired'
-NeoBundle 'tpope/vim-commentary'
-
-NeoBundle 'Julian/vim-textobj-brace'
-NeoBundle 'beloglazov/vim-textobj-quotes'
-NeoBundle 'glts/vim-textobj-comment'
-NeoBundle 'kana/vim-textobj-entire'
-NeoBundle 'kana/vim-textobj-fold'
-NeoBundle 'kana/vim-textobj-indent'
-NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'tek/vim-textobj-ruby'
-NeoBundle 'whatyouhide/vim-textobj-erb'
-NeoBundle 'beloglazov/vim-textobj-punctuation'
-
-NeoBundle 'bufkill.vim'
-NeoBundle 'jiangmiao/auto-pairs'
-" NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'atimholt/spiffy_foldtext'
-NeoBundle 'benmills/vimux'
-NeoBundle 'christoomey/vim-tmux-navigator'
-NeoBundle 'duff/vim-scratch'
-NeoBundle 'honza/vim-snippets'
-NeoBundle 'mileszs/ack.vim'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'vim-scripts/SearchComplete'
-NeoBundle 'toyamarinyon/vim-swift'
-NeoBundle 'sareyko/neat.vim'
-NeoBundle 'Chiel92/vim-autoformat'
-" https://github.com/Chiel92/vim-autoformat
-" figure out how to use this!
-NeoBundle 'AndrewRadev/switch.vim'
-
-" do i want this?
-NeoBundle 'AndrewRadev/whitespaste.vim'
-
-NeoBundle 'slim-template/vim-slim'
-NeoBundle 'groenewege/vim-less'
-NeoBundle 'kchmck/vim-coffee-script'
-
-nnoremap <leader>nbu :Unite neobundle/update -vertical -no-start-insert<cr>
-" }}} Bundles (with NeoBundle) "
+call neobundle#end()
 
 " Colors, themes, airline {{{ "
 NeoBundle 'bling/vim-airline'
-NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'jonathanfilip/vim-lucius'
+NeoBundle 'altercation/vim-colors-solarized.git'
+NeoBundle 'whatyouhide/vim-gotham'
+NeoBundle 'junegunn/vim-emoji'
+NeoBundle 'airblade/vim-gitgutter'
+
 set t_Co=256
-set background=dark
-syntax enable
-colorscheme jellybeans
-highlight ExtraWhitespace ctermbg='Darkblue'
-let g:airline_theme='luna'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#tab_min_count = 0
+set term=xterm-256color
+set t_ut=
 
-if $TERM_PROGRAM == 'iTerm.app'
-  " different cursors for insert vs normal mode
-  if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-  else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-  endif
+silent! if emoji#available()
+  let g:gitgutter_sign_added            = emoji#for('small_blue_diamond')
+  let g:gitgutter_sign_modified         = emoji#for('small_orange_diamond')
+  let g:gitgutter_sign_removed          = emoji#for('small_red_triangle')
+  let g:gitgutter_sign_modified_removed = emoji#for('collision')
 endif
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager    = 0
 
-set cc=80
+set cc=81
+syntax enable
+colorscheme gotham
+let g:airline#extensions#tabline#enabled       = 1
+let g:airline#extensions#tabline#tab_min_count = 0
+let g:airline_theme='gotham'
 " }}} Colors, themes, airline "
 
 " General Settings {{{ "
 set completeopt=menu,menuone,longest,preview
 " I like menus, longest completions, and previews
+
+set autoread            " reload files changed outside vim
 set autowrite           " having an undofile makes this safe, I hope
 set cpoptions+=J
 set cursorline          " highlight the current line
@@ -105,30 +61,29 @@ set hlsearch            " highlight searched phrases
 set ignorecase          " ignore case sensitivity on searches
 set laststatus=2        " always have a statusbar
 set lazyredraw          " make macros faster
-
-if v:version > 703
-  set formatoptions+=j    " delete comment char when joining commented lines
-endif
-
-set nojoinspaces        " use only 1 space after "." when joining lines
+set nojoinspaces        " use only 1 space after '.' when joining lines
 set number              " show line numbers
-set shiftround          " round indenting
+set shiftround          " indenting to nearest tabstop
+set shortmess=WatAIT    " no interruptive prompts http://items.sjbach.com/319/configuring-vim-right
 set showbreak=↪\        " show this character for breaks
 set showmatch           " show matching brackets
 set showmode            " show the mode
 set smartcase           " smartcase for searching
+set title               " change the terminal's title
+set showbreak=↪\        " show this character for breaks
 set splitbelow          " default split behavior
 set splitright          " default split behavior
 set ttyfast             " fast terminal
 set vb                  " quit yer beepin'!
 set virtualedit=onemore " allow selection past last character
 
-set rtp+=~/.fzf
+if v:version > 703
+  set formatoptions+=j  " delete comment char when joining commented lines
+endif
 
 set backupskip=/tmp/*,/private/tmp/*               " fix vim's crontab problem
 set softtabstop=2 tabstop=2 shiftwidth=2 expandtab " sensible tab settings.
-" set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮   " highlight tabs/whitespace
-set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮   " highlight tabs/whitespace
 " }}} General Settings "
 
 " Backups {{{ "
@@ -144,7 +99,8 @@ if $VIM_CRONTAB == "true"
 endif
 
 if has('persistent_undo')
-  set undodir=~/.vim/tmp/backups//
+  silent !mkdir ~/.vim/backups > /dev/null 2>&1
+  set undodir=~/.vim/backups
   set undofile
 endif
 " }}} Backups "
@@ -155,7 +111,38 @@ nnoremap zr zr:echo &foldlevel<cr>
 nnoremap zm zm:echo &foldlevel<cr>
 nnoremap zR zR:echo &foldlevel<cr>
 nnoremap zM zM:echo &foldlevel<cr>
+nnoremap <space><space> za
 " }}} Folding "
+
+" AutoCommands {{{ "
+augroup random
+  autocmd!
+  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o formatoptions+=j
+
+  " Help mode bindings
+  " <enter> to follow tag, <bs> to go back, and q to quit.
+  " From http://ctoomey.com/posts/an-incremental-approach-to-vim/
+  autocmd filetype help nnoremap <buffer><cr> <c-]>
+  autocmd filetype help nnoremap <buffer><bs> <c-T>
+  autocmd filetype help nnoremap <buffer>q :q<CR>
+
+  autocmd BufNewFile,BufRead *pryrc set filetype=ruby
+  autocmd BufNewFile,BufRead *pryrc-helpers.rb set filetype=ruby
+
+  " jump the top in git commit messages
+  autocmd FileType cf set commentstring=<!--%s-->
+  autocmd FileType gitcommit normal gg
+  autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup END
+
+augroup configureFolds
+  autocmd!
+  autocmd FileType mkd      setlocal spell nofoldenable
+  autocmd FileType markdown setlocal spell nofoldenable
+  autocmd FileType text     setlocal spell nofoldenable
+  autocmd FileType vim      setlocal foldmethod=marker
+augroup END
+" }}} AutoCommands "
 
 " Wildmenu completion {{{ "
 set wildmenu
@@ -171,29 +158,21 @@ set wildignore+=vendor/cache/**
 set wildignore+=*.gem
 set wildignore+=log/**
 set wildignore+=tmp/**
+
+set complete=.,w,b,u,U
 " }}} Wildmenu completion "
 
-" AutoCommands {{{ "
-augroup random
-  autocmd!
-  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o formatoptions+=j
-  autocmd bufwritepost .vimrc source $MYVIMRC | setlocal foldmethod=marker | AirlineRefresh
-
-  " jump the top in git commit messages
-  autocmd FileType gitcommit normal gg
-  autocmd BufReadPost fugitive://* set bufhidden=delete
-augroup END
-
-augroup configureFolds
-  autocmd!
-  autocmd FileType mkd      setlocal spell nofoldenable
-  autocmd FileType markdown setlocal spell nofoldenable
-  autocmd FileType text     setlocal spell nofoldenable
-  autocmd FileType vim      setlocal foldmethod=marker
-augroup END
-" }}} AutoCommands "
-
 " Shortcuts and remaps {{{ "
+
+" still not sure about these
+imap jj <Esc>
+" imap jk <Esc>
+inoremap LL <Esc>g~iwea
+inoremap LO <Esc>m`b~Ea
+inoremap jk ()<Left>
+inoremap jk<CR>  (<CR>)<Esc>O
+inoremap kj <Esc>/[)}"'\]>]<CR>a
+
 " close window
 map <C-x> <C-w>c
 
@@ -207,7 +186,6 @@ let maplocalleader = "\\"
 
 " i use c-a for tmux, so i need to do this remap
 nnoremap <c-b> <c-a>
-" nnoremap <c-A> <c-a>
 
 " fix movement
 nnoremap j gj
@@ -221,38 +199,117 @@ inoremap <c-w> <c-g>u<c-w>
 nnoremap <leader>s vip:!sort<cr>
 vnoremap <leader>s :!sort<cr>
 
-" misc
-map <leader>fq cs"'
-map <leader>y "+y
-nmap <leader>. :Scratch<CR>
-nmap <leader><leader> <C-^>
-nmap <leader><space> :nohlsearch<CR>
-nmap <leader>= <C-w>=
-nmap <leader>ev :e $MYVIMRC<CR>
+" vimrc sourcing
+nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+
+" who on earth can reach C-^?
+nnoremap <leader><leader> <C-^>
+
+" fugitive/git
 nnoremap <silent> <leader>gac :Gcommit -m -a ""<LEFT>
 nnoremap <silent> <leader>gc :Gcommit -m ""<LEFT>
-nnoremap <silent> <leader>gs :Gstatus<CR><C-w>20+
 nnoremap <silent> <leader>gp :Git push<CR>
-nmap <leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
-nmap <leader>P :set paste<CR>O<esc>"*]P:set nopaste<cr>
-nmap <leader>q :bd<CR>
-nmap <leader>w :w<CR>
-vmap <leader>h :!tidy -q -i --show-errors 0<CR>
-nnoremap [unite]<space> za
-nnoremap <silent> [unite]h :bp<CR>
-nnoremap <silent> [unite]l :bn<CR>
-nnoremap <silent> Q :call CloseWindowOrKillBuffer()<cr>
+nnoremap <silent> <leader>gs :Gstatus<CR><C-w>20+
+
+" below stolen from YADR (@skwp)
+" <leader># Surround a word with #{ruby interpolation}
+map <leader># ysiw#
+vmap <leader># S#
+
+" <leader>" Surround a word with "quotes"
+map <leader>" ysiw"
+vmap <leader>" S"
+
+" <leader>' Surround a word with 'single quotes'
+map <leader>' ysiw'
+vmap <leader>' c'<C-R>"'<ESC>
+
+" <leader>) or <leader>( Surround a word with (parens)
+" The difference is in whether a space is put in
+map <leader>( ysiw(
+map <leader>) ysiw)
+vmap <leader>( c( <C-R>" )<ESC>
+vmap <leader>) c(<C-R>")<ESC>
+
+" <leader>[ Surround a word with [brackets]
+map <leader>] ysiw]
+map <leader>[ ysiw[
+vmap <leader>[ c[ <C-R>" ]<ESC>
+vmap <leader>] c[<C-R>"]<ESC>
+
+" <leader>{ Surround a word with {braces}
+map <leader>} ysiw}
+map <leader>{ ysiw{
+vmap <leader>} c{ <C-R>" }<ESC>
+vmap <leader>{ c{<C-R>"}<ESC>
+
+" <leader>- and <leader>= for ERB
+map <leader>e- ysil-
+map <leader>e= ysil=
+vmap <leader>e- S-
+vmap <leader>e= S=
+
+" <leader>ow = 'overwrite word'<leader> replace a word with what's in the yank buffer
+" FIXME: will not properly repeat when you use a dot (tie into repeat.vim)
+nnoremap <leader>ow "_diwhp
+
+" via: http://whynotwiki.com/Vim
+" Ruby
+" Use v or # to get a variable interpolation (inside of a string)}
+" ysiw#   Wrap the token under the cursor in #{}
+" v...s#  Wrap the selection in #{}
+let g:surround_113 = "#{\r}"   " v
+let g:surround_35  = "#{\r}"   " #
+
+" Select text in an ERb file with visual mode and then press s- or s=
+" Or yss- to do entire line.
+let g:surround_45 = "<% \r %>"    " -
+let g:surround_61 = "<%= \r %>"   " =
+
+" alias yw to yank the entire word 'yank inner word'
+" even if the cursor is halfway inside the word
+" FIXME: will not properly repeat when you use a dot (tie into repeat.vim)
+nnoremap <leader>yw yiww
+nnoremap <leader>yW yiWW
+
+" <leader>hp = html preview
+map <silent> <leader>hp :!open -a Safari %<CR><CR>
+
+" TODO: sort me!
+nnoremap // :nohlsearch<CR>
+nnoremap <leader>. :Scratch<CR>
 nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
-nnoremap - :Switch<cr>
+nnoremap <leader>= <C-w>=
+nmap <leader>fq cs"'
+nnoremap <leader>w :w<CR>
+vnoremap <leader>h :!tidy -q -i --show-errors 0<CR>
 
-" Easily mark a single line in character-wise visual mode
-nnoremap vv _vg_
+" copy current filename into system clipboard - mnemonic: (c)urrent(f)ilename
+" this is helpful to paste someone the path you're looking at
+nnoremap <silent> <leader>cf :let @* = expand("%:~")<CR>
+nnoremap <silent> <leader>cn :let @* = expand("%:t")<CR>
 
+" " create <%= foo %> erb tags using Ctrl-k in edit mode
+" imap <silent> <C-y> <%=   %><Esc>3hi
+
+" " create <%= foo %> erb tags using Ctrl-j in edit mode
+" imap <silent> <C-e> <%  %><Esc>2hi
+
+" better copy and paste
+vnoremap <leader>y "+y
+nnoremap <leader>y "+y
+nnoremap <leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
+nnoremap <leader>P :set paste<CR>O<esc>"*]P:set nopaste<cr>
+
+" splits
 nnoremap <leader><bar> <C-w>v<C-w>l
-nnoremap <leader>- <C-w>s
+" nnoremap <leader>- <C-w>s
 nnoremap <leader>vsa :vert sba<cr>
 
+" quicker close window
+nnoremap <silent>Q :call CloseWindowOrKillBuffer()<cr>
 command! -bang Q q<bang>
 command! -bang QA qa<bang>
 command! -bang Qa qa<bang>
@@ -279,9 +336,6 @@ nnoremap <C-w>j :TmuxNavigateDown<cr>
 nnoremap <C-w>k :TmuxNavigateUp<cr>
 nnoremap <C-w>l :TmuxNavigateRight<cr>
 
-" clean trailing whitespace
-" nmap <leader>xx mz:%s/\s\+$//<cr>:let @/=''<cr>`z
-
 " reindent the whole file (until beautify ruby comes about.)
 nnoremap <leader>= mqHmwgg=G`wzt`q
 
@@ -289,26 +343,256 @@ nnoremap <leader>= mqHmwgg=G`wzt`q
 vnoremap < <gv
 vnoremap > >gv
 
-" keep the cursor in place while joining lines
-nnoremap J mzJ`z
+" git blame
+vmap <Leader>b :<C-U>!git blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
+
+" " keep the cursor in place while joining lines
+" nnoremap J mzJ`z
 
 " highlight last inserted text
 nnoremap gV `[v`]
 
 " split lines, opposite of J
-nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
+" nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
 
 " }}} Shortcuts and remaps "
 
+" Plugins (with NeoBundle) {{{ "
+NeoBundle 'tpope/vim-abolish'
+NeoBundle 'tpope/vim-bundler'
+NeoBundle 'tpope/vim-commentary'
+NeoBundle 'tpope/vim-endwise'
+NeoBundle 'tpope/vim-eunuch'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-jdaddy'
+NeoBundle 'tpope/vim-rails'
+NeoBundle 'tpope/vim-rake'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-sensible'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-unimpaired'
+
+NeoBundle 'Julian/vim-textobj-brace'
+NeoBundle 'beloglazov/vim-textobj-quotes'
+NeoBundle 'glts/vim-textobj-comment'
+NeoBundle 'kana/vim-textobj-entire'
+NeoBundle 'kana/vim-textobj-fold'
+NeoBundle 'kana/vim-textobj-indent'
+NeoBundle 'kana/vim-textobj-line'
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'tek/vim-textobj-ruby'
+NeoBundle 'whatyouhide/vim-textobj-erb'
+NeoBundle 'beloglazov/vim-textobj-punctuation'
+
+NeoBundle 'justinmk/vim-gtfo'
+NeoBundle 'benmills/vimux'
+NeoBundle 'ConradIrwin/vim-bracketed-paste'
+NeoBundle 'atimholt/spiffy_foldtext'
+NeoBundle 'chrisbra/Colorizer'
+NeoBundle 'christoomey/vim-tmux-navigator'
+NeoBundle 'duff/vim-scratch'
+NeoBundle 'honza/vim-snippets'
+NeoBundle 'mileszs/ack.vim'
+NeoBundle 'sareyko/neat.vim'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'kristijanhusak/vim-multiple-cursors'
+NeoBundle 'vim-scripts/SearchComplete'
+NeoBundle 'jszakmeister/vim-togglecursor'
+NeoBundle 'endel/vim-github-colorscheme'
+NeoBundle 'mattn/emmet-vim'
+
+NeoBundle 'esneider/YUNOcommit.vim'
+let g:YUNOcommit_after = 20
+
+NeoBundle 'Chiel92/vim-autoformat'
+" https://github.com/Chiel92/vim-autoformat
+" figure out how to use this!
+
+if has('mac')
+  NeoBundle 'zerowidth/vim-copy-as-rtf'
+  xnoremap <Leader>C <esc>:colo github<cr>gv:CopyRTF<cr>:colo gotham<cr>
+endif
+
+NeoBundle 'Yggdroot/indentLine'
+NeoBundle 'slim-template/vim-slim'
+NeoBundle 'groenewege/vim-less'
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'davejlong/cf-utils.vim'
+NeoBundle 'zaiste/tmux.vim'
+NeoBundle 'xolox/vim-misc'
+NeoBundle 'toyamarinyon/vim-swift'
+
+nnoremap <leader>nbu :Unite neobundle/update -vertical -no-start-insert<cr>
+
+" DelimitMate {{{ "
+NeoBundle 'Raimondi/delimitMate'
+let delimitMate_expand_cr=1
+let delimitMate_expand_space=1
+let delimitMate_balance_matchpairs=1
+" }}} DelimitMate "
+
+" Investigate.vim {{{ "
+NeoBundle 'Keithbsmiley/investigate.vim'
+let g:investigate_use_dash=1
+nnoremap K :call investigate#Investigate()<CR>
+" }}} Investigate.vim "
+
+" Undo Quit {{{ "
+NeoBundle 'AndrewRadev/undoquit.vim'
+let g:undoquit_mapping = '_u'
+" }}} Undo Quit "
+
+" Switch.vim {{{ "
+NeoBundle 'AndrewRadev/switch.vim'
+nnoremap - :Switch<cr>
+nnoremap <silent> <CR> :<C-u>call <SID>try('Switch', "\015")<CR>
+" }}} Switch.vim "
+
+" SplitJoin {{{ "
+NeoBundle 'AndrewRadev/splitjoin.vim'
+nmap cS :SplitjoinSplit<cr><esc>
+nmap cJ :SplitjoinJoin<cr><esc>
+
+function! s:normal_split()
+  execute 'i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w'
+endfunction
+
+function! s:try(cmd, default)
+  if exists(':' . a:cmd) && !v:count
+    let tick = b:changedtick
+    execute a:cmd
+    if tick == b:changedtick
+      execute join(['normal!', a:default])
+    endif
+  else
+    execute join(['normal! ', v:count, a:default], '')
+  endif
+endfunction
+" }}} SplitJoin "
+
+" Misc {{{ "
+let g:ackprg = 'ag --nogroup --nocolor --column --line-numbers'
+
+vnoremap <Leader>v :MultipleCursorsFind <C-R><C-W><CR>
+nnoremap <Leader>v :MultipleCursorsFind <C-R><C-W><CR>
+" }}} Misc "
+
+" Ruby {{{ "
+NeoBundleLazy 'ngmy/vim-rubocop' , { "autoload" : { "filetypes" : ["ruby"] } }
+let g:vimrubocop_rubocop_cmd = "/usr/local/opt/rbenv/shims/rubocop"
+NeoBundle 'ecomba/vim-ruby-refactoring'
+NeoBundle 'tpope/vim-rbenv'
+NeoBundle 'vim-ruby/vim-ruby'
+let ruby_fold=1
+
+nnoremap <silent> ,orb :normal varar%<esc><esc>
+
+let g:rails_projections = {
+      \ "config/routes.rb": { "command": "routes" }
+      \ }
+
+" Ruby Testing {{{ "
+NeoBundle 'pgr0ss/vimux-ruby-test'
+nnoremap <silent> <leader>t :RunRailsFocusedTest<cr>
+nnoremap <silent> <leader>T :RunAllRubyTests<cr>
+nnoremap <silent> <leader>l :VimuxRunLastCommand<cr>
+nnoremap <silent> <leader>L :call VimuxRunCommand("clear && rake test")<cr>
+nnoremap <leader>! :call VimuxRunCommand("")<left><left>
+
+let g:vimux_ruby_cmd_unit_test = "ruby"
+let g:vimux_ruby_cmd_all_tests = "ruby -Itest"
+let g:vimux_ruby_clear_console_on_run = 1
+" }}} Ruby Testing "
+" }}} Ruby "
+
+" Inline Edit {{{ "
+NeoBundle 'AndrewRadev/inline_edit.vim'
+nnoremap <leader>ie :InlineEdit<cr>
+xnoremap <leader>ie :InlineEdit<cr>
+" }}} Inline Edit "
+
+" Completions {{{ "
+" NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'Shougo/neocomplete'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'supermomonga/neocomplete-rsense.vim'
+let g:neocomplete#sources#rsense#home_directory = '/usr/local/bin/rsense'
+let g:neocomplete#enable_at_startup = 1
+
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  if exists(':NeoCompleteLock')==2
+    exe 'NeoCompleteLock'
+  endif
+endfunction
+
+" Called once only when the multiple selection is canceled
+function! Multiple_cursors_after()
+  if exists(':NeoCompleteUnlock')==2
+    exe 'NeoCompleteUnlock'
+  endif
+endfunction
+
+" set filetype
+autocmd BufNewFile,BufRead *vimrc set filetype=vim
+
+" Enable omni completion.
+autocmd FileType eruby,html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.ruby =
+      \ '[^. *\t]\.\w*\|\h\w*::'
+
+" Plugin key-mappings.
+imap <C-;>     <Plug>(neosnippet_expand_or_jump)
+smap <C-;>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-;>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+      \ "\<Plug>(neosnippet_expand_or_jump)"
+      \: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+      \ "\<Plug>(neosnippet_expand_or_jump)"
+      \: "\<TAB>"
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
+" }}} Completions "
+
+" Better Whitespace {{{ "
+NeoBundle 'ntpeters/vim-better-whitespace'
+let g:strip_whitespace_on_save = 1
+let g:better_whitespace_enabled = 0
+" }}} Better Whitespace "
+
+" Sideways.vim {{{ "
+NeoBundle 'AndrewRadev/sideways.vim'
+" NeoBundle 'tek/vim-fieldtrip'
+" let g:fieldtrip_start_map = 'ss'
+nnoremap s< :SidewaysLeft<cr>
+nnoremap s> :SidewaysRight<cr>
+" }}} Sideways.vim "
+
 " Unite {{{ "
+
 NeoBundle 'Shougo/unite-session'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
-" NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/vimproc', { 'build': {
-    \   'mac': 'make -f make_mac.mak',
-    \   'unix': 'make -f make_unix.mak',
-    \ } }
+      \   'mac': 'make -f make_mac.mak',
+      \   'unix': 'make -f make_unix.mak',
+      \ } }
 
 nnoremap [unite] <Nop>
 nmap <space> [unite]
@@ -321,335 +605,146 @@ let g:unite_split_rule                      = 'botright'
 let g:unite_winheight                       = 14
 
 if executable('ag')
-" Use ag in unite grep source.
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts =
-      \ '-i --line-numbers --smart-case --nocolor --nogroup --hidden --ignore ' .
-      \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-let g:unite_source_grep_recursive_opt = ''
+  " Use ag in unite grep source.
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts =
+        \ '-i --line-numbers --smart-case --nocolor --nogroup --hidden --ignore ' .
+        \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+  let g:unite_source_grep_recursive_opt = ''
 elseif executable('ack')
-let g:unite_source_rec_async_command = 'ack -f --nofilter'
-let g:unite_source_grep_command = 'ack'
-let g:unite_source_grep_default_opts = '--no-color --no-heading'
-let g:unite_source_grep_recursive_opt = ''
+  let g:unite_source_rec_async_command = 'ack -f --nofilter'
+  let g:unite_source_grep_command = 'ack'
+  let g:unite_source_grep_default_opts = '--no-color --no-heading'
+  let g:unite_source_grep_recursive_opt = ''
 endif
 
-" nnoremap <silent> <C-p> :Unite -toggle -start-insert -buffer-name=files -prompt-direction=top file_rec/async:!<CR>
+" autocmd User Rails nnoremap <Leader>m :Rmodel<Space>
+" autocmd User Rails nnoremap <Leader>c :Rcontroller<Space>
+" autocmd User Rails nnoremap <Leader>v :Rview<Space>
+" autocmd User Rails nnoremap <Leader>u :Runittest<Space>
+
+nnoremap <silent> <C-p> :Unite -toggle -start-insert -buffer-name=files -prompt-direction=top file_rec/async:!<CR>
 nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
 nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands -start-insert command<CR>
 nnoremap <silent> [unite]k :<C-u>Unite -quick-match buffer <CR>
 nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
-" nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
 nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
 nnoremap <silent> [unite]rm :<C-u>Unite -input=app/models/ file<CR>
 nnoremap <silent> [unite]f :<C-u>Unite -no-start-insert grep:.<cr>
-nnoremap <silent> <C-p> :<C-u>FZF<cr>
-" http://junegunn.kr/2014/04/fzf+vim+tmux/
-" look into this!
-let g:fzf_tmux_height = 10
-" Choose a color scheme with fzf
-nnoremap <silent> <Leader>C :call fzf#run({
-\   'source':
-\     map(split(globpath(&rtp, "colors/*.vim"), "\n"),
-\         "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"),
-\   'sink':       'colo',
-\   'options':    '+m',
-\   'tmux_width': 20
-\ })<CR>
-
-" List of buffers
-function! BufList()
-redir => ls
-silent ls
-redir END
-return split(ls, '\n')
-endfunction
-
-function! BufOpen(e)
-execute 'buffer '. matchstr(a:e, '^[ 0-9]*')
-endfunction
-
-nnoremap <silent> <Leader><Enter> :call fzf#run({
-\   'source':      reverse(BufList()),
-\   'sink':        function('BufOpen'),
-\   'options':     '+m',
-\   'tmux_height': '40%'
-\ })<CR>
 nnoremap <silent> [unite]m :Unite -buffer-name=recent -winheight=10 file_mru<cr>
-nnoremap <silent> [unite]r :call unite#action#do_candidates('rename',unite#get_candidates([['file', expand('%')]])<CR>
+" nnoremap <silent> [unite]r :call unite#action#do_candidates('rename',unite#get_candidates([['file', expand('%')]])<CR>
 nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
 nnoremap <silent> [unite]g :call unite#mappings#_choose_action(unite#get_candidates([['file', expand('%')]]))<CR>
 
+nnoremap <silent> [unite]t :Unite -silent -auto-resize -auto-highlight
+      \ -buffer-name=task-list vimgrep:%:\\CTODO\:\\<bar>FIXME\:<CR>
+nnoremap <silent> [unite]r :Unite -silent -auto-resize -immediately resume<CR>
+
 let s:unite_ignores = [
-    \ '\.git', 'dist',
-    \ 'undo', 'backups',
-    \ 'generated', 'build', 'images']
+      \ '\.git', 'dist',
+      \ 'undo', 'backups',
+      \ 'generated', 'build', 'images']
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use('sorter_selecta')
 
 call unite#custom#source('file_rec/async','sorters','sorter_rank')
 
-call unite#set_profile('files', 'smartcase', 1)
+" call unite#set_profile('files', 'smartcase', 1)
+call unite#custom#profile('files', 'context.smartcase', 1)
 call unite#custom#source('line,outline','matchers','matcher_fuzzy')
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
-imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
-nmap <buffer> <ESC> <Plug>(unite_exit)
-imap <buffer> <TAB> <Plug>(unite_select_next_line)
+  imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+  nmap <buffer> <ESC> <Plug>(unite_exit)
+  imap <buffer> <TAB> <Plug>(unite_select_next_line)
 
-nmap <buffer> Q <plug>(unite_exit)
+  " jj kk becuase you're lazy, and leave insert mode
+  " NEW! if unite breaks, remove
+  imap <buffer> jj <Plug>(unite_insert_leave)
+  imap <buffer> kk <Plug>(unite_insert_leave)
 
-let unite = unite#get_current_unite()
-if unite.profile_name ==# 'search'
-  nnoremap <silent><buffer><expr> r     unite#do_action('replace')
-else
-  nnoremap <silent><buffer><expr> r     unite#do_action('rename')
-endif
+  nmap <buffer> Q <plug>(unite_exit)
+
+  let unite = unite#get_current_unite()
+  if unite.profile_name ==# 'search'
+    nnoremap <silent><buffer><expr> r     unite#do_action('replace')
+  else
+    nnoremap <silent><buffer><expr> r     unite#do_action('rename')
+  endif
 
 endfunction
 " }}} Unite "
 
-" Rainbow Parentheses {{{ "
-NeoBundle 'kien/rainbow_parentheses.vim'
-let g:rbpt_colorpairs = [
-      \ ['brown',       'RoyalBlue3'],
-      \ ['Darkblue',    'SeaGreen3'],
-      \ ['darkgray',    'DarkOrchid3'],
-      \ ['darkgreen',   'firebrick3'],
-      \ ['darkcyan',    'RoyalBlue3'],
-      \ ['darkred',     'SeaGreen3'],
-      \ ['darkmagenta', 'DarkOrchid3'],
-      \ ['brown',       'firebrick3'],
-      \ ['gray',        'RoyalBlue3'],
-      \ ['black',       'SeaGreen3'],
-      \ ['darkmagenta', 'DarkOrchid3'],
-      \ ['Darkblue',    'firebrick3'],
-      \ ['darkgreen',   'RoyalBlue3'],
-      \ ['darkcyan',    'SeaGreen3'],
-      \ ['darkred',     'DarkOrchid3'],
-      \ ['red',         'firebrick3'],
-      \ ]
-
-let g:rbpt_max = 16
-let g:rbpt_loadcmd_toggle = 0
-
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-au Syntax * RainbowParenthesesLoadChevrons
-" }}} Rainbow Parentheses "
-
-" Expand region {{{ "
-NeoBundle 'terryma/vim-expand-region'
-
-vmap <c-v> <plug>(expand_region_shrink)
-vmap v <plug>(expand_region_expand)
-
-" git blame
-vmap <Leader>b :<C-U>!git blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
-
-" extend the global dictionary
-call expand_region#custom_text_objects({
-      \ 'a]'  :1,
-      \ 'ab'  :1,
-      \ 'aB'  :1,
-      \ 'ii'  :0,
-      \ 'ai'  :0,
-      \ })
-
-" Customize it further for ruby
-call expand_region#custom_text_objects('ruby', {
-      \ 'im' :0,
-      \ 'am' :0,
-      \ })
-
-" Customize it further for html
-call expand_region#custom_text_objects('html', {
-      \ 'it' :1,
-      \ })
-
-
-
-
-    " " Default settings. (NOTE: Remove comments in dictionary before sourcing)
-    " let g:expand_region_text_objects = {
-    "       \ 'iw'  :0,
-    "       \ 'iW'  :0,
-    "       \ 'i"'  :0,
-    "       \ 'i''' :0,
-    "       \ 'i]'  :1, " Support nesting of square brackets
-    "       \ 'ib'  :1, " Support nesting of parentheses
-    "       \ 'iB'  :1, " Support nesting of braces
-    "       \ 'il'  :0, " 'inside line'. Available through https://github.com/kana/vim-textobj-line
-    "       \ 'ip'  :0,
-    "       \ 'ie'  :0, " 'entire file'. Available through https://github.com/kana/vim-textobj-entire
-    "       \ }
-
-
-    " Extend the global default (NOTE: Remove comments in dictionary before sourcing)
-    " call expand_region#custom_text_objects({
-    "       \ "\/\\n\\n\<CR>": 1, " Motions are supported as well. Here's a search motion that finds a blank line
-    "       \ 'a]' :1, " Support nesting of 'around' brackets
-    "       \ 'ab' :1, " Support nesting of 'around' parentheses
-    "       \ 'aB' :1, " Support nesting of 'around' braces
-    "       \ 'ii' :0, " 'inside indent'. Available through https://github.com/kana/vim-textobj-indent
-    "       \ 'ai' :0, " 'around indent'. Available through https://github.com/kana/vim-textobj-indent
-    "       \ })
-
-" }}} Expand region "
-
-" SplitJoin {{{ "
-NeoBundle 'AndrewRadev/splitjoin.vim'
-nmap cS :SplitjoinSplit<cr><esc>
-nmap cJ :SplitjoinJoin<cr><esc>
-" }}} SplitJoin "
-
-" Misc {{{ "
-let g:github_access_token = $GHI_TOKEN
-let g:ackprg = 'ag --nogroup --nocolor --column --line-numbers'
-
-vnoremap <Leader>v :MultipleCursorsFind <C-R><C-W><CR>
-nnoremap <Leader>v :MultipleCursorsFind <C-R><C-W><CR>
-" }}} Misc "
-
-" Ruby {{{ "
-NeoBundle 'ngmy/vim-rubocop'
-let g:vimrubocop_rubocop_cmd = "/usr/local/opt/rbenv/shims/rubocop"
-NeoBundle 'pgr0ss/vimux-ruby-test'
-NeoBundle 'vim-ruby/vim-ruby'
-let ruby_fold=1
-
-" Ruby Testing {{{ "
-map <silent> <leader>t :RunRailsFocusedTest<cr>
-map <silent> <leader>T :RunAllRubyTests<cr>
-map <silent> <leader>l :VimuxRunLastCommand<cr>
-map <silent> <leader>L :call VimuxRunCommand("clear && rake test")<cr>
-map <silent> <leader>! :call VimuxRunCommand("rake jan_report[2013]")<cr>
-
-let g:vimux_ruby_cmd_unit_test = "ruby"
-let g:vimux_ruby_cmd_all_tests = "ruby -Itest"
-let g:vimux_ruby_clear_console_on_run = 1
-" }}} Ruby Testing "
-
-" }}} Ruby "
-
 " Tabularize {{{ "
-NeoBundle 'godlygeek/tabular'
-" map <leader>ae :Tabularize /=<CR>
-" map <leader>aa :Tabularize /
-" nmap <Leader>a& :Tabularize /&<CR>
-" map <Leader>a& :Tabularize /&<CR>
-" nmap <Leader>a= :Tabularize /=<CR>
-" vmap <Leader>a= :Tabularize /=<CR>
-" nmap <Leader>a: :Tabularize /:<CR>
-" vmap <Leader>a: :Tabularize /:<CR>
-" nmap <Leader>a:: :Tabularize /:\zs<CR>
-" vmap <Leader>a:: :Tabularize /:\zs<CR>
-" nmap <Leader>a, :Tabularize /,<CR>
-" vmap <Leader>a, :Tabularize /,<CR>
-" nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-" vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+NeoBundle 'junegunn/vim-easy-align'
+vmap <Enter> <Plug>(EasyAlign)
+nmap <Leader>aa <Plug>(EasyAlign)ii<CR>
+let g:easy_align_delimiters = {
+      \ '>': { 'pattern': '>>\|=>\|>' },
+      \ '\': { 'pattern': '\\' },
+      \ '/': { 'pattern': '//\+\|/\*\|\*/', 'delimiter_align': 'l', 'ignore_groups': ['!Comment'] },
+      \ ']': {
+      \     'pattern':       '[[\]]',
+      \     'left_margin':   0,
+      \     'right_margin':  0,
+      \     'stick_to_left': 0
+      \   },
+      \ ')': {
+      \     'pattern':       '[()]',
+      \     'left_margin':   0,
+      \     'right_margin':  0,
+      \     'stick_to_left': 0
+      \   },
+      \ 'f': {
+      \     'pattern': ' \(\S\+(\)\@=',
+      \     'left_margin': 0,
+      \     'right_margin': 0
+      \   },
+      \ 'd': {
+      \     'pattern': ' \(\S\+\s*[;=]\)\@=',
+      \     'left_margin': 0,
+      \     'right_margin': 0
+      \   }
+      \ }
+" NeoBundle 'godlygeek/tabular'
 
 " For custom Tabularize definitions see after/plugin/tabularize.vim
 " taken from @AndrewRadev
-nnoremap <leader>aa      :call <SID>Tabularize(0)<cr>
-xnoremap <leader>aa :<c-u>call <SID>Tabularize(1)<cr>
-function! s:Tabularize(visual)
-  let saved_cursor = getpos('.')
+" nnoremap <leader>aa      :call <SID>Tabularize(0)<cr>
+" xnoremap <leader>aa :<c-u>call <SID>Tabularize(1)<cr>
+" function! s:Tabularize(visual)
+"   let saved_cursor = getpos('.')
 
-  echohl ModeMsg | echo "-- ALIGN -- "  | echohl None
-  let char = nr2char(getchar())
+"   echohl ModeMsg | echo "-- ALIGN -- "  | echohl None
+"   let char = nr2char(getchar())
 
-  if     char == '=' | let alignment = 'equals'
-  elseif char == '>' | let alignment = 'ruby_hash'
-  elseif char == ',' | let alignment = 'commas'
-  elseif char == ':' | let alignment = 'colons'
-  elseif char == ' ' | let alignment = 'space'
-  else
-    " just try aligning by the character
-    let char = escape(char, '/.')
-    let alignment = '/'.char
-  endif
+"   if     char == '=' | let alignment = 'equals'
+"   elseif char == '>' | let alignment = 'ruby_hash'
+"   elseif char == ',' | let alignment = 'commas'
+"   elseif char == ':' | let alignment = 'colons'
+"   elseif char == ' ' | let alignment = 'space'
+"   else
+"     " just try aligning by the character
+"     let char = escape(char, '/.')
+"     let alignment = '/'.char
+"   endif
 
-  if a:visual
-    exe "'<,'>Tabularize ".alignment
-  else
-    exe 'Tabularize '.alignment
-  endif
+"   if a:visual
+"     exe "'<,'>Tabularize ".alignment
+"   else
+"     exe 'Tabularize '.alignment
+"   endif
 
-  echo
-  call setpos('.', saved_cursor)
-endfunction
-
+"   echo
+"   call setpos('.', saved_cursor)
+" endfunction
 " }}} Tabularize "
 
-" YouCompleteMe/UltiSnips/Supertab - basically all completion stuff {{{ "
-if has('gui_macvim')
-  NeoBundle 'Valloric/YouCompleteMe'
-  " make YCM compatible with UltiSnips (using supertab)
-  let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-  let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-  let g:ycm_complete_in_comments_and_strings=1
-  let g:ycm_filetype_blacklist={'unite': 1}
-endif
+NeoBundleCheck
 
-NeoBundle 'ervandew/supertab'
-let g:SuperTabDefaultCompletionType = '<C-n>'
-
-NeoBundle 'SirVer/ultisnips'
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
-let g:UltiSnipsSnippetDirectories = ["UltiSnips"]
-" }}} YouCompleteMe/UltiSnips/Supertab - basically all completion stuff "
-
-" Better Whitespace {{{ "
-NeoBundle 'ntpeters/vim-better-whitespace'
-let g:strip_whitespace_on_save = 1
-" }}} Better Whitespace "
-
-" Indent Guides {{{ "
-NeoBundle 'nathanaelkane/vim-indent-guides'
-
-let g:indent_guides_start_level=1
-let g:indent_guides_indent_levels = 4
-let g:indent_guides_guide_size=1
-let g:indent_guides_enable_on_vim_startup=1
-" let g:indent_guides_color_change_percent=3
-let g:indent_guides_color_change_percent=1
-if !has('gui_running')
-  let g:indent_guides_auto_colors=0
-  function! s:indent_set_console_colors()
-    hi IndentGuidesOdd ctermbg=235
-    hi IndentGuidesEven ctermbg=236
-  endfunction
-  autocmd VimEnter,Colorscheme * call s:indent_set_console_colors()
-endif
-" }}} Indent Guides "
-
-" Undo Quit {{{ "
-NeoBundle 'AndrewRadev/undoquit.vim'
-let g:undoquit_mapping = '_u'
-" }}} Undo Quit "
-
-" Sideways.vim {{{ "
-NeoBundle 'AndrewRadev/sideways.vim'
-" NeoBundle 'tek/vim-fieldtrip'
-" let g:fieldtrip_start_map = 'ss'
-nnoremap s< :SidewaysLeft<cr>
-nnoremap s> :SidewaysRight<cr>
-" }}} Sideways.vim "
-
-" Inline Edit {{{ "
-NeoBundle 'AndrewRadev/inline_edit.vim'
-nnoremap ,e    :InlineEdit<cr>
-xnoremap ,e    :InlineEdit<cr>
-" }}} Inline Edit "
+" }}} Plugins (with NeoBundle) "
 
 " Handy Functions {{{ "
 " Pulse - stolen from @sjl
@@ -728,31 +823,7 @@ endfunction
 
 nnoremap g( :Repeatable call <SID>ToggleBrackets()<cr>
 nnoremap g) :Repeatable call <SID>ToggleBrackets()<cr>
-
-" Motion for "next/last object". For example, "din(" would go to the next "()" pair
-" and delete its contents.
-onoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
-xnoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
-onoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
-xnoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
-onoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
-xnoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
-onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
-xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
-function! s:NextTextObject(motion, dir)
-  let c = nr2char(getchar())
-
-  if c ==# "b"
-    let c = "("
-  elseif c ==# "B"
-    let c = "{"
-  elseif c ==# "d"
-    let c = "["
-  endif
-
-  exe "normal! ".a:dir.c."v".a:motion.c
-endfunction
 " }}} Handy Functions "
 
-NeoBundleCheck
 
+" vim: set fdm=marker

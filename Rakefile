@@ -1,5 +1,5 @@
 require 'rake'
-require 'pry'
+# require 'highline/import'
 
 class File
   def self.dotfiles_path file
@@ -74,6 +74,7 @@ task :install do
   create_private_folders
   compile_fasd
   submodule_symlinks
+  move_rbenv_default_gems
 end
 
 def install_submodules
@@ -88,6 +89,11 @@ def oh_my_zsh_custom_files
 
     File.basic_symlink(old, new)
   end
+end
+
+def move_rbenv_default_gems
+  File.basic_symlink(File.join(ENV['PWD'], 'new_machine', 'gems'),
+                     File.join(ENV['RBENV_ROOT'], 'default-gems'))
 end
 
 def private_files
@@ -107,13 +113,19 @@ end
 
 def compile_fasd
   if `uname` == 'Linux'
-   `cd submodules/fasd && PREFIX=$HOME make install`
+    `cd submodules/fasd && PREFIX=$HOME make install`
   end
 end
 
 def create_private_folders
   FileUtils.mkdir_p File.join(ENV['HOME'], '.zsh/private')
   `touch ~/.zsh/private/private.zsh`
+end
+
+def submodule_symlinks
+  File.basic_symlink(File.join(ENV['PWD'], 'submodules/dir_colors_solarized',
+                               'dircolors.ansi-dark'),
+                     File.join(ENV['HOME'], '.dir_colors'))
 end
 
 def create_vim_folders
@@ -123,11 +135,15 @@ def create_vim_folders
     puts "creating folder: #{dir}"
     FileUtils.mkdir_p dir
   end
-end
 
-def submodule_symlinks
-  File.basic_symlink(File.join(ENV['PWD'], 'submodules/LS_COLORS', 'LS_COLORS'),
-                     File.join(ENV['HOME'], '.dir_colors'))
+  File.basic_symlink(File.join(ENV['PWD'], 'vim', 'after'),
+                     File.for_vim_dir('after'))
+
+  File.basic_symlink(File.join(ENV['PWD'], 'vim', 'ftplugin'),
+                     File.for_vim_dir('ftplugin'))
+
+  File.basic_symlink(File.join(ENV['PWD'], 'vim', 'Ultisnips'),
+                     File.for_vim_dir('neosnippets'))
 end
 
 def install_oh_my_zsh
@@ -151,13 +167,9 @@ def switch_to_zsh
   if ENV['SHELL'] =~ /zsh/
     puts 'using zsh'
   else
-    print 'switch to zsh? (recommended) [ynq] '
-    case $stdin.gets.chomp
-    when 'y'
+    if yesno('Switch to zsh?')
       puts 'switching to zsh'
       system 'chsh -s `which zsh`'
-    when 'q'
-      exit
     else
       puts 'skipping zsh'
     end
@@ -168,4 +180,16 @@ task :update_submodules do
   puts 'Updating submodules'
   `git submodule update`
   `git submodule foreach git pull origin master`
+end
+
+# from https://gist.github.com/botimer/2891186
+def yesno(prompt = 'Continue?', default = true)
+  a = ''
+  s = default ? '[Y/n]' : '[y/N]'
+  d = default ? 'y' : 'n'
+  until %w[y n].include? a
+    a = ask("#{prompt} #{s} ") { |q| q.limit = 1; q.case = :downcase }
+    a = d if a.length == 0
+  end
+  a == 'y'
 end

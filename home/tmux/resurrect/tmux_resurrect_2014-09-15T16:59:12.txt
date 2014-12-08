@@ -1,0 +1,7 @@
+pane	0	1	:~/Desktop	1	:*	1	:/Users/gmh219/Dropbox/Desktop	0	Vim	:/usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/MacOS/Vim test.rb
+pane	0	1	:~/Desktop	1	:*	2	:/Users/gmh219/Dropbox/Desktop	1	zsh	:
+pane	0	2	:rails	0	:#-	1	:/Users/gmh219/Dropbox/Code/nufinreporter	0	ruby	:ruby bin/rails c
+pane	0	2	:rails	0	:#-	2	:/Users/gmh219/Dropbox/Code/nufinreporter	1	Vim	:/usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/MacOS/Vim -S /Users/gmh219/.vim/tmp/unite/session/nufinreporter.vim
+window	0	1	1	:*	8601,212x56,0,0{106x56,0,0,0,105x56,107,0,6}
+window	0	2	0	:#-	8609,212x56,0,0{106x56,0,0,7,105x56,107,0,8}
+state	0	

@@ -1,1 +1,26 @@
-/Users/gmh219/Library/KeyBindings/DefaultKeyBinding.dict
+{
+  /* Remap Home / End to be correct */
+  "\UF729"  = "moveToBeginningOfLine:";                   /* Home         */
+  "\UF72B"  = "moveToEndOfLine:";                         /* End          */
+  "$\UF729" = "moveToBeginningOfLineAndModifySelection:"; /* Shift + Home */
+  "$\UF72B" = "moveToEndOfLineAndModifySelection:";       /* Shift + End  */
+
+  // select word
+  "@d" = (selectWord:);
+
+  // Real, honest-to-goodness Save As...
+  "@~S" = (saveAs:);
+
+  "@'" = (delete:, insertText:, "\" ", deleteBackward:, yank:, insertText:, " ", moveLeft:, insertText:, "\"", deleteForward:);
+
+  "@l" = (moveToBeginningOfParagraph:, moveToEndOfParagraphAndModifySelection:, moveRightAndModifySelection:);
+  "^@+" = (moveToBeginningOfParagraph:, moveToEndOfParagraphAndModifySelection:, moveRightAndModifySelection:);
+
+  "^@'" = (moveToBeginningOfParagraph:, moveToEndOfParagraphAndModifySelection:, delete:, insertText:, "\" ", deleteBackward:, yank:, insertText:, " ", moveLeft:, insertText:, "\"", deleteForward:);
+
+  // move line up
+  "^@\UF700" = (selectParagraph:, setMark:, deleteToMark:, moveLeft:, moveToBeginningOfParagraph:, yank:, moveLeft:, selectToMark:, moveLeft:);
+  // move line down
+  "^@\UF701" = (selectParagraph:, setMark:, deleteToMark:, moveToEndOfParagraph:, moveRight:, setMark:, yank:, moveLeft:, selectToMark:);
+
+}

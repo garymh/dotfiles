@@ -7,3 +7,24 @@
 [submodule "home/zsh/plugins/zsh-syntax-highlighting"]
 	path = home/zsh/plugins/zsh-syntax-highlighting
 	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "home/tmux/plugins/tpm"]
+	path = home/tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
+[submodule "submodules/dir_colors_solarized"]
+	path = submodules/dir_colors_solarized
+	url = git@github.com:seebi/dircolors-solarized.git
+[submodule "submodules/dockutil"]
+	path = submodules/dockutil
+	url = git@github.com:kcrawford/dockutil.git
+[submodule "submodules/1pass"]
+	path = submodules/1pass
+	url = https://github.com/georgebrock/1pass
+[submodule "submodules/img2xterm"]
+	path = submodules/img2xterm
+	url = https://github.com/rossy2401/img2xterm
+[submodule "home/zsh/plugins/alias-tips"]
+	path = home/zsh/plugins/alias-tips
+	url = https://github.com/djui/alias-tips
+[submodule "submodules/zaw"]
+	path = submodules/zaw
+	url = https://github.com/zsh-users/zaw

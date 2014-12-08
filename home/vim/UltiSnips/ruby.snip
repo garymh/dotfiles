@@ -1,0 +1,26 @@
+snippet pry
+alias pry
+options word
+  binding.pry
+  ${1}
+
+snippet todo
+alias todo
+  # TODO: ${1:add this}
+
+snippet fixme
+alias fixme
+  # FIXME: ${1:fix this}
+
+snippet "\b(de)?f" "def <name>..." r
+alias def
+  def ${1:function_name} ${2:args}
+    ${0:# TODO}
+  end
+
+snippet hashbang
+alias hashbang
+  #!/usr/bin/env ruby -wU
+
+  ${1}
+

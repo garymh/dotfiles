@@ -1,13 +1,25 @@
-# ==============================
-#   .pryrc
-# ==============================
-
 Pry.auto_resize!
 
 Pry.config.ls.heading_color = :bright_green
 Pry.config.ls.public_method_color = :bright_blue
 Pry.config.ls.protected_method_color = :yellow
 Pry.config.ls.private_method_color = :bright_black
+
+def show_screen
+  if respond_to?(:save_screenshot)
+    page.save_screenshot("screenshot.png")
+    system("open 'screenshot.png'")
+  end
+end
+
+# Below stolen from Juanito Fatas
+# https://github.com/JuanitoFatas/dotpryrc
+
+Pry.config.theme = "zenburn"
+
+# ==============================
+#   .pryrc
+# ==============================
 
 # Record how long you hack with Ruby this session.
 pryrc_start_time = Time.now
@@ -18,20 +30,13 @@ require '~/.pryrc-helpers'
 ___ = PryrcHelpers
 
 # what are the gems you use daily in REPL? Put them in ___daily_gems
-___daily_gems  = %w[benchmark]
+___daily_gems  = %w[benchmark yaml json pry-bloodline]
 
 # ___pry_gems is for loading vendor plugins for Pry.
-___pry_gems = %w[awesome_print hirb sketches]
+___pry_gems = %w[awesome_print hirb sketches debugger pry-debugger pry-stack_explorer]
 
 ___daily_gems.___require_gems
 ___pry_gems.___require_gems
-
-def show_screen
-  if respond_to?(:save_screenshot)
-    page.save_screenshot("screenshot.png")
-    system("open 'screenshot.png'")
-  end
-end
 
 ## Enable Pry's show-method in Ruby 1.8.7
 # https://github.com/pry/pry/wiki/FAQ#how-can-i-use-show-method-with-ruby-187
@@ -41,13 +46,36 @@ if RUBY_VERSION == "1.8.7"
 end
 
 # ==============================
+#  Some FAQ
+# ==============================
+
+# https://github.com/pry/pry/wiki/FAQ#why-doesnt-pry-work-with-ruby-191
+if RUBY_VERSION == "1.9.1"
+  warn '1.9.1 has known issue with Pry. Please upgrade to 1.9.3-p448 or Ruby 2.0+.'
+end
+
+## Why is my emacs shell output showing odd characters?
+# [1A[0Ginput> [1B[0Ginput>
+# https://github.com/pry/pry/wiki/FAQ#how-can-i-use-show-method-with-ruby-187
+# This will fix it.
+# Pry.config.auto_indent = false
+
+# ==============================
 #  Vulnerability Reminder
 # ==============================
 
-if RUBY_REVISION < 41671
-  print ___.colorize "YOUR RUBY #{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} HAS A VULNERABILITY IN SSL CLIENT, PLEASE CONSIDER UPGRADE TO LATEST VERSION. ", 31
-  print ___.colorize "MORE INFORMATION: http://goo.gl/dAfuH\n", 31
+if RUBY_REVISION < 43780
+  print ___.colorize "YOUR RUBY #{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} HAS VULNERABILITIES, PLEASE CONSIDER UPGRADE TO LATEST VERSION. ", 31
+  print ___.colorize "MORE INFORMATION: http://goo.gl/mmcAQz\n", 31
 end
+
+# ==============================
+#  Vendor Stuff
+# ==============================
+
+###   Printing!
+# (1) hirb
+# (2) Awesome Print
 
 # ============================
 #   hirb
@@ -98,6 +126,15 @@ if defined? AwesomePrint
   #   Gem::Specification.reset
   #   load 'rubygems/custom_require.rb'
   # end
+
+  ## awesome_print config for Minitest.
+  if defined? Minitest
+    module Minitest::Assertions
+      def mu_pp(obj)
+        obj.awesome_inspect
+      end
+    end
+  end
 end # End of AwesomePrint
 
 ### End of Vendor Stuff
@@ -106,44 +143,37 @@ end # End of AwesomePrint
 #   Pry Configurations
 # ==============================
 
+# History (Use one history file)
 # Pry.config.history.file = "~/.irb_history"
-Pry.config.editor = 'vim'
-Pry.config.theme = 'monokai'
+
+# Editors
+#   available options: vim, mvim, mate, emacsclient...etc.
+Pry.config.editor = "vim"
 
 # ==============================
 #   Pry Prompt
 # ==============================
-
-Pry.config.pager = true
-Pry.config.color = true
-Pry.config.history.should_save = true
-
-# wrap ANSI codes so Readline knows where the prompt ends
-def colour(name, text)
-  if Pry.color
-    "\001#{Pry::Helpers::Text.send name, '{text}'}\002".sub '{text}', "\002#{text}\001"
-  else
-    text
+# with AWS:
+#             AWS@2.0.0 (main)>
+# with Rails:
+#             3.2.13@2.0.0 (main)>
+# Plain Ruby:
+#             2.0.0 (main)>
+# Pry.config.prompt = proc do |obj, level, _|
+#   prompt = ""
+#   prompt << "AWS@" if defined?(AWS)
+#   prompt << "#{Rails.version} @ " if defined?(Rails)
+#   prompt << "#{RUBY_VERSION}"
+#   "#{prompt} (#{obj})> "
+# end
+if defined?(PryBloodline)
+  PryBloodline.setup!
+  PryBloodline.configure do |c|
+    c.line_color = :red
+    c.name_color = :white
+    c.path_color = :light_blue
+    c.separator = "⚡"
   end
-end
-
-# pretty prompt
-# Pry.config.prompt = [
-#   # proc { |object, nest_level, pry| colour :red, defined?(Rails) ? "#{Rails.env}" : "" },
-#   proc do |object, nest_level, pry|
-#     prompt = colour :blue, defined?(Rails) ? "[#{Rails.env[0]}] " : "[#{RUBY_VERSION}] "
-#     prompt += colour :bright_black, Pry.view_clip(object)
-#     prompt += ":#{nest_level}" if nest_level > 0
-#     prompt += colour :cyan, ' » '
-#   end, proc { |object, nest_level, pry| colour :cyan, '» ' }
-# ]
-
-# tell Readline when the window resizes
-old_winch = trap 'WINCH' do
-  if `stty size` =~ /\A(\d+) (\d+)\n\z/
-    Readline.set_screen_size $1.to_i, $2.to_i
-  end
-  old_winch.call unless old_winch.nil?
 end
 
 # Exception
@@ -215,23 +245,25 @@ if RUBY_PLATFORM =~ /darwin/i # OSX only.
 end
 
 # ==============================
+#   clipit
+# ==============================
+# Copy to clipboard (If you're not using Mac OSX)
+# First, you need to install jist gem
+# pry> install-command clipit, you're all set now!
+
+### End of Copy to clipboard
+
+# ==============================
 #   Rails
 # ==============================
 
-# Launch Pry with access to the entire Rails stack.
-rails = File.join(Dir.getwd, 'config', 'environment.rb')
-if File.exist?(rails) && ENV['SKIP_RAILS'].nil?
-  require rails
-  case Rails.version.to_i
-  when 2
-    require 'console_app'
-    require 'console_with_helpers'
-  when 3
-    require 'rails/console/app'
-    require 'rails/console/helpers'
-    extend Rails::ConsoleMethods if Rails.version.to_f >= 3.2
-  else
-    warn '[WARN] cannot load Rails console commands'
+if defined?(Rails)
+  begin
+    require "rails/console/app"
+    require "rails/console/helpers"
+  rescue LoadError => e
+    require "console_app"
+    require "console_with_helpers"
   end
 end
 
@@ -277,69 +309,3 @@ Pry.config.hooks.add_hook(:after_session, :farewell) do
     end
   end
 end
-
-
-# =============================
-#  Custom stuff
-# =============================
-
-module Bcaudit
-  module AuditInfo
-    def self.current_ip
-      "127.0.0.1"
-    end
-  end
-end
-
-#Sketches
-begin
-  require 'sketches'
-  Sketches.config :editor => 'subl -w'
-rescue LoadError => err
-  puts "no sketches :("
-end
-
-#Benchmark
-def bench_this(iterations=100, &block)
-  require 'benchmark'
-  Benchmark.bm{|b| b.report{iterations.times(&block)}}
-end
-
-# === CUSTOM COMMANDS ===
-# from: https://gist.github.com/1297510
-default_command_set = Pry::CommandSet.new do
-  command "copy", "Copy argument to the clip-board" do |str|
-     IO.popen('pbcopy', 'w') { |f| f << str.to_s }
-  end
-
-  command "ref" do
-    ActionDispatch::Reloader.cleanup!
-    ActionDispatch::Reloader.prepare!
-  end
-
-  command "clear" do
-    system 'clear'
-    if ENV['RAILS_ENV']
-      output.puts "Rails Environment: " + ENV['RAILS_ENV']
-    end
-  end
-
-  command "sql", "Send sql over AR." do |query|
-    if ENV['RAILS_ENV'] || defined?(Rails)
-      pp ActiveRecord::Base.connection.select_all(query)
-    else
-      pp "No rails env defined"
-    end
-  end
-  command "caller_method" do |depth|
-    depth = depth.to_i || 1
-    if /^(.+?):(\d+)(?::in `(.*)')?/ =~ caller(depth+1).first
-      file   = Regexp.last_match[1]
-      line   = Regexp.last_match[2].to_i
-      method = Regexp.last_match[3]
-      output.puts [file, line, method]
-    end
-  end
-end
-
-Pry.config.commands.import default_command_set
