@@ -12,6 +12,10 @@ function port() {
   lsof -i ":${1:-80}"
 }
 
+function ls() {
+  ls --color=tty
+}
+
 vimp() {
   local file
   file=$(find ~/.vim/tmp/unite/session/* -type f | fzf --query="$1" --select-1 --exit-0)
@@ -97,7 +101,7 @@ search() {
 
 # Show contents of directory after cd-ing into it
 chpwd() {
-  ls -lrthG
+  ls -lrthG --color=tty
 }
 
 # batch change extension

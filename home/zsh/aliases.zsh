@@ -9,8 +9,8 @@ if [[ $IS_MAC -eq 1 ]]; then
 
   alias tomon='sudo ~/Library/Tomcat/libexec/bin/startup.sh'
   alias tomoff='sudo ~/Library/Tomcat/libexec/bin/shutdown.sh'
-  alias poston='pg_ctl -D /usr/local/var/postgres9.3 -l /usr/local/var/postgres9.3/server.log start'
-  alias postoff='pg_ctl -D /usr/local/var/postgres9.3 -l /usr/local/var/postgres9.3/server.log stop'
+  alias poston='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
+  alias postoff='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop'
   alias cfon='/Applications/ColdFusion10/cfusion/bin/coldfusion start'
   alias cfoff='/Applications/ColdFusion10/cfusion/bin/coldfusion stop'
   alias cfrestart='/Applications/ColdFusion10/cfusion/bin/coldfusion restart'
@@ -31,6 +31,7 @@ if [[ $IS_LINUX -eq 1 ]]; then
 fi
 
 # alias vim="stty stop '' -ixoff ; vim"
+alias evim="vim ~/Dropbox/Internal/dotfiles/home/vimrc"
 alias gs="git status -sb"
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 alias be="bundle exec"
