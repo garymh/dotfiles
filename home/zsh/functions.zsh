@@ -12,9 +12,9 @@ function port() {
   lsof -i ":${1:-80}"
 }
 
-function ls() {
-  ls --color=tty
-}
+# function ls() {
+#   ls --color=tty
+# }
 
 vimp() {
   local file

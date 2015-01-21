@@ -18,7 +18,8 @@ call plug#begin()
   Plug 'tpope/vim-git'
   Plug 'tpope/vim-eunuch'
   Plug 'bling/vim-airline'
-  Plug 'altercation/vim-colors-solarized'
+  " Plug 'altercation/vim-colors-solarized'
+  Plug 'whatyouhide/vim-gotham'
   Plug 'endel/vim-github-colorscheme'
 
   Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
@@ -85,8 +86,9 @@ call plug#end()
    set cc=81
    syntax enable
    set background=dark
-   colorscheme solarized
-   let g:airline_theme='solarized'
+
+   colorscheme gotham
+   let g:airline_theme='gotham'
 
    let g:airline#extensions#tabline#enabled       = 1
    let g:airline#extensions#tabline#tab_min_count = 0
@@ -102,6 +104,7 @@ call plug#end()
   set ignorecase           " ignore case sensitivity on searches
   set lazyredraw           " make macros faster
   set nojoinspaces         " use only 1 space after '.' when joining lines
+  set noswapfile           " no swapfiles
   set shiftround           " indenting to nearest tabstop
   set shortmess=WatAIT     " no interruptive prompts http://items.sjbach.com/319/configuring-vim-right
   set showbreak=↪\         " show this character for breaks
@@ -115,7 +118,7 @@ call plug#end()
   set virtualedit=onemore  " allow selection past last character
   set visualbell           " stop beeping
 
-  let g:netrw_liststyle=3
+  " let g:netrw_liststyle=3
   set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
 
  " }}} General Settings "
@@ -315,7 +318,7 @@ call plug#end()
     let g:surround_61  = "<%= \r %>"
   " }}} Surround.vim bindings "
 
-  xnoremap <leader>C <esc>:colo github<cr>gv:CopyRTF<cr>:set background=dark<cr>:colo solarized<cr>
+  xnoremap <leader>C <esc>:colo github<cr>gv:CopyRTF<cr>:set background=dark<cr>:colo gotham<cr>
 
   " EasyAlign {{{ "
   vmap <Enter> <Plug>(EasyAlign)

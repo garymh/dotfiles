@@ -37,7 +37,7 @@ class File
   end
 
   def self.custom_symlink old, new
-    if File.exist?(new) # && FileUtils.identical?(old, new)
+    if File.exist?(new) && File.file?(new) && FileUtils.identical?(old, new)
       puts "#{new} already created. skipping..."
     else
       FileUtils.ln_s(old, new, force: true)
@@ -56,11 +56,14 @@ task default: 'install'
 desc 'install dotfiles as symlinks'
 task :install do
   install_submodules
+  install_oh_my_zsh
 
   # home directory
   (Dir['home/*'] - %w(home/vim)).each do |f|
     File.home_symlink(f)
   end
+
+  system 'mkdir -p ~/.vim/autoload'
 
   # vim directory
   (Dir['home/vim/*']).each do |f|
@@ -69,7 +72,7 @@ task :install do
 
   oh_my_zsh_custom_files
   private_files
-  install_neobundle
+  install_vim_plugins
   create_vim_folders
   create_private_folders
   compile_fasd
@@ -83,17 +86,28 @@ def install_submodules
 end
 
 def oh_my_zsh_custom_files
-  %w(plugins themes).each do |f|
-    new = File.join(File.oh_my_zsh_dir, f)
-    old = File.join(ENV['PWD'], 'home/zsh', f)
 
-    File.basic_symlink(old, new)
+  Dir['home/zsh/plugins/*'].each do |f|
+    file = f.gsub('home/zsh/plugins/','')
+    # File.custom_symlink(f, File.join(File.oh_my_zsh_dir, 'plugins', file))
+    File.custom_symlink(File.dotfiles_path(f),
+                        File.join(File.oh_my_zsh_dir, 'plugins', file))
   end
+
+  FileUtils.mkdir_p File.join(File.oh_my_zsh_dir, 'themes')
+
+  Dir['home/zsh/themes/*'].each do |f|
+    file = f.gsub('home/zsh/themes/','')
+    File.custom_symlink(File.dotfiles_path(f),
+                        File.join(File.oh_my_zsh_dir, 'themes', file))
+  end
+
 end
 
 def move_rbenv_default_gems
+  rbenv = ENV['RBENV_ROOT'] || File.join(ENV['HOME'], '.rbenv').to_s
   File.basic_symlink(File.join(ENV['PWD'], 'new_machine', 'gems'),
-                     File.join(ENV['RBENV_ROOT'], 'default-gems'))
+                     File.join(rbenv, 'default-gems'))
 end
 
 def private_files
@@ -106,9 +120,10 @@ def private_files
                      File.join(ENV['HOME'], '.ssh/config'))
 end
 
-def install_neobundle
-  system 'curl https://raw.githubusercontent.com/' \
-    'Shougo/neobundle.vim/master/bin/install.sh | sh'
+def install_vim_plugins
+  system 'mkdir -p ~/.vim/autoload'
+  system 'curl -fLo ~/.vim/autoload/plug.vim ' \
+    'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 end
 
 def compile_fasd
@@ -125,7 +140,7 @@ end
 def submodule_symlinks
   File.basic_symlink(File.join(ENV['PWD'], 'submodules/dir_colors_solarized',
                                'dircolors.ansi-dark'),
-                     File.join(ENV['HOME'], '.dir_colors'))
+                               File.join(ENV['HOME'], '.dir_colors'))
 end
 
 def create_vim_folders

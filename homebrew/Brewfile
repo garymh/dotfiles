@@ -4,54 +4,35 @@ upgrade
 
 tap homebrew/dupes
 tap jimbojsb/launchrocket
-tap Goles/battery
 tap ravenac95/sudolikeaboss
 tap phinze/homebrew-cask
 
 install brew-cask
-
-cask install xquartz
 
 install ansible
 install ansifilter
 install apple-gcc42
 install archey
 install autoconf
-install battery
 install cmake
 install coreutils
 install cowsay
-install ctags
 install curl
-install direnv
 install docker
 install fasd
-install ffind
-install fontconfig
-install fontforge
-install gcc
-install git
-install git-cal
 install git-flow
 install gnutls
-install grc
 install grep
 install hr
 install htop-osx
 install hub
-install ifstat
-install imagemagick
-install legit
 install lua
-install luarocks
-install luajit
 install mackup
 install macvim --override-system-vim --with-lua --with-luajit --custom-icons
 install node
 install openssl
 install phantomjs
 install postgresql
-install rainbarf
 install rbenv
 install rbenv-binstubs
 install rbenv-gem-rehash
@@ -59,8 +40,6 @@ install rbenv-use
 install rbenv-whatis
 install readline
 install reattach-to-user-namespace
-install redis
-install rsense
 install ruby-build
 install sloccount
 install source-highlight
@@ -69,79 +48,74 @@ install ssh-copy-id
 install sudolikeaboss
 install terminal-notifier
 install the_silver_searcher
-install tig
-install tmux
-install tmux-mem-cpu-load
 install trash
 install tree
 install webkit2png
 install zsh
 
+# cask install colorpicker
+# cask install colorpicker-developer
+# cask install minecraft
+# cask install skype
+# cask install xtrafinder
 cask install adium
+cask install alfred
 cask install appcleaner
 cask install bartender
+cask install battle-net
 cask install bettertouchtool
-cask install boot2docker
 cask install chameleon-ssd-optimizer
 cask install coconutbattery
-cask install colorpicker
-cask install colorpicker-developer
 cask install controlplane
 cask install daisydisk
 cask install dash
 cask install default-folder-x
+cask install diskmaker-x
 cask install dropbox
 cask install fake
-cask install fantastical
 cask install firefox
-cask install flash
 cask install fluid
 cask install flux
 cask install github
 cask install google-chrome
+cask install hammerspoon
 cask install hipchat
 cask install imageoptim
-cask install itsycal
+cask install instacast
+cask install iterm2
 cask install kaleidoscope
 cask install karabiner
 cask install keyboard-cleaner
-cask install kitematic
 cask install knox
 cask install launchrocket
 cask install lingon-x
-cask install minecraft
-cask install moom
 cask install name-mangler
-cask install onepassword
 cask install onyx
 cask install pacifist
-cask install rcdefaultapp
-cask install secrets
-cask install seil
-cask install shortcat
-cask install skype
-cask install soulver
-cask install sourcetree
-cask install spotify
-cask install steam
-cask install superduper
-cask install textexpander
-cask install timemachineeditor
-cask install transmit
-cask install vagrant
-cask install virtualbox
-cask install vlc
-cask install xtrafinder
+cask install psequel
 cask install qlcolorcode
 cask install qlmarkdown
 cask install qlprettypatch
 cask install qlstephen
 cask install quicklook-csv
 cask install quicklook-json
-cask install webp-quicklook
+cask install rcdefaultapp
+cask install secrets
+cask install seil
+cask install soulver
+cask install sourcetree
+cask install spotify
+cask install steam
+cask install superduper
 cask install suspicious-package
+cask install textexpander
+cask install timemachineeditor
+cask install transmit
+cask install vagrant
+cask install virtualbox
+cask install vlc
+cask install webp-quicklook
 cask install zeroxdbe-eap
-# cask install betterzipql
 
 cask alfred link
 

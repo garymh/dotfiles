@@ -1,0 +1,24 @@
+set guifont=Fixedsys\ Excelsior\ 3.01:h20
+
+set guioptions-=m
+set guioptions-=T
+set guioptions-=L
+set guioptions-=l
+set guioptions-=R
+set guioptions-=r
+set guioptions-=b
+if has('title') && (has('gui_running') || &title)
+    set titlestring=
+    set titlestring+=%f " file name
+    set titlestring+=%h%m%r%w " flags
+    set titlestring+=\ -\ %{substitute(getcwd(),\ $HOME,\ '~',\ '')}  " working directory
+endif
+
+" MacVim GUI only options
+if has('gui_macvim')
+    " transparency
+    set transp=1
+
+    " full width full screen
+    set fuopt+=maxhorz
+endif
