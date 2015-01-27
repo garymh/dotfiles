@@ -13,3 +13,6 @@
 [submodule "submodules/antigen"]
 	path = submodules/antigen
 	url = https://github.com/zsh-users/antigen.git
+[submodule "submodules/LS_COLORS"]
+	path = submodules/LS_COLORS
+	url = https://github.com/trapd00r/LS_COLORS

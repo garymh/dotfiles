@@ -1,11 +1,18 @@
-
 source $HOME/.zsh/antigen.zsh
+
+antigen use oh-my-zsh
+
+if [[ $IS_MAC -eq 1 ]]; then
+   antigen bundle brew
+   antigen bundle brew-cask
+   antigen bundle osx
+   antigen bundle vagrant
+   antigen bundle heroku
+fi
 
 antigen bundles <<EOBUNDLES
   $HOME/.zsh/plugins/gary
 
-  brew
-  brew-cask
   bundler
   capistrano
   catimg
@@ -20,8 +27,6 @@ antigen bundles <<EOBUNDLES
   git-flow
   git-remote-branch
   gitignore
-  heroku
-  osx # is mac?
   pip
   rails
   rake
@@ -29,7 +34,6 @@ antigen bundles <<EOBUNDLES
   rbenv
   ruby
   safe-paste
-  vagrant
 
   bobthecow/git-flow-completion
   djui/alias-tips
@@ -37,22 +41,9 @@ antigen bundles <<EOBUNDLES
   zsh-users/zsh-history-substring-search
 EOBUNDLES
 
-# tarruda/zsh-autosuggestions
-# zle-line-init() {
-#     zle autosuggest-start
-# }
-
-# zle -N zle-line-init
-
 antigen theme $HOME/.zsh/themes gary_pure_mod
 
 antigen apply
-
-# oh my zsh overwrites these >:|
-# export PAGER='less'
-# # export DISABLE_LS_COLORS='true'
-# export LESS='--ignore-case --RAW-CONTROL-CHARS --LONG-PROMPT'
-# export LESSOPEN="| src-hilite-lesspipe.sh %s"
 
 for f ($HOME/.zsh/*.zsh) {source $f}
 for f ($HOME/.zsh/private/*.zsh) {source $f}
@@ -80,8 +71,6 @@ ZSH_HIGHLIGHT_STYLES+=(
   assign                        'none'
 )
 
-[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
-
 if [[ $HAS_IMG2XTERM -eq 1 ]]; then
   img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png
   green "-------------------------------"
@@ -92,8 +81,6 @@ else
   uptime
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 
-if [[ $HAS_IMG2XTERM -eq 1 ]]; then
-  eval `gdircolors $HOME/.dir_colors`
-fi
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
