@@ -1,9 +1,6 @@
 [submodule "submodules/fasd"]
 	path = submodules/fasd
 	url = https://github.com/clvv/fasd
-[submodule "submodules/LS_COLORS"]
-	path = submodules/LS_COLORS
-	url = https://github.com/trapd00r/LS_COLORS.git
 [submodule "submodules/dir_colors_solarized"]
 	path = submodules/dir_colors_solarized
 	url = git@github.com:seebi/dircolors-solarized.git
