@@ -9,7 +9,7 @@ call plug#begin()
   Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-jdaddy', { 'for': 'json' }
-  Plug 'tpope/vim-rake', { 'for': 'ruby' }
+  Plug 'tpope/vim-rake',   { 'for': 'ruby' }
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-sensible'
   Plug 'tpope/vim-surround'
@@ -18,8 +18,9 @@ call plug#begin()
   Plug 'tpope/vim-git'
   Plug 'tpope/vim-eunuch'
   Plug 'bling/vim-airline'
-  " Plug 'altercation/vim-colors-solarized'
-  Plug 'whatyouhide/vim-gotham'
+  Plug 'osyo-manga/vim-brightest'
+  Plug 'altercation/vim-colors-solarized'
+  " Plug 'whatyouhide/vim-gotham'
   Plug 'endel/vim-github-colorscheme'
 
   Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
@@ -38,6 +39,7 @@ call plug#begin()
   Plug 'xolox/vim-misc'
   Plug 'ntpeters/vim-better-whitespace'
   Plug 'AndrewRadev/splitjoin.vim'
+  Plug 'vim-scripts/BufOnly.vim'
 
   Plug 'Julian/vim-textobj-brace'
   Plug 'beloglazov/vim-textobj-quotes'
@@ -45,7 +47,7 @@ call plug#begin()
   Plug 'kana/vim-textobj-entire'
   Plug 'kana/vim-textobj-indent'
   Plug 'kana/vim-textobj-user'
-  Plug 'tek/vim-textobj-ruby', { 'for': ['ruby','eruby'] }
+  Plug 'tek/vim-textobj-ruby',        { 'for': ['ruby','eruby'] }
   Plug 'whatyouhide/vim-textobj-erb', { 'for': 'eruby' }
   Plug 'beloglazov/vim-textobj-punctuation'
 
@@ -69,16 +71,16 @@ call plug#begin()
     Plug 'Keithbsmiley/investigate.vim'
   endif
 
-  Plug 'ngmy/vim-rubocop', { 'for': 'ruby' }
-  Plug 'tpope/vim-rbenv', { 'for': 'ruby' }
-  Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+  Plug 'ngmy/vim-rubocop',         { 'for': 'ruby' }
+  Plug 'tpope/vim-rbenv',          { 'for': 'ruby' }
+  Plug 'vim-ruby/vim-ruby',        { 'for': 'ruby' }
   Plug 'janko-m/vim-test'
 
-  Plug 'tpope/vim-rails', { 'for': 'ruby' }
+  Plug 'tpope/vim-rails',          { 'for': 'ruby' }
   Plug 'slim-template/vim-slim'
   Plug 'tmux-plugins/vim-tmux'
-  Plug 'davejlong/cf-utils.vim', { 'for': 'coldfusion' }
-  Plug 'groenewege/vim-less', { 'for': 'less' }
+  Plug 'davejlong/cf-utils.vim',   { 'for': 'coldfusion' }
+  Plug 'groenewege/vim-less',      { 'for': 'less' }
   Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 call plug#end()
 
@@ -87,8 +89,8 @@ call plug#end()
    syntax enable
    set background=dark
 
-   colorscheme gotham
-   let g:airline_theme='gotham'
+   colorscheme solarized
+   let g:airline_theme='solarized'
 
    let g:airline#extensions#tabline#enabled       = 1
    let g:airline#extensions#tabline#tab_min_count = 0
@@ -117,6 +119,8 @@ call plug#end()
   set ttyfast              " fast terminal
   set virtualedit=onemore  " allow selection past last character
   set visualbell           " stop beeping
+
+  set formatprg = "par 79"
 
   " let g:netrw_liststyle=3
   set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
@@ -229,6 +233,11 @@ call plug#end()
   command! -bang QA qa<bang>
   command! -bang Qa qa<bang>
 
+  " commonly capitalized commands
+  cnoremap W w
+  cnoremap Wq wq
+  cnoremap Q q
+
   " from @bling
   function! CloseWindowOrKillBuffer() "{{{
     let number_of_windows_to_this_buffer = len(filter(range(1, winnr('$')), "winbufnr(v:val) == bufnr('%')"))
@@ -318,7 +327,7 @@ call plug#end()
     let g:surround_61  = "<%= \r %>"
   " }}} Surround.vim bindings "
 
-  xnoremap <leader>C <esc>:colo github<cr>gv:CopyRTF<cr>:set background=dark<cr>:colo gotham<cr>
+  xnoremap <leader>C <esc>:colo github<cr>gv:CopyRTF<cr>:set background=dark<cr>:colo solarized<cr>
 
   " EasyAlign {{{ "
   vmap <Enter> <Plug>(EasyAlign)
@@ -369,6 +378,8 @@ call plug#end()
   " }}} Ruby "
 
   " Plugin settings {{{ "
+
+    " let g:indentLine_showFirstIndentLevel = 1
     let g:switch_mapping = "-"
     " let delimitMate_expand_cr=1
     " let delimitMate_expand_space=1

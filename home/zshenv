@@ -15,6 +15,10 @@ if (( $+commands[brew] )) ; then
   HAS_BREW=1
 fi
 
+if (( $+commands[gls] )) ; then
+  HAS_GLS=1
+fi
+
 if [[ $HAS_BREW -eq 1 ]]; then
   path=(
   $(brew --prefix)/sbin
@@ -23,13 +27,6 @@ if [[ $HAS_BREW -eq 1 ]]; then
   $path
   )
 fi
-
-# if [[ $IS_MAC -eq 1 ]]; then
-#   path=(
-#   /usr/local/opt/rbenv/shims
-#   $path
-#   )
-# fi
 
 if [[ $(uname) = 'Linux' ]]; then
   IS_LINUX=1

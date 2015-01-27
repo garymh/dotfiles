@@ -1,9 +1,13 @@
+export ZSH=$HOME/.oh-my-zsh
+export ZSH_THEME='gary_pure_mod'
 
-source $HOME/.zsh/antigen.zsh
-
-antigen bundles <<EOBUNDLES
-  $HOME/.zsh/plugins/gary
-
+plugins=(
+  # common-aliases
+  # iwhois
+  # rand-quote
+  # sudo
+  # battery
+  alias-tips
   brew
   brew-cask
   bundler
@@ -11,48 +15,35 @@ antigen bundles <<EOBUNDLES
   catimg
   colored-man
   colorize
-  command-not-found
   cp
   extract
   fasd
+  gary
   gem
   git
   git-flow
   git-remote-branch
   gitignore
   heroku
-  osx # is mac?
+  history-substring-search
+  osx
   pip
   rails
   rake
   rake-fast
   rbenv
   ruby
-  safe-paste
-  vagrant
+  tmux
+  zsh-syntax-highlighting
+)
 
-  bobthecow/git-flow-completion
-  djui/alias-tips
-  zsh-users/zsh-syntax-highlighting
-  zsh-users/zsh-history-substring-search
-EOBUNDLES
-
-# tarruda/zsh-autosuggestions
-# zle-line-init() {
-#     zle autosuggest-start
-# }
-
-# zle -N zle-line-init
-
-antigen theme $HOME/.zsh/themes gary_pure_mod
-
-antigen apply
+source $ZSH/oh-my-zsh.sh
 
 # oh my zsh overwrites these >:|
-# export PAGER='less'
-# # export DISABLE_LS_COLORS='true'
-# export LESS='--ignore-case --RAW-CONTROL-CHARS --LONG-PROMPT'
-# export LESSOPEN="| src-hilite-lesspipe.sh %s"
+export PAGER='less'
+# export DISABLE_LS_COLORS='true'
+export LESS='--ignore-case --RAW-CONTROL-CHARS --LONG-PROMPT'
+export LESSOPEN="| src-hilite-lesspipe.sh %s"
 
 for f ($HOME/.zsh/*.zsh) {source $f}
 for f ($HOME/.zsh/private/*.zsh) {source $f}
@@ -93,7 +84,3 @@ else
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-if [[ $HAS_IMG2XTERM -eq 1 ]]; then
-  eval `gdircolors $HOME/.dir_colors`
-fi

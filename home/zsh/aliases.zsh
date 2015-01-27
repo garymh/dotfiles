@@ -38,7 +38,7 @@ alias be="bundle exec"
 alias ccat="src-hilite-lesspipe.sh $1"
 alias killruby='killall -9 ruby'
 alias ref="source ~/.zshrc"
-
+alias ll='ls -l'
 alias ungit="find . -name '.git' -exec rm -rf {} \;"
 
 alias last_commit="git difftool HEAD~1 HEAD"
