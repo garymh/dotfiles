@@ -1,12 +1,9 @@
 if [[ $IS_MAC -eq 1 ]]; then
-  # stupid apple.
-  sudo () { ( unset LD_LIBRARY_PATH DYLD_LIBRARY_PATH; exec command sudo $* ) }
-
-  alias tmux="TERM=screen-256color-bce tmux"
+  # sudo () { ( unset LD_LIBRARY_PATH DYLD_LIBRARY_PATH; exec command sudo $* ) }
 
   alias oo='open .'
   alias update_tags="ctags -R . $(bundle list --paths)"
-
+  alias ccat="src-hilite-lesspipe.sh $1"
   alias tomon='sudo ~/Library/Tomcat/libexec/bin/startup.sh'
   alias tomoff='sudo ~/Library/Tomcat/libexec/bin/shutdown.sh'
   alias poston='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
@@ -14,6 +11,9 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias cfon='/Applications/ColdFusion10/cfusion/bin/coldfusion start'
   alias cfoff='/Applications/ColdFusion10/cfusion/bin/coldfusion stop'
   alias cfrestart='/Applications/ColdFusion10/cfusion/bin/coldfusion restart'
+  alias screensaver='/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine &'
+  alias zshrc="vim ~/Dropbox/Internal/dotfiles/home/zshrc"
+  alias evim="vim ~/Dropbox/Internal/dotfiles/home/vimrc"
 
   alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user'
   alias fix_keystore='sudo keytool -import -keystore /System/Library/Frameworks/JavaVM.framework/Home/lib/security/cacerts -file /etc/apache2/ssl/server.crt -alias apache_garymbp'
@@ -30,15 +30,11 @@ if [[ $IS_LINUX -eq 1 ]]; then
   alias cfrestart='sudo service coldfusion_10 restart'
 fi
 
-# alias vim="stty stop '' -ixoff ; vim"
-alias evim="vim ~/Dropbox/Internal/dotfiles/home/vimrc"
 alias gs="git status -sb"
-alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
+alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | green '=> Public key copied to pasteboard.'"
 alias be="bundle exec"
-alias ccat="src-hilite-lesspipe.sh $1"
 alias killruby='killall -9 ruby'
 alias ref="source ~/.zshrc"
-alias ll='ls -l'
 alias ungit="find . -name '.git' -exec rm -rf {} \;"
 
 alias last_commit="git difftool HEAD~1 HEAD"
@@ -53,11 +49,11 @@ alias mem='top -o rsize' # memory
 # ls better
 # alias la="ls -aF"
 alias lh='ls -a | egrep "^\."'
+alias lh='ls -l .??*'
+alias ll='ls -l'
 # alias lt='ls -At1 && echo "------Oldest--"'
 # alias ltr='ls -Art1 && echo "------Newest--"'
-
 # alias ld="ls -ld"
-# alias lh='ls -l .??*'
 
 # interactive fasd
 alias zi="fasd -e cd -i"
@@ -101,34 +97,3 @@ alias cf_on="cfon"
 alias cf_off="cfoff"
 alias cf_restart="cfrestart"
 
-if [ ${ZSH_VERSION//\./} -ge 420 ]; then
-  # open browser on urls
-  _browser_fts=(htm html de org net com at cx nl se dk dk php)
-  for ft in $_browser_fts ; do alias -s $ft=$BROWSER ; done
-
-  _editor_fts=(cpp cxx cc c hh h inl asc txt TXT tex)
-  for ft in $_editor_fts ; do alias -s $ft=$EDITOR ; done
-
-  _image_fts=(jpg jpeg png gif mng tiff tif xpm)
-  for ft in $_image_fts ; do alias -s $ft=$XIVIEWER; done
-
-  _media_fts=(ape avi flv mkv mov mp3 mpeg mpg ogg ogm rm wav webm)
-  for ft in $_media_fts ; do alias -s $ft=mplayer ; done
-
-  #read documents
-  alias -s pdf=acroread
-  alias -s ps=gv
-  alias -s dvi=xdvi
-  alias -s chm=xchm
-  alias -s djvu=djview
-
-  #list whats inside packed file
-  alias -s zip="unzip -l"
-  alias -s rar="unrar l"
-  alias -s tar="tar tf"
-  alias -s tar.gz="echo "
-  alias -s ace="unace l"
-fi
-
-# Make zsh know about hosts already accessed by SSH
-zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
