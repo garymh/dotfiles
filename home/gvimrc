@@ -1,4 +1,6 @@
-set guifont=Fixedsys\ Excelsior\ 3.01:h20
+" set guifont=Fixedsys\ Excelsior\ 3.01:h20
+" set guifont=Input\ Mono\ Compressed:h22
+set guifont=InputMonoCompressed-Medium:h22
 
 set guioptions-=m
 set guioptions-=T

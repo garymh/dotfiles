@@ -18,7 +18,7 @@
 
 require "git"
 
-log_file = "~/Dropbox/Internal/logs.txt"
+log_file = "#{ENV['HOME']}/Dropbox/Internal/git_commits.log"
 repo = Git.open(Dir.pwd)
 repo_name = Dir.pwd[%r{[\.\-\w]+$}]                       # top directory
 date = repo.log.first.date.strftime("%Y-%m-%d-%H-%M-%S")  # format date

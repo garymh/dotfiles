@@ -1,3 +1,5 @@
+export FRESH_LOCAL="$HOME/Dropbox/Internal/dotfiles/"
+
 path=(
   /usr/local/opt/rbenv/shims
   ${HOME}/.zsh/bin

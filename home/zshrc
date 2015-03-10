@@ -1,4 +1,5 @@
-source $HOME/.zsh/antigen.zsh
+source $HOME/Dropbox/Internal/dotfiles/submodules/antigen/antigen.zsh
+source ~/.fresh/build/shell.sh
 
 antigen use oh-my-zsh
 
@@ -10,38 +11,39 @@ if [[ $IS_MAC -eq 1 ]]; then
    antigen bundle heroku
 fi
 
-antigen bundles <<EOBUNDLES
-  $HOME/.zsh/plugins/gary
+antigen bundle $HOME/.zsh/plugins/gary
 
-  bundler
-  capistrano
-  catimg
-  colored-man
-  colorize
-  command-not-found
-  cp
-  extract
-  fasd
-  gem
-  git
-  git-flow
-  git-remote-branch
-  gitignore
-  pip
-  rails
-  rake
-  rake-fast
-  rbenv
-  ruby
-  safe-paste
+antigen bundle bundler
+antigen bundle capistrano
+antigen bundle catimg
+antigen bundle colored-man
+antigen bundle colorize
+antigen bundle command-not-found
+antigen bundle cp
+antigen bundle extract
+antigen bundle fasd
+antigen bundle gem
+antigen bundle git
+antigen bundle github
+antigen bundle git-flow
+antigen bundle git-remote-branch
+antigen bundle gitignore
+antigen bundle pip
+antigen bundle rails
+antigen bundle rake
+antigen bundle rake-fast
+antigen bundle rbenv
+antigen bundle ruby
+# antigen bundle safe-paste
 
-  bobthecow/git-flow-completion
-  djui/alias-tips
-  zsh-users/zsh-syntax-highlighting
-  zsh-users/zsh-history-substring-search
-EOBUNDLES
+antigen bundle bobthecow/git-flow-completion
+antigen bundle djui/alias-tips
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle tarruda/zsh-autosuggestions
+antigen bundle zsh-users/zsh-history-substring-search
 
 antigen theme $HOME/.zsh/themes gary_pure_mod
+# antigen bundle sindresorhus/pure
 
 antigen apply
 
@@ -82,5 +84,4 @@ else
 fi
 
 [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

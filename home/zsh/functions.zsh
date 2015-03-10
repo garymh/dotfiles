@@ -81,8 +81,9 @@ vpn() {
 }
 
 gac() {
-  hub add --all :/
-  hub commit -m "$*"
+  # hub add --all :/
+  # hub commit -m "$*"
+  hub add -A && hub commit -avm "$*"
 }
 
 gitclone() {

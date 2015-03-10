@@ -30,6 +30,8 @@ local function mac_task() add_task("mac") end
 local function home_task() add_task("home") end
 local function nufin_task() add_task("nufin") end
 local function space_task() add_task("space") end
+local function puppy_task() add_task("puppy") end
+local function store_task() add_task("store") end
 local function clean_task() add_task("clean") end
 local function work_task() add_task("work") end
 
@@ -51,6 +53,8 @@ omni:bind({}, 'm', mac_task)
 omni:bind({}, 'h', home_task)
 omni:bind({}, 'n', nufin_task)
 omni:bind({}, 's', space_task)
+omni:bind({}, 'p', puppy_task)
+omni:bind({}, 'space', store_task)
 omni:bind({}, 'c', clean_task)
 omni:bind({}, 'w', work_task)
 omni:bind({}, 'f17', generic_task)

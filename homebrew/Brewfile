@@ -1,124 +1,115 @@
-update
+tap 'homebrew/dupes'
+tap 'jimbojsb/launchrocket'
+tap 'ravenac95/sudolikeaboss'
+tap 'phinze/homebrew-cask'
+tap 'homebrew/versions'
+tap 'Goles/battery'
+tap 'brandonweiss/homebrew-tap'
 
-upgrade
+brew 'brew-cask'
 
-tap homebrew/dupes
-tap jimbojsb/launchrocket
-tap ravenac95/sudolikeaboss
-tap phinze/homebrew-cask
+brew 'ansible'
+brew 'ansifilter'
+brew 'apple-gcc42'
+brew 'archey'
+brew 'autoconf'
+brew 'cmake'
+brew 'coreutils'
+brew 'cowsay'
+brew 'curl'
+brew 'docker'
+brew 'dockutil'
+brew 'fasd'
+brew 'git-aliae'
+brew 'git-flow'
+brew 'gnutls'
+brew 'grep'
+brew 'hr'
+brew 'htop-osx'
+brew 'hub'
+brew 'lua'
+brew 'mackup'
+brew 'macvim', args: ['override-system-vim', 'with-lua', 'with-luajit', 'custom-icons']
+brew 'node'
+brew 'openssl'
+brew 'phantomjs'
+brew 'postgresql'
+brew 'rbenv'
+brew 'rbenv-binstubs'
+brew 'rbenv-gem-rehash'
+brew 'rbenv-use'
+brew 'rbenv-whatis'
+brew 'readline'
+brew 'reattach-to-user-namespace'
+brew 'ruby-build'
+brew 'sloccount'
+brew 'source-highlight'
+brew 'sqlite'
+brew 'ssh-copy-id'
+brew 'sudolikeaboss'
+brew 'terminal-notifier'
+brew 'the_silver_searcher'
+brew 'trash'
+brew 'tree'
+brew 'webkit2png'
+brew 'zsh'
 
-install brew-cask
-
-install ansible
-install ansifilter
-install apple-gcc42
-install archey
-install autoconf
-install cmake
-install coreutils
-install cowsay
-install curl
-install docker
-install fasd
-install git-flow
-install gnutls
-install grep
-install hr
-install htop-osx
-install hub
-install lua
-install mackup
-install macvim --override-system-vim --with-lua --with-luajit --custom-icons
-install node
-install openssl
-install phantomjs
-install postgresql
-install rbenv
-install rbenv-binstubs
-install rbenv-gem-rehash
-install rbenv-use
-install rbenv-whatis
-install readline
-install reattach-to-user-namespace
-install ruby-build
-install sloccount
-install source-highlight
-install sqlite
-install ssh-copy-id
-install sudolikeaboss
-install terminal-notifier
-install the_silver_searcher
-install trash
-install tree
-install webkit2png
-install zsh
-
-# cask install colorpicker
-# cask install colorpicker-developer
-# cask install minecraft
-# cask install skype
-# cask install xtrafinder
-cask install adium
-cask install alfred
-cask install appcleaner
-cask install bartender
-cask install battle-net
-cask install bettertouchtool
-cask install chameleon-ssd-optimizer
-cask install coconutbattery
-cask install controlplane
-cask install daisydisk
-cask install dash
-cask install default-folder-x
-cask install diskmaker-x
-cask install dropbox
-cask install fake
-cask install firefox
-cask install fluid
-cask install flux
-cask install github
-cask install google-chrome
-cask install hammerspoon
-cask install hipchat
-cask install imageoptim
-cask install instacast
-cask install iterm2
-cask install kaleidoscope
-cask install karabiner
-cask install keyboard-cleaner
-cask install knox
-cask install launchrocket
-cask install lingon-x
-cask install name-mangler
-cask install onyx
-cask install pacifist
-cask install psequel
-cask install qlcolorcode
-cask install qlmarkdown
-cask install qlprettypatch
-cask install qlstephen
-cask install quicklook-csv
-cask install quicklook-json
-cask install rcdefaultapp
-cask install secrets
-cask install seil
-cask install soulver
-cask install sourcetree
-cask install spotify
-cask install steam
-cask install superduper
-cask install suspicious-package
-cask install textexpander
-cask install timemachineeditor
-cask install transmit
-cask install vagrant
-cask install virtualbox
-cask install vlc
-cask install webp-quicklook
-cask install zeroxdbe-eap
-
-cask alfred link
-
-tap homebrew/versions
-
-cleanup
+cask 'adium'
+cask 'alfred'
+cask 'appcleaner'
+cask 'bartender'
+cask 'battle-net'
+cask 'bettertouchtool'
+cask 'chameleon-ssd-optimizer'
+cask 'coconutbattery'
+cask 'controlplane'
+cask 'daisydisk'
+cask 'dash'
+cask 'default-folder-x'
+cask 'diskmaker-x'
+cask 'dropbox'
+cask 'fake'
+cask 'firefox'
+cask 'fluid'
+cask 'flux'
+cask 'github'
+cask 'google-chrome'
+cask 'hammerspoon'
+cask 'hipchat'
+cask 'imageoptim'
+cask 'instacast'
+cask 'iterm2'
+cask 'kaleidoscope'
+cask 'karabiner'
+cask 'keyboard-cleaner'
+cask 'knox'
+cask 'launchrocket'
+cask 'lingon-x'
+cask 'name-mangler'
+cask 'onyx'
+cask 'pacifist'
+cask 'psequel'
+cask 'qlcolorcode'
+cask 'qlmarkdown'
+cask 'qlprettypatch'
+cask 'qlstephen'
+cask 'quicklook-csv'
+cask 'quicklook-json'
+cask 'rcdefaultapp'
+cask 'secrets'
+cask 'seil'
+cask 'soulver'
+cask 'sourcetree'
+cask 'spotify'
+cask 'steam'
+cask 'superduper'
+cask 'suspicious-package'
+cask 'textexpander'
+cask 'timemachineeditor'
+cask 'transmit'
+cask 'vagrant'
+cask 'virtualbox'
+cask 'vlc'
+cask 'webp-quicklook'
+cask 'xtrafinder'
+cask 'zeroxdbe-eap'

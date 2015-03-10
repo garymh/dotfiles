@@ -1,3 +1,4 @@
+" test
 call plug#begin()
   let s:darwin = has('mac')
 
@@ -21,6 +22,9 @@ call plug#begin()
   Plug 'endel/vim-github-colorscheme'
   Plug 'bling/vim-airline'
 
+  Plug 'guns/vim-sexp'
+  Plug 'tpope/vim-sexp-mappings-for-regular-people'
+
   Plug 'tpope/vim-haystack'
   Plug 'ctrlpvim/ctrlp.vim',             { 'on': ['CtrlP', 'CtrlPBuffer', 'CtrlPBookmarkDir', 'CtrlPBookmarkDirAdd', 'CtrlPTag', 'CtrlPLine', 'CtrlPMRU', 'CtrlPDir', 'CtrlPMixed', 'CtrlPRTS'] }
 
@@ -30,7 +34,7 @@ call plug#begin()
   Plug 'whatyouhide/vim-gotham'
 
   Plug 'AndrewRadev/splitjoin.vim',      { 'on': ['SplitjoinJoin', 'SplitjoinSplit'] }
-  Plug 'AndrewRadev/switch.vim',         { 'on': 'Switch' }
+  Plug 'AndrewRadev/switch.vim'
   Plug 'ConradIrwin/vim-bracketed-paste'
   Plug 'Raimondi/delimitMate'
   Plug 'Yggdroot/indentLine'
@@ -99,12 +103,11 @@ call plug#end()
   set shortmess=WatAIT     " no interruptive prompts http://items.sjbach.com/319/configuring-vim-right
   set showbreak=↪\         " show this character for breaks
   set showmatch            " show matching brackets
-  set showmode             " show the mode
+  " set showmode             " show the mode
   set smartcase            " smartcase for searching
   set splitbelow           " default split behavior
   set splitright           " default split behavior
-  set title                " change the terminal's title
-  set ttyfast              " fast terminal
+  " set title                " change the terminal's title
   set virtualedit=onemore  " allow selection past last character
   set visualbell           " stop beeping
 
@@ -128,22 +131,16 @@ call plug#end()
     autocmd!
     autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-    if empty(glob('~/.vim/autoload/plug.vim'))
-      silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-            \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      autocmd VimEnter * PlugInstall
-    endif
-
   "   " Help mode bindings
   "   " <enter> to follow tag, <bs> to go back, and q to quit.
   "   " From http://ctoomey.com/posts/an-incremental-approach-to-vim/
-    autocmd filetype help nnoremap <buffer><cr> <c-]>
-    autocmd filetype help nnoremap <buffer><bs> <c-T>
-    autocmd filetype help nnoremap <buffer>q :q<cr>
+  "   autocmd filetype help nnoremap <buffer><cr> <c-]>
+  "   autocmd filetype help nnoremap <buffer><bs> <c-T>
+  "   autocmd filetype help nnoremap <buffer>q :q<cr>
 
-    autocmd BufNewFile,BufRead *pryrc set filetype=ruby
-    autocmd BufNewFile,BufRead *pryrc-helpers.rb set filetype=ruby
-    autocmd BufNewFile,BufRead Brewfile set filetype=ruby
+  "   autocmd BufNewFile,BufRead *pryrc set filetype=ruby
+  "   autocmd BufNewFile,BufRead *pryrc-helpers.rb set filetype=ruby
+  "   autocmd BufNewFile,BufRead Brewfile set filetype=ruby
 
   "   " jump the top in git commit messages
   "   autocmd FileType cf set commentstring=<!--%s-->

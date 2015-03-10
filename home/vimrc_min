@@ -1,6 +1,15 @@
 call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-unimpaired'
+
+  function! BuildYCM(info)
+    if a:info.status == 'installed' || a:info.force
+      !./install.sh
+    endif
+  endfunction
+
+  Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+
 call plug#end()
 
 set cmdheight=2          " hopefully prevents the 'hit enter' prompts

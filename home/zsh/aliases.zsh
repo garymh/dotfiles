@@ -1,3 +1,5 @@
+alias vim="nvim"
+
 if [[ $IS_MAC -eq 1 ]]; then
   # sudo () { ( unset LD_LIBRARY_PATH DYLD_LIBRARY_PATH; exec command sudo $* ) }
 
@@ -14,6 +16,8 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias screensaver='/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine &'
   alias zshrc="vim ~/Dropbox/Internal/dotfiles/home/zshrc"
   alias evim="vim ~/Dropbox/Internal/dotfiles/home/vimrc"
+  alias eivm="evim"
+  alias evimrc="evim"
 
   alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user'
   alias fix_keystore='sudo keytool -import -keystore /System/Library/Frameworks/JavaVM.framework/Home/lib/security/cacerts -file /etc/apache2/ssl/server.crt -alias apache_garymbp'
@@ -40,6 +44,7 @@ alias ungit="find . -name '.git' -exec rm -rf {} \;"
 alias last_commit="git difftool HEAD~1 HEAD"
 alias last_diff="git difftool HEAD~1 HEAD"
 alias console="rails console test -s"
+alias :q="exit"
 
 # top
 alias ttop='top -ocpu -R -F -s 2 -n30'
@@ -47,13 +52,10 @@ alias cpu='top -o cpu'
 alias mem='top -o rsize' # memory
 
 # ls better
-# alias la="ls -aF"
-alias lh='ls -a | egrep "^\."'
-alias lh='ls -l .??*'
-alias ll='ls -l'
-# alias lt='ls -At1 && echo "------Oldest--"'
-# alias ltr='ls -Art1 && echo "------Newest--"'
-# alias ld="ls -ld"
+alias la="ls -aF"
+alias lh='ls -d .*'
+# alias lh='gls --color=always -a | egrep "^\."'
+alias ll='gls --color=always -lh'
 
 # interactive fasd
 alias zi="fasd -e cd -i"
@@ -62,6 +64,8 @@ alias gca="gac"
 alias gco="gac"
 
 alias -g RES='RAILS_ENV=staging'
+
+alias fix_git_hook="cp ~/Dropbox/Internal/dotfiles/home/git_templates/hooks/post-commit .git/hooks/post-commit"
 
 # More verbose fileutils
 alias cp='nocorrect cp -iv'

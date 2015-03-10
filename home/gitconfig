@@ -1,85 +1,108 @@
 [include]
-  # For username / creds / etc
-  path = ~/.gitconfig.local
-
+  path              = ~/.gitconfig.local
 [core]
 	excludesfile = ~/.gitignore_global
-	whitespace = trailing-space,space-before-tab
+  whitespace        = space-before-tab,-indent-with-non-tab,trailing-space
+  pager             = cat
+  editor            = vim
+  # Make `git rebase` safer on OS X
+  # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+  trustctime        = false
 
+  # Prevent showing files whose names contain non-ASCII symbols as unversioned.
+  # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+  precomposeunicode = false
 [alias]
-  addrem = !git addremove
-  add-commit = !git add -A && git commit
-  addremove = !git add . && git add -u
-  branches = branch -a
-  ci = commit
-  cm = commit -m
-  co = checkout
-  currentbranch = rev-parse --abbrev-ref HEAD
-  delete-local-branch = branch -D
-  delete-remote-branch = push origin --delete
+  tags                                    = tag -l
+  branches                                = branch -a
+  remotes                                 = remote -v
 
-  finda = "!grepalias() { git config --global --get-regexp alias | grep -i \"$1\" | awk -v nr=2 '{sub(/^alias\\./,\"\")};{printf \"\\033[31m%_10s\\033[1;37m\", $1};{sep=FS};{for (x=nr; x<=NF; x++) {printf \"%s%s\", sep, $x; }; print \"\\033[0;39m\"}'; }; grepalias"
+  ; most below stolen from Steve Losh (@sjl) and Mathias Bynens @mathiasbynens
 
-  gl  = log -12 --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
+  l                                       = log -18 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
+  ll                                      = log     --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
+  gl                                      = log -12 --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
+  gll                                     = log     --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
 
-  gll = log     --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
+  unstage                                 = reset HEAD
+  ; pull                                    = pull --ff-only
+  up                                      = merge --ff-only
 
-  l   = log -18 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
+  # View the current working tree status using the short format
+  s                                       = status -s
 
-  ll  = log     --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
+  # Commit all changes
+  ca                                      = !git add -A && git commit -av
 
-  id = rev-parse
-  ksdiff = difftool -y -t Kaleidoscope
-  ksshow = "!sh -c 'git ksdiff $1^..$1;' -"
-  po = push origin
-  pull = pull --ff-only
-  remotes = remote -v
-  st = status
-  stat = status
-  tags = tag -l
-  unstage = reset HEAD
+  delete-local-branch                     = branch -D
+  delete-local-reference-to-remote-branch = "!sh -c 'git branch -rd $1/$2' -"
+  delete-remote-branch                    = "!sh -c 'git push $1 --delete $2' -"
+  delete-branch                           = "!sh -c 'git delete-local-branch $1; git remotes | cut -f1 | sort | uniq | xargs -n1 -J % git delete-local-reference-to-remote-branch % $1' -"
 
+  ; BEGIN KALEIDOSCOPE SECTION
+
+  ; Find all commits in the given ref that aren't also in master
+  find-unmerged-commits                   = "!sh -c 'git log $1 --format='''%H''' --not master --' -"
+  find-unmerged-commits-for               = "!sh -c 'git log $1 --format='''%H''' --not $2 --' -"
+
+  ; ksdiff is the bare kaleidoscope difftool alias
+  ; ksdiffid is the one that expects $KSID to be set
+  ksdiff                                  = difftool -y -t Kaleidoscope
+  ksdiffid                                = difftool -y -t KaleidoscopeWithId
+
+  ; ksdiffwith opens a diff of (current revision)->(given revision)
+  ksdiffwith                              = "!sh -c 'git ksdiff HEAD..$1' -"
+
+  ; ksshow will open a single specific commit in kaleidoscope
+  ; it includes the commit log info as a separate file
+  ksshow                                  = "!sh -c 'export KSID=`uuidgen`; git log -n1 $1 > .git/LOG_MESSAGE_$KSID; ksdiff --partial-changeset --UUID $KSID -- /dev/null .git/LOG_MESSAGE_$KSID; git ksdiffid $1^..$1; ksdiff --mark-changeset-as-closed $KSID' -"
+
+  ; ksreview takes a branch, finds all commits in that branch that aren't
+  ; merged into master, and opens them one-by-one with ksshow.  It's good for
+  ; reviewing pull requests.
+  ksreview                                = "!sh -c 'git find-unmerged-commits $1 | xargs -n1 git ksshow' -"
+  ksreviewfor                             = "!sh -c 'git find-unmerged-commits-for $1 $2 | xargs -n1 git ksshow' -"
+
+  ; END KALEIDOSCOPE SECTION
+  ; end @sjl theivery
 [push]
-  default = current
-
+  default      = current
 [color]
-  branch = auto
-  diff = auto
-  interactive = auto
-  status = auto
-
+  branch       = auto
+  diff         = auto
+  interactive  = auto
+  status       = auto
 [web]
-  browser = open
+  browser      = open
+[init]
+	templatedir  = ~/.git_templates
+[help]
+	autocorrect  = 1
 
-[color]
-  ui = auto
-  diff = auto
-  interactive = auto
-  status = auto
+[difftool "KaleidoscopeWithId"]
+cmd            = ksdiff --partial-changeset --UUID \"$KSID\" --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 
-[advice]
-	pushNonFastForward = false
-	statusHints = false
+[difftool "Kaleidoscope"]
+cmd            = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+
+[difftool]
+  prompt       = false
+
+[diff]
+  tool         = Kaleidoscope
+
+[merge]
+  tool         = Kaleidoscope
+
+[mergetool "Kaleidoscope"]
+cmd            = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+trustExitCode  = true
 [difftool "sourcetree"]
 	cmd = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
-	path =
+	path = 
 [mergetool "sourcetree"]
 	cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
-[init]
-	templatedir = ~/.git_templates
-[help]
-	autocorrect = 1
-[difftool "Kaleidoscope"]
-	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
-[mergetool "Kaleidoscope"]
-	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-	trustExitCode = true
-[diff]
-	tool = Kaleidoscope
-[merge]
-	tool = Kaleidoscope
-[filter "media"]
-	required = true
-	clean = git media clean %f
-	smudge = git media smudge %f
+[user]
+	name = Gary Holtz
+	email = garyh@northwestern.edu
