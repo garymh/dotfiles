@@ -1,5 +1,3 @@
-export FRESH_LOCAL="$HOME/Dropbox/Internal/dotfiles/"
-
 path=(
   /usr/local/opt/rbenv/shims
   ${HOME}/.zsh/bin
@@ -47,6 +45,7 @@ if [[ $(uname) = 'Darwin' ]]; then
 
   fi
 
+  export FRESH_LOCAL="$HOME/Dropbox/Internal/dotfiles/"
   export TNS_ADMIN="/usr/local/oracle/network/admin/"
   export SQLPATH="/usr/local/oracle/instantclient_11_2"
   export ORACLE_HOME="/usr/local/oracle/instantclient_11_2"
