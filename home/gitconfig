@@ -17,6 +17,8 @@
   branches                                = branch -a
   remotes                                 = remote -v
 
+  update-submodules                       = submodule update --init --recursive
+
   ; most below stolen from Steve Losh (@sjl) and Mathias Bynens @mathiasbynens
 
   l                                       = log -18 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
@@ -25,7 +27,6 @@
   gll                                     = log     --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
 
   unstage                                 = reset HEAD
-  ; pull                                    = pull --ff-only
   up                                      = merge --ff-only
 
   # View the current working tree status using the short format
@@ -65,6 +66,7 @@
 
   ; END KALEIDOSCOPE SECTION
   ; end @sjl theivery
+
 [push]
   default      = current
 [color]
@@ -99,10 +101,7 @@ cmd            = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCA
 trustExitCode  = true
 [difftool "sourcetree"]
 	cmd = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
-[user]
-	name = Gary Holtz
-	email = garyh@northwestern.edu

@@ -1,18 +1,12 @@
-[submodule "submodules/fasd"]
-	path = submodules/fasd
-	url = https://github.com/clvv/fasd
 [submodule "submodules/dir_colors_solarized"]
 	path = submodules/dir_colors_solarized
 	url = git@github.com:seebi/dircolors-solarized.git
-[submodule "submodules/dockutil"]
-	path = submodules/dockutil
-	url = git@github.com:kcrawford/dockutil.git
 [submodule "submodules/img2xterm"]
 	path = submodules/img2xterm
 	url = https://github.com/rossy2401/img2xterm
 [submodule "submodules/antigen"]
 	path = submodules/antigen
 	url = https://github.com/zsh-users/antigen.git
-[submodule "submodules/LS_COLORS"]
-	path = submodules/LS_COLORS
-	url = https://github.com/trapd00r/LS_COLORS
+[submodule "dotbot"]
+	path = dotbot
+	url = https://github.com/anishathalye/dotbot

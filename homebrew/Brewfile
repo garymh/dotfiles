@@ -20,7 +20,7 @@ brew 'curl'
 brew 'docker'
 brew 'dockutil'
 brew 'fasd'
-brew 'git-aliae'
+brew 'git-aliae', args: ['HEAD']
 brew 'git-flow'
 brew 'gnutls'
 brew 'grep'

@@ -1,38 +1,11 @@
+# vim:ft=sh:
+
 fresh freshshell/fresh bin/fresh --bin
 
-fresh home/box-name --file
-fresh home/freshrc --file
-fresh home/gemrc --file
-fresh home/gitconfig --file
-fresh home/gitignore_global --file
-fresh home/gvimrc --file
-fresh home/inputrc --file
-fresh home/mackup.cfg --file
-fresh home/nvimrc --file
-fresh home/pryrc --file
-fresh home/pryrc-helpers.rb --file
-fresh home/rubocop.yml --file
-fresh home/tidyrc --file
-fresh home/vimrc --file
-fresh home/xvimrc --file
-fresh home/zshenv --file
-fresh home/zshrc --file
-
-fresh home/vim --file=~/.vim/
-fresh home/vim --file=~/.nvim/
-fresh home/zsh --file=~/.zsh/
-fresh home/hammerspoon --file=~/.hammerspoon/
-fresh home/git_templates --file=~/.git_templates/
-
-fresh submodules/antigen --file=~/.antigen/
-fresh submodules/dir_colors_solarized/dircolors.ansi-dark --file=~/.dir_colors
-
-# fresh submodules/img2xterm/img2xterm --file=~/.zsh/bin/img2xterm
-
-fresh private/gitconfig.local --file
-fresh private/ssh/config --file=~/.ssh/config
-fresh private/ssh/github_rsa --file=~/.ssh/github_rsa
-fresh private/ssh/github_rsa.pub --file=~/.ssh/github_rsa.pub
-fresh private/ssh/id_rsa --file=~/.ssh/id_rsa
-fresh private/ssh/id_rsa.pub --file=~/.ssh/id_rsa.pub
-fresh new_machine/gems --file=~/usr/local/opt/rbenv/default-gems
+fresh jasoncodes/dotfiles config/ackrc --file
+fresh pengwynn/dotfiles bin/hide --bin
+fresh pengwynn/dotfiles bin/lock-screen --bin
+fresh pengwynn/dotfiles bin/lsrb --bin
+fresh pengwynn/dotfiles bin/orig --bin
+fresh pengwynn/dotfiles bin/+x --bin
+fresh pengwynn/dotfiles bin/wifi-signal-strength --bin

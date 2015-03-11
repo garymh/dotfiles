@@ -1,19 +1,25 @@
 require 'rake'
 
 # TODO:
-# homebrew?
-# zsh
 # rbenv
 # source ~/.fresh/build/shell.sh
 
+def install_homebrew
+  puts 'Installing homebrew'
+  system %{ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"}
+  system 'brew tap Homebrew/brewdler'
+  system 'cd homebrew && brew brewdle'
+  # system 'brew brewdle'
+end
+
 def install_fresh
   puts 'Installing fresh'
-  `bash -c "\`curl -sL get.freshshell.com\`"`
+  system 'bash -c "\`curl -sL get.freshshell.com\`"'
 end
 
 def install_submodules
   puts 'Installing submodules'
-  `git submodule init`
+  system 'git submodule init'
 end
 
 def switch_to_zsh
@@ -33,6 +39,7 @@ end
 task default: 'install'
 desc 'install dotfiles as symlinks'
 task :install do
+  install_homebrew
 
 end
 

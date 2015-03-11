@@ -1,4 +1,3 @@
-" test
 call plug#begin()
   let s:darwin = has('mac')
 
@@ -13,17 +12,12 @@ call plug#begin()
 
   Plug 'honza/vim-snippets'
   Plug 'SirVer/ultisnips'
-  " Plug 'ervandew/supertab'
-  " Plug 'Shougo/neocomplete.vim'
 
   Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 
   Plug 'altercation/vim-colors-solarized'
   Plug 'endel/vim-github-colorscheme'
   Plug 'bling/vim-airline'
-
-  Plug 'guns/vim-sexp'
-  Plug 'tpope/vim-sexp-mappings-for-regular-people'
 
   Plug 'tpope/vim-haystack'
   Plug 'ctrlpvim/ctrlp.vim',             { 'on': ['CtrlP', 'CtrlPBuffer', 'CtrlPBookmarkDir', 'CtrlPBookmarkDirAdd', 'CtrlPTag', 'CtrlPLine', 'CtrlPMRU', 'CtrlPDir', 'CtrlPMixed', 'CtrlPRTS'] }
@@ -60,6 +54,7 @@ call plug#begin()
   Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-speeddating'
   Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-projectionist'
   Plug 'tpope/vim-vinegar'
   Plug 'vim-scripts/BufOnly.vim'
 
@@ -74,6 +69,8 @@ call plug#begin()
   Plug 'tpope/vim-rbenv'
   Plug 'vim-ruby/vim-ruby'
 
+  " wellle/targets.vim
+  " backup ^^
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-entire'
   Plug 'kana/vim-textobj-indent'

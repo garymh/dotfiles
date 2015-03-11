@@ -1,6 +1,15 @@
 nmap ,w :w<cr>
+vnoremap L $
 nmap L $
 nmap H 0
+
+
+map <C-p> :xccmd openQuickly<cr>
+map ,l :xccmd showDocumentItemsMenu<cr>
+map ,b :xccmd showPreviousFilesHistoryMenu<cr>
+
+map ,A :xccmd jumpToNextCounterpart<cr>
+map ,a :xccmd jumpToPreviousCounterpart<cr>
 
 vnoremap > >gv
 vnoremap < <gv
@@ -24,17 +33,11 @@ set laststatus=0
 
 nmap S i<CR><ESC>^m`gk:s/ +$//<CR>``
 
-" nmap <C-h> <C-w>h
-" nmap <C-j> <C-w>j
-" nmap <C-k> <C-w>k
-" nmap <C-l> <C-w>l
-
 " Xcode Mappings {{{2
 nmap gcc :xccmd commentAndUncommentCurrentLines<CR>
 vmap gc :xccmd commentAndUncommentCurrentLines<CR>
 " Navigation
 
-nmap <space>f :xcmenucmd Open Quickly...<CR>
 nmap <space>n :nissue<CR>
 nmap <space>p :pissue<CR>
 

@@ -46,6 +46,8 @@ if [[ $(uname) = 'Darwin' ]]; then
   fi
 
   export FRESH_LOCAL="$HOME/Dropbox/Internal/dotfiles/"
+  export FRESH_BIN_PATH="$HOME/.zsh/bin"
+  export FRESH_RCFILE="$FRESH_LOCAL/home/freshrc"
   export TNS_ADMIN="/usr/local/oracle/network/admin/"
   export SQLPATH="/usr/local/oracle/instantclient_11_2"
   export ORACLE_HOME="/usr/local/oracle/instantclient_11_2"
