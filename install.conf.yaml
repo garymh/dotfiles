@@ -47,3 +47,7 @@
       path: new_machine/gems
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
+  # - [$(which vim) +PlugInstall, Update bundles] # shouldn't this work?
+  # homebrew
+  # fresh
+

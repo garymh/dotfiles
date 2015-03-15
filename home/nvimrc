@@ -201,7 +201,6 @@ call plug#end()
   nnoremap <silent> // :nohlsearch<cr>
   nnoremap <leader>w :w<cr>
   nmap <leader>fq cs"'
-
   nmap <silent> K <Plug>DashSearch
 
   " <leader>hp = html preview
@@ -356,10 +355,10 @@ call plug#end()
 " }}} Ruby "
 
 " Ruby Testing {{{ "
-  nmap <silent> <leader>t :TestNearest<CR>
-  nmap <silent> <leader>T :TestFile<CR>
-  nmap <silent> <leader>a :TestSuite<CR>
-  nmap <silent> <leader>l :TestLast<CR>
+  nnoremap <silent> <leader>t :TestNearest<CR>
+  nnoremap <silent> <leader>T :TestFile<CR>
+  nnoremap <silent> <leader>a :TestSuite<CR>
+  nnoremap <silent> <leader>l :TestLast<CR>
 " }}} Ruby Testing "
 
 " Plugin settings {{{ "
@@ -410,8 +409,8 @@ call plug#end()
   nmap cgc <Plug>ChangeCommentary
   nmap gcu <Plug>Commentary<Plug>Commentary
   let g:switch_mapping = "-"
-  nmap sj :SplitjoinSplit<cr>
-  nmap sk :SplitjoinJoin<cr>
+  nnoremap sj :SplitjoinSplit<cr>
+  nnoremap sk :SplitjoinJoin<cr>
   let g:ackprg = 'ag --nogroup --nocolor --column --line-numbers'
   let g:YUNOcommit_after = 20
   let g:hardtime_default_on = 0

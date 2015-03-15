@@ -74,7 +74,11 @@ ZSH_HIGHLIGHT_STYLES+=(
 )
 
 if [[ $HAS_IMG2XTERM -eq 1 ]]; then
-  img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png
+  if (( RANDOM % 2 ));
+  then img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png;
+  else img2xterm $HOME/.zsh/plugins/kody.png;
+fi
+
   green "-------------------------------"
   echo "$(uptime | awk -F'[a-z]:' '{ print "Load:"$2 }') | $(battery)"
 elif [[ $HAS_COWSAY -eq 1 ]]; then

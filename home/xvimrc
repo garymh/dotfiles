@@ -33,7 +33,8 @@ set laststatus=0
 
 nmap S i<CR><ESC>^m`gk:s/ +$//<CR>``
 
-" Xcode Mappings {{{2
+vmap = :xcmenucmd Auto Align<CR>
+
 nmap gcc :xccmd commentAndUncommentCurrentLines<CR>
 vmap gc :xccmd commentAndUncommentCurrentLines<CR>
 " Navigation
