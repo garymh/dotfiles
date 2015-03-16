@@ -16,6 +16,8 @@ if has('title') && (has('gui_running') || &title)
     set titlestring+=\ -\ %{substitute(getcwd(),\ $HOME,\ '~',\ '')}  " working directory
 endif
 
+set background=dark
+
 " MacVim GUI only options
 if has('gui_macvim')
     " transparency

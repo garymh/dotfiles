@@ -7,12 +7,12 @@
     ~/.gvimrc: home/gvimrc
     ~/.inputrc: home/inputrc
     ~/.mackup.cfg: home/mackup.cfg
-    ~/.nvimrc: home/nvimrc
+    ~/.nvimrc: home/vimrc
     ~/.pryrc-helpers.rb: home/pryrc-helpers.rb
     ~/.pryrc: home/pryrc
     ~/.rubocop.yml: home/rubocop.yml
     ~/.tidyrc: home/tidyrc
-    ~/.vimrc: home/nvimrc
+    ~/.vimrc: home/vimrc
     ~/.xvimrc: home/xvimrc
     ~/.zshenv: home/zshenv
     ~/.zshrc: home/zshrc
@@ -26,6 +26,8 @@
 
     ~/.vim/UltiSnips: home/vim/UltiSnips/
     ~/.nvim/UltiSnips: home/vim/UltiSnips/
+    ~/.nvim/scripts: home/vim/scripts/
+    ~/.vim/scripts: home/vim/scripts/
 
     ~/.zsh: home/zsh/
     ~/.hammerspoon: home/hammerspoon/

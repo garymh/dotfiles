@@ -1,0 +1,138 @@
+call plug#begin()
+  let s:darwin = has('mac')
+
+  function! BuildYCM(info)
+    if a:info.status == 'installed' || a:info.force
+      !./install.sh
+    endif
+  endfunction
+
+  " standard
+  Plug 'tpope/vim-sensible'
+  Plug 'tpope/vim-unimpaired'
+
+  " appearance
+  Plug 'Yggdroot/indentLine'
+  Plug 'atimholt/spiffy_foldtext'
+  Plug 'bling/vim-airline'
+  Plug 'junegunn/vim-emoji'
+  Plug 'nanotech/jellybeans.vim'
+
+  Plug 'deris/vim-shot-f'
+  Plug 'osyo-manga/vim-brightest'
+
+  " hmm
+  " Plug 'Raimondi/delimitMate'
+
+  " completions/snippets
+  Plug 'SirVer/ultisnips'
+  Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+  Plug 'ervandew/supertab'
+  Plug 'honza/vim-snippets'
+
+  " ctrl-p
+  Plug 'ctrlpvim/ctrlp.vim', { 'on': ['CtrlP', 'CtrlPBuffer', 'CtrlPBookmarkDir', 'CtrlPBookmarkDirAdd', 'CtrlPTag', 'CtrlPLine', 'CtrlPMRU', 'CtrlPDir', 'CtrlPMixed', 'CtrlPRTS'] }
+
+  " ruby
+  Plug 'ngmy/vim-rubocop', { 'for': 'ruby' }
+  Plug 'tpope/vim-bundler'
+  Plug 'tpope/vim-rails'
+  Plug 'tpope/vim-rake', { 'for': 'ruby' }
+  Plug 'tpope/vim-rbenv'
+  Plug 'vim-ruby/vim-ruby'
+
+  " syntax
+  Plug 'davejlong/cf-utils.vim', { 'for': 'coldfusion' }
+  Plug 'groenewege/vim-less', { 'for': 'less' }
+  Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
+  Plug 'mattn/emmet-vim', { 'for': ['eruby','html'] }
+  Plug 'slim-template/vim-slim'
+  Plug 'tpope/vim-jdaddy', { 'for': 'json' }
+  Plug 'tpope/vim-markdown'
+
+  " misc
+  Plug 'AndrewRadev/splitjoin.vim', { 'on': ['SplitjoinJoin', 'SplitjoinSplit'] }
+  Plug 'AndrewRadev/switch.vim'
+  Plug 'ConradIrwin/vim-bracketed-paste'
+  Plug 'duff/vim-scratch'
+  Plug 'esneider/YUNOcommit.vim'
+  Plug 'janko-m/vim-test'
+  Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+  Plug 'justinmk/vim-gtfo'
+  Plug 'kristijanhusak/vim-multiple-cursors'
+  Plug 'nicholaides/words-to-avoid.vim'
+  Plug 'ntpeters/vim-better-whitespace'
+  Plug 'rking/ag.vim'
+  Plug 'tpope/vim-abolish'
+  Plug 'tpope/vim-commentary', { 'on': ['<Plug>Commentary', '<Plug>CommentaryLine', '<Plug>ChangeCommentary'] }
+  Plug 'tpope/vim-dispatch'
+  Plug 'tpope/vim-endwise'
+  Plug 'tpope/vim-eunuch'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-git'
+  Plug 'tpope/vim-projectionist'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-rhubarb'
+  Plug 'tpope/vim-speeddating'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-vinegar'
+  Plug 'vim-scripts/BufOnly.vim'
+
+  " custom vim objects
+  " research wellle/targets.vim as a backup, if these start to fail
+  Plug 'kana/vim-textobj-user'
+  Plug 'kana/vim-textobj-entire'
+  Plug 'kana/vim-textobj-indent'
+  Plug 'Julian/vim-textobj-brace'
+  Plug 'beloglazov/vim-textobj-quotes'
+
+  if s:darwin
+    Plug 'rizzatti/dash.vim',            { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
+  endif
+
+call plug#end()
+
+set cmdheight=2          " hopefully prevents the 'hit enter' prompts
+set formatprg="par 79"   " respect the 80 character lines
+set gdefault             " assume the /g flag on :s substitutions
+set guicursor=a:blinkon0 " stop blinking
+set hidden               " make unsaved buffers hidden
+set hlsearch             " highlight searched phrases
+set nojoinspaces         " use only 1 space after '.' when joining lines
+set nowrap               " don't wrap
+set relativenumber       " relative numbers are neat
+set shiftround           " indenting to nearest tabstop
+set shortmess=WatAIT     " no interruptive prompts http://items.sjbach.com/319/configuring-vim-right
+set showbreak=↪\         " show this character for breaks
+set showmatch            " show matching brackets
+set smartcase            " smartcase for searching
+set splitbelow           " default split behavior
+set splitright           " default split behavior
+set virtualedit=onemore  " allow selection past last character
+
+set backupdir=~/.vim/backups
+set directory=~/.vim/swaps
+set undodir=~/.vim/undo
+
+set wildignore+=.DS_Store
+set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.gif,*.psd,*.o,*.obj,*.min.js
+set wildignore+=*/bower_components/*,*/node_modules/*
+set wildignore+=*/smarty/*,*/vendor/*,*/.git/*,*/.hg/*,*/.svn/*,*/.sass-cache/*,*/log/*,*/tmp/*,*/build/*,*/ckeditor/*,*/doc/*,*/source_maps/*,*/dist/*
+set wildmode=list:longest
+
+let g:netrw_liststyle=1
+set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
+
+if s:darwin
+    exe 'set t_kB=' . nr2char(27) . '[Z'
+endif
+
+if has('gui_macvim')
+  colorscheme jellybeans
+else
+  colorscheme jellybeans
+endif
+
+source ~/.vim/scripts/autocommands.vim
+source ~/.vim/scripts/mappings.vim
+source ~/.vim/scripts/plugin_settings.vim
