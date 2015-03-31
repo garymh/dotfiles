@@ -36,7 +36,6 @@ call plug#begin()
 
   " completions/snippets
   Plug 'SirVer/ultisnips'
-  Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
   Plug 'ervandew/supertab'
   Plug 'honza/vim-snippets'
 
@@ -105,6 +104,8 @@ call plug#begin()
 
   if s:darwin
     Plug 'rizzatti/dash.vim',            { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
+
+    Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
   endif
 
 call plug#end()
