@@ -14,6 +14,7 @@ otask
 pry
 pry-bloodline
 pry-coolline
+pry-doc
 pry-toys
 pry-theme
 rb-appscript

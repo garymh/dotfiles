@@ -1,6 +1,7 @@
 path=(
   /usr/local/opt/rbenv/shims
   ${HOME}/.zsh/bin
+  ${HOME}/bin
   /usr/local/bin
   /usr/bin
   /usr/sbin
@@ -33,6 +34,9 @@ fi
 
 if [[ $(uname) = 'Darwin' ]]; then
   IS_MAC=1
+
+  # trying out a neovim feature
+  export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
   if (( $+commands[brew] )) ; then
     HAS_BREW=1
@@ -107,7 +111,7 @@ unsetopt promptcr
 setopt notify
 export EDITOR='vim'
 export VISUAL='vim'
-export TERM="screen-256color"
+# export TERM="screen-256color"
 
 # oracle >:(
 export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"

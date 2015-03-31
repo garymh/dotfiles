@@ -1,7 +1,7 @@
 alias vim="nvim"
 
 if [[ $IS_MAC -eq 1 ]]; then
-  # sudo () { ( unset LD_LIBRARY_PATH DYLD_LIBRARY_PATH; exec command sudo $* ) }
+  alias fix_git_hook="cp ~/Dropbox/Internal/dotfiles/home/git_templates/hooks/post-commit .git/hooks/post-commit"
 
   alias oo='open .'
   alias update_tags="ctags -R . $(bundle list --paths)"
@@ -65,8 +65,6 @@ alias gco="gac"
 
 alias -g RES='RAILS_ENV=staging'
 
-alias fix_git_hook="cp ~/Dropbox/Internal/dotfiles/home/git_templates/hooks/post-commit .git/hooks/post-commit"
-
 # More verbose fileutils
 alias cp='nocorrect cp -iv'
 alias rm='nocorrect rm -iv'
@@ -100,4 +98,3 @@ alias post_off="postoff"
 alias cf_on="cfon"
 alias cf_off="cfoff"
 alias cf_restart="cfrestart"
-

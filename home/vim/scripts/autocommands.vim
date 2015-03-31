@@ -1,4 +1,3 @@
-" AutoCommands {{{ "
 augroup random
   autocmd!
   autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -14,6 +13,33 @@ augroup random
   autocmd FileType cf set commentstring=<!--%s-->
   autocmd FileType gitcommit normal gg
   autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup END
+
+" augroup cline
+"     au!
+"     au WinLeave,InsertEnter * set nocursorline norelativenumber nonumber
+"     au WinEnter,InsertLeave * set cursorline relativenumber number
+" augroup END
+
+augroup ft_yaml
+    au!
+
+    au FileType yaml set shiftwidth=2
+augroup END
+
+augroup ft_css
+    au!
+
+    au BufNewFile,BufRead *.less setlocal filetype=less
+
+    au Filetype less,css setlocal iskeyword+=-
+
+    au BufNewFile,BufRead *.less,*.css nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
+augroup END
+
+augroup ft_quickfix
+    au!
+    au Filetype qf setlocal colorcolumn=0 nolist nocursorline nowrap tw=0
 augroup END
 
 augroup ag_config
@@ -50,6 +76,5 @@ augroup END
 augroup configure_folds
   autocmd!
   autocmd FileType vim setlocal foldmethod=marker
+  autocmd bufwritepost vimrc source $MYVIMRC
 augroup END
-
-" }}} AutoCommands "

@@ -63,21 +63,32 @@ let g:UltiSnipsExpandTrigger = "<Tab>"
 let g:UltiSnipsJumpForwardTrigger = "<Tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>"
 
-" let g:ycm_filetype_blacklist = {
-"       \ 'qf' : 1,
-"       \ 'notes' : 1,
-"       \ 'markdown' : 1,
-"       \ }
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+
+let g:ycm_filetype_blacklist = {
+      \ 'qf' : 1,
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ }
 " let g:ycm_complete_in_strings = 0
-" let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_key_list_select_completion = ['<Up>']
 let g:ycm_key_list_previous_completion = ['<Down>']
 " }}} Completion & Snippets "
 
 " Airline {{{ "
-let g:airline_theme='jellybeans'
+let g:airline_theme='gotham256'
 let g:airline#extensions#tabline#enabled       = 1
 let g:airline#extensions#tabline#tab_min_count = 0
+let g:airline_left_sep='›'  " Slightly fancier than '>'
+let g:airline_right_sep='‹' " Slightly fancier than '<'
 " }}} Airline "
 
 " Switch {{{ "
@@ -85,8 +96,25 @@ nnoremap <silent> - :Switch<CR>
 " }}} Switch "
 
 " SplitJoin {{{ "
-nnoremap sj :SplitjoinSplit<cr>
-nnoremap sk :SplitjoinJoin<cr>
+" nnoremap sj :SplitjoinSplit<cr>
+" nnoremap sk :SplitjoinJoin<cr>
+
+function! s:try(cmd, default)
+if exists(':' . a:cmd) && !v:count
+  let tick = b:changedtick
+  exe a:cmd
+  if tick == b:changedtick
+    execute 'normal! '.a:default
+  endif
+else
+  execute 'normal! '.v:count.a:default
+endif
+endfunction
+
+nnoremap <silent> sj :<C-U>call <SID>try('SplitjoinJoin', 'gJ')<CR>
+nnoremap <silent>  J :<C-U>call <SID>try('SplitjoinJoin', 'mzJ`z')<CR>
+nnoremap <silent> sk :SplitjoinSplit<CR>
+nnoremap <silent>  S :<C-U>call <SID>try('SplitjoinSplit', "i\015")<CR>
 " }}} SplitJoin "
 
 " YUNOCommit {{{ "
@@ -94,7 +122,7 @@ let g:YUNOcommit_after = 20
 " }}} YUNOCommit "
 
 " CTRL-P {{{ "
-nmap <silent> <C-p> :CtrlP<CR>
+nmap <silent> <C-p> :CtrlP .<CR>
 let g:ctrlp_match_window_bottom   = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_abbrev = {
@@ -112,6 +140,18 @@ let g:ctrlp_abbrev = {
       \   { 'pattern': '^v ', 'expanded': 'app/views/'      },
       \ ]}
 let g:ctrlp_open_new_file = 'r'
+let g:ctrlp_custom_ignore = {
+\ 'file': '\v\.(exe|so|dll|class)$',
+\ 'dir':  '\v<(\.git|\.hg|\.svn|\.vim|\.config)[\/]'
+\ }
+
+let g:ctrlp_cache_dir = $HOME."/.vim/tmp/cache/ctrlp"
+if !isdirectory(g:ctrlp_cache_dir) && exists("*mkdir")
+  call mkdir(g:ctrlp_cache_dir, "p", 0700)
+endif
+let g:ctrlp_extensions = [ "dir", "bookmarkdir" ]
+let g:ctrlp_user_command = 'ag %s --nocolor -l -g ""'
+
 " }}} CTRL-P "
 
 " Testing {{{ "
@@ -172,3 +212,19 @@ let ruby_space_errors = 1
 let g:strip_whitespace_on_save = 1
 let g:better_whitespace_enabled = 0
 " }}} Whitespace "
+
+" Rainbow Parentheses {{{ "
+augroup parentheses
+  autocmd!
+  au VimEnter * RainbowParenthesesToggle
+  au Syntax * RainbowParenthesesLoadRound
+  au Syntax * RainbowParenthesesLoadSquare
+  au Syntax * RainbowParenthesesLoadBraces
+augroup END
+" }}} Rainbow Parentheses "
+
+" Quickfix Toggle {{{ "
+let g:toggle_list_no_mappings = 1
+nmap <script> <silent> <leader>l :call ToggleLocationList()<CR>
+nmap <script> <silent> qf :call ToggleQuickfixList()<CR>
+" }}} Quickfix Toggle "

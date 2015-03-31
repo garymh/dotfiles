@@ -3,6 +3,12 @@
 vimf() {
   FILE=$(fzf) && vim "$FILE"
 }
+
+# fh - repeat history
+fh() {
+  print -z $(([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+}
+
 alias fvim='vimf'
 
 function ol() {
@@ -12,11 +18,11 @@ function port() {
   lsof -i ":${1:-80}"
 }
 
-vimp() {
-  local file
-  file=$(find ~/.vim/tmp/unite/session/* -type f | fzf --query="$1" --select-1 --exit-0)
-  [ -n "$file" ] && vim -S "$file"
-}
+# vimp() {
+#   local file
+#   file=$(find ~/.vim/tmp/unite/session/* -type f | fzf --query="$1" --select-1 --exit-0)
+#   [ -n "$file" ] && vim -S "$file"
+# }
 
 fe() {
   local file
@@ -34,10 +40,6 @@ fd() {
 
 fda() {
   DIR=$(find ${1:-.} -type d 2> /dev/null | fzf) && cd "$DIR"
-}
-
-ls() {
-  gls --color=always $*
 }
 
 vpn_status() {
@@ -81,8 +83,6 @@ vpn() {
 }
 
 gac() {
-  # hub add --all :/
-  # hub commit -m "$*"
   hub add -A && hub commit -avm "$*"
 }
 
@@ -110,6 +110,10 @@ if [[ $IS_MAC -eq 1 ]]; then
   gclo() {
     cd ~/code/
     git clone "$*"
+  }
+
+  ls() {
+    gls --color=always $*
   }
 
   vm() {
@@ -143,11 +147,11 @@ if [[ $IS_MAC -eq 1 ]]; then
       location=$(mdfind -onlyin /Applications -onlyin ~/Applications -onlyin /Developer/Applications 'kMDItemKind==Application'|awk -F '/' -v re="$shortname" 'tolower($NF) ~ re {print $0}'|head -n1)
     fi
     # No results? Die.
-    [[ -z $location || $location = "" ]] && echo "$1 not found, I quit" && return
+    [[ -z $location || $location = "" ]] && red "$1 not found, I quit" && return
     # Otherwise, find the bundleid using spotlight metadata
     bundleid=$(mdls -name kMDItemCFBundleIdentifier -r "$location")
     # return the result or an error message
-    [[ -z $bundleid || $bundleid = "" ]] && echo "Error getting bundle ID for \"$@\"" || echo "$location: $bundleid"
+    [[ -z $bundleid || $bundleid = "" ]] && red "Error getting bundle ID for \"$@\"" || echo "$location: $bundleid"
   }
 fi
 
@@ -155,7 +159,7 @@ fi
 # use `als c NAME` to chop off the last argument (for filenames/patterns)
 als() {
   local aliasfile chop x
-  [[ $# == 0 ]] && echo "Name your alias" && return
+  [[ $# == 0 ]] && green "Name your alias" && return
   if [[ $1 == "c" ]]; then
     chop=true
     shift
@@ -163,11 +167,11 @@ als() {
   aliasfile=~/.zsh/recorded_aliases.zsh
   touch $aliasfile
   if [[ `cat "$aliasfile" |grep "alias ${1// /}="` != "" ]]; then
-    echo "Alias ${1// /} already exists"
+    red "Alias ${1// /} already exists"
   else
     x=`fc -l -n -1`
     if [[ $chop == true ]]; then
-      echo "Chopping..."
+      yellow "Chopping..."
       x=$(echo $x | rev | cut -d " " -f2- | rev)
     fi
     echo -e "\nalias ${1// /}=\"`echo $x|sed -e 's/ *$//'|sed -e 's/\"/\\\\"/g'`\"" >> $aliasfile && source $aliasfile
@@ -183,8 +187,8 @@ any() {
   emulate -L zsh
   unsetopt KSH_ARRAYS
   if [[ -z "$1" ]] ; then
-    echo "any - grep for process(es) by keyword" >&2
-    echo "Usage: any " >&2 ; return 1
+    red "any - grep for process(es) by keyword" >&2
+    red "Usage: any " >&2 ; return 1
   else
     ps xauwww | grep -i --color=auto "[${1[1]}]${1[2,-1]}"
   fi

@@ -3,7 +3,6 @@ vnoremap L $
 nmap L $
 nmap H 0
 
-
 map <C-p> :xccmd openQuickly<cr>
 map ,l :xccmd showDocumentItemsMenu<cr>
 map ,b :xccmd showPreviousFilesHistoryMenu<cr>

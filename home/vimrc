@@ -1,3 +1,8 @@
+" ~/.vimrc
+" thanks to the brilliant @tpope, @skwp, @nelstrom, @bling,
+" @r00k, @spf13, @AndrewRadev, and @sjl for unknowingly
+" allowing me to borrow from their dotfiles.
+
 call plug#begin()
   let s:darwin = has('mac')
 
@@ -16,8 +21,13 @@ call plug#begin()
   Plug 'atimholt/spiffy_foldtext'
   Plug 'bling/vim-airline'
   Plug 'junegunn/vim-emoji'
+  Plug 'blueshirts/darcula'
+  Plug 'whatyouhide/vim-gotham'
   Plug 'nanotech/jellybeans.vim'
-
+  Plug 'chriskempson/vim-tomorrow-theme'
+  Plug 'kien/rainbow_parentheses.vim'
+  Plug 'altercation/vim-colors-solarized'
+  " Plug 'tomasr/molokai'
   Plug 'deris/vim-shot-f'
   Plug 'osyo-manga/vim-brightest'
 
@@ -31,7 +41,7 @@ call plug#begin()
   Plug 'honza/vim-snippets'
 
   " ctrl-p
-  Plug 'ctrlpvim/ctrlp.vim', { 'on': ['CtrlP', 'CtrlPBuffer', 'CtrlPBookmarkDir', 'CtrlPBookmarkDirAdd', 'CtrlPTag', 'CtrlPLine', 'CtrlPMRU', 'CtrlPDir', 'CtrlPMixed', 'CtrlPRTS'] }
+  Plug 'ctrlpvim/ctrlp.vim' ", { 'on': ['CtrlP', 'CtrlPBuffer', 'CtrlPBookmarkDir', 'CtrlPBookmarkDirAdd', 'CtrlPTag', 'CtrlPLine', 'CtrlPMRU', 'CtrlPDir', 'CtrlPMixed', 'CtrlPRTS'] }
 
   " ruby
   Plug 'ngmy/vim-rubocop', { 'for': 'ruby' }
@@ -51,6 +61,11 @@ call plug#begin()
   Plug 'tpope/vim-markdown'
 
   " misc
+  Plug 'Wolfy87/vim-expand'
+  Plug 'milkypostman/vim-togglelist'
+  Plug 'takac/vim-commandcaps'
+  Plug 'terryma/vim-smooth-scroll'
+  Plug 'AndrewRadev/sideways.vim'
   Plug 'AndrewRadev/splitjoin.vim', { 'on': ['SplitjoinJoin', 'SplitjoinSplit'] }
   Plug 'AndrewRadev/switch.vim'
   Plug 'ConradIrwin/vim-bracketed-paste'
@@ -63,6 +78,8 @@ call plug#begin()
   Plug 'nicholaides/words-to-avoid.vim'
   Plug 'ntpeters/vim-better-whitespace'
   Plug 'rking/ag.vim'
+  " Plug 'gabesoft/vim-ags'
+
   Plug 'tpope/vim-abolish'
   Plug 'tpope/vim-commentary', { 'on': ['<Plug>Commentary', '<Plug>CommentaryLine', '<Plug>ChangeCommentary'] }
   Plug 'tpope/vim-dispatch'
@@ -98,9 +115,11 @@ set gdefault             " assume the /g flag on :s substitutions
 set guicursor=a:blinkon0 " stop blinking
 set hidden               " make unsaved buffers hidden
 set hlsearch             " highlight searched phrases
+set ignorecase
+set modeline modelines=1 " check for syntax hints
 set nojoinspaces         " use only 1 space after '.' when joining lines
 set nowrap               " don't wrap
-set relativenumber       " relative numbers are neat
+set number
 set shiftround           " indenting to nearest tabstop
 set shortmess=WatAIT     " no interruptive prompts http://items.sjbach.com/319/configuring-vim-right
 set showbreak=↪\         " show this character for breaks
@@ -109,6 +128,10 @@ set smartcase            " smartcase for searching
 set splitbelow           " default split behavior
 set splitright           " default split behavior
 set virtualedit=onemore  " allow selection past last character
+
+set notimeout
+set ttimeout             " fix console vim speed
+set ttimeoutlen=10
 
 set backupdir=~/.vim/backups
 set directory=~/.vim/swaps
@@ -123,16 +146,21 @@ set wildmode=list:longest
 let g:netrw_liststyle=1
 set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
 
+set fillchars=diff:⣿,vert:│
+set fillchars=diff:⣿,vert:\|
+
 if s:darwin
     exe 'set t_kB=' . nr2char(27) . '[Z'
 endif
 
 if has('gui_macvim')
-  colorscheme jellybeans
+  colorscheme gotham256
 else
-  colorscheme jellybeans
+  set t_Co=256
+  colorscheme gotham256
 endif
 
 source ~/.vim/scripts/autocommands.vim
 source ~/.vim/scripts/mappings.vim
 source ~/.vim/scripts/plugin_settings.vim
+

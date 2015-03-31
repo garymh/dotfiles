@@ -5,14 +5,40 @@ nnoremap zR zR:echo &foldlevel<cr>
 nnoremap zM zM:echo &foldlevel<cr>
 nnoremap <space><space> za
 
+nnoremap vv _vg_
+
+" Unimpaired.vim-like toggles
+nnoremap [oo :set colorcolumn=+1<CR>
+nnoremap ]oo :set colorcolumn=0<CR>
+nnoremap coo :let &colorcolumn = ( &colorcolumn == "+1" ? "0" : "+1" )<CR>
+
+nnoremap [<Tab> :SidewaysLeft<CR>
+nnoremap ]<Tab> :SidewaysRight<CR>
+
+omap aa <Plug>SidewaysArgumentTextobjA
+xmap aa <Plug>SidewaysArgumentTextobjA
+omap ia <Plug>SidewaysArgumentTextobjI
+xmap ia <Plug>SidewaysArgumentTextobjI
+
+" ------------------------------------------------------------------
+
 let mapleader=","
+let maplocalleader = "\\"
+
+nnoremap ! :Make<cr>
+
+" delete next line
+nnoremap dn majdd`a
+
+" double returns select a block
+nnoremap <CR><CR> vip
 
 " netrw
 nnoremap <space>e :e.<CR>
 "map <leader><tab> :e.<cr>
 
-" close quickfix
-map <leader>qq :cclose<CR>
+" replace word under cursor
+nnoremap <leader>r :%s/\<<C-r>=expand('<cword>')<CR>\>/
 
 " ack/ag
 nnoremap <space>f :Ag<space>
@@ -94,11 +120,6 @@ function! CloseWindowOrKillBuffer() "{{{
   endif
 endfunction
 
-" commonly capitalized commands
-cnoremap W w
-cnoremap Wq wq
-cnoremap Q q
-
 " auto center after certain commands
 nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
@@ -116,12 +137,14 @@ vnoremap > >gv
 " git blame
 vmap <Leader>b :<C-U>!git blame <C-R>=expand("%:p") <cr> \| sed -n <C-R>=line("'<") <cr>,<C-R>=line("'>") <cr>p <cr>
 
-" keep the cursor in place while joining lines
-nnoremap J mzJ`z
+" " keep the cursor in place while joining lines
+" nnoremap J mzJ`z
 
-" split lines, opposite of J
-nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
+" " split lines, opposite of J
+" nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
 
 " expands %% to current file's directory in command-line mode
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
+
+nnoremap <leader>ch :<C-U>Git difftool %<cr>
 
