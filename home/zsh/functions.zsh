@@ -18,20 +18,10 @@ function port() {
   lsof -i ":${1:-80}"
 }
 
-# vimp() {
-#   local file
-#   file=$(find ~/.vim/tmp/unite/session/* -type f | fzf --query="$1" --select-1 --exit-0)
-#   [ -n "$file" ] && vim -S "$file"
-# }
-
 fe() {
   local file
   file=$(fzf --query="$1" --select-1 --exit-0)
   [ -n "$file" ] && ${EDITOR:-vim} "$file"
-}
-
-fkill() {
-  ps -ef | sed 1d | fzf -m | awk '{print $2}' | xargs kill -${1:-9}
 }
 
 fd() {
@@ -86,11 +76,6 @@ gac() {
   hub add -A && hub commit -avm "$*"
 }
 
-gitclone() {
-  cd ~/code/
-  git clone "$*"
-}
-
 search() {
   echo "find . -iname \"*$1*\""
   sudo find . -iname "*$1*"
@@ -107,6 +92,8 @@ chgext() {
 }
 
 if [[ $IS_MAC -eq 1 ]]; then
+  function anybar { echo -n $1 | nc -4u -w0 localhost ${2:-1738}; }
+
   gclo() {
     cd ~/code/
     git clone "$*"

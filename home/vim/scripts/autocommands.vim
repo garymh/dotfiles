@@ -9,17 +9,11 @@ augroup random
   autocmd filetype help nnoremap <buffer><bs> <c-T>
   autocmd filetype help nnoremap <buffer>q :q<cr>
 
-  " jump the top in git commit messages
   autocmd FileType cf set commentstring=<!--%s-->
-  autocmd FileType gitcommit normal gg
-  autocmd BufReadPost fugitive://* set bufhidden=delete
+  " jump the top in git commit messages
+  " autocmd FileType gitcommit normal gg
+  " autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
-
-" augroup cline
-"     au!
-"     au WinLeave,InsertEnter * set nocursorline norelativenumber nonumber
-"     au WinEnter,InsertLeave * set cursorline relativenumber number
-" augroup END
 
 augroup ft_yaml
     au!

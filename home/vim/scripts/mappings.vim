@@ -5,8 +5,6 @@ nnoremap zR zR:echo &foldlevel<cr>
 nnoremap zM zM:echo &foldlevel<cr>
 nnoremap <space><space> za
 
-nnoremap vv _vg_
-
 " Unimpaired.vim-like toggles
 nnoremap [oo :set colorcolumn=+1<CR>
 nnoremap ]oo :set colorcolumn=0<CR>

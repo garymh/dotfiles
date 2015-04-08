@@ -1,6 +1,6 @@
 
 if [[ $IS_MAC -eq 1 ]]; then
-  alias vim="nvim"
+#  alias vim="nvim"
   alias fix_git_hook="cp ~/Dropbox/Internal/dotfiles/home/git_templates/hooks/post-commit .git/hooks/post-commit"
 
   alias oo='open .'
@@ -15,7 +15,10 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias cfrestart='/Applications/ColdFusion10/cfusion/bin/coldfusion restart'
   alias screensaver='/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine &'
   alias zshrc="vim ~/Dropbox/Internal/dotfiles/home/zshrc"
+  alias ealias="vim ~/Dropbox/Internal/dotfiles/home/zsh/aliases.zsh"
+  alias efunction="vim ~/Dropbox/Internal/dotfiles/home/zsh/functions.zsh"
   alias evim="vim ~/Dropbox/Internal/dotfiles/home/vimrc"
+  alias egems="vim ~/Dropbox/Internal/dotfiles/new_machine/gems"
   alias eivm="evim"
   alias evimrc="evim"
 
@@ -55,7 +58,8 @@ alias mem='top -o rsize' # memory
 alias la="ls -aF"
 alias lh='ls -d .*'
 # alias lh='gls --color=always -a | egrep "^\."'
-alias ll='gls --color=always -lh'
+# alias ll='gls --color=always -lh'
+alias ll='ls -lh'
 
 # interactive fasd
 alias zi="fasd -e cd -i"
@@ -85,8 +89,6 @@ alias -g H='| head'
 alias -g L="| less"
 alias -g LL="2>&1 | less"
 alias -g M="| most"
-alias -g N='~/code/nudais/rails/'
-alias -g NE="2> /dev/null"
 alias -g NUL="> /dev/null 2>&1"
 alias -g S='| sort'
 alias -g T='| tail'

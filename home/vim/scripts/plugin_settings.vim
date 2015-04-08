@@ -50,8 +50,8 @@ let g:surround_61  = "<%= \r %>"
 " }}} Surround.vim "
 
 " Commentary {{{ "
-map  gc  <Plug>Commentary
-nmap gcc <Plug>CommentaryLine
+" map  gc  <Plug>Commentary
+" nmap gcc <Plug>CommentaryLine
 " nmap cgc <Plug>ChangeCommentary
 " nmap gcu <Plug>Commentary<Plug>Commentary
 " nmap <m-\> <Plug>CommentaryLine
@@ -213,6 +213,16 @@ let g:strip_whitespace_on_save = 1
 let g:better_whitespace_enabled = 0
 " }}} Whitespace "
 
+" Projectionist {{{ "
+
+let g:projectionist_heuristics = {
+\   "*": {
+\     "*.agsv": {"type": "doc", },
+\ }
+\ }
+
+" }}} Projectionist "
+
 " Rainbow Parentheses {{{ "
 augroup parentheses
   autocmd!
@@ -225,6 +235,7 @@ augroup END
 
 " Quickfix Toggle {{{ "
 let g:toggle_list_no_mappings = 1
-nmap <script> <silent> <leader>l :call ToggleLocationList()<CR>
+" nmap <script> <silent> <leader>l :call ToggleLocationList()<CR>
 nmap <script> <silent> qf :call ToggleQuickfixList()<CR>
+nmap <script> <silent> qq :call ToggleQuickfixList()<CR>
 " }}} Quickfix Toggle "

@@ -6,11 +6,12 @@ hs.grid.MARGINX = 0
 hs.grid.MARGINY = 0
 hs.window.animationDuration = 0
 
+hs.hotkey.bind(hyper, 'n', function() os.execute("open ~") end)
+
 -- moom-like functionality
 moom = hs.hotkey.modal.new({"cmd"}, "f16")
 moom:bind({}, 'escape', function() moom:exit() end)
 
---
 -- replace caffeine (taken from @BrianGilbert)
 -- (via https://github.com/BrianGilbert/.hammerspoon/blob/master/init.lua)
 local caffeine = hs.menubar.new()
@@ -67,6 +68,10 @@ moom:bind({}, 'w', function()
   hs.grid.set(hs.window.focusedWindow(), {x=1, y=1, w=8, h=8}, hs.screen.mainScreen())
   moom:exit()
 end)
+moom:bind({}, 'd', function()
+  hs.grid.set(hs.window.focusedWindow(), {x=2, y=2, w=6, h=6}, hs.screen.mainScreen())
+  moom:exit()
+end)
 moom:bind({}, 's', function()
   hs.grid.maximizeWindow()
   moom:exit()
@@ -101,6 +106,7 @@ omni:bind({}, 'f17',   function() add_task("generic") end)
 omni:bind({}, 'm',     function() add_task("mac")     end)
 omni:bind({}, 'h',     function() add_task("home")    end)
 omni:bind({}, 'n',     function() add_task("nufin")   end)
+omni:bind({}, 'l',     function() add_task("members") end)
 omni:bind({}, 's',     function() add_task("space")   end)
 omni:bind({}, 'p',     function() add_task("puppy")   end)
 omni:bind({}, 'space', function() add_task("store")   end)
@@ -121,5 +127,4 @@ end
 end
 hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.notify.new({title="Hammerspoon", informativeText="Config reloaded"}):send():release()
-
 
