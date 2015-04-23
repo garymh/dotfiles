@@ -3,6 +3,14 @@
 " @r00k, @spf13, @AndrewRadev, and @sjl for unknowingly
 " allowing me to borrow from their dotfiles.
 
+" Automatic installation:
+" broken in neovim?
+" if empty(glob('~/.vim/autoload/plug.vim'))
+"     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+"     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"     autocmd VimEnter * PlugInstall
+" endif
+
 call plug#begin()
   let s:darwin = has('mac')
 
@@ -30,6 +38,7 @@ call plug#begin()
   Plug 'kien/rainbow_parentheses.vim'
   Plug 'osyo-manga/vim-brightest'
   Plug 'whatyouhide/vim-gotham'
+  Plug 'jaxbot/semantic-highlight.vim'
 
   " hmm
   " Plug 'Raimondi/delimitMate'
@@ -38,9 +47,14 @@ call plug#begin()
   Plug 'SirVer/ultisnips'
   Plug 'ervandew/supertab'
   Plug 'honza/vim-snippets'
+  " Plug 'Shougo/neocomplete'
+  " Plug 'Shougo/neosnippet'
+  " Plug 'Shougo/neosnippet-snippets'
 
   " ctrl-p
-  Plug 'ctrlpvim/ctrlp.vim'
+  " Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'junegunn/fzf',             { 'do': 'yes \| ./install' }
+
 
   " ruby
   Plug 'ngmy/vim-rubocop',         { 'for': 'ruby' }
@@ -61,6 +75,7 @@ call plug#begin()
   Plug 'tpope/vim-markdown'
 
   " misc
+  Plug 'vim-scripts/Smart-Tabs'
   Plug 'AndrewRadev/sideways.vim'
   Plug 'AndrewRadev/splitjoin.vim', { 'on': ['SplitjoinJoin', 'SplitjoinSplit'] }
   Plug 'AndrewRadev/switch.vim'
@@ -75,8 +90,8 @@ call plug#begin()
   Plug 'milkypostman/vim-togglelist'
   Plug 'nicholaides/words-to-avoid.vim'
   Plug 'ntpeters/vim-better-whitespace'
-  Plug 'rking/ag.vim'
-  " Plug 'gabesoft/vim-ags'
+  " Plug 'rking/ag.vim'
+  Plug 'gabesoft/vim-ags'
   Plug 'takac/vim-commandcaps'
   Plug 'tpope/vim-abolish'
   Plug 'tpope/vim-commentary'
@@ -92,12 +107,17 @@ call plug#begin()
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-vinegar'
   Plug 'vim-scripts/BufOnly.vim'
+  " Plug 'bkad/CamelCaseMotion'
+
+  " Plug 't9md/vim-choosewin'
+  Plug 'benekastah/neomake'
 
   " custom vim objects
   " research wellle/targets.vim as a backup, if these start to fail
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-entire'
   Plug 'kana/vim-textobj-indent'
+  Plug 'b4winckler/vim-angry'
   Plug 'Julian/vim-textobj-brace'
   Plug 'beloglazov/vim-textobj-quotes'
 
@@ -154,6 +174,15 @@ else
   set t_Co=256
   colorscheme gotham256
 endif
+
+" Persistent Undo {{{
+silent !mkdir ~/.vim/backups > /dev/null 2>&1
+
+if has("persistent_undo")
+  set undodir=~/.vim/backups
+  set undofile
+endif
+" }}}
 
 source ~/.vim/scripts/autocommands.vim
 source ~/.vim/scripts/mappings.vim

@@ -77,7 +77,6 @@
 [web]
   browser      = open
 [init]
-	templatedir  = ~/.git_templates
 [help]
 	autocorrect  = 1
 

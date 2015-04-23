@@ -39,7 +39,7 @@ nnoremap <space>e :e.<CR>
 nnoremap <leader>r :%s/\<<C-r>=expand('<cword>')<CR>\>/
 
 " ack/ag
-nnoremap <space>f :Ag<space>
+nnoremap <space>f :Ags<space>
 
 " i never use H or L's defaults, might as well make them useful!
 noremap H ^

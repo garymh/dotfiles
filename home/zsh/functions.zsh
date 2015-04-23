@@ -81,10 +81,10 @@ search() {
   sudo find . -iname "*$1*"
 }
 
-# Show contents of directory after cd-ing into it
-chpwd() {
-  ls -lrthG --color=tty
-}
+# # Show contents of directory after cd-ing into it
+# chpwd() {
+#   ls -lrthG --color=tty
+# }
 
 # batch change extension
 chgext() {
@@ -100,8 +100,10 @@ if [[ $IS_MAC -eq 1 ]]; then
   }
 
   ls() {
-    gls --color=always $*
+  #   gls --color=always $*
+      k --no-vcs --human
   }
+
 
   vm() {
     VAGRANT_CWD=~/code/vagrant_and_oracle_vm_setup vagrant up

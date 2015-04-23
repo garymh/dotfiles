@@ -81,14 +81,20 @@ let g:ycm_filetype_blacklist = {
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_key_list_select_completion = ['<Up>']
 let g:ycm_key_list_previous_completion = ['<Down>']
+
 " }}} Completion & Snippets "
 
 " Airline {{{ "
-let g:airline_theme='gotham256'
 let g:airline#extensions#tabline#enabled       = 1
+let g:airline#extensions#tabline#show_tab_type = 1
 let g:airline#extensions#tabline#tab_min_count = 0
-let g:airline_left_sep='›'  " Slightly fancier than '>'
-let g:airline_right_sep='‹' " Slightly fancier than '<'
+let g:airline#extensions#tabline#tab_nr_type   = 2
+let g:airline_exclude_preview                  = 1
+let g:airline_powerline_fonts                  = 1
+" let g:airline_left_sep='›'  " Slightly fancier than '>'
+" let g:airline_right_sep='‹' " Slightly fancier than '<'
+let g:airline_theme='gotham256'
+
 " }}} Airline "
 
 " Switch {{{ "
@@ -122,40 +128,48 @@ let g:YUNOcommit_after = 20
 " }}} YUNOCommit "
 
 " CTRL-P {{{ "
-nmap <silent> <C-p> :CtrlP .<CR>
-let g:ctrlp_match_window_bottom   = 0
-let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_abbrev = {
-      \ 'gmode': 't',
-      \ 'abbrevs': [
-      \   { 'pattern': '^a ', 'expanded': 'app/'            },
-      \   { 'pattern': '^b ', 'expanded': 'bin/'            },
-      \   { 'pattern': '^c ', 'expanded': 'app/controller/' },
-      \   { 'pattern': '^f ', 'expanded': 'config/'         },
-      \   { 'pattern': '^h ', 'expanded': 'app/helper/'     },
-      \   { 'pattern': '^l ', 'expanded': 'lib/'            },
-      \   { 'pattern': '^m ', 'expanded': 'app/model/'      },
-      \   { 'pattern': '^o ', 'expanded': 'log/'            },
-      \   { 'pattern': '^t ', 'expanded': 'test/'           },
-      \   { 'pattern': '^v ', 'expanded': 'app/views/'      },
-      \ ]}
-let g:ctrlp_open_new_file = 'r'
-let g:ctrlp_custom_ignore = {
-\ 'file': '\v\.(exe|so|dll|class)$',
-\ 'dir':  '\v<(\.git|\.hg|\.svn|\.vim|\.config)[\/]'
-\ }
+" command! -nargs=1 Locate call fzf#run(
+" \ {'source': 'locate <q-args>', 'sink': 'e', 'options': '-m'})
 
-let g:ctrlp_cache_dir = $HOME."/.vim/tmp/cache/ctrlp"
-if !isdirectory(g:ctrlp_cache_dir) && exists("*mkdir")
-  call mkdir(g:ctrlp_cache_dir, "p", 0700)
-endif
-let g:ctrlp_extensions = [ "dir", "bookmarkdir" ]
-let g:ctrlp_user_command = 'ag %s --nocolor -l -g ""'
+nnoremap <silent> <C-p> :FZF -m<CR>
+" nmap <silent> <C-p> :CtrlP .<CR>
+" let g:ctrlp_match_window_bottom   = 0
+" let g:ctrlp_match_window_reversed = 0
+" let g:ctrlp_abbrev = {
+"       \ 'gmode': 't',
+"       \ 'abbrevs': [
+"       \   { 'pattern': '^a ', 'expanded': 'app/'            },
+"       \   { 'pattern': '^b ', 'expanded': 'bin/'            },
+"       \   { 'pattern': '^c ', 'expanded': 'app/controller/' },
+"       \   { 'pattern': '^f ', 'expanded': 'config/'         },
+"       \   { 'pattern': '^h ', 'expanded': 'app/helper/'     },
+"       \   { 'pattern': '^l ', 'expanded': 'lib/'            },
+"       \   { 'pattern': '^m ', 'expanded': 'app/model/'      },
+"       \   { 'pattern': '^o ', 'expanded': 'log/'            },
+"       \   { 'pattern': '^t ', 'expanded': 'test/'           },
+"       \   { 'pattern': '^v ', 'expanded': 'app/views/'      },
+"       \ ]}
+" let g:ctrlp_open_new_file = 'r'
+" let g:ctrlp_custom_ignore = {
+" \ 'file': '\v\.(exe|so|dll|class)$',
+" \ 'dir':  '\v<(\.git|\.hg|\.svn|\.vim|\.config)[\/]'
+" \ }
+
+" let g:ctrlp_cache_dir = $HOME."/.vim/tmp/cache/ctrlp"
+" if !isdirectory(g:ctrlp_cache_dir) && exists("*mkdir")
+"   call mkdir(g:ctrlp_cache_dir, "p", 0700)
+" endif
+" let g:ctrlp_extensions = [ "dir", "bookmarkdir" ]
+" let g:ctrlp_user_command = 'ag %s --nocolor -l -g ""'
 
 " }}} CTRL-P "
 
 " Testing {{{ "
-let g:test#strategy = 'dispatch'
+if has("nvim")
+  let g:test#strategy = 'neovim'
+else
+  let g:test#strategy = 'dispatch'
+endif
 nnoremap <silent> <leader>t :TestNearest<CR>
 nnoremap <silent> <leader>T :TestFile<CR>
 nnoremap <silent> <leader>a :TestSuite<CR>
@@ -223,6 +237,33 @@ let g:projectionist_heuristics = {
 
 " }}} Projectionist "
 
+" Semantic Highlights {{{ "
+let g:semanticTermColors = [
+      \ 28,
+      \ 1,
+      \ 2,
+      \ 3,
+      \ 4,
+      \ 5,
+      \ 6,
+      \ 7,
+      \ 178,
+      \ 228,
+      \ 87,
+      \ 14,
+      \ 13,
+      \ 15,
+      \ 122,
+      \ 153,
+      \ 126,
+      \ 120,
+      \ 189]
+nnoremap <leader>t :SemanticHighlightToggle<cr>
+let g:semanticUseCache = 1
+let g:semanticPersistCache = 1
+let g:semanticEnableFileTypes = ['ruby', 'vim']
+" }}} Semantic Highlights "
+
 " Rainbow Parentheses {{{ "
 augroup parentheses
   autocmd!
@@ -239,3 +280,43 @@ let g:toggle_list_no_mappings = 1
 nmap <script> <silent> qf :call ToggleQuickfixList()<CR>
 nmap <script> <silent> qq :call ToggleQuickfixList()<CR>
 " }}} Quickfix Toggle "
+
+" Choosewin {{{ "
+nnoremap <tab>   <c-w>w
+nnoremap <S-tab> <c-w>W
+" let g:choosewin_overlay_enable = 1
+" nmap  <tab> :ChooseWin<CR>
+"       let g:choosewin_color_overlay = {
+" \ 'gui': ['DodgerBlue3', 'DodgerBlue3' ],
+" \ 'cterm': [ 25, 25 ]
+" \ }
+" let g:choosewin_color_overlay_current = {
+" \ 'gui': ['firebrick1', 'firebrick1' ],
+" \ 'cterm': [ 124, 124 ]
+" \ }
+
+" let g:choosewin_blink_on_land      = 1 " dont' blink at land
+" let g:choosewin_statusline_replace = 0 " don't replace statusline
+" let g:choosewin_tabline_replace    = 0 " don't replace tabline
+" }}} Choosewin "
+
+" vim-ags {{{ "
+let g:ags_agexe = 'ag --nocolor'
+nmap <script> <silent> qs :AgsQuit<CR>
+" }}} vim-ags "
+
+" Identline {{{ "
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#09AA08'
+let g:indentLine_char = '│'
+let g:indentLine_fileTypeExclude = ['help', 'text', 'agsv']
+" }}} Identline "
+
+" CamelCase motion (replaces w, b, e) {{{ "
+" map <silent> w <Plug>CamelCaseMotion_w
+" map <silent> b <Plug>CamelCaseMotion_b
+" map <silent> e <Plug>CamelCaseMotion_e
+" sunmap w
+" sunmap b
+" sunmap e
+" }}} CamelCase motion (replaces w, b, e) "

@@ -1,6 +1,6 @@
 
 if [[ $IS_MAC -eq 1 ]]; then
-#  alias vim="nvim"
+  alias vim="nvim"
   alias fix_git_hook="cp ~/Dropbox/Internal/dotfiles/home/git_templates/hooks/post-commit .git/hooks/post-commit"
 
   alias oo='open .'

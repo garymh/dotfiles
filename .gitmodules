@@ -10,3 +10,6 @@
 [submodule "dotbot"]
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
+[submodule "submodules/zgen"]
+	path = submodules/zgen
+	url = https://github.com/tarjoilija/zgen
