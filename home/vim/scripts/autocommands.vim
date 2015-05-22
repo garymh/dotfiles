@@ -11,29 +11,29 @@ augroup random
 
   autocmd FileType cf set commentstring=<!--%s-->
   " jump the top in git commit messages
-  " autocmd FileType gitcommit normal gg
-  " autocmd BufReadPost fugitive://* set bufhidden=delete
+  autocmd FileType gitcommit normal gg
+  autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
 
 augroup ft_yaml
-    au!
+  au!
 
-    au FileType yaml set shiftwidth=2
+  au FileType yaml set shiftwidth=2
 augroup END
 
 augroup ft_css
-    au!
+  au!
 
-    au BufNewFile,BufRead *.less setlocal filetype=less
+  au BufNewFile,BufRead *.less setlocal filetype=less
 
-    au Filetype less,css setlocal iskeyword+=-
+  au Filetype less,css setlocal iskeyword+=-
 
-    au BufNewFile,BufRead *.less,*.css nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
+  au BufNewFile,BufRead *.less,*.css nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
 augroup END
 
 augroup ft_quickfix
-    au!
-    au Filetype qf setlocal colorcolumn=0 nolist nocursorline nowrap tw=0
+  au!
+  au Filetype qf setlocal colorcolumn=0 nolist nocursorline nowrap tw=0
 augroup END
 
 augroup ag_config
@@ -63,12 +63,15 @@ augroup filetype_ruby
 
   au BufRead,BufNewFile Rakefile,Capfile,Gemfile,*pryrc,*pryrc-helpers.rb,Brewfile set ft=ruby syntax=ruby
 
-  let ruby_operators = 1
-  let ruby_space_errors = 1
+  " autocmd FileType ruby let g:rubycomplete_buffer_loading=1
+  " autocmd FileType ruby let g:rubycomplete_classes_in_global=1
+  autocmd FileType ruby let g:ruby_fold=1
+  " autocmd FileType ruby let ruby_operators = 1
 augroup END
 
 augroup configure_folds
   autocmd!
   autocmd FileType vim setlocal foldmethod=marker
-  autocmd bufwritepost vimrc source $MYVIMRC
+  autocmd FileType ruby setlocal foldmethod=syntax
+  autocmd bufwritepost vim source $MYVIMRC
 augroup END

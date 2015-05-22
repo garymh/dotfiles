@@ -13,3 +13,6 @@
 [submodule "submodules/zgen"]
 	path = submodules/zgen
 	url = https://github.com/tarjoilija/zgen
+[submodule "submodules/pug"]
+	path = submodules/pug
+	url = https://github.com/ashur/pug.git

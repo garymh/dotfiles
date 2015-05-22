@@ -1,60 +1,31 @@
 " ~/.vimrc
 " thanks to the brilliant @tpope, @skwp, @nelstrom, @bling,
-" @r00k, @spf13, @AndrewRadev, and @sjl for unknowingly
+" @r00k, @spf13, @AndrewRadev, @junegunn, and @sjl for unknowingly
 " allowing me to borrow from their dotfiles.
-
-" Automatic installation:
-" broken in neovim?
-" if empty(glob('~/.vim/autoload/plug.vim'))
-"     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-"     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"     autocmd VimEnter * PlugInstall
-" endif
 
 call plug#begin()
   let s:darwin = has('mac')
-
-  function! BuildYCM(info)
-    if a:info.status == 'installed' || a:info.force
-      !./install.sh
-    endif
-  endfunction
 
   " standard
   Plug 'tpope/vim-sensible'
   Plug 'tpope/vim-unimpaired'
 
-  " " appearance
-  " Plug 'altercation/vim-colors-solarized'
-  " Plug 'blueshirts/darcula'
-  " Plug 'chriskempson/vim-tomorrow-theme'
-  " Plug 'junegunn/vim-emoji'
-  " Plug 'nanotech/jellybeans.vim'
-  " Plug 'tomasr/molokai'
-  Plug 'Yggdroot/indentLine'
+  " appearance
+  " Plug 'Yggdroot/indentLine'
+  " Plug 'deris/vim-shot-f'
+  " Plug 'jaxbot/semantic-highlight.vim'
+  " Plug 'osyo-manga/vim-brightest'
   Plug 'atimholt/spiffy_foldtext'
   Plug 'bling/vim-airline'
-  Plug 'deris/vim-shot-f'
   Plug 'kien/rainbow_parentheses.vim'
-  Plug 'osyo-manga/vim-brightest'
+  Plug 'nanotech/jellybeans.vim'
   Plug 'whatyouhide/vim-gotham'
-  Plug 'jaxbot/semantic-highlight.vim'
 
-  " hmm
-  " Plug 'Raimondi/delimitMate'
-
-  " completions/snippets
-  Plug 'SirVer/ultisnips'
-  Plug 'ervandew/supertab'
-  Plug 'honza/vim-snippets'
-  " Plug 'Shougo/neocomplete'
-  " Plug 'Shougo/neosnippet'
-  " Plug 'Shougo/neosnippet-snippets'
+  source ~/.vim/scripts/completions.vim
 
   " ctrl-p
   " Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'junegunn/fzf',             { 'do': 'yes \| ./install' }
-
+  " Plug 'junegunn/fzf',             { 'do': 'yes \| ./install' }
 
   " ruby
   Plug 'ngmy/vim-rubocop',         { 'for': 'ruby' }
@@ -63,7 +34,6 @@ call plug#begin()
   Plug 'tpope/vim-rake',           { 'for': 'ruby' }
   Plug 'tpope/vim-rbenv'
   Plug 'vim-ruby/vim-ruby'
-  " Plug 'sentientmonkey/vim-flog'
 
   " syntax
   Plug 'davejlong/cf-utils.vim',   { 'for': 'coldfusion' }
@@ -75,22 +45,22 @@ call plug#begin()
   Plug 'tpope/vim-markdown'
 
   " misc
-  Plug 'vim-scripts/Smart-Tabs'
+  Plug 'junegunn/vim-pseudocl'
+  Plug 'junegunn/vim-oblique'
+  Plug 'scrooloose/nerdtree'
   Plug 'AndrewRadev/sideways.vim'
-  Plug 'AndrewRadev/splitjoin.vim', { 'on': ['SplitjoinJoin', 'SplitjoinSplit'] }
+  Plug 'AndrewRadev/splitjoin.vim'
   Plug 'AndrewRadev/switch.vim'
   Plug 'ConradIrwin/vim-bracketed-paste'
   Plug 'Wolfy87/vim-expand'
   Plug 'duff/vim-scratch'
   Plug 'esneider/YUNOcommit.vim'
   Plug 'janko-m/vim-test'
-  Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+  Plug 'junegunn/vim-easy-align',   { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
   Plug 'justinmk/vim-gtfo'
   Plug 'kristijanhusak/vim-multiple-cursors'
   Plug 'milkypostman/vim-togglelist'
-  Plug 'nicholaides/words-to-avoid.vim'
   Plug 'ntpeters/vim-better-whitespace'
-  " Plug 'rking/ag.vim'
   Plug 'gabesoft/vim-ags'
   Plug 'takac/vim-commandcaps'
   Plug 'tpope/vim-abolish'
@@ -105,12 +75,9 @@ call plug#begin()
   Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-speeddating'
   Plug 'tpope/vim-surround'
-  Plug 'tpope/vim-vinegar'
   Plug 'vim-scripts/BufOnly.vim'
-  " Plug 'bkad/CamelCaseMotion'
-
-  " Plug 't9md/vim-choosewin'
-  Plug 'benekastah/neomake'
+  Plug 'mhinz/vim-sayonara'
+  " Plug 'benekastah/neomake'
 
   " custom vim objects
   " research wellle/targets.vim as a backup, if these start to fail
@@ -120,15 +87,16 @@ call plug#begin()
   Plug 'b4winckler/vim-angry'
   Plug 'Julian/vim-textobj-brace'
   Plug 'beloglazov/vim-textobj-quotes'
+  Plug 'nelstrom/vim-textobj-rubyblock'
 
   if s:darwin
     Plug 'rizzatti/dash.vim',      { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
-    Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
   endif
 
 call plug#end()
 
 set cmdheight=2          " hopefully prevents the 'hit enter' prompts
+set foldlevelstart=20
 set formatprg="par 79"   " respect the 80 character lines
 set gdefault             " assume the /g flag on :s substitutions
 set guicursor=a:blinkon0 " stop blinking
@@ -149,10 +117,6 @@ set splitbelow           " default split behavior
 set splitright           " default split behavior
 set virtualedit=onemore  " allow selection past last character
 
-set notimeout
-set ttimeout             " fix console vim speed
-set ttimeoutlen=10
-
 set wildignore+=.DS_Store
 set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.gif,*.psd,*.o,*.obj,*.min.js
 set wildignore+=*/bower_components/*,*/node_modules/*
@@ -161,18 +125,19 @@ set wildmode=list:longest
 
 " let g:netrw_liststyle=1
 set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
+set rtp+=/usr/local/Cellar/fzf/0.9.12
 
 set fillchars=diff:⣿,vert:│
 
 if s:darwin
-    exe 'set t_kB=' . nr2char(27) . '[Z'
+  exe 'set t_kB=' . nr2char(27) . '[Z'
 endif
 
 if has('gui_macvim')
-  colorscheme gotham256
+  colorscheme jellybeans
 else
   set t_Co=256
-  colorscheme gotham256
+  colorscheme jellybeans
 endif
 
 " Persistent Undo {{{

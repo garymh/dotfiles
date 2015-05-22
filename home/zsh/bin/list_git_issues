@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby -U
+
+require 'appscript'
+
+def omnifocus
+  @omnifocus ||= Appscript.app('OmniFocus').default_document
+end
+
+class OmniTask
+  def initialize task
+    @info = task.get
+  end
+
+  def summary
+    @info.name.get
+  end
+
+  def project
+    @info.containing_project.get.name.get
+  end
+
+  def closed?
+    @info.completed.get
+  end
+
+  def note
+    @info.note.get
+  end
+
+  def key
+    /(.*)Key: (.*)/.match(note).captures.last
+  end
+
+  def self.tasks_for_omnifocus_project project
+    [].tap do |tasks|
+      omnifocus.flattened_tasks[project].get.tasks.get.each do |t|
+        tasks << OmniTask.new(t)
+      end
+    end
+  end
+
+  def to_s
+    "#{key}: #{summary}"
+  end
+end
+
+actual_name =
+  case ARGV[0]
+  when 'cancer_center_members'
+    'MembersList'
+  when 'nufinreporter'
+    'NUFinancial'
+  when 'space'
+    'MembersList'
+  when 'nudais'
+    'NUDAIS'
+  else
+    ARGV[0]
+  end
+
+issues = OmniTask.tasks_for_omnifocus_project(actual_name)
+
+issues << 'No issues. Sorry :(' if issues.empty?
+issues.each do |i|
+  puts "#{i}\n"
+end

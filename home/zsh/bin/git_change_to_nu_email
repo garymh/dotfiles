@@ -1,0 +1,14 @@
+#!/bin/bash -x
+git filter-branch --env-filter ' \
+if [ "${GIT_AUTHOR_NAME}" = "unknown" ] ; then  \
+    export GIT_AUTHOR_NAME="Gary Holtz"; \
+    export GIT_AUTHOR_EMAIL="${WORK_EMAIL}"; \
+    export GIT_COMMITTER_NAME="Gary Holtz"; \
+    export GIT_COMMITTER_EMAIL="${WORK_EMAIL}"; \
+fi ; \
+if [ "${GIT_AUTHOR_NAME}" = "Gary Holtz" ] ; then  \
+    export GIT_AUTHOR_NAME="Gary Holtz"; \
+    export GIT_AUTHOR_EMAIL="${WORK_EMAIL}"; \
+    export GIT_COMMITTER_NAME="Gary Holtz"; \
+    export GIT_COMMITTER_EMAIL="${WORK_EMAIL}"; \
+fi ' HEAD

@@ -5,6 +5,9 @@ nnoremap zR zR:echo &foldlevel<cr>
 nnoremap zM zM:echo &foldlevel<cr>
 nnoremap <space><space> za
 
+nnoremap gg           ggzv
+nnoremap G            Gzv
+
 " Unimpaired.vim-like toggles
 nnoremap [oo :set colorcolumn=+1<CR>
 nnoremap ]oo :set colorcolumn=0<CR>
@@ -61,6 +64,7 @@ vnoremap <leader>s :!sort<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>ins :PlugInstall<cr>
+nnoremap <leader>upd :PlugUpdate<cr>
 
 " who on earth can reach C-^?
 nnoremap <leader><leader> <C-^>
@@ -99,7 +103,7 @@ nnoremap <leader><bar> <C-w>v<C-w>l
 nnoremap <leader>- <C-w>s
 
 " quicker close window
-nnoremap <silent>Q :call CloseWindowOrKillBuffer()<cr>
+nnoremap <silent>Q :Sayonara<cr>
 command! -bang Q q<bang>
 command! -bang QA qa<bang>
 command! -bang Qa qa<bang>
@@ -107,33 +111,22 @@ command! -bang Qa qa<bang>
 " quicker save
 nnoremap <leader>w :w<cr>
 
-" from @bling
-function! CloseWindowOrKillBuffer() "{{{
-  let number_of_windows_to_this_buffer = len(filter(range(1, winnr('$')), "winbufnr(v:val) == bufnr('%')"))
-
-  if number_of_windows_to_this_buffer > 1
-    wincmd c
-  else
-    bdelete
-  endif
-endfunction
-
-" auto center after certain commands
-nnoremap <silent> n nzz
-nnoremap <silent> N Nzz
-nnoremap <silent> * *zz
-nnoremap <silent> # #zz
-nnoremap <silent> g* g*zz
-nnoremap <silent> g# g#zz
-nnoremap <silent> <C-o> <C-o>zz
-nnoremap <silent> <C-i> <C-i>zz
+" " auto center after certain commands
+" nnoremap <silent> n nzz
+" nnoremap <silent> N Nzz
+" nnoremap <silent> * *zz
+" nnoremap <silent> # #zz
+" nnoremap <silent> g* g*zz
+" nnoremap <silent> g# g#zz
+" nnoremap <silent> <C-o> <C-o>zz
+" nnoremap <silent> <C-i> <C-i>zz
 
 " reselect visual block after indent
 vnoremap < <gv
 vnoremap > >gv
 
 " git blame
-vmap <Leader>b :<C-U>!git blame <C-R>=expand("%:p") <cr> \| sed -n <C-R>=line("'<") <cr>,<C-R>=line("'>") <cr>p <cr>
+" vmap <Leader>b :<C-U>!git blame <C-R>=expand("%:p") <cr> \| sed -n <C-R>=line("'<") <cr>,<C-R>=line("'>") <cr>p <cr>
 
 " " keep the cursor in place while joining lines
 " nnoremap J mzJ`z

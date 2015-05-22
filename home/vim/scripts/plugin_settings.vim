@@ -49,51 +49,16 @@ let g:surround_61  = "<%= \r %>"
 
 " }}} Surround.vim "
 
-" Commentary {{{ "
-" map  gc  <Plug>Commentary
-" nmap gcc <Plug>CommentaryLine
-" nmap cgc <Plug>ChangeCommentary
-" nmap gcu <Plug>Commentary<Plug>Commentary
-" nmap <m-\> <Plug>CommentaryLine
-" }}} Commentary "
-
-" Completion & Snippets {{{ "
-" let g:UltiSnipsListSnippets = "<C-g><Tab>"
-let g:UltiSnipsExpandTrigger = "<Tab>"
-let g:UltiSnipsJumpForwardTrigger = "<Tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>"
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-
-let g:ycm_filetype_blacklist = {
-      \ 'qf' : 1,
-      \ 'notes' : 1,
-      \ 'markdown' : 1,
-      \ }
-" let g:ycm_complete_in_strings = 0
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_key_list_select_completion = ['<Up>']
-let g:ycm_key_list_previous_completion = ['<Down>']
-
-" }}} Completion & Snippets "
-
 " Airline {{{ "
 let g:airline#extensions#tabline#enabled       = 1
 let g:airline#extensions#tabline#show_tab_type = 1
 let g:airline#extensions#tabline#tab_min_count = 0
 let g:airline#extensions#tabline#tab_nr_type   = 2
 let g:airline_exclude_preview                  = 1
-let g:airline_powerline_fonts                  = 1
+let g:airline_powerline_fonts=1
 " let g:airline_left_sep='›'  " Slightly fancier than '>'
 " let g:airline_right_sep='‹' " Slightly fancier than '<'
-let g:airline_theme='gotham256'
+let g:airline_theme='jellybeans'
 
 " }}} Airline "
 
@@ -102,8 +67,6 @@ nnoremap <silent> - :Switch<CR>
 " }}} Switch "
 
 " SplitJoin {{{ "
-" nnoremap sj :SplitjoinSplit<cr>
-" nnoremap sk :SplitjoinJoin<cr>
 
 function! s:try(cmd, default)
 if exists(':' . a:cmd) && !v:count
@@ -117,7 +80,8 @@ else
 endif
 endfunction
 
-nnoremap <silent> sj :<C-U>call <SID>try('SplitjoinJoin', 'gJ')<CR>
+" nnoremap <silent> sj :<C-U>call <SID>try('SplitjoinJoin', 'gJ')<CR>
+nnoremap <silent> sj :SplitjoinJoin<CR>
 nnoremap <silent>  J :<C-U>call <SID>try('SplitjoinJoin', 'mzJ`z')<CR>
 nnoremap <silent> sk :SplitjoinSplit<CR>
 nnoremap <silent>  S :<C-U>call <SID>try('SplitjoinSplit', "i\015")<CR>
@@ -218,8 +182,6 @@ let g:vimrubocop_rubocop_extra_args = "aR"
 let g:rails_projections = {
       \ "config/routes.rb": { "command": "routes" }
       \ }
-let ruby_operators = 1
-let ruby_space_errors = 1
 " }}} Ruby/Rubocop "
 
 " Whitespace {{{ "
@@ -284,6 +246,8 @@ nmap <script> <silent> qq :call ToggleQuickfixList()<CR>
 " Choosewin {{{ "
 nnoremap <tab>   <c-w>w
 nnoremap <S-tab> <c-w>W
+nnoremap <C-i> g;
+nnoremap <C-o> g,
 " let g:choosewin_overlay_enable = 1
 " nmap  <tab> :ChooseWin<CR>
 "       let g:choosewin_color_overlay = {
@@ -312,11 +276,10 @@ let g:indentLine_char = '│'
 let g:indentLine_fileTypeExclude = ['help', 'text', 'agsv']
 " }}} Identline "
 
-" CamelCase motion (replaces w, b, e) {{{ "
-" map <silent> w <Plug>CamelCaseMotion_w
-" map <silent> b <Plug>CamelCaseMotion_b
-" map <silent> e <Plug>CamelCaseMotion_e
-" sunmap w
-" sunmap b
-" sunmap e
-" }}} CamelCase motion (replaces w, b, e) "
+" NERDtree {{{ "
+nnoremap <f1> :NERDTreeToggle<cr>
+let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeRespectWildIgnore = 1
+" }}} NERDtree "
+

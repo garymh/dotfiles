@@ -35,7 +35,6 @@ fi
 if [[ $(uname) = 'Darwin' ]]; then
   IS_MAC=1
 
-  # trying out a neovim feature
   export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
   if (( $+commands[brew] )) ; then

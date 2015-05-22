@@ -1,0 +1,61 @@
+" ~/.vimrc
+
+call plug#begin()
+
+  " standard
+  Plug 'tpope/vim-sensible'
+  Plug 'tpope/vim-sensible'
+  Plug 'vim-ruby/vim-ruby'
+  Plug 'tpope/vim-unimpaired'
+  Plug 'tpope/vim-commentary'
+  Plug 'Valloric/YouCompleteMe'
+
+call plug#end()
+
+  autocmd FileType ruby set omnifunc=rubycomplete#Complete
+  let g:rubycomplete_buffer_loading = 1
+  let g:rubycomplete_classes_in_global = 1
+  let g:rubycomplete_rails = 1
+  let g:rubycomplete_load_gemfile = 1
+" set cmdheight=2          " hopefully prevents the 'hit enter' prompts
+" set formatprg="par 79"   " respect the 80 character lines
+" set gdefault             " assume the /g flag on :s substitutions
+" set guicursor=a:blinkon0 " stop blinking
+" set hidden               " make unsaved buffers hidden
+" set hlsearch             " highlight searched phrases
+" set ignorecase
+" set modeline modelines=1 " check for syntax hints
+" set nojoinspaces         " use only 1 space after '.' when joining lines
+" set nowrap               " don't wrap
+" set noswapfile
+" set number
+" set shiftround           " indenting to nearest tabstop
+" set shortmess=WatAIT     " no interruptive prompts http://items.sjbach.com/319/configuring-vim-right
+" set showbreak=↪\         " show this character for breaks
+" set showmatch            " show matching brackets
+" set smartcase            " smartcase for searching
+" set splitbelow           " default split behavior
+" set splitright           " default split behavior
+" set virtualedit=onemore  " allow selection past last character
+
+" set notimeout
+" set ttimeout             " fix console vim speed
+" set ttimeoutlen=10
+
+" set wildignore+=.DS_Store
+" set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.gif,*.psd,*.o,*.obj,*.min.js
+" set wildignore+=*/bower_components/*,*/node_modules/*
+" set wildignore+=*/smarty/*,*/vendor/*,*/.git/*,*/.hg/*,*/.svn/*,*/.sass-cache/*,*/log/*,*/tmp/*,*/build/*,*/ckeditor/*,*/doc/*,*/source_maps/*,*/dist/*
+" set wildmode=list:longest
+
+" " let g:netrw_liststyle=1
+" set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
+
+" set fillchars=diff:⣿,vert:│
+
+exe 'set t_kB=' . nr2char(27) . '[Z'
+
+" source ~/.vim/scripts/autocommands.vim
+" source ~/.vim/scripts/mappings.vim
+" source ~/.vim/scripts/plugin_settings.vim
+

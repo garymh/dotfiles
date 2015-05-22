@@ -6,7 +6,7 @@ chronic
 curses
 facets
 fastri
-flog
+gem-ctags
 git
 hirb
 iconv

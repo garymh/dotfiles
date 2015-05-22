@@ -1,26 +1,34 @@
 
 if [[ $IS_MAC -eq 1 ]]; then
   alias vim="nvim"
-  alias fix_git_hook="cp ~/Dropbox/Internal/dotfiles/home/git_templates/hooks/post-commit .git/hooks/post-commit"
 
-  alias oo='open .'
-  alias update_tags="ctags -R . $(bundle list --paths)"
+  export HOME_DIR="$HOME/Dropbox/Internal/dotfiles/home"
+  export DOTFILES="$HOME/Dropbox/Internal/dotfiles"
+
+  alias fix_git_hook="cp $HOME_DIR/git_templates/hooks/post-commit .git/hooks/post-commit"
+
+  alias debug_vim='/usr/local/bin/vim -u ~/.vimrc_min'
+  alias debug_nvim='nvim -u ~/.vimrc_min'
+
   alias ccat="src-hilite-lesspipe.sh $1"
-  alias tomon='sudo ~/Library/Tomcat/libexec/bin/startup.sh'
-  alias tomoff='sudo ~/Library/Tomcat/libexec/bin/shutdown.sh'
-  alias poston='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
-  alias postoff='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop'
-  alias cfon='/Applications/ColdFusion10/cfusion/bin/coldfusion start'
   alias cfoff='/Applications/ColdFusion10/cfusion/bin/coldfusion stop'
+  alias cfon='/Applications/ColdFusion10/cfusion/bin/coldfusion start'
   alias cfrestart='/Applications/ColdFusion10/cfusion/bin/coldfusion restart'
-  alias screensaver='/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine &'
-  alias zshrc="vim ~/Dropbox/Internal/dotfiles/home/zshrc"
-  alias ealias="vim ~/Dropbox/Internal/dotfiles/home/zsh/aliases.zsh"
-  alias efunction="vim ~/Dropbox/Internal/dotfiles/home/zsh/functions.zsh"
-  alias evim="vim ~/Dropbox/Internal/dotfiles/home/vimrc"
-  alias egems="vim ~/Dropbox/Internal/dotfiles/new_machine/gems"
+  alias ealias="$EDITOR $HOME_DIR/zsh/aliases.zsh"
+  alias efunction="$EDITOR $HOME_DIR/zsh/functions.zsh"
+  alias egems="$EDITOR $DOTFILES/new_machine/gems"
   alias eivm="evim"
+  alias evim="$EDITOR $HOME_DIR/vimrc"
   alias evimrc="evim"
+  alias oo='open .'
+  alias postoff='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop'
+  alias poston='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
+  alias screensaver='/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine &'
+  alias third_party_extensions='kextstat | grep -v apple'
+  alias tomoff='sudo ~/Library/Tomcat/libexec/bin/shutdown.sh'
+  alias tomon='sudo ~/Library/Tomcat/libexec/bin/startup.sh'
+  alias update_tags="ctags -R . $(bundle list --paths)"
+  alias zshrc="$EDITOR $HOME_DIR/zshrc"
 
   alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user'
   alias fix_keystore='sudo keytool -import -keystore /System/Library/Frameworks/JavaVM.framework/Home/lib/security/cacerts -file /etc/apache2/ssl/server.crt -alias apache_garymbp'

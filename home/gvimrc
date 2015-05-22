@@ -1,14 +1,14 @@
 " set guifont=Fixedsys\ Excelsior\ 3.01:h20
-" set guifont=Input\ Mono\ Compressed:h22
-set guifont=InputMonoCompressed-Medium:h22
+set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Bold:h18
 
-set guioptions-=m
-set guioptions-=T
-set guioptions-=L
-set guioptions-=l
-set guioptions-=R
-set guioptions-=r
-set guioptions-=b
+set guioptions-=mTLlRrb
+" set guioptions-=T
+" set guioptions-=L
+" set guioptions-=l
+" set guioptions-=R
+" set guioptions-=r
+" set guioptions-=b
+
 if has('title') && (has('gui_running') || &title)
     set titlestring=
     set titlestring+=%f " file name

@@ -4,6 +4,23 @@ vimf() {
   FILE=$(fzf) && vim "$FILE"
 }
 
+function _jira_issue_list {
+zle -U $(truncate_git_issues $(list_git_issues $(basename `pwd`) | choose))
+}
+
+zle -N _jira_issue_list
+bindkey '\ej' _jira_issue_list
+
+c() { cd ~/code/$1;  }
+
+_c() { _files -W ~/code -/; }
+compdef _c c
+
+h() { cd ~/$1;  }
+
+_h() { _files -W ~/ -/; }
+compdef _h h
+
 # fh - repeat history
 fh() {
   print -z $(([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
@@ -37,17 +54,18 @@ vpn_status() {
 }
 
 function vpnon() {
-/usr/bin/env osascript <<-EOF
-tell application "System Events"
-        tell current location of network preferences
-                set VPN to service "NU VPN"
-                if exists VPN then connect VPN
-                repeat while (current configuration of VPN is not connected)
-                    delay 1
-                end repeat
-        end tell
-end tell
-EOF
+# /usr/bin/env osascript <<-EOF
+# tell application "System Events"
+#         tell current location of network preferences
+#                 set VPN to service "NU VPN"
+#                 if exists VPN then connect VPN
+#                 repeat while (current configuration of VPN is not connected)
+#                     delay 1
+#                 end repeat
+#         end tell
+# end tell
+# EOF
+  scutil --nc start "NU VPN" --user $NETID --password $NU_PASS --secret northwesternvpn
 }
 
 function vpnoff() {
@@ -81,10 +99,11 @@ search() {
   sudo find . -iname "*$1*"
 }
 
-# # Show contents of directory after cd-ing into it
-# chpwd() {
-#   ls -lrthG --color=tty
-# }
+# Show contents of directory after cd-ing into it
+chpwd() {
+  # gls -lrthG --color=tty
+  k
+}
 
 # batch change extension
 chgext() {
@@ -103,7 +122,6 @@ if [[ $IS_MAC -eq 1 ]]; then
   #   gls --color=always $*
       k --no-vcs --human
   }
-
 
   vm() {
     VAGRANT_CWD=~/code/vagrant_and_oracle_vm_setup vagrant up
