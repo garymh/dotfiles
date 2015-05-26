@@ -2,9 +2,6 @@
 if [[ $IS_MAC -eq 1 ]]; then
   alias vim="nvim"
 
-  export HOME_DIR="$HOME/Dropbox/Internal/dotfiles/home"
-  export DOTFILES="$HOME/Dropbox/Internal/dotfiles"
-
   alias fix_git_hook="cp $HOME_DIR/git_templates/hooks/post-commit .git/hooks/post-commit"
 
   alias debug_vim='/usr/local/bin/vim -u ~/.vimrc_min'

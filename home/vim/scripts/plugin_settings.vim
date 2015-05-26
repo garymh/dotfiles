@@ -220,7 +220,7 @@ let g:semanticTermColors = [
       \ 126,
       \ 120,
       \ 189]
-nnoremap <leader>t :SemanticHighlightToggle<cr>
+nnoremap <leader>h :SemanticHighlightToggle<cr>
 let g:semanticUseCache = 1
 let g:semanticPersistCache = 1
 let g:semanticEnableFileTypes = ['ruby', 'vim']

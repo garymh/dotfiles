@@ -1,4 +1,4 @@
-source $HOME/.zgen/zgen.zsh
+source $DOTFILES/submodules/zgen/zgen.zsh
 source $HOME/.fresh/build/shell.sh
 
 if ! zgen saved; then
