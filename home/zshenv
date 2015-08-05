@@ -31,6 +31,11 @@ if [[ $(uname) = 'Linux' ]]; then
   export USER="$NETID"
   export DISPLAY=:7
   export rvmsudo_secure_path=1
+  export DOTFILES="$HOME/dotfiles"
+  export HOME_DIR="$DOTFILES/home"
+  export FRESH_LOCAL="$DOTFILES"
+  export FRESH_BIN_PATH="$HOME/.zsh/bin"
+  export FRESH_RCFILE="$FRESH_LOCAL/home/freshrc"
 fi
 
 if [[ $(uname) = 'Darwin' ]]; then
@@ -50,8 +55,8 @@ if [[ $(uname) = 'Darwin' ]]; then
   fi
 
   export GOPATH="$HOME/code/custom/go"
-  export HOME_DIR="$HOME/Dropbox/Internal/dotfiles/home"
   export DOTFILES="$HOME/Dropbox/Internal/dotfiles"
+  export HOME_DIR="$DOTFILES/home"
   export FRESH_LOCAL="$DOTFILES"
   export FRESH_BIN_PATH="$HOME/.zsh/bin"
   export FRESH_RCFILE="$FRESH_LOCAL/home/freshrc"
