@@ -5,6 +5,9 @@
     ~/.gemrc:
       relink: true
       path: home/gemrc
+    ~/.agignore:
+      relink: true
+      path: home/agignore
     ~/.gitconfig:
       relink: true
       path: home/gitconfig
@@ -50,6 +53,18 @@
     ~/.zshrc:
       relink: true
       path: home/zshrc
+
+    ~/.tmux.conf:
+      relink: true
+      path: home/tmux.conf
+    ~/.tmux/gary_theme.conf:
+      relink: true
+      create: true
+      path: home/tmux/gary_theme.conf
+    ~/.tmux/plugins/tpm:
+      create: true
+      relink: true
+      path: submodules/tpm
 
     ~/.vim/autoload:
       create: true

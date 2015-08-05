@@ -7,9 +7,20 @@ vimf() {
 function _jira_issue_list {
 zle -U $(truncate_git_issues $(list_git_issues $(basename `pwd`) | choose))
 }
-
 zle -N _jira_issue_list
 bindkey '\ej' _jira_issue_list
+
+fancy-ctrl-z () {
+if [[ $#BUFFER -eq 0 ]]; then
+  BUFFER="fg"
+  zle accept-line
+else
+  zle push-input
+  zle clear-screen
+fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
 
 c() { cd ~/code/$1;  }
 
@@ -124,15 +135,15 @@ if [[ $IS_MAC -eq 1 ]]; then
   }
 
   vm() {
-    VAGRANT_CWD=~/code/vagrant_and_oracle_vm_setup vagrant up
+    VAGRANT_CWD=~/vagrant vagrant up
   }
 
   vmoff() {
-    VAGRANT_CWD=~/code/vagrant_and_oracle_vm_setup vagrant suspend
+    VAGRANT_CWD=~/vagrant vagrant suspend
   }
 
   destroy_vm() {
-    cd ~/code/vagrant_and_oracle_vm_setup
+    cd ~/vagrant
     vagrant destroy -f
     rm -rf vagrant_ansible_inventory_default
     rm -rf provisioning/roles/oracle/files/xe.rsp

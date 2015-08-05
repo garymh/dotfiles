@@ -3,6 +3,10 @@
 nmap <silent> K <Plug>DashSearch
 " }}} Dash "
 
+" vim-gtfo {{{ "
+let g:gtfo#terminals = { 'mac' : 'iterm' }
+" }}} vim-gtfo "
+
 " Surround.vim {{{ "
 " below stolen from YADR (@skwp)
 " <leader># Surround a word with #{ruby interpolation}
@@ -50,15 +54,14 @@ let g:surround_61  = "<%= \r %>"
 " }}} Surround.vim "
 
 " Airline {{{ "
+let g:airline_detect_crypt=0
 let g:airline#extensions#tabline#enabled       = 1
 let g:airline#extensions#tabline#show_tab_type = 1
 let g:airline#extensions#tabline#tab_min_count = 0
 let g:airline#extensions#tabline#tab_nr_type   = 2
 let g:airline_exclude_preview                  = 1
-let g:airline_powerline_fonts=1
-" let g:airline_left_sep='›'  " Slightly fancier than '>'
-" let g:airline_right_sep='‹' " Slightly fancier than '<'
-let g:airline_theme='jellybeans'
+let g:airline_powerline_fonts                  = 0
+let g:airline_theme='badwolf'
 
 " }}} Airline "
 
@@ -67,7 +70,6 @@ nnoremap <silent> - :Switch<CR>
 " }}} Switch "
 
 " SplitJoin {{{ "
-
 function! s:try(cmd, default)
 if exists(':' . a:cmd) && !v:count
   let tick = b:changedtick
@@ -80,11 +82,10 @@ else
 endif
 endfunction
 
-" nnoremap <silent> sj :<C-U>call <SID>try('SplitjoinJoin', 'gJ')<CR>
-nnoremap <silent> sj :SplitjoinJoin<CR>
-nnoremap <silent>  J :<C-U>call <SID>try('SplitjoinJoin', 'mzJ`z')<CR>
 nnoremap <silent> sk :SplitjoinSplit<CR>
-nnoremap <silent>  S :<C-U>call <SID>try('SplitjoinSplit', "i\015")<CR>
+nnoremap <silent> sj :SplitjoinJoin<CR>
+nnoremap <silent> J mzJ`z
+nnoremap <silent> S i<CR><esc>k$
 " }}} SplitJoin "
 
 " YUNOCommit {{{ "
@@ -95,7 +96,23 @@ let g:YUNOcommit_after = 20
 " command! -nargs=1 Locate call fzf#run(
 " \ {'source': 'locate <q-args>', 'sink': 'e', 'options': '-m'})
 
-nnoremap <silent> <C-p> :FZF -m<CR>
+
+if has('nvim')
+  let $FZF_DEFAULT_OPTS .= ' --inline-info'
+endif
+nnoremap <silent> <C-p> :FZF<CR>
+
+" Choose a color scheme with fzf
+nnoremap <silent> <Leader>C :call fzf#run({
+\   'source':
+\     map(split(globpath(&rtp, "colors/*.vim"), "\n"),
+\         "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"),
+\   'sink':     'colo',
+\   'options':  '+m',
+\   'left':     20,
+\   'launcher': 'xterm -geometry 20x30 -e bash -ic %s'
+\ })<CR>
+
 " nmap <silent> <C-p> :CtrlP .<CR>
 " let g:ctrlp_match_window_bottom   = 0
 " let g:ctrlp_match_window_reversed = 0
@@ -129,15 +146,13 @@ nnoremap <silent> <C-p> :FZF -m<CR>
 " }}} CTRL-P "
 
 " Testing {{{ "
-if has("nvim")
-  let g:test#strategy = 'neovim'
-else
-  let g:test#strategy = 'dispatch'
-endif
-nnoremap <silent> <leader>t :TestNearest<CR>
-nnoremap <silent> <leader>T :TestFile<CR>
-nnoremap <silent> <leader>a :TestSuite<CR>
-nnoremap <silent> <leader>l :TestLast<CR>
+let g:test#strategy = 'vimux'
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
+" let test#ruby#minitest#executable = 'm'
 " }}} Testing "
 
 " EasyAlign {{{ "
@@ -171,6 +186,17 @@ let g:easy_align_delimiters = {
       \   }
       \ }
 " }}} EasyAlign "
+
+" Tmux {{{ "
+nnoremap <silent> <C-w>h :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-w>j :TmuxNavigateDown<cr>
+nnoremap <silent> <C-w>k :TmuxNavigateUp<cr>
+nnoremap <silent> <C-w>l :TmuxNavigateRight<cr>
+" nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
+" nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
+" nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
+" nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
+" }}} Tmux "
 
 " Multiple Cursors {{{ "
 vnoremap <Leader>v :MultipleCursorsFind <C-R><C-W><CR>
@@ -244,30 +270,24 @@ nmap <script> <silent> qq :call ToggleQuickfixList()<CR>
 " }}} Quickfix Toggle "
 
 " Choosewin {{{ "
-nnoremap <tab>   <c-w>w
-nnoremap <S-tab> <c-w>W
 nnoremap <C-i> g;
 nnoremap <C-o> g,
-" let g:choosewin_overlay_enable = 1
-" nmap  <tab> :ChooseWin<CR>
-"       let g:choosewin_color_overlay = {
-" \ 'gui': ['DodgerBlue3', 'DodgerBlue3' ],
-" \ 'cterm': [ 25, 25 ]
-" \ }
-" let g:choosewin_color_overlay_current = {
-" \ 'gui': ['firebrick1', 'firebrick1' ],
-" \ 'cterm': [ 124, 124 ]
-" \ }
-
-" let g:choosewin_blink_on_land      = 1 " dont' blink at land
-" let g:choosewin_statusline_replace = 0 " don't replace statusline
-" let g:choosewin_tabline_replace    = 0 " don't replace tabline
+nnoremap <tab>   <c-w>w
+nnoremap <S-tab> <c-w>W
 " }}} Choosewin "
 
-" vim-ags {{{ "
-let g:ags_agexe = 'ag --nocolor'
-nmap <script> <silent> qs :AgsQuit<CR>
-" }}} vim-ags "
+" ctrlsf {{{ "
+" let g:ags_agexe = 'ag --nocolor'
+" nmap <script> <silent> qs :CtrlSFToggle<CR>
+nnoremap <space>f :CtrlSF<space>
+let g:ctrlsf_position = 'right'
+let g:ctrlsf_indent = 1
+let g:ctrlsf_mapping = {
+    \ "next": "n",
+    \ "prev": "N",
+    \ }
+
+" }}} ctrlsf "
 
 " Identline {{{ "
 let g:indentLine_color_term = 239

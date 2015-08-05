@@ -9,6 +9,7 @@ path=(
   /sbin
   /usr/X11/bin
   /usr/local/heroku/bin
+  ${HOME}/code/custom/go/bin
   ${HOME}/Library/Python/2.7/bin
 )
 
@@ -48,6 +49,7 @@ if [[ $(uname) = 'Darwin' ]]; then
 
   fi
 
+  export GOPATH="$HOME/code/custom/go"
   export HOME_DIR="$HOME/Dropbox/Internal/dotfiles/home"
   export DOTFILES="$HOME/Dropbox/Internal/dotfiles"
   export FRESH_LOCAL="$DOTFILES"

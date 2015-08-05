@@ -10,22 +10,35 @@ call plug#begin()
   Plug 'tpope/vim-sensible'
   Plug 'tpope/vim-unimpaired'
 
+  " almost standard
+  Plug 'mhinz/vim-sayonara'
+  " Plug 'christoomey/vim-system-copy'
+  Plug 'tpope/vim-surround'
+  Plug 'junegunn/vim-oblique'
+  Plug 'junegunn/vim-pseudocl'
+  Plug 'milkypostman/vim-togglelist'
+  Plug 'takac/vim-commandcaps'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-dispatch'
+
   " appearance
-  " Plug 'Yggdroot/indentLine'
-  " Plug 'deris/vim-shot-f'
-  " Plug 'jaxbot/semantic-highlight.vim'
-  " Plug 'osyo-manga/vim-brightest'
   Plug 'atimholt/spiffy_foldtext'
   Plug 'bling/vim-airline'
   Plug 'kien/rainbow_parentheses.vim'
-  Plug 'nanotech/jellybeans.vim'
-  Plug 'whatyouhide/vim-gotham'
 
+  " Plug 'whatyouhide/vim-gotham'
+  " Plug 'nanotech/jellybeans.vim'
+  " Plug 'vim-scripts/wombat256.vim'
+  Plug 'sjl/badwolf'
+
+  " testing
+  Plug 'kassio/neoterm'
+  Plug 'janko-m/vim-test'
+  Plug 'benmills/vimux'
+  Plug 'christoomey/vim-tmux-runner'
+
+  " completions
   source ~/.vim/scripts/completions.vim
-
-  " ctrl-p
-  " Plug 'ctrlpvim/ctrlp.vim'
-  " Plug 'junegunn/fzf',             { 'do': 'yes \| ./install' }
 
   " ruby
   Plug 'ngmy/vim-rubocop',         { 'for': 'ruby' }
@@ -34,6 +47,12 @@ call plug#begin()
   Plug 'tpope/vim-rake',           { 'for': 'ruby' }
   Plug 'tpope/vim-rbenv'
   Plug 'vim-ruby/vim-ruby'
+  Plug 'Chiel92/vim-autoformat'
+
+  " tmux
+  Plug 'christoomey/vim-tmux-navigator'
+  Plug 'tmux-plugins/vim-tmux'
+  Plug 'tmux-plugins/vim-tmux-focus-events'
 
   " syntax
   Plug 'davejlong/cf-utils.vim',   { 'for': 'coldfusion' }
@@ -45,24 +64,18 @@ call plug#begin()
   Plug 'tpope/vim-markdown'
 
   " misc
-  Plug 'junegunn/vim-pseudocl'
-  Plug 'junegunn/vim-oblique'
-  Plug 'scrooloose/nerdtree'
   Plug 'AndrewRadev/sideways.vim'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'AndrewRadev/switch.vim'
-  Plug 'ConradIrwin/vim-bracketed-paste'
   Plug 'Wolfy87/vim-expand'
+  Plug 'bruno-/vim-vertical-move'
   Plug 'duff/vim-scratch'
-  Plug 'esneider/YUNOcommit.vim'
-  Plug 'janko-m/vim-test'
+  Plug 'dyng/ctrlsf.vim'
   Plug 'junegunn/vim-easy-align',   { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
   Plug 'justinmk/vim-gtfo'
   Plug 'kristijanhusak/vim-multiple-cursors'
-  Plug 'milkypostman/vim-togglelist'
   Plug 'ntpeters/vim-better-whitespace'
-  Plug 'gabesoft/vim-ags'
-  Plug 'takac/vim-commandcaps'
+  Plug 'scrooloose/nerdtree'
   Plug 'tpope/vim-abolish'
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-dispatch'
@@ -70,14 +83,13 @@ call plug#begin()
   Plug 'tpope/vim-eunuch'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-git'
+  " Plug 'tpope/vim-obsession'
   Plug 'tpope/vim-projectionist'
-  Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-rhubarb'
+  Plug 'tpope/vim-rsi'
   Plug 'tpope/vim-speeddating'
-  Plug 'tpope/vim-surround'
   Plug 'vim-scripts/BufOnly.vim'
-  Plug 'mhinz/vim-sayonara'
-  " Plug 'benekastah/neomake'
+  Plug 'wincent/terminus'
 
   " custom vim objects
   " research wellle/targets.vim as a backup, if these start to fail
@@ -117,6 +129,12 @@ set splitbelow           " default split behavior
 set splitright           " default split behavior
 set virtualedit=onemore  " allow selection past last character
 
+set nocursorline
+set nocursorcolumn
+set scrolljump=5
+set lazyredraw
+set synmaxcol=180
+
 set wildignore+=.DS_Store
 set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.gif,*.psd,*.o,*.obj,*.min.js
 set wildignore+=*/bower_components/*,*/node_modules/*
@@ -125,7 +143,7 @@ set wildmode=list:longest
 
 " let g:netrw_liststyle=1
 set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
-set rtp+=/usr/local/Cellar/fzf/0.9.12
+set rtp+=/usr/local/Cellar/fzf/0.10.2
 
 set fillchars=diff:⣿,vert:│
 
@@ -134,11 +152,15 @@ if s:darwin
 endif
 
 if has('gui_macvim')
-  colorscheme jellybeans
+  colorscheme badwolf
 else
   set t_Co=256
-  colorscheme jellybeans
+  colorscheme badwolf
 endif
+
+set textwidth=80
+set colorcolumn=+1
+hi ColorColumn guibg=#99AC6D ctermbg=246
 
 " Persistent Undo {{{
 silent !mkdir ~/.vim/backups > /dev/null 2>&1
@@ -152,4 +174,3 @@ endif
 source ~/.vim/scripts/autocommands.vim
 source ~/.vim/scripts/mappings.vim
 source ~/.vim/scripts/plugin_settings.vim
-

@@ -16,3 +16,6 @@
 [submodule "submodules/pug"]
 	path = submodules/pug
 	url = https://github.com/ashur/pug.git
+[submodule "submodules/tpm"]
+	path = submodules/tpm
+	url = https://github.com/tmux-plugins/tpm

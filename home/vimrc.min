@@ -4,19 +4,21 @@ call plug#begin()
 
   " standard
   Plug 'tpope/vim-sensible'
-  Plug 'tpope/vim-sensible'
   Plug 'vim-ruby/vim-ruby'
   Plug 'tpope/vim-unimpaired'
   Plug 'tpope/vim-commentary'
-  Plug 'Valloric/YouCompleteMe'
+  Plug 'janko-m/vim-test'
+  " Plug 'tpope/vim-dispatch'
+  Plug 'kassio/neoterm'
 
 call plug#end()
 
-  autocmd FileType ruby set omnifunc=rubycomplete#Complete
-  let g:rubycomplete_buffer_loading = 1
-  let g:rubycomplete_classes_in_global = 1
-  let g:rubycomplete_rails = 1
-  let g:rubycomplete_load_gemfile = 1
+let g:test#strategy = 'neoterm'
+nnoremap <silent> <leader>t :TestNearest<CR>
+nnoremap <silent> <leader>T :TestFile<CR>
+nnoremap <silent> <leader>a :TestSuite<CR>
+nnoremap <silent> <leader>l :TestLast<CR>
+
 " set cmdheight=2          " hopefully prevents the 'hit enter' prompts
 " set formatprg="par 79"   " respect the 80 character lines
 " set gdefault             " assume the /g flag on :s substitutions

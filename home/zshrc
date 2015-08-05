@@ -46,6 +46,7 @@ zgen oh-my-zsh
   zgen load gerges/oh-my-zsh-jira-plus
   zgen load Tarrasch/zsh-colors
   zgen load supercrabtree/k
+  # zgen load nojhan/liquidprompt
 
   zmodload zsh/terminfo
   bindkey "$terminfo[kcuu1]" history-substring-search-up
@@ -96,6 +97,7 @@ elif [[ $HAS_COWSAY -eq 1 ]]; then
 else
   uptime
 fi
+# if [[ -e $HOME/.motd ]]; then cat $HOME/.motd; fi
 
 [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 
@@ -109,3 +111,6 @@ fi
 # zle -N zle-line-init
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"

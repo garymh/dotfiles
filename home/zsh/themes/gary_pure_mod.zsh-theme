@@ -16,20 +16,6 @@
 # %m => shortname host
 # %(?..) => prompt conditional - %(condition.true.false)
 
-function box_name {
-if [[ -f ~/.box-name  ]]; then
-  if [[ $(cat ~/.box-name) = 'STAGING'  ]]; then
-    echo "%{$fg[yellow]STAGING"
-  elif [[ $(cat ~/.box-name) = 'PRODUCTION'  ]]; then
-    echo "%{$fg[red]PRODUCTION"
-  else
-    cat ~/.box-name
-  fi
-else
-  hostname -s
-fi
-}
-
 # turns seconds into human readable time
 # 165392 => 1d 21h 56m 32s
 prompt_pure_human_time() {

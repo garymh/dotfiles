@@ -6,8 +6,10 @@ chronic
 curses
 facets
 fastri
+gem-browse
 gem-ctags
 git
+github
 hirb
 iconv
 mechanize
@@ -25,4 +27,6 @@ rcodetools
 redcarpet
 rubocop
 ruby-beautify
+seeing_is_believing
 sketches
+starscope

@@ -3,5 +3,5 @@ vpn_status() {
 }
 
 if vpn_status; then
-  echo "VPN 🔒"
+  echo "🔒"
 fi

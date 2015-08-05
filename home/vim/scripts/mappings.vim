@@ -41,9 +41,6 @@ nnoremap <space>e :e.<CR>
 " replace word under cursor
 nnoremap <leader>r :%s/\<<C-r>=expand('<cword>')<CR>\>/
 
-" ack/ag
-nnoremap <space>f :Ags<space>
-
 " i never use H or L's defaults, might as well make them useful!
 noremap H ^
 noremap L $
@@ -62,7 +59,12 @@ vnoremap <leader>s :!sort<cr>
 
 " vimrc editing and sourcing
 nnoremap <leader>sv :source $MYVIMRC<cr>
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>qev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ev :e $MYVIMRC<cr>
+nnoremap <leader>emp :e ~/.vim/scripts/mappings.vim<cr>
+nnoremap <leader>epl :e ~/.vim/scripts/plugin_settings.vim<cr>
+nnoremap <leader>qemp :vsplit ~/.vim/scripts/mappings.vim<cr>
+nnoremap <leader>qepl :vsplit ~/.vim/scripts/plugin_settings.vim<cr>
 nnoremap <leader>ins :PlugInstall<cr>
 nnoremap <leader>upd :PlugUpdate<cr>
 

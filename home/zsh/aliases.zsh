@@ -1,19 +1,23 @@
 
 if [[ $IS_MAC -eq 1 ]]; then
   alias vim="nvim"
+  alias tmux="TERM=screen-256color-bce tmux"
 
   alias fix_git_hook="cp $HOME_DIR/git_templates/hooks/post-commit .git/hooks/post-commit"
 
   alias debug_vim='/usr/local/bin/vim -u ~/.vimrc_min'
   alias debug_nvim='nvim -u ~/.vimrc_min'
 
-  alias ccat="src-hilite-lesspipe.sh $1"
+  alias eshortcuts="$EDITOR ~/Library/Mobile\ Documents/com~apple~CloudDocs/shortcuts"
+  alias eshortcut="eshortcuts"
+  # alias ccat="src-hilite-lesspipe.sh $1"
   alias cfoff='/Applications/ColdFusion10/cfusion/bin/coldfusion stop'
   alias cfon='/Applications/ColdFusion10/cfusion/bin/coldfusion start'
   alias cfrestart='/Applications/ColdFusion10/cfusion/bin/coldfusion restart'
   alias ealias="$EDITOR $HOME_DIR/zsh/aliases.zsh"
   alias efunction="$EDITOR $HOME_DIR/zsh/functions.zsh"
   alias egems="$EDITOR $DOTFILES/new_machine/gems"
+  alias etmux="$EDITOR $DOTFILES/home/tmux.conf $DOTFILES/home/tmux/gary_theme.conf"
   alias eivm="evim"
   alias evim="$EDITOR $HOME_DIR/vimrc"
   alias evimrc="evim"
@@ -42,6 +46,8 @@ if [[ $IS_LINUX -eq 1 ]]; then
   alias cfrestart='sudo service coldfusion_10 restart'
 fi
 
+alias stage_deploy="cap staging deploy"
+alias prod_deploy="cap production deploy"
 alias gs="git status -sb"
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | green '=> Public key copied to pasteboard.'"
 alias be="bundle exec"
@@ -61,7 +67,7 @@ alias mem='top -o rsize' # memory
 
 # ls better
 alias la="ls -aF"
-alias lh='ls -d .*'
+alias lh='gls -d .*'
 # alias lh='gls --color=always -a | egrep "^\."'
 # alias ll='gls --color=always -lh'
 alias ll='ls -lh'
@@ -95,6 +101,7 @@ alias -g L="| less"
 alias -g LL="2>&1 | less"
 alias -g M="| most"
 alias -g NUL="> /dev/null 2>&1"
+alias -g P='| path-extractor | fzf | read filename; [ ! -z $filename ] && vim $filename'
 alias -g S='| sort'
 alias -g T='| tail'
 
