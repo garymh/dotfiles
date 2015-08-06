@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [[ -f ~/.box-name  ]]; then
   if [[ $(cat ~/.box-name) = 'STAGING'  ]]; then
