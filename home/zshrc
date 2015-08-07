@@ -1,5 +1,5 @@
 source $DOTFILES/submodules/zgen/zgen.zsh
-source $HOME/.fresh/build/shell.sh
+source $HOME/.fresh/build.new/shell.sh
 
 if ! zgen saved; then
 zgen oh-my-zsh
@@ -60,7 +60,7 @@ fi
 
 for f ($HOME/.zsh/*.zsh) {source $f}
 
-if [ 0 -lt $(ls $HOME/.zsh/private/*.zsh 2>/dev/null | wc -w) ]; then
+if [ 0 -ne $(ls $HOME/.zsh/private/*.zsh 2>/dev/null | wc -w) ]; then
   for f ($HOME/.zsh/private/*.zsh) {source $f}
 fi
 
