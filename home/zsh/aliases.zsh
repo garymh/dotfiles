@@ -44,6 +44,11 @@ if [[ $IS_LINUX -eq 1 ]]; then
   alias cfon='sudo service coldfusion_10 start'
   alias cfoff='sudo service coldfusion_10 stop'
   alias cfrestart='sudo service coldfusion_10 restart'
+
+  if [[ $HOST -eq "nightcrawler" ]]; then
+    alias vim="nvim"
+    alias tmux="TERM=screen-256color-bce tmux"
+  fi
 fi
 
 alias stage_deploy="cap staging deploy"

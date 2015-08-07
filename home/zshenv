@@ -20,14 +20,17 @@ if [[ $(uname) = 'Linux' ]]; then
     HAS_YUM=1
   fi
 
-  source /etc/profile.d/rvm.sh
-  export LD_LIBRARY_PATH="/usr/lib/oracle/11.2/client64//lib:/lib:/usr/lib64:/usr/lib:/usr/local/lib"
-  path=(
+  if [[ $HOST -ne "nightcrawler" ]]; then
+    source /etc/profile.d/rvm.sh
+    export LD_LIBRARY_PATH="/usr/lib/oracle/11.2/client64//lib:/lib:/usr/lib64:/usr/lib:/usr/local/lib"
+    path=(
     /usr/local/sbin
     /usr/lib/oracle/11.2/client64/
     $path
-  )
-  export ORACLE_HOME="/usr/lib/oracle/11.2/client64/"
+    )
+    export ORACLE_HOME="/usr/lib/oracle/11.2/client64/"
+  fi
+
   export USER="$NETID"
   export DISPLAY=:7
   export rvmsudo_secure_path=1
@@ -41,7 +44,6 @@ fi
 if [[ $(uname) = 'Darwin' ]]; then
   IS_MAC=1
 
-  export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
   if (( $+commands[brew] )) ; then
     HAS_BREW=1
@@ -113,6 +115,7 @@ if [ $(command -v grc) ]; then
   source `brew --prefix`/etc/grc.bashrc
 fi
 
+export NVIM_TUI_ENABLE_TRUE_COLOR=1
 unsetopt correct_all
 unsetopt correct
 unsetopt promptcr

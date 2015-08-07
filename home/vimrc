@@ -64,6 +64,7 @@ call plug#begin()
   Plug 'tpope/vim-markdown'
 
   " misc
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
   Plug 'AndrewRadev/sideways.vim'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'AndrewRadev/switch.vim'
@@ -143,7 +144,7 @@ set wildmode=list:longest
 
 " let g:netrw_liststyle=1
 set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
-set rtp+=/usr/local/Cellar/fzf/0.10.2
+" set rtp+=/usr/local/Cellar/fzf/0.10.2
 
 set fillchars=diff:⣿,vert:│
 
