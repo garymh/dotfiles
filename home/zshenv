@@ -100,8 +100,10 @@ if [ $(command -v img2xterm) ]; then
 fi
 
 if [[ -f ~/.dir_colors ]]; then
-  HAS_COLORS=1
-  eval `gdircolors $HOME/.dir_colors`
+  if (( $+commands[gdircolors] )) ; then
+    HAS_COLORS=1
+    eval `gdircolors $HOME/.dir_colors`
+  fi
 fi
 
 if [[ -f ~/.fzf.zsh ]]; then

@@ -59,7 +59,10 @@ zgen oh-my-zsh
 fi
 
 for f ($HOME/.zsh/*.zsh) {source $f}
-for f ($HOME/.zsh/private/*.zsh) {source $f}
+
+if [ 0 -lt $(ls $HOME/.zsh/private/*.zsh 2>/dev/null | wc -w) ]; then
+  for f ($HOME/.zsh/private/*.zsh) {source $f}
+fi
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 ZSH_HIGHLIGHT_STYLES+=(

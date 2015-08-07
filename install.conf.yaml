@@ -102,5 +102,5 @@
   - [git submodule update --init --recursive, Installing submodules]
   - [$(which vim) +PlugInstall +qall, Update bundles]
   # homebrew
-  # fresh
+  - [bash -c "`curl -sL get.freshshell.com`"]
 
