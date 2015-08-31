@@ -1,5 +1,4 @@
 source $DOTFILES/submodules/zgen/zgen.zsh
-# source $HOME/.fresh/build.new/shell.sh
 
 if ! zgen saved; then
 zgen oh-my-zsh
