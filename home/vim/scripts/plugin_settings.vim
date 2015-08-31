@@ -1,11 +1,17 @@
+" Airline {{{ "
+let g:airline#extensions#tabline#enabled       = 1
+let g:airline#extensions#tabline#show_tab_type = 1
+let g:airline#extensions#tabline#tab_min_count = 0
+let g:airline#extensions#tabline#tab_nr_type   = 2
+let g:airline_detect_crypt                     = 0
+let g:airline_exclude_preview                  = 1
+let g:airline_powerline_fonts                  = 0
+let g:airline_theme                            = 'hybridline'
+" }}} Airline "
 
 " Dash {{{ "
 nmap <silent> K <Plug>DashSearch
 " }}} Dash "
-
-" vim-gtfo {{{ "
-let g:gtfo#terminals = { 'mac' : 'iterm' }
-" }}} vim-gtfo "
 
 " Surround.vim {{{ "
 " below stolen from YADR (@skwp)
@@ -53,39 +59,20 @@ let g:surround_61  = "<%= \r %>"
 
 " }}} Surround.vim "
 
-" Airline {{{ "
-let g:airline_detect_crypt=0
-let g:airline#extensions#tabline#enabled       = 1
-let g:airline#extensions#tabline#show_tab_type = 1
-let g:airline#extensions#tabline#tab_min_count = 0
-let g:airline#extensions#tabline#tab_nr_type   = 2
-let g:airline_exclude_preview                  = 1
-let g:airline_powerline_fonts                  = 0
-let g:airline_theme='badwolf'
-
-" }}} Airline "
-
 " Switch {{{ "
 nnoremap <silent> - :Switch<CR>
 " }}} Switch "
 
 " SplitJoin {{{ "
-function! s:try(cmd, default)
-if exists(':' . a:cmd) && !v:count
-  let tick = b:changedtick
-  exe a:cmd
-  if tick == b:changedtick
-    execute 'normal! '.a:default
-  endif
-else
-  execute 'normal! '.v:count.a:default
-endif
+function! BreakHere()
+  s/\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\r\3\5
+  call histdel("/", -1)
 endfunction
 
 nnoremap <silent> sk :SplitjoinSplit<CR>
 nnoremap <silent> sj :SplitjoinJoin<CR>
 nnoremap <silent> J mzJ`z
-nnoremap <silent> S i<CR><esc>k$
+nnoremap <silent> S :call BreakHere()<CR>
 " }}} SplitJoin "
 
 " YUNOCommit {{{ "
@@ -93,55 +80,12 @@ let g:YUNOcommit_after = 20
 " }}} YUNOCommit "
 
 " CTRL-P {{{ "
-" command! -nargs=1 Locate call fzf#run(
-" \ {'source': 'locate <q-args>', 'sink': 'e', 'options': '-m'})
-
-
 if has('nvim')
   let $FZF_DEFAULT_OPTS .= ' --inline-info'
 endif
-nnoremap <silent> <C-p> :FZF<CR>
-
-" Choose a color scheme with fzf
-nnoremap <silent> <Leader>C :call fzf#run({
-\   'source':
-\     map(split(globpath(&rtp, "colors/*.vim"), "\n"),
-\         "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"),
-\   'sink':     'colo',
-\   'options':  '+m',
-\   'left':     20,
-\   'launcher': 'xterm -geometry 20x30 -e bash -ic %s'
-\ })<CR>
-
-" nmap <silent> <C-p> :CtrlP .<CR>
-" let g:ctrlp_match_window_bottom   = 0
-" let g:ctrlp_match_window_reversed = 0
-" let g:ctrlp_abbrev = {
-"       \ 'gmode': 't',
-"       \ 'abbrevs': [
-"       \   { 'pattern': '^a ', 'expanded': 'app/'            },
-"       \   { 'pattern': '^b ', 'expanded': 'bin/'            },
-"       \   { 'pattern': '^c ', 'expanded': 'app/controller/' },
-"       \   { 'pattern': '^f ', 'expanded': 'config/'         },
-"       \   { 'pattern': '^h ', 'expanded': 'app/helper/'     },
-"       \   { 'pattern': '^l ', 'expanded': 'lib/'            },
-"       \   { 'pattern': '^m ', 'expanded': 'app/model/'      },
-"       \   { 'pattern': '^o ', 'expanded': 'log/'            },
-"       \   { 'pattern': '^t ', 'expanded': 'test/'           },
-"       \   { 'pattern': '^v ', 'expanded': 'app/views/'      },
-"       \ ]}
-" let g:ctrlp_open_new_file = 'r'
-" let g:ctrlp_custom_ignore = {
-" \ 'file': '\v\.(exe|so|dll|class)$',
-" \ 'dir':  '\v<(\.git|\.hg|\.svn|\.vim|\.config)[\/]'
-" \ }
-
-" let g:ctrlp_cache_dir = $HOME."/.vim/tmp/cache/ctrlp"
-" if !isdirectory(g:ctrlp_cache_dir) && exists("*mkdir")
-"   call mkdir(g:ctrlp_cache_dir, "p", 0700)
-" endif
-" let g:ctrlp_extensions = [ "dir", "bookmarkdir" ]
-" let g:ctrlp_user_command = 'ag %s --nocolor -l -g ""'
+nnoremap <silent> <c-p> :Files<CR>
+nnoremap <silent> <c-e> :History<CR>
+nnoremap <silent> <c-t> :Tags<CR>
 
 " }}} CTRL-P "
 
@@ -188,14 +132,16 @@ let g:easy_align_delimiters = {
 " }}} EasyAlign "
 
 " Tmux {{{ "
+" let g:tmux_navigator_no_mappings = 1
 nnoremap <silent> <C-w>h :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-w>j :TmuxNavigateDown<cr>
 nnoremap <silent> <C-w>k :TmuxNavigateUp<cr>
 nnoremap <silent> <C-w>l :TmuxNavigateRight<cr>
-" nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
-" nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
-" nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
-" nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
+nnoremap <C-i> g;
+nnoremap <C-o> g,
+nnoremap <silent> <tab> :TmuxNavigatePrevious<cr>
+" nnoremap <tab>   <c-w>w
+" nnoremap <S-tab> <c-w>W
 " }}} Tmux "
 
 " Multiple Cursors {{{ "
@@ -210,57 +156,47 @@ let g:rails_projections = {
       \ }
 " }}} Ruby/Rubocop "
 
-" Whitespace {{{ "
-let g:strip_whitespace_on_save = 1
-let g:better_whitespace_enabled = 0
-" }}} Whitespace "
+" " Whitespace {{{ "
+" let g:strip_whitespace_on_save = 1
+" let g:better_whitespace_enabled = 0
+" " }}} Whitespace "
 
-" Projectionist {{{ "
+" " Semantic Highlights {{{ "
+" let g:semanticTermColors = [
+"       \ 28,
+"       \ 1,
+"       \ 2,
+"       \ 3,
+"       \ 4,
+"       \ 5,
+"       \ 6,
+"       \ 7,
+"       \ 178,
+"       \ 228,
+"       \ 87,
+"       \ 14,
+"       \ 13,
+"       \ 15,
+"       \ 122,
+"       \ 153,
+"       \ 126,
+"       \ 120,
+"       \ 189]
+" nnoremap <leader>h :SemanticHighlightToggle<cr>
+" let g:semanticUseCache = 1
+" let g:semanticPersistCache = 1
+" let g:semanticEnableFileTypes = ['ruby', 'vim']
+" " }}} Semantic Highlights "
 
-let g:projectionist_heuristics = {
-\   "*": {
-\     "*.agsv": {"type": "doc", },
-\ }
-\ }
-
-" }}} Projectionist "
-
-" Semantic Highlights {{{ "
-let g:semanticTermColors = [
-      \ 28,
-      \ 1,
-      \ 2,
-      \ 3,
-      \ 4,
-      \ 5,
-      \ 6,
-      \ 7,
-      \ 178,
-      \ 228,
-      \ 87,
-      \ 14,
-      \ 13,
-      \ 15,
-      \ 122,
-      \ 153,
-      \ 126,
-      \ 120,
-      \ 189]
-nnoremap <leader>h :SemanticHighlightToggle<cr>
-let g:semanticUseCache = 1
-let g:semanticPersistCache = 1
-let g:semanticEnableFileTypes = ['ruby', 'vim']
-" }}} Semantic Highlights "
-
-" Rainbow Parentheses {{{ "
-augroup parentheses
-  autocmd!
-  au VimEnter * RainbowParenthesesToggle
-  au Syntax * RainbowParenthesesLoadRound
-  au Syntax * RainbowParenthesesLoadSquare
-  au Syntax * RainbowParenthesesLoadBraces
-augroup END
-" }}} Rainbow Parentheses "
+" " Rainbow Parentheses {{{ "
+" augroup parentheses
+"   autocmd!
+"   au VimEnter * RainbowParenthesesToggle
+"   au Syntax * RainbowParenthesesLoadRound
+"   au Syntax * RainbowParenthesesLoadSquare
+"   au Syntax * RainbowParenthesesLoadBraces
+" augroup END
+" " }}} Rainbow Parentheses "
 
 " Quickfix Toggle {{{ "
 let g:toggle_list_no_mappings = 1
@@ -269,12 +205,12 @@ nmap <script> <silent> qf :call ToggleQuickfixList()<CR>
 nmap <script> <silent> qq :call ToggleQuickfixList()<CR>
 " }}} Quickfix Toggle "
 
-" Choosewin {{{ "
-nnoremap <C-i> g;
-nnoremap <C-o> g,
-nnoremap <tab>   <c-w>w
-nnoremap <S-tab> <c-w>W
-" }}} Choosewin "
+" " Choosewin {{{ "
+" nnoremap <C-i> g;
+" nnoremap <C-o> g,
+" nnoremap <tab>   <c-w>w
+" nnoremap <S-tab> <c-w>W
+" " }}} Choosewin "
 
 " ctrlsf {{{ "
 " let g:ags_agexe = 'ag --nocolor'

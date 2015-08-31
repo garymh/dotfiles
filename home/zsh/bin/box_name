@@ -2,9 +2,11 @@
 
 if [[ -f ~/.box-name  ]]; then
   if [[ $(cat ~/.box-name) = 'STAGING'  ]]; then
-    echo "%{$fg[yellow]STAGING"
+    # echo "%{$fg[yellow]STAGING"
+    yellow STAGING
   elif [[ $(cat ~/.box-name) = 'PRODUCTION'  ]]; then
-    echo "%{$fg[red]PRODUCTION"
+    # echo "%{$fg[red]PRODUCTION"
+    red PRODUCTION
   else
     cat ~/.box-name
   fi

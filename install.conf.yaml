@@ -1,13 +1,16 @@
 - clean: ['~', '~/.ssh']
 - link:
-    ~/.box-name:
-      path: home/box-name
+    # ~/.box-name:
+    #   path: home/box-name
     ~/.gemrc:
       relink: true
       path: home/gemrc
     ~/.agignore:
       relink: true
       path: home/agignore
+    ~/.freshrc:
+      relink: true
+      path: home/freshrc
     ~/.gitconfig:
       relink: true
       path: home/gitconfig
@@ -61,6 +64,10 @@
       relink: true
       create: true
       path: home/tmux/gary_theme.conf
+    ~/.tmux/reset.tmux:
+      relink: true
+      create: true
+      path: home/tmux/reset.tmux
     ~/.tmux/plugins/tpm:
       create: true
       relink: true
@@ -102,5 +109,5 @@
   - [git submodule update --init --recursive, Installing submodules]
   - [$(which vim) +PlugInstall +qall, Update bundles]
   # homebrew
-  - [bash -c "`curl -sL get.freshshell.com`"]
+  # - [bash -c "`curl -sL get.freshshell.com`"]
 

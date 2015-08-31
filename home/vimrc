@@ -25,11 +25,11 @@ call plug#begin()
   Plug 'atimholt/spiffy_foldtext'
   Plug 'bling/vim-airline'
   Plug 'kien/rainbow_parentheses.vim'
+  Plug 'junegunn/vim-peekaboo'
+  Plug 'cocopon/iceberg.vim'
 
-  " Plug 'whatyouhide/vim-gotham'
-  " Plug 'nanotech/jellybeans.vim'
-  " Plug 'vim-scripts/wombat256.vim'
-  Plug 'sjl/badwolf'
+  Plug 'whatyouhide/vim-gotham'
+  Plug 'nanotech/jellybeans.vim'
 
   " testing
   Plug 'kassio/neoterm'
@@ -62,29 +62,31 @@ call plug#begin()
   Plug 'slim-template/vim-slim'
   Plug 'tpope/vim-jdaddy',         { 'for': 'json' }
   Plug 'tpope/vim-markdown'
+  Plug 'xolox/vim-lua-ftplugin',   { 'for': 'lua' }
+
+  " dependencies
+  Plug 'xolox/vim-misc'
 
   " misc
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-  Plug 'AndrewRadev/sideways.vim'
+  " Plug 'Wolfy87/vim-expand'
+  " Plug 'bruno-/vim-vertical-move'
+  " Plug 'ntpeters/vim-better-whitespace'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'AndrewRadev/switch.vim'
-  Plug 'Wolfy87/vim-expand'
-  Plug 'bruno-/vim-vertical-move'
   Plug 'duff/vim-scratch'
   Plug 'dyng/ctrlsf.vim'
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+  Plug 'junegunn/fzf.vim'
   Plug 'junegunn/vim-easy-align',   { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-  Plug 'justinmk/vim-gtfo'
   Plug 'kristijanhusak/vim-multiple-cursors'
-  Plug 'ntpeters/vim-better-whitespace'
   Plug 'scrooloose/nerdtree'
+  Plug 'sickill/vim-pasta'
   Plug 'tpope/vim-abolish'
   Plug 'tpope/vim-commentary'
-  Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-eunuch'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-git'
-  " Plug 'tpope/vim-obsession'
   Plug 'tpope/vim-projectionist'
   Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-rsi'
@@ -152,16 +154,14 @@ if s:darwin
   exe 'set t_kB=' . nr2char(27) . '[Z'
 endif
 
-if has('gui_macvim')
-  colorscheme badwolf
-else
+if !has('gui_macvim')
   set t_Co=256
-  colorscheme badwolf
 endif
+colorscheme iceberg
 
 set textwidth=80
 set colorcolumn=+1
-hi ColorColumn guibg=#99AC6D ctermbg=246
+hi ColorColumn guibg=#000000 ctermbg=246
 
 " Persistent Undo {{{
 silent !mkdir ~/.vim/backups > /dev/null 2>&1

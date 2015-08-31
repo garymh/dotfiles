@@ -1,5 +1,5 @@
 source $DOTFILES/submodules/zgen/zgen.zsh
-source $HOME/.fresh/build.new/shell.sh
+# source $HOME/.fresh/build.new/shell.sh
 
 if ! zgen saved; then
 zgen oh-my-zsh
@@ -88,10 +88,7 @@ ZSH_HIGHLIGHT_STYLES+=(
 )
 
 if [[ $HAS_IMG2XTERM -eq 1 ]]; then
-  if (( RANDOM % 2 ));
-  then img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png;
-  else img2xterm $HOME/.zsh/plugins/kody.png;
-fi
+  img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png;
 
   green "-------------------------------"
   echo "$(uptime | awk -F'[a-z]:' '{ print "Load:"$2 }') | $(battery)"
@@ -100,20 +97,9 @@ elif [[ $HAS_COWSAY -eq 1 ]]; then
 else
   uptime
 fi
-# if [[ -e $HOME/.motd ]]; then cat $HOME/.motd; fi
 
 [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
-
-# # Setup zsh-autosuggestions
-# export AUTOSUGGESTION_ACCEPT_RIGHT_ARROW=1
-# # export COMPLETION_WAITING_DOTS=false
-# source $HOME/.zgen/tarruda/zsh-autosuggestions-master/autosuggestions.zsh
-# zle-line-init() {
-#     zle autosuggest-start
-# }
-# zle -N zle-line-init
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+PERL_MB_OPT="--install_base \"/Users/garyh/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/garyh/perl5"; export PERL_MM_OPT;

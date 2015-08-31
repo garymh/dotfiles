@@ -1,6 +1,6 @@
 
 if [[ $IS_MAC -eq 1 ]]; then
-  alias vim="nvim"
+  alias vim="e"
   alias tmux="TERM=screen-256color-bce tmux"
 
   alias fix_git_hook="cp $HOME_DIR/git_templates/hooks/post-commit .git/hooks/post-commit"
@@ -45,7 +45,7 @@ if [[ $IS_LINUX -eq 1 ]]; then
   alias cfoff='sudo service coldfusion_10 stop'
   alias cfrestart='sudo service coldfusion_10 restart'
 
-  if [[ $HOST -eq "nightcrawler" ]]; then
+  if [ "$HOSTNAME" = "nightcrawler" ]; then
     alias vim="nvim"
     alias tmux="TERM=screen-256color-bce tmux"
   fi

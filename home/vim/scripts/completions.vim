@@ -5,7 +5,7 @@ Plug 'honza/vim-snippets'
 
 function! BuildYCM(info)
   if a:info.status == 'installed' || a:info.force
-    !./install.sh
+    !./install.py
   endif
 endfunction
 

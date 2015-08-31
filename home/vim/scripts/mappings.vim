@@ -32,7 +32,7 @@ nnoremap ! :Make<cr>
 nnoremap dn majdd`a
 
 " double returns select a block
-nnoremap <CR><CR> vip
+" nnoremap <CR><CR> vip
 
 " netrw
 nnoremap <space>e :e.<CR>
