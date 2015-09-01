@@ -47,7 +47,9 @@ call plug#begin()
   Plug 'tpope/vim-rake',           { 'for': 'ruby' }
   Plug 'tpope/vim-rbenv'
   Plug 'vim-ruby/vim-ruby'
-  Plug 'Chiel92/vim-autoformat'
+  if v:version > 703
+    Plug 'Chiel92/vim-autoformat'
+  endif
 
   " tmux
   Plug 'christoomey/vim-tmux-navigator'
@@ -160,7 +162,9 @@ endif
 colorscheme iceberg
 
 set textwidth=80
-set colorcolumn=+1
+if v:version > 703
+  set colorcolumn=+1
+endif
 hi ColorColumn guibg=#000000 ctermbg=246
 
 " Persistent Undo {{{

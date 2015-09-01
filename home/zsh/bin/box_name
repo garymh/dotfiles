@@ -1,12 +1,10 @@
 #!/bin/bash
 
 if [[ -f ~/.box-name  ]]; then
-  if [[ $(cat ~/.box-name) = 'STAGING'  ]]; then
-    # echo "%{$fg[yellow]STAGING"
-    yellow STAGING
-  elif [[ $(cat ~/.box-name) = 'PRODUCTION'  ]]; then
-    # echo "%{$fg[red]PRODUCTION"
-    red PRODUCTION
+  if grep -q STAGING "$HOME/.box-name"; then                                                                   │  4   if [[ $(cat ~/.box-name) = 'STAGING'  ]]; then
+    echo "\e[33mSTAGING!"
+  elif grep -q PRODUCTION "$HOME/.box-name"; then                                                                   │  4   if [[ $(cat ~/.box-name) = 'STAGING'  ]]; then
+    echo "\e[31mPRODUCTION!"
   else
     cat ~/.box-name
   fi

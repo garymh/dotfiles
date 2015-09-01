@@ -1,6 +1,8 @@
 let s:darwin = has('mac')
 
-Plug 'SirVer/ultisnips'
+if v:version > 703
+  Plug 'SirVer/ultisnips'
+endif
 Plug 'honza/vim-snippets'
 
 function! BuildYCM(info)

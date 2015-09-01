@@ -8,19 +8,21 @@ local controlplane = hs.menubar.new()
 local ruby         = "/usr/local/opt/rbenv/shims/ruby"
 
 function wifiOff()
-  hs.alert("turning wifi off")
-  os.execute("networksetup -setairportpower en0 off")
-  if wifiWatcher then
-    wifiWatcher:stop()
+  if setKey("wifi_power","off") == true then
+    os.execute("networksetup -setairportpower en0 off")
+    if wifiWatcher then
+      wifiWatcher:stop()
+    end
+    wifiWatcher = nil
   end
-  wifiWatcher = nil
 end
 
 function wifiOn()
-  hs.alert("turning wifi on")
-  os.execute("networksetup -setairportpower en0 on")
-  wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
-  wifiWatcher:start()
+  if setKey("wifi_power","on") == true then
+    os.execute("networksetup -setairportpower en0 on")
+    wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
+    wifiWatcher:start()
+  end
 end
 
 function rubyRunner(name)
@@ -30,29 +32,23 @@ end
 function powerChangedCallback()
   local powerSource  = hs.battery.powerSource()
   local powerSerial  = hs.battery.psuSerial()
-  -- hs.alert("checking power")
 
   if powerSource == "AC Power" then
-    if setKey("power","plug") == true then
-      hs.alert("we're on ac power")
-
-      -- if powerSerial == 6857791 then
-      --   wifiOff()
-      --   nubic()
-      if powerSerial == 8600800 then
-        wifiOff()
-        nuDesk()
-      elseif powerSerial == 1255676 then
-        wifiOff()
-        homeDesk()
-      elseif powerSerial == 6771448 then
-        wifiOn()
-        ssidChangedCallback()
-      end
+    -- if powerSerial == 6857791 then
+    --   wifiOff()
+    --   nubic()
+    if powerSerial == 8600800 then
+      wifiOff()
+      nuDesk()
+    elseif powerSerial == 1255676 then
+      wifiOff()
+      homeDesk()
+    elseif powerSerial == 6771448 then
+      wifiOn()
+      ssidChangedCallback()
     end
   else
     if setKey("power","battery") == true then
-      hs.alert("we're on battery power")
       wifiOn()
       ssidChangedCallback()
     end
@@ -65,9 +61,9 @@ end
 
 function controlplaneClicked()
   hs.settings.set("wifi", nil)
+  hs.settings.set("wifi_power", nil)
   hs.settings.set("scenario", nil)
   hs.settings.set("power", nil)
-  hs.alert("clearing shit")
   hs.reload()
 end
 
@@ -129,7 +125,6 @@ function setKey(key, type)
  if hs.settings.get(key) == type then -- if already this type
    return false
  else
-   -- hs.alert("KEY: " .. key .. " TYPE: " .. type)
    hs.settings.set(key, type)         -- otherwise, return true
    return true
  end
