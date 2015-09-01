@@ -1,9 +1,9 @@
 #!/bin/bash
 
 if [[ -f ~/.box-name  ]]; then
-  if grep -q STAGING "$HOME/.box-name"; then                                                                   │  4   if [[ $(cat ~/.box-name) = 'STAGING'  ]]; then
+  if grep -q STAGING "$HOME/.box-name"; then
     echo "\e[33mSTAGING!"
-  elif grep -q PRODUCTION "$HOME/.box-name"; then                                                                   │  4   if [[ $(cat ~/.box-name) = 'STAGING'  ]]; then
+  elif grep -q PRODUCTION "$HOME/.box-name"; then
     echo "\e[31mPRODUCTION!"
   else
     cat ~/.box-name

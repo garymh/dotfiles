@@ -1,65 +1,66 @@
 let s:darwin = has('mac')
 
-if v:version > 703
-  Plug 'SirVer/ultisnips'
-endif
 Plug 'honza/vim-snippets'
 
-function! BuildYCM(info)
-  if a:info.status == 'installed' || a:info.force
-    !./install.py
-  endif
-endfunction
-
 if s:darwin
+  function! BuildYCM(info)
+    if a:info.status == 'installed' || a:info.force
+      !./install.py
+    endif
+  endfunction
+
   Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 endif
 
-" grabbed from: https://github.com/Valloric/YouCompleteMe/issues/36
+if v:version > 703
+  Plug 'SirVer/ultisnips'
 
-let g:UltiSnipsExpandTrigger       ="<c-tab>"
-let g:UltiSnipsJumpForwardTrigger  = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+  " grabbed from: https://github.com/Valloric/YouCompleteMe/issues/36
 
-" Enable tabbing through list of results
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res == 0
-    if pumvisible()
-      return "\<C-n>"
-    else
-      call UltiSnips#JumpForwards()
-      if g:ulti_jump_forwards_res == 0
-        return "\<TAB>"
+  let g:UltiSnipsExpandTrigger       ="<c-tab>"
+  let g:UltiSnipsJumpForwardTrigger  = "<tab>"
+  let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+  " Enable tabbing through list of results
+  function! g:UltiSnips_Complete()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res == 0
+      if pumvisible()
+        return "\<C-n>"
+      else
+        call UltiSnips#JumpForwards()
+        if g:ulti_jump_forwards_res == 0
+          return "\<TAB>"
+        endif
       endif
     endif
-  endif
-  return ""
-endfunction
+    return ""
+  endfunction
 
-au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+  au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
-" Expand snippet or return
-let g:ulti_expand_res = 0
-function! Ulti_ExpandOrEnter()
-  call UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res
-    return ''
-  else
-    return "\<return>"
-  endif
-endfunction
+  " Expand snippet or return
+  let g:ulti_expand_res = 0
+  function! Ulti_ExpandOrEnter()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res
+      return ''
+    else
+      return "\<return>"
+    endif
+  endfunction
 
-au InsertEnter * exec "inoremap <silent> <return> <C-R>=Ulti_ExpandOrEnter()<cr>"
-" inoremap <return> <C-R>=Ulti_ExpandOrEnter()<CR>
+  au InsertEnter * exec "inoremap <silent> <return> <C-R>=Ulti_ExpandOrEnter()<cr>"
+  " inoremap <return> <C-R>=Ulti_ExpandOrEnter()<CR>
 
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+  " Enable omni completion.
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+endif
 
 if has('nvim')
   " no +ruby for neovim yet :(
