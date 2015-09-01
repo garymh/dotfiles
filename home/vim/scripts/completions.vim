@@ -1,6 +1,5 @@
 let s:darwin = has('mac')
 
-Plug 'honza/vim-snippets'
 
 if s:darwin
   function! BuildYCM(info)
@@ -9,10 +8,8 @@ if s:darwin
     endif
   endfunction
 
+  Plug 'honza/vim-snippets'
   Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
-endif
-
-if v:version > 703
   Plug 'SirVer/ultisnips'
 
   " grabbed from: https://github.com/Valloric/YouCompleteMe/issues/36
