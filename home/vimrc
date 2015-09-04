@@ -11,50 +11,33 @@ call plug#begin()
   Plug 'tpope/vim-unimpaired'
 
   " almost standard
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+  Plug 'junegunn/fzf.vim'
+  Plug 'tpope/vim-commentary'
   Plug 'mhinz/vim-sayonara'
-  " Plug 'christoomey/vim-system-copy'
   Plug 'tpope/vim-surround'
   Plug 'junegunn/vim-oblique'
-  Plug 'junegunn/vim-pseudocl'
   Plug 'milkypostman/vim-togglelist'
   Plug 'takac/vim-commandcaps'
   Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-dispatch'
 
   " appearance
-  Plug 'atimholt/spiffy_foldtext'
   Plug 'bling/vim-airline'
-  Plug 'kien/rainbow_parentheses.vim'
   Plug 'junegunn/vim-peekaboo'
   Plug 'cocopon/iceberg.vim'
-
-  Plug 'whatyouhide/vim-gotham'
-  Plug 'nanotech/jellybeans.vim'
-
-  " testing
-  Plug 'kassio/neoterm'
-  Plug 'janko-m/vim-test'
-  Plug 'benmills/vimux'
-  Plug 'christoomey/vim-tmux-runner'
+  Plug 'nathanaelkane/vim-indent-guides'
 
   " completions
   source ~/.vim/scripts/completions.vim
 
   " ruby
+  Plug 'janx/vim-rubytest'
   Plug 'ngmy/vim-rubocop',         { 'for': 'ruby' }
   Plug 'tpope/vim-bundler'
   Plug 'tpope/vim-rails'
   Plug 'tpope/vim-rake',           { 'for': 'ruby' }
   Plug 'tpope/vim-rbenv'
   Plug 'vim-ruby/vim-ruby'
-  if v:version > 703
-    Plug 'Chiel92/vim-autoformat'
-  endif
-
-  " tmux
-  Plug 'christoomey/vim-tmux-navigator'
-  Plug 'tmux-plugins/vim-tmux'
-  Plug 'tmux-plugins/vim-tmux-focus-events'
 
   " syntax
   Plug 'davejlong/cf-utils.vim',   { 'for': 'coldfusion' }
@@ -63,28 +46,25 @@ call plug#begin()
   Plug 'mattn/emmet-vim',          { 'for': ['eruby','html'] }
   Plug 'slim-template/vim-slim'
   Plug 'tpope/vim-jdaddy',         { 'for': 'json' }
-  Plug 'tpope/vim-markdown'
+  Plug 'tpope/vim-markdown',       { 'for': 'markdown' }
   Plug 'xolox/vim-lua-ftplugin',   { 'for': 'lua' }
+  Plug 'tmux-plugins/vim-tmux'
 
   " dependencies
   Plug 'xolox/vim-misc'
+  Plug 'junegunn/vim-pseudocl'
 
   " misc
-  " Plug 'Wolfy87/vim-expand'
-  " Plug 'bruno-/vim-vertical-move'
-  " Plug 'ntpeters/vim-better-whitespace'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'AndrewRadev/switch.vim'
+  Plug 'christoomey/vim-tmux-navigator'
   Plug 'duff/vim-scratch'
   Plug 'dyng/ctrlsf.vim'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-  Plug 'junegunn/fzf.vim'
-  Plug 'junegunn/vim-easy-align',   { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-  Plug 'kristijanhusak/vim-multiple-cursors'
+  Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+  Plug 'terryma/vim-multiple-cursors'
   Plug 'scrooloose/nerdtree'
   Plug 'sickill/vim-pasta'
   Plug 'tpope/vim-abolish'
-  Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-eunuch'
   Plug 'tpope/vim-fugitive'
@@ -92,23 +72,24 @@ call plug#begin()
   Plug 'tpope/vim-projectionist'
   Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-rsi'
-  Plug 'tpope/vim-speeddating'
   Plug 'vim-scripts/BufOnly.vim'
-  Plug 'wincent/terminus'
+  if s:darwin
+    Plug 'rizzatti/dash.vim', { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
+  endif
+  " Plug 'ktonga/vim-follow-my-lead'
+  " let g:fml_all_sources=1
 
   " custom vim objects
   " research wellle/targets.vim as a backup, if these start to fail
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-entire'
   Plug 'kana/vim-textobj-indent'
+  Plug 'kana/vim-textobj-fold'
   Plug 'b4winckler/vim-angry'
   Plug 'Julian/vim-textobj-brace'
   Plug 'beloglazov/vim-textobj-quotes'
   Plug 'nelstrom/vim-textobj-rubyblock'
-
-  if s:darwin
-    Plug 'rizzatti/dash.vim',      { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
-  endif
+  Plug 'glts/vim-textobj-indblock'
 
 call plug#end()
 
@@ -141,14 +122,12 @@ set lazyredraw
 set synmaxcol=180
 
 set wildignore+=.DS_Store
-set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.gif,*.psd,*.o,*.obj,*.min.js
+set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.gif,*.psd,*.o,*.obj,*.min.js,*.sock
 set wildignore+=*/bower_components/*,*/node_modules/*
 set wildignore+=*/smarty/*,*/vendor/*,*/.git/*,*/.hg/*,*/.svn/*,*/.sass-cache/*,*/log/*,*/tmp/*,*/build/*,*/ckeditor/*,*/doc/*,*/source_maps/*,*/dist/*
 set wildmode=list:longest
 
-" let g:netrw_liststyle=1
 set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
-" set rtp+=/usr/local/Cellar/fzf/0.10.2
 
 set fillchars=diff:⣿,vert:│
 
@@ -168,12 +147,12 @@ endif
 hi ColorColumn guibg=#000000 ctermbg=246
 
 " Persistent Undo {{{
-silent !mkdir ~/.vim/backups > /dev/null 2>&1
+  silent !mkdir ~/.vim/backups > /dev/null 2>&1
 
-if has("persistent_undo")
-  set undodir=~/.vim/backups
-  set undofile
-endif
+  if has("persistent_undo")
+    set undodir=~/.vim/backups
+    set undofile
+  endif
 " }}}
 
 source ~/.vim/scripts/autocommands.vim

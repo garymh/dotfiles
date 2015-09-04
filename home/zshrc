@@ -1,7 +1,7 @@
 source $DOTFILES/submodules/zgen/zgen.zsh
 
 if ! zgen saved; then
-zgen oh-my-zsh
+  zgen oh-my-zsh
 
   if [[ $IS_MAC -eq 1 ]]; then
     zgen oh-my-zsh plugins/brew
@@ -13,46 +13,32 @@ zgen oh-my-zsh
 
   zgen oh-my-zsh plugins/bundler
   zgen oh-my-zsh plugins/capistrano
-  zgen oh-my-zsh plugins/catimg
-  zgen oh-my-zsh plugins/colorize
-  zgen oh-my-zsh plugins/command-not-found
-  zgen oh-my-zsh plugins/cp
-  zgen oh-my-zsh plugins/extract
   zgen oh-my-zsh plugins/fasd
   zgen oh-my-zsh plugins/gem
-  zgen oh-my-zsh plugins/git
   zgen oh-my-zsh plugins/github
-  zgen oh-my-zsh plugins/git-flow
-  zgen oh-my-zsh plugins/git-remote-branch
-  zgen oh-my-zsh plugins/gitignore
-  zgen oh-my-zsh plugins/pip
+  zgen oh-my-zsh plugins/jira
   zgen oh-my-zsh plugins/rake
   zgen oh-my-zsh plugins/rake-fast
   zgen oh-my-zsh plugins/rbenv
-  zgen oh-my-zsh plugins/ruby
   zgen oh-my-zsh plugins/zsh_reload
 
   # zgen oh-my-zsh plugins/rails
   # zgen doesn't seem to like the rails plugin
 
-  zgen load zsh-users/zsh-syntax-highlighting
-  zgen load bobthecow/git-flow-completion
-  zgen load zsh-users/zsh-completions src
-  zgen load djui/alias-tips
-  zgen load chrissicool/zsh-256color
-  # zgen load tarruda/zsh-autosuggestions
-  zgen load zsh-users/zsh-history-substring-search
-  zgen load gerges/oh-my-zsh-jira-plus
   zgen load Tarrasch/zsh-colors
+  zgen load bobthecow/git-flow-completion
+  zgen load djui/alias-tips
   zgen load supercrabtree/k
-  # zgen load nojhan/liquidprompt
+  zgen load zsh-users/zsh-completions src
+  zgen load zsh-users/zsh-history-substring-search
+  zgen load zsh-users/zsh-syntax-highlighting
 
   zmodload zsh/terminfo
   bindkey "$terminfo[kcuu1]" history-substring-search-up
   bindkey "$terminfo[kcud1]" history-substring-search-down
 
   zgen load garymh/dotfiles home/zsh/themes/gary_pure_mod
-  # zgen oh-my-zsh themes/sorin
+  # source ~/.zsh/themes/gary_pure_mod.zsh-theme
 
   zgen save
 fi
@@ -63,32 +49,8 @@ if [ 0 -ne $(ls $HOME/.zsh/private/*.zsh 2>/dev/null | wc -w) ]; then
   for f ($HOME/.zsh/private/*.zsh) {source $f}
 fi
 
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-ZSH_HIGHLIGHT_STYLES+=(
-  default                       'none'
-  unknown-token                 'fg=red,bold'
-  reserved-word                 'fg=yellow'
-  alias                         'fg=none,bold'
-  builtin                       'fg=none,bold'
-  function                      'fg=none,bold'
-  command                       'fg=none,bold'
-  hashed-command                'fg=none,bold'
-  path                          'fg=cyan'
-  globbing                      'fg=cyan'
-  history-expansion             'fg=blue'
-  single-hyphen-option          'fg=magenta'
-  double-hyphen-option          'fg=magenta'
-  back-quoted-argument          'fg=magenta,bold'
-  single-quoted-argument        'fg=green'
-  double-quoted-argument        'fg=green'
-  dollar-double-quoted-argument 'fg=cyan'
-  back-double-quoted-argument   'fg=cyan'
-  assign                        'none'
-)
-
 if [[ $HAS_IMG2XTERM -eq 1 ]]; then
   img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png;
-
   green "-------------------------------"
   echo "$(uptime | awk -F'[a-z]:' '{ print "Load:"$2 }') | $(battery)"
 elif [[ $HAS_COWSAY -eq 1 ]]; then
@@ -99,6 +61,3 @@ fi
 
 [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-PERL_MB_OPT="--install_base \"/Users/garyh/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/garyh/perl5"; export PERL_MM_OPT;

@@ -31,9 +31,6 @@ nnoremap ! :Make<cr>
 " delete next line
 nnoremap dn majdd`a
 
-" double returns select a block
-" nnoremap <CR><CR> vip
-
 " netrw
 nnoremap <space>e :e.<CR>
 "map <leader><tab> :e.<cr>
@@ -59,6 +56,7 @@ vnoremap <leader>s :!sort<cr>
 
 " vimrc editing and sourcing
 nnoremap <leader>sv :source $MYVIMRC<cr>
+" nnoremap <leader>sv :source $MYVIMRC<cr> | :AirlineRefresh
 nnoremap <leader>qev :vsplit $MYVIMRC<cr>
 nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>emp :e ~/.vim/scripts/mappings.vim<cr>
@@ -113,16 +111,6 @@ command! -bang Qa qa<bang>
 " quicker save
 nnoremap <leader>w :w<cr>
 
-" " auto center after certain commands
-" nnoremap <silent> n nzz
-" nnoremap <silent> N Nzz
-" nnoremap <silent> * *zz
-" nnoremap <silent> # #zz
-" nnoremap <silent> g* g*zz
-" nnoremap <silent> g# g#zz
-" nnoremap <silent> <C-o> <C-o>zz
-" nnoremap <silent> <C-i> <C-i>zz
-
 " reselect visual block after indent
 vnoremap < <gv
 vnoremap > >gv
@@ -140,4 +128,3 @@ vnoremap > >gv
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
 
 nnoremap <leader>ch :<C-U>Git difftool %<cr>
-

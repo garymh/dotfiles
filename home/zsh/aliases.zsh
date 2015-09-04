@@ -10,7 +10,6 @@ if [[ $IS_MAC -eq 1 ]]; then
 
   alias eshortcuts="$EDITOR ~/Library/Mobile\ Documents/com~apple~CloudDocs/shortcuts"
   alias eshortcut="eshortcuts"
-  # alias ccat="src-hilite-lesspipe.sh $1"
   alias cfoff='/Applications/ColdFusion10/cfusion/bin/coldfusion stop'
   alias cfon='/Applications/ColdFusion10/cfusion/bin/coldfusion start'
   alias cfrestart='/Applications/ColdFusion10/cfusion/bin/coldfusion restart'
