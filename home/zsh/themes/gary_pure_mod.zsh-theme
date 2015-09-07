@@ -393,7 +393,7 @@ prompt_pure_preprompt_render() {
 	[[ -n ${prompt_pure_git_last_dirty_check_timestamp+x} ]] && git_color=red
 
 	# construct preprompt, beginning with path
-	local preprompt="$(box_name)"
+	local preprompt="$(box_name) "
   preprompt+="%F{blue}%~%f"
 
   # git info
