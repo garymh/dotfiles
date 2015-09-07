@@ -112,8 +112,8 @@ search() {
 
 # Show contents of directory after cd-ing into it
 chpwd() {
-  # gls -lrthG --color=tty
-  k
+  gls -rthG --color=tty
+  # k
 }
 
 # batch change extension

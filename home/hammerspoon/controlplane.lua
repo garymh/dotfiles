@@ -1,6 +1,7 @@
 local wifiWatcher  = nil
 local powerWatcher = nil
 local homeSSID     = "dandg"
+local homeSSIDfive = "dandg5"
 local nuSSID       = "Northwestern"
 local power        = hs.settings.get("power")
 local wifi         = hs.settings.get("wifi")
@@ -74,7 +75,7 @@ end
 function ssidChangedCallback()
   local currentSSID = hs.wifi.currentNetwork()
 
-  if currentSSID == homeSSID then
+  if currentSSID == homeSSID or currentSSID == homeSSIDfive then
     homeWifi()
   elseif currentSSID ~= homeSSID then
     road()

@@ -37,8 +37,8 @@ if ! zgen saved; then
   bindkey "$terminfo[kcuu1]" history-substring-search-up
   bindkey "$terminfo[kcud1]" history-substring-search-down
 
-  zgen load garymh/dotfiles home/zsh/themes/gary_pure_mod
-  # source ~/.zsh/themes/gary_pure_mod.zsh-theme
+  # zgen load garymh/dotfiles home/zsh/themes/gary_pure_mod
+  source ~/.zsh/themes/gary_pure_mod.zsh-theme
 
   zgen save
 fi
