@@ -3,56 +3,55 @@ local powerWatcher = nil
 local homeSSID     = "dandg"
 local homeSSIDfive = "dandg5"
 local nuSSID       = "Northwestern"
-local power        = hs.settings.get("power")
-local wifi         = hs.settings.get("wifi")
-local controlplane = hs.menubar.new()
 local ruby         = "/usr/local/opt/rbenv/shims/ruby"
+local controlplane = hs.menubar.new()
 
 function wifiOff()
-  if setKey("wifi_power","off") == true then
-    os.execute("networksetup -setairportpower en0 off")
-    if wifiWatcher then
-      wifiWatcher:stop()
-    end
-    wifiWatcher = nil
+  if wifiWatcher then
+    wifiWatcher:stop()
   end
+  wifiWatcher = nil
 end
 
 function wifiOn()
-  if setKey("wifi_power","on") == true then
-    os.execute("networksetup -setairportpower en0 on")
-    wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
-    wifiWatcher:start()
-  end
+  wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
+  wifiWatcher:start()
 end
 
 function rubyRunner(name)
   os.execute(ruby .. " ~/.hammerspoon/controlplane/" .. name .. ".rb")
 end
 
-function powerChangedCallback()
-  local powerSource  = hs.battery.powerSource()
-  local powerSerial  = hs.battery.psuSerial()
-
-  if powerSource == "AC Power" then
-    -- if powerSerial == 6857791 then
-    --   wifiOff()
-    --   nubic()
-    if powerSerial == 8600800 then
+function setScenario(id, titlebar, runner, wifiStatus)
+  if hs.settings.get("scenario") ~= id then 
+    hs.settings.set("scenario", id)
+    controlplaneDisplay(titlebar)
+    rubyRunner(runner)  
+    if wifiStatus == true then
+      wifiOn()
+    else
       wifiOff()
+    end
+  end
+end
+
+function powerChangedCallback()
+  local powerSource = hs.battery.powerSource()
+  local powerSerial = hs.battery.psuSerial()
+  if powerSource == "AC Power" then -- if we're on power
+    if powerSerial == 6857791 then
+      nubic()
+    elseif powerSerial == 8600800 then
       nuDesk()
     elseif powerSerial == 1255676 then
-      wifiOff()
       homeDesk()
-    elseif powerSerial == 6771448 then
-      wifiOn()
+    elseif powerSerial == 6771448 then -- portable
       ssidChangedCallback()
+    else
+      road()
     end
   else
-    if setKey("power","battery") == true then
-      wifiOn()
-      ssidChangedCallback()
-    end
+    ssidChangedCallback()
   end
 end
 
@@ -61,79 +60,46 @@ function controlplaneDisplay(state)
 end
 
 function controlplaneClicked()
-  hs.settings.set("wifi", nil)
-  hs.settings.set("wifi_power", nil)
-  hs.settings.set("scenario", nil)
-  hs.settings.set("power", nil)
+  hs.settings.set("scenario", "nil")
   hs.reload()
+end
+
+function ssidChangedCallback()
+  local currentSSID = hs.wifi.currentNetwork()
+  if currentSSID == homeSSID or currentSSID == homeSSIDfive then
+    homeWifi()
+  else
+    road()
+  end
+end
+
+function homeWifi()
+  setScenario("home_wifi","🏠📶", "home", true) 
+end
+
+function homeDesk()
+  setScenario("home_desk","🏠💻", "desk", false) 
+end
+
+function nuDesk()
+  setScenario("nu_desk","🏥💻", "nu_desk", false) 
+end
+
+function road()
+  setScenario("road","☕", "road", true) 
+end
+
+function nubic()
+  setScenario("nubic","NUBIC", "nubic", false) 
 end
 
 if controlplane then
   controlplane:setClickCallback(controlplaneClicked)
 end
 
-function ssidChangedCallback()
-  local currentSSID = hs.wifi.currentNetwork()
-
-  if currentSSID == homeSSID or currentSSID == homeSSIDfive then
-    homeWifi()
-  elseif currentSSID ~= homeSSID then
-    road()
-  end
-end
-
-function homeWifi()
-  if setKey("wifi","home") == true then
-    controlplaneDisplay("🏠📶")
-    rubyRunner("home")
-  end
-end
-
-function homeWifi()
-  if setKey("wifi","home") == true then
-    controlplaneDisplay("🏠📶")
-    rubyRunner("home")
-  end
-end
-
-function homeDesk()
-  if setKey("scenario","desk") == true then
-    controlplaneDisplay("🏠💻")
-    rubyRunner("desk")
-  end
-end
-
-function nuDesk()
-  if setKey("scenario","nu_desk") == true then
-    controlplaneDisplay("🏥💻")
-    rubyRunner("rhlccc")
-  end
-end
-
-function road()
-  if setKey("wifi","road") == true then
-    controlplaneDisplay("☕")
-    rubyRunner("road")
-  end
-end
-
--- function nubic()
---   if setKey("power","nubic") == true then
---   end
--- end
-
-function setKey(key, type)
- if hs.settings.get(key) == type then -- if already this type
-   return false
- else
-   hs.settings.set(key, type)         -- otherwise, return true
-   return true
- end
-end
-
 powerWatcher = hs.battery.watcher.new(powerChangedCallback)
 powerWatcher:start()
-wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
+wifiWatcher  = hs.wifi.watcher.new(ssidChangedCallback)
 wifiWatcher:start()
 
 if power == nil then

@@ -17,13 +17,9 @@ function reloadConfig(files)
     end
   end
   if doReload then
-    -- hs.settings.set("wifi", nil)
-    -- hs.settings.set("scenario", nil)
-    -- hs.settings.set("power", nil)
     hs.reload()
   end
 end
 
 hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.notify.new({title="Hammerspoon", informativeText="Config reloaded"}):send():release()
-

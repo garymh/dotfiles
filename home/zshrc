@@ -1,5 +1,4 @@
 source $DOTFILES/submodules/zgen/zgen.zsh
-source ~/.zsh/async.zsh
 
 if ! zgen saved; then
   zgen oh-my-zsh
