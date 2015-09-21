@@ -2,6 +2,7 @@ local wifiWatcher  = nil
 local powerWatcher = nil
 local homeSSID     = "dandg"
 local homeSSIDfive = "dandg5"
+local homeSSIDbr5  = "dandgb5"
 local nuSSID       = "Northwestern"
 local ruby         = "/usr/local/opt/rbenv/shims/ruby"
 local controlplane = hs.menubar.new()
@@ -47,6 +48,8 @@ function powerChangedCallback()
       homeDesk()
     elseif powerSerial == 6771448 then -- portable
       ssidChangedCallback()
+    elseif powerSerial == 4886968 then -- portable
+      ssidChangedCallback()
     else
       road()
     end
@@ -66,8 +69,10 @@ end
 
 function ssidChangedCallback()
   local currentSSID = hs.wifi.currentNetwork()
-  if currentSSID == homeSSID or currentSSID == homeSSIDfive then
+  if currentSSID == homeSSID or currentSSID == homeSSIDfive or currentSSID == homeSSIDbr5 then
     homeWifi()
+  elseif currentSSID == nuSSID then
+    nuRoaming()
   else
     road()
   end
@@ -79,6 +84,10 @@ end
 
 function homeDesk()
   setScenario("home_desk","🏠💻", "desk", false) 
+end
+
+function nuRoaming()
+  setScenario("nu_roaming","🏥📶", "desk", true) 
 end
 
 function nuDesk()

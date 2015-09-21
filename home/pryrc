@@ -157,7 +157,6 @@ end # End of AwesomePrint
 
 # Editors
 #   available options: vim, mvim, mate, emacsclient...etc.
-Pry.config.editor = "vim"
 
 # ==============================
 #   Pry Prompt

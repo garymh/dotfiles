@@ -1,135 +1,26 @@
 " ~/.vimrc
 
 call plug#begin()
-
-  " standard
-  " Plug 'tpope/vim-sensible'
-  " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-  " Plug 'vim-ruby/vim-ruby'
-  " Plug 'tpope/vim-unimpaired'
-  Plug 'tpope/vim-commentary'
-  " " Plug 'janko-m/vim-test'
-  " " Plug 'tpope/vim-dispatch'
-  " " Plug 'kassio/neoterm'
-  " "   Plug 'tpope/vim-sensible'
-  " Plug 'tpope/vim-unimpaired'
   " standard
   Plug 'tpope/vim-sensible'
   Plug 'tpope/vim-unimpaired'
+  Plug 'tpope/vim-commentary'
 
   " almost standard
   Plug 'mhinz/vim-sayonara'
-  " Plug 'christoomey/vim-system-copy'
   Plug 'tpope/vim-surround'
   Plug 'junegunn/vim-oblique'
   Plug 'junegunn/vim-pseudocl'
   Plug 'milkypostman/vim-togglelist'
   Plug 'takac/vim-commandcaps'
   Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-dispatch'
-
-  " appearance
-  Plug 'atimholt/spiffy_foldtext'
-  Plug 'bling/vim-airline'
-  Plug 'kien/rainbow_parentheses.vim'
-  Plug 'junegunn/vim-peekaboo'
-  Plug 'cocopon/iceberg.vim'
-
-  " Plug 'whatyouhide/vim-gotham'
-  Plug 'nanotech/jellybeans.vim'
-  " Plug 'vim-scripts/wombat256.vim'
-  Plug 'sjl/badwolf'
-
-  " testing
-  Plug 'kassio/neoterm'
-  Plug 'janko-m/vim-test'
-  Plug 'benmills/vimux'
-  Plug 'christoomey/vim-tmux-runner'
+  " Plug 'tpope/vim-endwise'
+  Plug 'Raimondi/delimitMate'
 
   " completions
   source ~/.vim/scripts/completions.vim
 
-  " ruby
-  Plug 'ngmy/vim-rubocop',         { 'for': 'ruby' }
-  Plug 'tpope/vim-bundler'
-  Plug 'tpope/vim-rails'
-  Plug 'tpope/vim-rake',           { 'for': 'ruby' }
-  Plug 'tpope/vim-rbenv'
-  Plug 'vim-ruby/vim-ruby'
-  Plug 'Chiel92/vim-autoformat'
-
-  " tmux
-  Plug 'christoomey/vim-tmux-navigator'
-  Plug 'tmux-plugins/vim-tmux'
-  Plug 'tmux-plugins/vim-tmux-focus-events'
-
-  " syntax
-  Plug 'davejlong/cf-utils.vim',   { 'for': 'coldfusion' }
-  Plug 'groenewege/vim-less',      { 'for': 'less' }
-  Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
-  Plug 'mattn/emmet-vim',          { 'for': ['eruby','html'] }
-  Plug 'slim-template/vim-slim'
-  Plug 'tpope/vim-jdaddy',         { 'for': 'json' }
-  Plug 'tpope/vim-markdown'
-  Plug 'xolox/vim-lua-ftplugin',   { 'for': 'lua' }
-
-  " dependencies
-  Plug 'xolox/vim-misc'
-
-  " misc
-  Plug 'sickill/vim-pasta'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-  Plug 'junegunn/fzf.vim'
-
-  Plug 'AndrewRadev/sideways.vim'
-  Plug 'AndrewRadev/splitjoin.vim'
-  Plug 'AndrewRadev/switch.vim'
-  " Plug 'Wolfy87/vim-expand'
-  " Plug 'bruno-/vim-vertical-move'
-  Plug 'duff/vim-scratch'
-  Plug 'dyng/ctrlsf.vim'
-  Plug 'junegunn/vim-easy-align',   { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-  " Plug 'justinmk/vim-gtfo'
-  Plug 'kristijanhusak/vim-multiple-cursors'
-  Plug 'ntpeters/vim-better-whitespace'
-
-  Plug 'scrooloose/nerdtree'
-  Plug 'tpope/vim-abolish'
-  Plug 'tpope/vim-commentary'
-  Plug 'tpope/vim-dispatch'
-  Plug 'tpope/vim-endwise'
-  Plug 'tpope/vim-eunuch'
-  Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-git'
-  Plug 'tpope/vim-projectionist'
-  Plug 'tpope/vim-rhubarb'
-  Plug 'tpope/vim-rsi'
-  Plug 'tpope/vim-speeddating'
-  Plug 'vim-scripts/BufOnly.vim'
-  Plug 'wincent/terminus'
-
-  " custom vim objects
-  " research wellle/targets.vim as a backup, if these start to fail
-  Plug 'kana/vim-textobj-user'
-  Plug 'kana/vim-textobj-entire'
-  Plug 'kana/vim-textobj-indent'
-  Plug 'b4winckler/vim-angry'
-  Plug 'Julian/vim-textobj-brace'
-  Plug 'beloglazov/vim-textobj-quotes'
-  Plug 'nelstrom/vim-textobj-rubyblock'
-  
-  nmap <C-p> :FZF<CR>
-
-
-
-
-call plug#end()
-
-" let g:test#strategy = 'neoterm'
-" nnoremap <silent> <leader>t :TestNearest<CR>
-" nnoremap <silent> <leader>T :TestFile<CR>
-" nnoremap <silent> <leader>a :TestSuite<CR>
-" nnoremap <silent> <leader>l :TestLast<CR>
+  call plug#end()
 
 " set cmdheight=2          " hopefully prevents the 'hit enter' prompts
 " set formatprg="par 79"   " respect the 80 character lines

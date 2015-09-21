@@ -11,24 +11,23 @@ call plug#begin()
   Plug 'tpope/vim-unimpaired'
 
   " almost standard
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+  Plug 'junegunn/fzf',             { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
   Plug 'junegunn/fzf.vim'
-  Plug 'tpope/vim-commentary'
-  Plug 'mhinz/vim-sayonara'
-  Plug 'tpope/vim-surround'
   Plug 'junegunn/vim-oblique'
+  Plug 'mhinz/vim-sayonara'
   Plug 'milkypostman/vim-togglelist'
   Plug 'takac/vim-commandcaps'
+  Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-surround'
 
   " appearance
   Plug 'bling/vim-airline'
   Plug 'junegunn/vim-peekaboo'
   Plug 'cocopon/iceberg.vim'
   Plug 'nathanaelkane/vim-indent-guides'
-
-  " completions
-  source ~/.vim/scripts/completions.vim
+  Plug 'chriskempson/base16-vim'
+  Plug 'chriskempson/vim-tomorrow-theme'
 
   " ruby
   Plug 'janx/vim-rubytest'
@@ -37,59 +36,54 @@ call plug#begin()
   Plug 'tpope/vim-rails'
   Plug 'tpope/vim-rake',           { 'for': 'ruby' }
   Plug 'tpope/vim-rbenv'
-  Plug 'vim-ruby/vim-ruby'
 
   " syntax
-  Plug 'davejlong/cf-utils.vim',   { 'for': 'coldfusion' }
-  Plug 'groenewege/vim-less',      { 'for': 'less' }
-  Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
+  Plug 'davejlong/cf-utils.vim',   { 'for': ['coldfusion', 'cfml'] }
   Plug 'mattn/emmet-vim',          { 'for': ['eruby','html'] }
-  Plug 'slim-template/vim-slim'
-  Plug 'tpope/vim-jdaddy',         { 'for': 'json' }
-  Plug 'tpope/vim-markdown',       { 'for': 'markdown' }
   Plug 'xolox/vim-lua-ftplugin',   { 'for': 'lua' }
-  Plug 'tmux-plugins/vim-tmux'
+  Plug 'sheerun/vim-polyglot'
 
   " dependencies
   Plug 'xolox/vim-misc'
   Plug 'junegunn/vim-pseudocl'
 
   " misc
+  Plug 'AndrewRadev/sideways.vim'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'AndrewRadev/switch.vim'
+  Plug 'airblade/vim-gitgutter'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'duff/vim-scratch'
   Plug 'dyng/ctrlsf.vim'
   Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-  Plug 'terryma/vim-multiple-cursors'
   Plug 'scrooloose/nerdtree'
   Plug 'sickill/vim-pasta'
+  Plug 'terryma/vim-multiple-cursors'
   Plug 'tpope/vim-abolish'
-  Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-eunuch'
   Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-git'
   Plug 'tpope/vim-projectionist'
-  Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-rsi'
   Plug 'vim-scripts/BufOnly.vim'
+
   if s:darwin
-    Plug 'rizzatti/dash.vim', { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
+    Plug 'rizzatti/dash.vim',         { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
+    Plug 'zerowidth/vim-copy-as-rtf', { 'on': 'CopyRTF' }
+
+    " completions are too much of a pain on linux
+    source ~/.vim/scripts/completions.vim
   endif
-  " Plug 'ktonga/vim-follow-my-lead'
-  " let g:fml_all_sources=1
 
   " custom vim objects
-  " research wellle/targets.vim as a backup, if these start to fail
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-entire'
   Plug 'kana/vim-textobj-indent'
   Plug 'kana/vim-textobj-fold'
-  Plug 'b4winckler/vim-angry'
   Plug 'Julian/vim-textobj-brace'
   Plug 'beloglazov/vim-textobj-quotes'
   Plug 'nelstrom/vim-textobj-rubyblock'
   Plug 'glts/vim-textobj-indblock'
+  Plug 'coderifous/textobj-word-column.vim'
 
 call plug#end()
 
@@ -115,6 +109,8 @@ set splitbelow           " default split behavior
 set splitright           " default split behavior
 set virtualedit=onemore  " allow selection past last character
 
+set ttimeoutlen=50       " vim-sensible's is kinda slow
+
 set nocursorline
 set nocursorcolumn
 set scrolljump=5
@@ -138,7 +134,7 @@ endif
 if !has('gui_macvim')
   set t_Co=256
 endif
-colorscheme iceberg
+colorscheme Tomorrow-Night-Eighties
 
 set textwidth=80
 if v:version > 703

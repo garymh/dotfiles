@@ -8,6 +8,17 @@ require "moom"
 require "omnifocus"
 require "controlplane"
 
+-- if print(os.execute("scutil --nc status \"NU VPN\" | grep -q Connected")) == 0 then
+--   hs.alert("if")
+-- else
+--   hs.alert("else")
+-- end
+-- if hs.execute("scutil --nc status 'NU VPN' | grep -q Connected").status == true then
+--   hs.alert("if")
+-- else
+--   hs.alert("else")
+-- end
+-- hs.alert(hs.execute("scutil --nc status 'NU VPN'").output)
 -- reloader
 function reloadConfig(files)
   doReload = false

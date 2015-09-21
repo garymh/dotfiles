@@ -23,6 +23,43 @@
   let g:airline_symbols.whitespace = 'Ξ'
 " }}} Airline "
 
+" Git Gutter {{{ "
+let g:gitgutter_sign_modified = '≈'
+
+" }}} Git Gutter "
+
+" CopyRTF {{{ "
+  command Print call RTF()
+  function! RTF()
+    let colors_save = g:colors_name
+    set background=light
+    colorscheme base16-monokai
+    CopyRTF
+    set background=dark
+    execute 'colorscheme' colors_save
+  endfun
+" }}} CopyRTF "
+
+" Vim Oblique {{{ "
+  autocmd! User Oblique       normal! zz
+  autocmd! User ObliqueStar   normal! zz
+  autocmd! User ObliqueRepeat normal! zz
+" }}} Vim Oblique "
+
+" Sideways.vim {{{ "
+  nnoremap <silent> [<Tab> :SidewaysLeft<CR>
+  nnoremap <silent> ]<Tab> :SidewaysRight<CR>
+
+  omap aa <Plug>SidewaysArgumentTextobjA
+  xmap aa <Plug>SidewaysArgumentTextobjA
+  omap ia <Plug>SidewaysArgumentTextobjI
+  xmap ia <Plug>SidewaysArgumentTextobjI
+" }}} Sideways.vim "
+
+" vim-peekabo {{{ "
+  let g:peekaboo_window = 'vertical botright 50new'
+" }}} vim-peekabo "
+
 " Sayonara {{{ "
   let g:sayonara_confirm_quit = 1
 " }}} Sayonara "
@@ -154,9 +191,9 @@
   nnoremap <silent> <C-w>l :TmuxNavigateRight<cr>
   nnoremap <C-i> g;
   nnoremap <C-o> g,
-  nnoremap <silent> <tab> :TmuxNavigatePrevious<cr>
+  " nnoremap <silent> <tab> :TmuxNavigatePrevious<cr>
   " nnoremap <tab>   <c-w>w
-  " nnoremap <S-tab> <c-w>W
+  nnoremap <S-tab> <c-w>W
 " }}} Tmux "
 
 " Multiple Cursors {{{ "
@@ -195,7 +232,7 @@
   " let g:indentLine_color_gui = '#09AA08'
   " let g:indentLine_char = '│'
   " let g:indentLine_fileTypeExclude = ['help', 'text', 'agsv']
-  let g:indent_guides_color_change_percent  = 10
+  let g:indent_guides_color_change_percent  = 30
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_exclude_filetypes     = ['help', 'diff', 'nerdtree']
 " }}} Identline "
@@ -205,6 +242,9 @@
   let g:NERDTreeQuitOnOpen = 1
   let g:NERDTreeShowHidden = 1
   let g:NERDTreeRespectWildIgnore = 1
+  let g:NERDTreeDirArrows=1
+  let g:NERDTreeMinimalUI=1
+
 " }}} NERDtree "
 
 " custom text objects {{{ "
