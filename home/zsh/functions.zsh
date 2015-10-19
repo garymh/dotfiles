@@ -153,8 +153,11 @@ search() {
 
 # Show contents of directory after cd-ing into it
 chpwd() {
-  gls -rthG --color=tty
-  # k
+  if [[ $IS_MAC -eq 1 ]]; then
+    gls -rthG --color=tty
+  else
+    ls
+  fi
 }
 
 # batch change extension
@@ -170,9 +173,12 @@ if [[ $IS_MAC -eq 1 ]]; then
     git clone "$*"
   }
 
-  ls() {
-  #   gls --color=always $*
-      k --no-vcs --human
+  # ls() {
+  #   k --no-vcs --human
+  # }
+
+  la() {
+    gls -a --color=always $*
   }
 
   vm() {

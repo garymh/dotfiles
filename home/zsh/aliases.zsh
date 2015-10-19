@@ -2,6 +2,7 @@
 if [[ $IS_MAC -eq 1 ]]; then
   alias vim="e"
   alias tmux="TERM=screen-256color-bce tmux"
+  alias please='sudo $SHELL -c "$(fc -ln -1)"'
 
   alias fix_git_hook="cp $HOME_DIR/git_templates/hooks/post-commit .git/hooks/post-commit"
 

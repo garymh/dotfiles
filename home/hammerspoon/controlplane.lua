@@ -1,8 +1,7 @@
 local wifiWatcher  = nil
 local powerWatcher = nil
 local homeSSID     = "dandg"
-local homeSSIDfive = "dandg5"
-local homeSSIDbr5  = "dandgb5"
+local homeSSIDfive = "dandg_5G"
 local nuSSID       = "Northwestern"
 local ruby         = "/usr/local/opt/rbenv/shims/ruby"
 local controlplane = hs.menubar.new()
@@ -24,15 +23,20 @@ function rubyRunner(name)
 end
 
 function setScenario(id, titlebar, runner, wifiStatus)
-  if hs.settings.get("scenario") ~= id then 
+  if hs.settings.get("scenario") ~= id then
     hs.settings.set("scenario", id)
     controlplaneDisplay(titlebar)
-    rubyRunner(runner)  
+    rubyRunner(runner)
     if wifiStatus == true then
       wifiOn()
     else
       wifiOff()
     end
+  end
+  if id == "home_desk" then
+    os.execute('/Applications/Karabiner.app/Contents/Library/bin/karabiner select_by_name Bluetooth')
+  else
+    os.execute('/Applications/Karabiner.app/Contents/Library/bin/karabiner select_by_name Default')
   end
 end
 
@@ -69,7 +73,7 @@ end
 
 function ssidChangedCallback()
   local currentSSID = hs.wifi.currentNetwork()
-  if currentSSID == homeSSID or currentSSID == homeSSIDfive or currentSSID == homeSSIDbr5 then
+  if currentSSID == homeSSID or currentSSID == homeSSIDfive then
     homeWifi()
   elseif currentSSID == nuSSID then
     nuRoaming()
@@ -79,27 +83,27 @@ function ssidChangedCallback()
 end
 
 function homeWifi()
-  setScenario("home_wifi","🏠📶", "home", true) 
+  setScenario("home_wifi","🏠📶", "home", true)
 end
 
 function homeDesk()
-  setScenario("home_desk","🏠💻", "desk", false) 
+  setScenario("home_desk","🏠💻", "desk", false)
 end
 
 function nuRoaming()
-  setScenario("nu_roaming","🏥📶", "desk", true) 
+  setScenario("nu_roaming","🏥📶", "nu_desk", true)
 end
 
 function nuDesk()
-  setScenario("nu_desk","🏥💻", "nu_desk", false) 
+  setScenario("nu_desk","🏥💻", "nu_desk", false)
 end
 
 function road()
-  setScenario("road","☕", "road", true) 
+  setScenario("road","☕", "road", true)
 end
 
 function nubic()
-  setScenario("nubic","NUBIC", "nubic", false) 
+  setScenario("nubic","NUBIC", "nubic", false)
 end
 
 if controlplane then
@@ -114,3 +118,25 @@ wifiWatcher:start()
 if power == nil then
   powerChangedCallback()
 end
+
+local appwatch  = require("hs.application").watcher
+local hearthWatcher
+hearthWatcher = appwatch.new(function(name,event,hsapp)
+  if name then
+    if name == "Hearthstone" then
+      if event == appwatch.launching then
+        hs.application.launchOrFocus("/Applications/Track-o-Bot.app")
+      elseif event == appwatch.terminated then
+        hs.application.get("Track-o-Bot"):kill()
+      end
+    elseif name == "Spotify" then
+      if event == appwatch.launching then
+        hs.application.launchOrFocus("/Applications/Simplify.app")
+      elseif event == appwatch.terminated then
+        hs.application.get("Simplify"):kill()
+      end
+    end
+  end
+  hearthWatcher:start() -- we die every so often for some reason...
+end
+):start()

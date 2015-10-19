@@ -4,3 +4,4 @@ dock_hiding(false)
 omni_perspective("Home")
 display_audio
 home_printer
+set_password_prompt 14400

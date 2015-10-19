@@ -383,6 +383,9 @@ prompt_pure_string_length_to_var() {
 	# store string length in variable as specified by caller
 	typeset -g "${var}"="${length}"
 }
+# preprompt+=" $fg_bold[black][$(git-radar --bash)$fg_bold[black]]"
+export GIT_RADAR_FORMAT="$fg_bold[black][%{branch}%{local}%{changes}$fg_bold[black]]"
+export GIT_RADAR_COLOR_BRANCH="$bg_bold[black]$fg[yellow]"
 
 prompt_pure_preprompt_render() {
 	# check that no command is currently running, the preprompt will otherwise be rendered in the wrong place
@@ -397,9 +400,11 @@ prompt_pure_preprompt_render() {
   preprompt+="%F{blue}%~%f"
 
   # git info
-	preprompt+="%F{$git_color}${vcs_info_msg_0_}${prompt_pure_git_dirty}%f"
+	# preprompt+="%F{$git_color}${vcs_info_msg_0_}${prompt_pure_git_dirty}%f"
+  # preprompt+=" $fg_bold[black][$(git-radar --bash)$fg_bold[black]]"
+  preprompt+=" $(git-radar --bash) "
 	# git pull/push arrows
-	preprompt+="%F{cyan}${prompt_pure_git_arrows}%f"
+	# preprompt+="%F{cyan}${prompt_pure_git_arrows}%f"
 	# username and machine if applicable
 	preprompt+=$prompt_pure_username
 	# execution time

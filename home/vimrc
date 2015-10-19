@@ -23,11 +23,11 @@ call plug#begin()
 
   " appearance
   Plug 'bling/vim-airline'
-  Plug 'junegunn/vim-peekaboo'
-  Plug 'cocopon/iceberg.vim'
-  Plug 'nathanaelkane/vim-indent-guides'
   Plug 'chriskempson/base16-vim'
   Plug 'chriskempson/vim-tomorrow-theme'
+  Plug 'cocopon/iceberg.vim'
+  Plug 'junegunn/vim-peekaboo'
+  Plug 'nathanaelkane/vim-indent-guides'
 
   " ruby
   Plug 'janx/vim-rubytest'
@@ -40,8 +40,8 @@ call plug#begin()
   " syntax
   Plug 'davejlong/cf-utils.vim',   { 'for': ['coldfusion', 'cfml'] }
   Plug 'mattn/emmet-vim',          { 'for': ['eruby','html'] }
-  Plug 'xolox/vim-lua-ftplugin',   { 'for': 'lua' }
   Plug 'sheerun/vim-polyglot'
+  Plug 'xolox/vim-lua-ftplugin',   { 'for': 'lua' }
 
   " dependencies
   Plug 'xolox/vim-misc'
@@ -51,7 +51,6 @@ call plug#begin()
   Plug 'AndrewRadev/sideways.vim'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'AndrewRadev/switch.vim'
-  Plug 'airblade/vim-gitgutter'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'duff/vim-scratch'
   Plug 'dyng/ctrlsf.vim'
@@ -61,10 +60,11 @@ call plug#begin()
   Plug 'terryma/vim-multiple-cursors'
   Plug 'tpope/vim-abolish'
   Plug 'tpope/vim-eunuch'
-  Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-projectionist'
   Plug 'tpope/vim-rsi'
   Plug 'vim-scripts/BufOnly.vim'
+  " Plug 'airblade/vim-gitgutter'
+  Plug 'tpope/vim-fugitive'
 
   if s:darwin
     Plug 'rizzatti/dash.vim',         { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
@@ -75,15 +75,15 @@ call plug#begin()
   endif
 
   " custom vim objects
-  Plug 'kana/vim-textobj-user'
-  Plug 'kana/vim-textobj-entire'
-  Plug 'kana/vim-textobj-indent'
-  Plug 'kana/vim-textobj-fold'
   Plug 'Julian/vim-textobj-brace'
   Plug 'beloglazov/vim-textobj-quotes'
-  Plug 'nelstrom/vim-textobj-rubyblock'
-  Plug 'glts/vim-textobj-indblock'
   Plug 'coderifous/textobj-word-column.vim'
+  Plug 'glts/vim-textobj-indblock'
+  Plug 'kana/vim-textobj-entire'
+  Plug 'kana/vim-textobj-fold'
+  Plug 'kana/vim-textobj-indent'
+  Plug 'kana/vim-textobj-user'
+  Plug 'nelstrom/vim-textobj-rubyblock'
 
 call plug#end()
 
@@ -120,7 +120,9 @@ set synmaxcol=180
 set wildignore+=.DS_Store
 set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.gif,*.psd,*.o,*.obj,*.min.js,*.sock
 set wildignore+=*/bower_components/*,*/node_modules/*
-set wildignore+=*/smarty/*,*/vendor/*,*/.git/*,*/.hg/*,*/.svn/*,*/.sass-cache/*,*/log/*,*/tmp/*,*/build/*,*/ckeditor/*,*/doc/*,*/source_maps/*,*/dist/*
+set wildignore+=*/smarty/*,*/vendor/*,*/.git/*,*/.hg/*,*/.svn/*,*/.sass-cache/*,
+set wildignore+=*/log/*,*/tmp/*,*/build/*,*/ckeditor/*,*/doc/*,*/source_maps/*,
+set wildignore+=*/dist/*,.keep,.starscope.db,tags
 set wildmode=list:longest
 
 set softtabstop=2 tabstop=2 shiftwidth=2 expandtab

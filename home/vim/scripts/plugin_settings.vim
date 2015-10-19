@@ -12,10 +12,13 @@
     let g:airline_symbols = {}
   endif
 
-  let g:airline_left_sep = '»'
-  let g:airline_left_sep = '▶'
-  let g:airline_right_sep = '«'
-  let g:airline_right_sep = '◀'
+  " let g:airline_left_sep = '»'
+  " let g:airline_left_sep = '▶'
+  " let g:airline_right_sep = '«'
+  " let g:airline_right_sep = '◀'
+  let g:airline_left_sep  = '▓▒░'
+  let g:airline_right_sep = '░▒▓'
+  let g:airline_section_z = '%2p%% %2l/%L:%2v'
   let g:airline_symbols.crypt = '🔒'
   let g:airline_symbols.linenr = '↕'
   let g:airline_symbols.branch = ' 📖 '
@@ -29,7 +32,7 @@ let g:gitgutter_sign_modified = '≈'
 " }}} Git Gutter "
 
 " CopyRTF {{{ "
-  command Print call RTF()
+  command! PrintToRTF call RTF()
   function! RTF()
     let colors_save = g:colors_name
     set background=light
@@ -136,6 +139,35 @@ let g:gitgutter_sign_modified = '≈'
   nnoremap <silent> <c-p> :Files<CR>
   nnoremap <silent> <c-e> :History<CR>
   nnoremap <silent> <c-t> :Tags<CR>
+
+  " nnoremap <silent> <leader><space> :Files<CR>
+" nnoremap <silent> <leader>a :Buffers<CR>
+" nnoremap <silent> <leader>; :BLines<CR>
+" nnoremap <silent> <leader>. :Lines<CR>
+" nnoremap <silent> <leader>o :BTags<CR>
+" nnoremap <silent> <leader>O :Tags<CR>
+" nnoremap <silent> <leader>: :Commands<CR>
+" nnoremap <silent> <leader>? :History<CR>
+" nnoremap <silent> K :call SearchWordWithAg()<CR>
+" vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
+
+function! SearchWordWithAg()
+  execute 'Ag' expand('<cword>')
+endfunction
+
+function! SearchVisualSelectionWithAg() range
+  let old_reg = getreg('"')
+  let old_regtype = getregtype('"')
+  let old_clipboard = &clipboard
+  set clipboard&
+  normal! ""gvy
+  let selection = getreg('"')
+  call setreg('"', old_reg, old_regtype)
+  let &clipboard = old_clipboard
+  execute 'Ag' selection
+endfunction
+
+
 " }}} CTRL-P "
 
 " Testing {{{ "
@@ -232,7 +264,7 @@ let g:gitgutter_sign_modified = '≈'
   " let g:indentLine_color_gui = '#09AA08'
   " let g:indentLine_char = '│'
   " let g:indentLine_fileTypeExclude = ['help', 'text', 'agsv']
-  let g:indent_guides_color_change_percent  = 30
+  " let g:indent_guides_color_change_percent  = 2
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_exclude_filetypes     = ['help', 'diff', 'nerdtree']
 " }}} Identline "

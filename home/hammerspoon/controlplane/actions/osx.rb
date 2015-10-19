@@ -7,6 +7,10 @@ def app_is_running?(app_name)
   `ps aux` =~ /#{app_name}/ ? true : false
 end
 
+def set_password_prompt time
+  system "defaults write com.apple.screensaver askForPasswordDelay -int #{time}"
+end
+
 def kill_bt_menu
   # system "/usr/libexec/PlistBuddy -c 'Delete :menuExtras:1' ~/Library/Preferences/com.apple.systemuiserver.plist"
   # system "killall SystemUIServer"
