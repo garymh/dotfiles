@@ -8,9 +8,6 @@
     ~/.agignore:
       relink: true
       path: home/agignore
-    ~/.freshrc:
-      relink: true
-      path: home/freshrc
     ~/.gitconfig:
       relink: true
       path: home/gitconfig

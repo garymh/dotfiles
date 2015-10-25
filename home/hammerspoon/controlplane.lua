@@ -44,11 +44,13 @@ function powerChangedCallback()
   local powerSource = hs.battery.powerSource()
   local powerSerial = hs.battery.psuSerial()
   if powerSource == "AC Power" then -- if we're on power
+    -- hs.alert("power")
     if powerSerial == 6857791 then
       nubic()
     elseif powerSerial == 8600800 then
       nuDesk()
     elseif powerSerial == 1255676 then
+      -- hs.alert("desk")
       homeDesk()
     elseif powerSerial == 6771448 then -- portable
       ssidChangedCallback()
@@ -58,6 +60,7 @@ function powerChangedCallback()
       road()
     end
   else
+    -- hs.alert("wifi")
     ssidChangedCallback()
   end
 end
@@ -125,12 +128,13 @@ hearthWatcher = appwatch.new(function(name,event,hsapp)
   if name then
     if name == "Hearthstone" then
       if event == appwatch.launching then
-        hs.application.launchOrFocus("/Applications/Track-o-Bot.app")
+        hs.application.launchOrFocus("/Applications/HSTracker.app")
       elseif event == appwatch.terminated then
-        hs.application.get("Track-o-Bot"):kill()
+        hs.application.get("HSTracker"):kill()
       end
     elseif name == "Spotify" then
       if event == appwatch.launching then
+        -- hs.timer.doAfter(sec, hs.application.launchOrFocus("/Applications/Simplify.app"))
         hs.application.launchOrFocus("/Applications/Simplify.app")
       elseif event == appwatch.terminated then
         hs.application.get("Simplify"):kill()

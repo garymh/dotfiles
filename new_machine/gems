@@ -11,6 +11,7 @@ gem-ctags
 git
 github
 hirb
+jira-ruby
 iconv
 mechanize
 otask

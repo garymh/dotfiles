@@ -16,7 +16,6 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/fasd
   zgen oh-my-zsh plugins/gem
   zgen oh-my-zsh plugins/github
-  zgen oh-my-zsh plugins/jira
   zgen oh-my-zsh plugins/rake
   zgen oh-my-zsh plugins/rake-fast
   zgen oh-my-zsh plugins/rbenv
@@ -26,16 +25,9 @@ if ! zgen saved; then
   # zgen doesn't seem to like the rails plugin
 
   zgen load Tarrasch/zsh-colors
-  zgen load bobthecow/git-flow-completion
-  # zgen load djui/alias-tips
-  zgen load supercrabtree/k
   zgen load zsh-users/zsh-completions src
   zgen load zsh-users/zsh-history-substring-search
   zgen load zsh-users/zsh-syntax-highlighting
-
-  zmodload zsh/terminfo
-  bindkey "$terminfo[kcuu1]" history-substring-search-up
-  bindkey "$terminfo[kcud1]" history-substring-search-down
 
   zgen load garymh/dotfiles home/zsh/themes/gary_pure_mod
   # source ~/.zsh/themes/gary_pure_mod.zsh-theme
@@ -59,5 +51,4 @@ else
   uptime
 fi
 
-# [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -66,8 +66,6 @@ if [[ $(uname) = 'Darwin' ]]; then
   export SQLPATH="/usr/local/oracle/instantclient_11_2"
   export ORACLE_HOME="/usr/local/oracle/instantclient_11_2"
   export ORACLE_SID="xe"
-  # export DYLD_LIBRARY_PATH="$ORACLE_HOME"
-  # export PATH="$PATH:$DYLD_LIBRARY_PATH"
   export OCI_LIB_DIR="$ORACLE_HOME"
   export OCI_DIR="$ORACLE_HOME"
   export PATH="$PATH:$OCI_LIB_DIR"
@@ -122,7 +120,6 @@ unsetopt correct_all
 unsetopt correct
 unsetopt promptcr
 setopt notify
-# export TERM="screen-256color"
 
 # oracle >:(
 export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
