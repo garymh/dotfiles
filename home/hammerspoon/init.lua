@@ -4,21 +4,9 @@ hs.hotkey.bind(hyper, 'n', function() os.execute("open ~") end)
 hs.hotkey.bind({"cmd", "alt"}, "V", function() hs.eventtap.keyStrokes(hs.pasteboard.getContents()) end)
 
 require "moom"
--- require "calendar"
 require "omnifocus"
 require "controlplane"
 
--- if print(os.execute("scutil --nc status \"NU VPN\" | grep -q Connected")) == 0 then
---   hs.alert("if")
--- else
---   hs.alert("else")
--- end
--- if hs.execute("scutil --nc status 'NU VPN' | grep -q Connected").status == true then
---   hs.alert("if")
--- else
---   hs.alert("else")
--- end
--- hs.alert(hs.execute("scutil --nc status 'NU VPN'").output)
 -- reloader
 function reloadConfig(files)
   doReload = false
@@ -32,5 +20,24 @@ function reloadConfig(files)
   end
 end
 
+function startCaffeine(time)
+  os.execute("/usr/bin/caffeinate -u -t " .. time .. " &")
+end
+
+caffeine_location = (os.getenv("HOME") .. "/Dropbox/Internal/custom/caffeine/caffeine")
+function caffeineCheck(files)
+  for _,file in pairs(files) do
+    print(caffeine_location)
+    print(file)
+    if file == caffeine_location then
+      startCaffeine(500)
+      os.remove(file)
+    end
+  end
+end
+
 hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.notify.new({title="Hammerspoon", informativeText="Config reloaded"}):send():release()
+
+hs.pathwatcher.new(os.getenv("HOME") .. "/.caffeine/", caffeineCheck):start()
+

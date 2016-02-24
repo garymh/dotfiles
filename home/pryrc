@@ -153,7 +153,7 @@ end # End of AwesomePrint
 # ==============================
 
 # History (Use one history file)
-# Pry.config.history.file = "~/.irb_history"
+Pry.config.history.file = "~/.irb_history"
 
 # Editors
 #   available options: vim, mvim, mate, emacsclient...etc.

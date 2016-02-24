@@ -1,3 +1,18 @@
+" Quickhl {{{ "
+nmap <Space>m <Plug>(quickhl-manual-this)
+xmap <Space>m <Plug>(quickhl-manual-this)
+nmap <Space>M <Plug>(quickhl-manual-reset)
+xmap <Space>M <Plug>(quickhl-manual-reset)
+" }}} Quickhl "
+
+" Rainbow Parens {{{ "
+let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
+" }}} Rainbow Parens "
+
+" Neomake {{{ "
+" let g:neomake_ruby = ['reek', 'rubocop']
+" }}} Neomake "
+
 " Airline {{{ "
   let g:airline#extensions#tabline#enabled       = 1
   let g:airline#extensions#tabline#show_tab_type = 1
@@ -5,31 +20,19 @@
   let g:airline#extensions#tabline#tab_nr_type   = 2
   let g:airline_detect_crypt                     = 0
   let g:airline_exclude_preview                  = 1
-  let g:airline_powerline_fonts                  = 0
-  let g:airline_theme                            = 'hybridline'
+  " let g:airline_powerline_fonts                  = 1
+  " let g:airline_theme                            = 'hybridline'
 
   if !exists('g:airline_symbols')
     let g:airline_symbols = {}
   endif
 
-  " let g:airline_left_sep = '»'
-  " let g:airline_left_sep = '▶'
-  " let g:airline_right_sep = '«'
-  " let g:airline_right_sep = '◀'
   let g:airline_left_sep  = '▓▒░'
   let g:airline_right_sep = '░▒▓'
   let g:airline_section_z = '%2p%% %2l/%L:%2v'
   let g:airline_symbols.crypt = '🔒'
-  let g:airline_symbols.linenr = '↕'
   let g:airline_symbols.branch = ' 📖 '
-  let g:airline_symbols.paste = 'ρ'
-  let g:airline_symbols.whitespace = 'Ξ'
 " }}} Airline "
-
-" Git Gutter {{{ "
-let g:gitgutter_sign_modified = '≈'
-
-" }}} Git Gutter "
 
 " CopyRTF {{{ "
   command! PrintToRTF call RTF()
@@ -132,13 +135,16 @@ let g:gitgutter_sign_modified = '≈'
   nnoremap <silent> S :call BreakHere()<CR>
 " }}} SplitJoin "
 
-" CTRL-P {{{ "
+" FZF {{{ "
   if has('nvim')
     let $FZF_DEFAULT_OPTS .= ' --inline-info'
   endif
   nnoremap <silent> <c-p> :Files<CR>
   nnoremap <silent> <c-e> :History<CR>
   nnoremap <silent> <c-t> :Tags<CR>
+
+  autocmd VimEnter * command! Colors
+        \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
 
   " nnoremap <silent> <leader><space> :Files<CR>
 " nnoremap <silent> <leader>a :Buffers<CR>
@@ -168,19 +174,19 @@ function! SearchVisualSelectionWithAg() range
 endfunction
 
 
-" }}} CTRL-P "
+" }}} FZF "
 
 " Testing {{{ "
-    let g:rubytest_cmd_test = "zeus test %p"
-    let g:rubytest_cmd_testcase = "zeus test %p -n '/%c/'"
+    " this was working!
+    " let g:rubytest_cmd_test = "zeus test %p"
+    " let g:rubytest_cmd_testcase = "zeus test %p -n '/%c/'"
     " let g:rubytest_in_quickfix = 1
-  " let g:test#strategy = 'vimux'
-  " nmap <silent> <leader>t :TestNearest<CR>
-  " nmap <silent> <leader>T :TestFile<CR>
-  " nmap <silent> <leader>a :TestSuite<CR>
-  " nmap <silent> <leader>l :TestLast<CR>
-  " nmap <silent> <leader>g :TestVisit<CR>
-  " let test#ruby#minitest#executable = 'm'
+  let g:test#strategy = 'neovim'
+  nmap <silent> <leader>t :TestNearest<CR>
+  nmap <silent> <leader>T :TestFile<CR>
+  nmap <silent> <leader>a :TestSuite<CR>
+  nmap <silent> <leader>l :TestLast<CR>
+  nmap <silent> <leader>g :TestVisit<CR>
 " }}} Testing "
 
 " EasyAlign {{{ "
@@ -260,13 +266,17 @@ endfunction
 " }}} ctrlsf "
 
 " Identline {{{ "
-  " let g:indentLine_color_term = 239
-  " let g:indentLine_color_gui = '#09AA08'
-  " let g:indentLine_char = '│'
-  " let g:indentLine_fileTypeExclude = ['help', 'text', 'agsv']
-  " let g:indent_guides_color_change_percent  = 2
-  let g:indent_guides_enable_on_vim_startup = 1
-  let g:indent_guides_exclude_filetypes     = ['help', 'diff', 'nerdtree']
+  let g:indentLine_first_char           = '┊'
+  let g:indentLine_char                 = '·'
+  let g:indentLine_faster               = 1
+  let g:indentLine_showFirstIndentLevel = 1
+  let g:indentLine_color_gui            = '#5B5C5B'
+
+
+  " let g:indent_guides_default_mapping       = 0
+  " let g:indent_guides_start_level           = 2
+  " let g:indent_guides_enable_on_vim_startup = 1
+  " let g:indent_guides_exclude_filetypes     = ['help', 'diff', 'nerdtree']
 " }}} Identline "
 
 " NERDtree {{{ "

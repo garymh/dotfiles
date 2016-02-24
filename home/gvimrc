@@ -1,5 +1,6 @@
 " set guifont=Fixedsys\ Excelsior\ 3.01:h20
-set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Bold:h18
+" set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Bold:h18
+set guifont=Share\ Tech\ Mono:h18
 
 set guioptions-=mTLlRrb
 " set guioptions-=T

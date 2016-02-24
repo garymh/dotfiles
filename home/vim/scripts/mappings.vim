@@ -8,6 +8,10 @@ nnoremap <space><space> za
 nnoremap gg           ggzv
 nnoremap G            Gzv
 
+set spelllang=en_us
+set nospell
+nnoremap <silent> <F2> :set spell!<CR> :set spell?<CR>
+
 " Unimpaired.vim-like toggles
 nnoremap [oo :set colorcolumn=+1<CR>
 nnoremap ]oo :set colorcolumn=0<CR>
@@ -18,7 +22,7 @@ nnoremap coo :let &colorcolumn = ( &colorcolumn == "+1" ? "0" : "+1" )<CR>
 let mapleader=","
 let maplocalleader = "\\"
 
-nnoremap ! :Make<cr>
+nnoremap ! :Neomake<cr>
 
 " delete next line
 nnoremap dn majdd`a
@@ -52,6 +56,7 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>qev :vsplit $MYVIMRC<cr>
 nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>emp :e ~/.vim/scripts/mappings.vim<cr>
+nnoremap <leader>emap :e ~/.vim/scripts/mappings.vim<cr>
 nnoremap <leader>epl :e ~/.vim/scripts/plugin_settings.vim<cr>
 nnoremap <leader>qemp :vsplit ~/.vim/scripts/mappings.vim<cr>
 nnoremap <leader>qepl :vsplit ~/.vim/scripts/plugin_settings.vim<cr>
@@ -77,6 +82,7 @@ nmap <leader>fq cs"'
 
 nnoremap <leader>. :Scratch<cr>
 " vnoremap <leader>tidy :!tidy -q -i --show-errors 0<cr>
+" nnoremap <leader>= mqHmwgg=G`wzt`q
 nnoremap <leader>= mqHmwgg=G`wzt`q
 
 " copy current filename into system clipboard - mnemonic: (c)urrent(f)ilename
@@ -94,6 +100,8 @@ nnoremap <leader>P :set paste<cr>O<esc>"*]P:set nopaste<cr>
 nnoremap <leader><bar> <C-w>v<C-w>l
 nnoremap <leader>- <C-w>s
 
+" nnoremap <M-/>
+
 " quicker close window
 nnoremap <silent>Q :Sayonara<cr>
 command! -bang Q q<bang>
@@ -108,7 +116,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 " git blame
-" vmap <Leader>b :<C-U>!git blame <C-R>=expand("%:p") <cr> \| sed -n <C-R>=line("'<") <cr>,<C-R>=line("'>") <cr>p <cr>
+vmap <Leader>b :<C-U>!git blame <C-R>=expand("%:p") <cr> \| sed -n <C-R>=line("'<") <cr>,<C-R>=line("'>") <cr>p <cr>
 
 " " keep the cursor in place while joining lines
 " nnoremap J mzJ`z

@@ -1,5 +1,15 @@
 # TODO: incorporate mdfind into search?
 
+build_neovim() {
+  cd ~/code/neovim
+  git pull
+  rm -rf build
+  make clean
+  # make CMAKE_BUILD_TYPE=Release && rm /usr/local/bin/nvim && mv build/bin/nvim /usr/local/bin
+  make CMAKE_BUILD_TYPE=Release
+  make install
+}
+
 # fzf:
 fj() {
   local dir
@@ -166,6 +176,17 @@ chgext() {
 }
 
 if [[ $IS_MAC -eq 1 ]]; then
+
+  save_power() {
+    osascript -e 'quit app "CARROT Weather"'
+    osascript -e 'quit app "Dropbox"'
+  }
+
+  plugged_in() {
+    open -a "CARROT Weather"
+    open -a "Dropbox"
+  }
+
   function anybar { echo -n $1 | nc -4u -w0 localhost ${2:-1738}; }
 
   gclo() {

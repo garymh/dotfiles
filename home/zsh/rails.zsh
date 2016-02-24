@@ -29,6 +29,7 @@ alias prodlog='tail -f log/production.log'
 alias testlog='tail -f log/test.log'
 
 alias -g RED='RAILS_ENV=development'
+alias -g RES='RAILS_ENV=staging'
 alias -g REP='RAILS_ENV=production'
 alias -g RET='RAILS_ENV=test'
 

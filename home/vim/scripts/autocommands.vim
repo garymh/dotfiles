@@ -13,6 +13,13 @@ augroup random
   " jump the top in git commit messages
   autocmd FileType gitcommit normal gg
   autocmd BufReadPost fugitive://* set bufhidden=delete
+
+  autocmd filetype crontab setlocal nobackup nowritebackup
+augroup END
+
+augroup rainbows
+  autocmd!
+  autocmd FileType ruby,scheme RainbowParentheses
 augroup END
 
 augroup ft_yaml

@@ -1,11 +1,11 @@
-gem-shut-the-fuck-up
-active_support
+activesupport
 amatch
 chronic
 forecast_io
+gem-shut-the-fuck-up
 highline
 oauth
 otask
+prowl
 pry
 rb-appscript
-webloc

@@ -1,0 +1,43 @@
+function! BuildYCM(info)
+  if a:info.status == 'installed' || a:info.force
+    !./install.py
+  endif
+endfunction
+
+Plug 'honza/vim-snippets'
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+Plug 'SirVer/ultisnips'
+" Plug 'ervandew/supertab'
+
+let g:UltiSnipsExpandTrigger              = "<nop>"
+let g:endwise_no_mappings                 = 1
+let g:ycm_min_num_of_chars_for_completion = 1
+let g:UltiSnipsJumpForwardTrigger         = "<Enter>"
+let g:UltiSnipsJumpBackwardTrigger        = "<Left>"
+
+" new:
+let g:ycm_collect_identifiers_from_tags_files = 1
+
+let g:ulti_expand_or_jump_res             = 0
+function! ExpandSnippetOrCarriageReturn()
+    let snippet = UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res > 0
+        return snippet
+    else
+        return "\<CR>"
+    endif
+endfunction
+
+inoremap <silent> <expr> <C-X><CR> pumvisible() ? "\<C-R>=ExpandSnippetOrCarriageReturn()\<CR>" : "\<CR>\<C-R>=EndwiseAlways()\<CR>"
+inoremap <silent> <expr> <CR> pumvisible() ? "\<C-R>=ExpandSnippetOrCarriageReturn()\<CR>" : "\<CR>\<C-R>=EndwiseDiscretionary()\<CR>"
+
+" enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+if has('nvim')
+  " no +ruby for neovim yet :(
+else
+  autocmd FileType ruby set omnifunc=rubycomplete#Complete
+end

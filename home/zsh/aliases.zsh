@@ -5,15 +5,23 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias please='sudo $SHELL -c "$(fc -ln -1)"'
 
   alias fix_git_hook="cp $HOME_DIR/git_templates/hooks/post-commit .git/hooks/post-commit"
+  alias show_hidden='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+  alias hide_hidden='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 
   alias debug_vim='/usr/local/bin/vim -u ~/.vimrc_min'
   alias debug_nvim='nvim -u ~/.vimrc_min'
 
+  alias ldap_on="sudo /usr/local/Cellar/openldap/2.4.43/libexec/slapd -d 1"
+  # alias ldap_on="sudo /usr/local/Cellar/openldap/2.4.43/libexec/slapd -d 1"
+
   alias eshortcuts="$EDITOR ~/Library/Mobile\ Documents/com~apple~CloudDocs/shortcuts"
   alias eshortcut="eshortcuts"
-  alias cfoff='/Applications/ColdFusion10/cfusion/bin/coldfusion stop'
-  alias cfon='/Applications/ColdFusion10/cfusion/bin/coldfusion start'
-  alias cfrestart='/Applications/ColdFusion10/cfusion/bin/coldfusion restart'
+  alias cf_off='/Applications/ColdFusion10/cfusion/bin/coldfusion stop'
+  alias cf_on='/Applications/ColdFusion10/cfusion/bin/coldfusion start'
+  alias cf_restart='/Applications/ColdFusion10/cfusion/bin/coldfusion restart'
+  alias cf11_off='/Applications/ColdFusion11/cfusion/bin/coldfusion stop'
+  alias cf11_on='/Applications/ColdFusion11/cfusion/bin/coldfusion start'
+  alias cf11_restart='/Applications/ColdFusion11/cfusion/bin/coldfusion restart'
   alias ealias="$EDITOR $HOME_DIR/zsh/aliases.zsh"
   alias efunction="$EDITOR $HOME_DIR/zsh/functions.zsh"
   alias egems="$EDITOR $DOTFILES/new_machine/gems"
@@ -41,9 +49,9 @@ if [[ $IS_MAC -eq 1 ]]; then
 fi
 
 if [[ $IS_LINUX -eq 1 ]]; then
-  alias cfon='sudo service coldfusion_10 start'
-  alias cfoff='sudo service coldfusion_10 stop'
-  alias cfrestart='sudo service coldfusion_10 restart'
+  alias cf_on='sudo service coldfusion_10 start'
+  alias cf_off='sudo service coldfusion_10 stop'
+  alias cf_restart='sudo service coldfusion_10 restart'
 
   if [ "$HOSTNAME" = "nightcrawler" ]; then
     alias vim="nvim"
@@ -83,8 +91,6 @@ alias zi="fasd -e cd -i"
 alias gca="gac"
 alias gco="gac"
 
-alias -g RES='RAILS_ENV=staging'
-
 # More verbose fileutils
 alias cp='nocorrect cp -iv'
 alias rm='nocorrect rm -iv'
@@ -109,11 +115,3 @@ alias -g NUL="> /dev/null 2>&1"
 alias -g P='| path-extractor | fzf | read filename; [ ! -z $filename ] && vim $filename'
 alias -g S='| sort'
 alias -g T='| tail'
-
-alias tom_on="tomon"
-alias tom_off="tomoff"
-alias post_on="poston"
-alias post_off="postoff"
-alias cf_on="cfon"
-alias cf_off="cfoff"
-alias cf_restart="cfrestart"

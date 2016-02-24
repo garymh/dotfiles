@@ -52,3 +52,20 @@ else
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+
+export NVM_DIR="/Users/garyh/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# something is screwing up my path in oh-my-zsh
+if (( $+commands[brew] )) ; then
+  HAS_BREW=1
+  path=(
+    $(brew --prefix)/sbin
+    $(brew --prefix)/share/npm/bin
+    $(brew --cellar)/coreutils
+    $path
+  )
+fi
+
