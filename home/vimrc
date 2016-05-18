@@ -1,181 +1,170 @@
+" vim:fdm=marker
 " ~/.vimrc
 " thanks to the brilliant @tpope, @skwp, @nelstrom, @bling,
-" @r00k, @spf13, @AndrewRadev, @junegunn, and @sjl for unknowingly
+" @r00k, @spf13, @AndrewRadev, @junegunn, @wincent, and @sjl for unknowingly
 " allowing me to borrow from their dotfiles.
 
 call plug#begin()
-let s:darwin = has('mac')
 
-" standard
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-unimpaired'
+" standard {{{ "
+  Plug 'tpope/vim-unimpaired'
+" }}} standard "
 
-" almost standard
-Plug 'junegunn/fzf',             { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/vim-oblique'
-Plug 'mhinz/vim-sayonara'
-Plug 'milkypostman/vim-togglelist'
-Plug 'takac/vim-commandcaps'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-sleuth'
-Plug 'tpope/vim-surround'
+" almost standard {{{ "
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+  Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/vim-oblique'
+  Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
+  Plug 'milkypostman/vim-togglelist', { 'on': 'ToggleQuickfixList' }
+  Plug 'takac/vim-commandcaps'
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-sleuth'
+  Plug 'tpope/vim-surround'
+" }}} almost standard "
 
-" appearance
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'Yggdroot/indentLine'
-Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'junegunn/vim-peekaboo'
-Plug 'nanotech/jellybeans.vim'
-Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+" looks {{{ "
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'Yggdroot/indentLine'
+  Plug 'kien/rainbow_parentheses.vim'
+  Plug 'junegunn/vim-peekaboo'
+  Plug 'lilydjwg/colorizer', { 'for': ['css', 'sass', 'scss', 'less', 'html', 'javascript'] }
+  Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+" }}} looks "
 
-" ruby
-Plug 'janko-m/vim-test'
-Plug 'ngmy/vim-rubocop',            { 'for': 'ruby' }
-Plug 'tpope/vim-bundler',           { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
-Plug 'tpope/vim-rails',             { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
-Plug 'tpope/vim-rake',              { 'for': 'ruby' }
+" colors {{{ "
+  Plug 'w0ng/vim-hybrid'
+  Plug 'Sclarki/neonwave.vim'
+  Plug 'morhetz/gruvbox'
+  Plug 'nanotech/jellybeans.vim'
+" }}} colors "
 
-" syntax
-Plug 'davejlong/cf-utils.vim',      { 'for': ['coldfusion', 'cfml'] }
-Plug 'lilydjwg/colorizer',          { 'for': ['css', 'sass', 'scss', 'less', 'html', 'javascript'] }
-Plug 'mattn/emmet-vim',             { 'for': ['eruby','html'] }
-Plug 'sheerun/vim-polyglot'
-Plug 'sunaku/vim-ruby-minitest'
-Plug 'vim-scripts/applescript.vim'
-Plug 'xolox/vim-lua-ftplugin',      { 'for': 'lua' }
+" ruby {{{ "
+  Plug 'janko-m/vim-test'
+  Plug 'ngmy/vim-rubocop',  { 'for': 'ruby' }
+  Plug 'tpope/vim-bundler', { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
+  Plug 'tpope/vim-rails',   { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
+  Plug 'tpope/vim-rake',    { 'for': 'ruby' }
+" }}} ruby "
 
-" dependencies
-Plug 'xolox/vim-misc'
-Plug 'junegunn/vim-pseudocl'
+" syntax {{{ "
+  Plug 'sheerun/vim-polyglot'
+  Plug 'davejlong/cf-utils.vim',   { 'for': ['coldfusion', 'cfml'] }
+  Plug 'sunaku/vim-ruby-minitest', { 'for': 'ruby' }
+  Plug 'xolox/vim-lua-ftplugin',   { 'for': 'lua' }
+  Plug 'chrisbra/csv.vim',         { 'for': 'csv' }
+" }}} syntax "
 
-" misc
-Plug 'AndrewRadev/sideways.vim'
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'AndrewRadev/switch.vim'
-Plug 'benekastah/neomake',          { 'on': ['Neomake'] }
-Plug 'chip/vim-fat-finger'
-Plug 'christoomey/vim-sort-motion'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'duff/vim-scratch'
-Plug 'dyng/ctrlsf.vim',             { 'on': ['CtrlSF', 'CtrlSFToggle'] }
-Plug 'junegunn/vim-easy-align',     { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-Plug 'scrooloose/nerdtree'
-Plug 'sickill/vim-pasta'
-Plug 't9md/vim-quickhl'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-projectionist'
-Plug 'tpope/vim-rsi'
-Plug 'vim-scripts/BufOnly.vim',     { 'on': 'Bonly' }
-Plug 'wellle/visual-split.vim'
+" dependencies {{{ "
+  Plug 'xolox/vim-misc'
+  Plug 'junegunn/vim-pseudocl'
+" }}} dependencies "
 
-if s:darwin
-  Plug 'rizzatti/dash.vim',         { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
-  Plug 'zerowidth/vim-copy-as-rtf', { 'on': 'CopyRTF' }
+" misc {{{ "
+  Plug 'wincent/terminus'
+  Plug 'AndrewRadev/splitjoin.vim'
+  Plug 'AndrewRadev/switch.vim'
+  Plug 'benekastah/neomake', { 'on': 'Neomake' }
+  Plug 'chip/vim-fat-finger'
+  Plug 'christoomey/vim-sort-motion'
+  Plug 'christoomey/vim-system-copy'
+  Plug 'christoomey/vim-tmux-navigator'
+  Plug 'duggiefresh/vim-easydir'
+  Plug 'dyng/ctrlsf.vim', { 'on': ['CtrlSF', 'CtrlSFToggle'] }
+  Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+  Plug 'ntpeters/vim-better-whitespace'
+  Plug 'scrooloose/nerdtree'
+  Plug 'tpope/vim-abolish'
+  " Plug 'tpope/vim-endwise'
+  Plug 'cohama/lexima.vim'
+  Plug 'tpope/vim-eunuch'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-projectionist'
+  Plug 'tpope/vim-rsi'
+  Plug 'vim-scripts/BufOnly.vim', { 'on': 'Bonly' }
+" }}} misc "
 
-  if has('nvim')
-    " completions are too much of a pain on Linux
+" mac/nvim {{{ "
+  if has('mac')
+    Plug 'rizzatti/dash.vim',         { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
+    Plug 'zerowidth/vim-copy-as-rtf', { 'on': 'CopyRTF' }
     source ~/.vim/scripts/completions.vim
+  endif
+  if has('nvim')
+    set termguicolors
   else
     Plug 'jszakmeister/vim-togglecursor'
+    Plug 'tpope/vim-sensible'
   endif
-endif
+" }}} mac/nvim "
 
-" custom vim objects
-Plug 'Julian/vim-textobj-brace'
-Plug 'beloglazov/vim-textobj-quotes'
-Plug 'coderifous/textobj-word-column.vim'
-Plug 'glts/vim-textobj-indblock'
-Plug 'kana/vim-textobj-entire'
-Plug 'kana/vim-textobj-fold'
-Plug 'kana/vim-textobj-indent'
-Plug 'kana/vim-textobj-user'
-Plug 'nelstrom/vim-textobj-rubyblock'
+" custom vim objects {{{ "
+  Plug 'Julian/vim-textobj-brace'
+  Plug 'beloglazov/vim-textobj-quotes'
+  Plug 'coderifous/textobj-word-column.vim'
+  Plug 'glts/vim-textobj-indblock'
+  Plug 'kana/vim-textobj-entire'
+  Plug 'kana/vim-textobj-fold'
+  Plug 'kana/vim-textobj-indent'
+  Plug 'kana/vim-textobj-user'
+  Plug 'tek/vim-textobj-ruby'
+  Plug 'kana/vim-textobj-line'
+" }}} custom vim objects "
 
 call plug#end()
-
-set encoding=utf8
-
-set cmdheight=2          " hopefully prevents the 'hit enter' prompts
-set foldlevelstart=20
-set formatprg="par 79"   " respect the 80 character lines
-set gdefault             " assume the /g flag on :s substitutions
-set guicursor=a:blinkon0 " stop blinking
-set hidden               " make unsaved buffers hidden
-set ignorecase
-set modeline modelines=1 " check for syntax hints
-set nocursorcolumn
-set nocursorline
-set nojoinspaces         " use only 1 space after '.' when joining lines
-set noswapfile
-" set nowrap               " don't wrap
-set number
-set scrolljump=5
-set shiftround           " indenting to nearest tabstop
-set shortmess=WatAIT     " no interruptive prompts
-                         " http://items.sjbach.com/319/configuring-vim-right
-set linebreak
-set showmatch            " show matching brackets
-set smartcase            " smartcase for searching
-set splitbelow           " default split behavior
-set splitright           " default split behavior
-set synmaxcol=180
-set ttimeoutlen=50       " vim-sensible's is kinda slow
-set virtualedit=onemore  " allow selection past last character
-
-set wildignore+=.DS_Store
-set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.psd,*.o,*.obj,*.min.js,*.sock
-set wildignore+=*/bower_components/*,*/node_modules/*
-set wildignore+=*/smarty/*,*/vendor/*,*/.git/*,*/.hg/*,*/.svn/*,*/.sass-cache/*
-set wildignore+=*/log/*,*/tmp/*,*/build/*,*/ckeditor/*,*/doc/*,*/source_maps/*
-set wildignore+=*/dist/*,.keep,.starscope.db
-set wildmode=list:longest
-
-set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
-
-set fillchars=diff:⣿,vert:│
-
-if !has('gui_macvim')
-  set t_Co=256
-endif
-colorscheme jellybeans
-let g:airline_theme = 'jellybeans'
-
-if v:version > 703
-  set colorcolumn=+1
-  hi ColorColumn guibg=#363668 ctermbg=246
-endif
-
-" Persistent Undo {{{
-silent !mkdir ~/.vim/backups > /dev/null 2>&1
-
-if has("persistent_undo")
-  set undodir=~/.vim/backups
-  set undofile
-endif
-" }}}
 
 source ~/.vim/scripts/autocommands.vim
 source ~/.vim/scripts/mappings.vim
 source ~/.vim/scripts/plugin_settings.vim
 
-" Different cursor for insert mode in iTerm2, with tmux workaround.
-" https://gist.github.com/1195581
-" http://sourceforge.net/mailarchive/forum.php?thread_name=AANLkTinkbdoZ8eNR1X2UobLTeww1jFrvfJxTMfKSq-L%2B%40mail.gmail.com&forum_name=tmux-users
+" settings {{{ "
+  " set virtualedit=onemore  " allow selection past last character
+  set expandtab
+  set foldlevelstart=2
+  set formatprg="par 79"    " respect the 80 character lines
+  set gdefault              " assume the /g flag on :s substitutions
+  set hidden                " make unsaved buffers hidden
+  set ignorecase
+  set listchars+=extends:»  " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
+  set listchars+=precedes:« " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
+  set listchars+=trail:•    " BULLET (U+2022, UTF-8: E2 80 A2)
+  set nojoinspaces          " don't autoinsert two spaces after '.', '?', '!' for join command
+  set noshowmatch           " don't jump between matching brackets
+  set noswapfile
+  set nowrap
+  set number
+  set relativenumber
+  set shiftround            " indenting to nearest tabstop
+  set smartcase             " smartcase for searching
+  set splitbelow            " default split behavior
+  set synmaxcol=180
+  set ttimeoutlen=50        " vim-sensible's is kinda slow
+  syntax sync minlines=256  " start highlighting from 256 lines backwards
+" }}} settings "
 
-" For slow vim functions, from: http://til.hashrocket.com/posts/830c087a03-profiling-vim -
-" To find which plugins may be causing certain actions in vim run slowly try using the built in profiler:
+" wildignore {{{ "
+  set wildignore+=.DS_Store
+  set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.psd,*.min.js,*.sock
+  set wildignore+=*/.git/*,*/log/*,*/tmp/*,.keep
+  set wildmode=list:longest
+" }}} wildignore "
 
-" :profile start profile.log
-" :profile func *
-" :profile file *
-" Then perform the slow action, when done run:
+" coloring {{{ "
+  set highlight+=@:ColorColumn          " ~/@ at end of window, 'showbreak'
+  set highlight+=N:DiffText             " make current line number stand out a little
+  set highlight+=c:LineNr               " blend vertical separators with line numbers
+  set background=dark
+  " let g:gruvbox_italic=1
+  let g:jellybeans_use_term_italics = 1
+  colorscheme jellybeans
+  highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+  match OverLength /\%81v.\+/
+" }}} coloring "
 
-" :profile pause
-" :q
+" Persistent Undo {{{
+  silent !mkdir ~/.vim/backups > /dev/null 2>&1
+  if has("persistent_undo")
+    set undodir=~/.vim/backups
+    set undofile
+  endif
+" }}}

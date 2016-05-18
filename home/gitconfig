@@ -14,26 +14,26 @@
   precomposeunicode = false
 [alias]
   tags                                    = tag -l
+  stashes				  = stash list
   branches                                = branch -a
   remotes                                 = remote -v
 
   update-submodules                       = submodule update --init --recursive
 
   ; most below stolen from Steve Losh (@sjl) and Mathias Bynens @mathiasbynens
+  nevermind = !git reset --hard HEAD && git clean -d -f
+  precommit = diff --cached --diff-algorithm=minimal -w
 
-  l                                       = log -18 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
-  ll                                      = log     --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
-  gl                                      = log -12 --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
-  gll                                     = log     --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
-
-  unstage                                 = reset HEAD
-  up                                      = merge --ff-only
+  unstage   = reset -q HEAD --
+  up        = merge --ff-only
+  discard   = checkout --
+  uncommit  = reset --mixed HEAD~
+  amend     = commit --amend
 
   # View the current working tree status using the short format
   s                                       = status -s
 
-  # Commit all changes
-  ca                                      = !git add -A && git commit -av
+  forgot-to-commit = difftool HEAD~1 HEAD
 
   delete-local-branch                     = branch -D
   delete-local-reference-to-remote-branch = "!sh -c 'git branch -rd $1/$2' -"
@@ -101,7 +101,7 @@ trustExitCode  = true
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
 [mergetool "sourcetree"]
-	cmd = ~/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	cmd = /Users/gary/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [filter "hawser"]
 	clean = git hawser clean %f
@@ -111,3 +111,5 @@ trustExitCode  = true
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
+[ghi]
+	token = !security find-internet-password -a garymh -s github.com -l 'ghi token' -w

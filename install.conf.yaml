@@ -1,7 +1,5 @@
 - clean: ['~', '~/.ssh']
 - link:
-    # ~/.box-name:
-    #   path: home/box-name
     ~/.gemrc:
       relink: true
       path: home/gemrc
@@ -20,12 +18,10 @@
     ~/.gvimrc:
       relink: true
       path: home/gvimrc
-    ~/.inputrc:
-      path: home/inputrc
     ~/.mackup.cfg:
       relink: true
       path: home/mackup.cfg
-    ~/.nvimrc:
+    ~/.config/nvim/init.vim:
       relink: true
       path: home/vimrc
     ~/.pryrc-helpers.rb:
@@ -73,13 +69,27 @@
     ~/.vim/autoload:
       create: true
       path: home/vim/autoload/
-    ~/.nvim/autoload:
+    ~/.config/nvim/autoload:
       create: true
       path: home/vim/autoload/
 
+    ~/.vim/ftplugin:
+      create: true
+      path: home/vim/ftplugin/
+    ~/.config/nvim/ftplugin:
+      create: true
+      path: home/vim/ftplugin/
+
+    ~/.vim/ftdetect:
+      create: true
+      path: home/vim/ftdetect/
+    ~/.config/nvim/ftdetect:
+      create: true
+      path: home/vim/ftdetect/
+
     ~/.vim/UltiSnips: home/vim/UltiSnips/
-    ~/.nvim/UltiSnips: home/vim/UltiSnips/
-    ~/.nvim/scripts: home/vim/scripts/
+    ~/.config/nvim/UltiSnips: home/vim/UltiSnips/
+    ~/.config/nvim/scripts: home/vim/scripts/
     ~/.vim/scripts: home/vim/scripts/
 
     ~/.zsh:
@@ -87,8 +97,6 @@
       path: home/zsh/
     ~/.hammerspoon: home/hammerspoon/
     ~/.git_hooks: home/git_hooks/
-    ~/.antigen: submodules/antigen/
-    ~/.dir_colors: submodules/dir_colors_solarized/dircolors.ansi-dark
     ~/.gitconfig.local: private/gitconfig.local
 
     ~/.ssh/config:
@@ -105,6 +113,3 @@
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
   - [$(which vim) +PlugInstall +qall, Update bundles]
-  # homebrew
-  # - [bash -c "`curl -sL get.freshshell.com`"]
-

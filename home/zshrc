@@ -1,3 +1,4 @@
+DISABLE_AUTO_UPDATE="true"
 source $DOTFILES/submodules/zgen/zgen.zsh
 
 if ! zgen saved; then
@@ -24,10 +25,12 @@ if ! zgen saved; then
   # zgen oh-my-zsh plugins/rails
   # zgen doesn't seem to like the rails plugin
 
+  # zgen load Treri/fzf-zsh
   zgen load Tarrasch/zsh-colors
-  zgen load zsh-users/zsh-completions src
-  zgen load zsh-users/zsh-history-substring-search
-  zgen load zsh-users/zsh-syntax-highlighting
+  # zgen load djui/alias-tips
+  # zgen load zsh-users/zsh-completions src
+  # zgen load zsh-users/zsh-history-substring-search
+  # zgen load zsh-users/zsh-syntax-highlighting
 
   zgen load garymh/dotfiles home/zsh/themes/gary_pure_mod
   # source ~/.zsh/themes/gary_pure_mod.zsh-theme
@@ -41,6 +44,9 @@ if [ 0 -ne $(ls $HOME/.zsh/private/*.zsh 2>/dev/null | wc -w) ]; then
   for f ($HOME/.zsh/private/*.zsh) {source $f}
 fi
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+
 if [[ $HAS_IMG2XTERM -eq 1 ]]; then
   img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png;
   green "-------------------------------"
@@ -50,22 +56,3 @@ elif [[ $HAS_COWSAY -eq 1 ]]; then
 else
   uptime
 fi
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
-
-export NVM_DIR="/Users/garyh/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# something is screwing up my path in oh-my-zsh
-if (( $+commands[brew] )) ; then
-  HAS_BREW=1
-  path=(
-    $(brew --prefix)/sbin
-    $(brew --prefix)/share/npm/bin
-    $(brew --cellar)/coreutils
-    $path
-  )
-fi
-

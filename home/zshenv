@@ -33,7 +33,6 @@ if [[ $(uname) = 'Linux' ]]; then
   else
     export EDITOR='nvim'
     export VISUAL='nvim'
-    export NVIM_TUI_ENABLE_TRUE_COLOR=1
   fi
 
   export USER="$NETID"
@@ -58,7 +57,6 @@ if [[ $(uname) = 'Darwin' ]]; then
   fi
   export EDITOR='nvim'
   export VISUAL='nvim'
-  export NVIM_TUI_ENABLE_TRUE_COLOR=1
   export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
   export GOPATH="$HOME/code/custom/go"
   export DOTFILES="$HOME/Dropbox/Internal/dotfiles"

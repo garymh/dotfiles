@@ -1,7 +1,6 @@
 
 if [[ $IS_MAC -eq 1 ]]; then
   alias vim="e"
-  alias tmux="TERM=screen-256color-bce tmux"
   alias please='sudo $SHELL -c "$(fc -ln -1)"'
 
   alias fix_git_hook="cp $HOME_DIR/git_templates/hooks/post-commit .git/hooks/post-commit"
@@ -12,40 +11,34 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias debug_nvim='nvim -u ~/.vimrc_min'
 
   alias ldap_on="sudo /usr/local/Cellar/openldap/2.4.43/libexec/slapd -d 1"
-  # alias ldap_on="sudo /usr/local/Cellar/openldap/2.4.43/libexec/slapd -d 1"
 
   alias eshortcuts="$EDITOR ~/Library/Mobile\ Documents/com~apple~CloudDocs/shortcuts"
   alias eshortcut="eshortcuts"
-  alias cf_off='/Applications/ColdFusion10/cfusion/bin/coldfusion stop'
-  alias cf_on='/Applications/ColdFusion10/cfusion/bin/coldfusion start'
-  alias cf_restart='/Applications/ColdFusion10/cfusion/bin/coldfusion restart'
-  alias cf11_off='/Applications/ColdFusion11/cfusion/bin/coldfusion stop'
-  alias cf11_on='/Applications/ColdFusion11/cfusion/bin/coldfusion start'
-  alias cf11_restart='/Applications/ColdFusion11/cfusion/bin/coldfusion restart'
+
   alias ealias="$EDITOR $HOME_DIR/zsh/aliases.zsh"
   alias efunction="$EDITOR $HOME_DIR/zsh/functions.zsh"
   alias egems="$EDITOR $DOTFILES/new_machine/gems"
   alias etmux="$EDITOR $DOTFILES/home/tmux.conf $DOTFILES/home/tmux/gary_theme.conf"
-  alias eivm="evim"
+
   alias evim="$EDITOR $HOME_DIR/vimrc"
+  alias eivm="evim"
   alias evimrc="evim"
+  alias zshrc="$EDITOR $HOME_DIR/zshrc"
+  alias ezshrc="zshrc"
+
   alias oo='open .'
+
   alias postoff='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop'
   alias poston='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
-  alias screensaver='/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine &'
-  alias third_party_extensions='kextstat | grep -v apple'
-  alias tomoff='sudo ~/Library/Tomcat/libexec/bin/shutdown.sh'
-  alias tomon='sudo ~/Library/Tomcat/libexec/bin/startup.sh'
-  alias update_tags="ctags -R . $(bundle list --paths)"
-  alias zshrc="$EDITOR $HOME_DIR/zshrc"
 
-  alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user'
+  alias update_tags="ctags -R . $(bundle list --paths)"
+
   alias fix_keystore='sudo keytool -import -keystore /System/Library/Frameworks/JavaVM.framework/Home/lib/security/cacerts -file /etc/apache2/ssl/server.crt -alias apache_garymbp'
   alias clean_dropbox-safe="find . -name \"*conflicted*\" -exec mv {} ~/Dropbox/Internal/DropboxConflicts \;"
   alias clean_dropbox="find . -name \"*conflicted*\" -exec rm {} \;"
+
   alias vmon='vm'
   alias plistbuddy="/usr/libexec/PlistBuddy"
-  alias app_store_apps='mdfind "kMDItemAppStoreHasReceipt=1"'
 fi
 
 if [[ $IS_LINUX -eq 1 ]]; then
@@ -61,15 +54,17 @@ fi
 
 alias stage_deploy="cap staging deploy"
 alias prod_deploy="cap production deploy"
+alias stage_deploy="csd"
+alias prod_deploy="cpd"
+
 alias gs="git status -sb"
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | green '=> Public key copied to pasteboard.'"
 alias be="bundle exec"
 alias killruby='killall -9 ruby'
 alias ref="source ~/.zshrc"
 alias ungit="find . -name '.git' -exec rm -rf {} \;"
+alias rvm="rbenv"
 
-alias last_commit="git difftool HEAD~1 HEAD"
-alias last_diff="git difftool HEAD~1 HEAD"
 alias console="rails console test -s"
 alias :q="exit"
 
@@ -80,9 +75,7 @@ alias mem='top -o rsize' # memory
 
 # ls better
 alias la="ls -aF"
-alias lh='gls -d .*'
-# alias lh='gls --color=always -a | egrep "^\."'
-# alias ll='gls --color=always -lh'
+alias lh='ls -d .*'
 alias ll='ls -lh'
 
 # interactive fasd
@@ -112,6 +105,5 @@ alias -g L="| less"
 alias -g LL="2>&1 | less"
 alias -g M="| most"
 alias -g NUL="> /dev/null 2>&1"
-alias -g P='| path-extractor | fzf | read filename; [ ! -z $filename ] && vim $filename'
 alias -g S='| sort'
 alias -g T='| tail'

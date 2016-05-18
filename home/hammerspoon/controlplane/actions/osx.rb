@@ -1,9 +1,9 @@
-def dock_hiding(value)
-  system "defaults write com.apple.dock autohide -boolean #{value.to_s} && killall Dock"
-  puts value ? "Auto hiding Dock" : "Making dock always visible"
+def dock_hiding value
+  system "defaults write com.apple.dock autohide -boolean #{value} && killall Dock"
+  puts value ? 'Auto hiding Dock' : 'Making dock always visible'
 end
 
-def app_is_running?(app_name)
+def app_is_running? app_name
   `ps aux` =~ /#{app_name}/ ? true : false
 end
 
@@ -16,7 +16,7 @@ def kill_bt_menu
   # system "killall SystemUIServer"
 end
 
-def quit(app_name)
+def quit app_name
   system "osascript -e 'tell application \"#{app_name}\" to quit'"
 end
 

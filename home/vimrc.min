@@ -5,22 +5,31 @@ call plug#begin()
   Plug 'tpope/vim-sensible'
   Plug 'tpope/vim-unimpaired'
   Plug 'tpope/vim-commentary'
+  Plug 'junegunn/vim-peekaboo'
+
+  " Default peekaboo window
+let g:peekaboo_window = 'topleft vertical new'
 
   " almost standard
-  Plug 'mhinz/vim-sayonara'
-  Plug 'tpope/vim-surround'
-  Plug 'junegunn/vim-oblique'
-  Plug 'junegunn/vim-pseudocl'
-  Plug 'milkypostman/vim-togglelist'
-  Plug 'takac/vim-commandcaps'
-  Plug 'tpope/vim-repeat'
-  " Plug 'tpope/vim-endwise'
-  Plug 'Raimondi/delimitMate'
+  " Plug 'mhinz/vim-sayonara'
+  " Plug 'tpope/vim-surround'
+  " Plug 'junegunn/vim-oblique'
+  " Plug 'junegunn/vim-pseudocl'
+  " Plug 'milkypostman/vim-togglelist'
+  " Plug 'takac/vim-commandcaps'
+  " Plug 'tpope/vim-repeat'
+" " Plug 'tpope/vim-endwise'
+  " Plug 'Raimondi/delimitMate'
 
+ Plug 'morhetz/gruvbox'
+ Plug 'nanotech/jellybeans.vim'
   " completions
-  source ~/.vim/scripts/completions.vim
+  " source ~/.vim/scripts/completions.vim
 
   call plug#end()
+  set termguicolors
+  set background=dark
+  colorscheme gruvbox
 
 " set cmdheight=2          " hopefully prevents the 'hit enter' prompts
 " set formatprg="par 79"   " respect the 80 character lines

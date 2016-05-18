@@ -2,7 +2,7 @@ hs.grid.GRIDHEIGHT          = 10
 hs.grid.GRIDWIDTH           = 10
 hs.grid.MARGINX             = 0
 hs.grid.MARGINY             = 0
-hs.window.animationDuration = 0
+hs.window.animationDuration = 0.01
 
 -- moom-like functionality
 moom = hs.hotkey.modal.new({"cmd"}, "f16")
@@ -53,7 +53,7 @@ moom:bind({}, 'd', function()
   moom:exit()
 end)
 moom:bind({}, 'u', function()
-  hs.grid.set(hs.window.focusedWindow(), {x=0, y=0, w=5, h=6}, hs.screen.mainScreen())
+  hs.grid.set(hs.window.focusedWindow(), {x=0, y=0, w=5, h=5}, hs.screen.mainScreen())
   moom:exit()
 end)
 moom:bind({}, 'o', function()

@@ -1,11 +1,8 @@
-# TODO: incorporate mdfind into search?
-
 build_neovim() {
   cd ~/code/neovim
   git pull
   rm -rf build
   make clean
-  # make CMAKE_BUILD_TYPE=Release && rm /usr/local/bin/nvim && mv build/bin/nvim /usr/local/bin
   make CMAKE_BUILD_TYPE=Release
   make install
 }
@@ -76,7 +73,7 @@ fco() {
 }
 
 function _jira_issue_list {
-zle -U $(truncate_git_issues $(list_git_issues $(basename `pwd`) | choose))
+  zle -U $(truncate_git_issues $(list_git_issues $(basename `pwd`) | choose))
 }
 zle -N _jira_issue_list
 bindkey '\ej' _jira_issue_list
@@ -106,27 +103,16 @@ compdef _h h
 function ol() {
   open "http://localhost:${1:-3000}"
 }
+
 function port() {
   lsof -i ":${1:-80}"
 }
-
 
 vpn_status() {
   scutil --nc status "NU VPN" | sed -n 1p | grep -qv Disconnected
 }
 
 function vpnon() {
-# /usr/bin/env osascript <<-EOF
-# tell application "System Events"
-#         tell current location of network preferences
-#                 set VPN to service "NU VPN"
-#                 if exists VPN then connect VPN
-#                 repeat while (current configuration of VPN is not connected)
-#                     delay 1
-#                 end repeat
-#         end tell
-# end tell
-# EOF
   scutil --nc start "NU VPN" --user $NETID --password $NU_PASS --secret northwesternvpn
 }
 
@@ -170,33 +156,11 @@ chpwd() {
   fi
 }
 
-# batch change extension
-chgext() {
-  for file in *.$1 ; do mv $file `echo $file | sed "s/\(.*\.\)$1/\1$2/"` ; done
-}
-
 if [[ $IS_MAC -eq 1 ]]; then
-
-  save_power() {
-    osascript -e 'quit app "CARROT Weather"'
-    osascript -e 'quit app "Dropbox"'
-  }
-
-  plugged_in() {
-    open -a "CARROT Weather"
-    open -a "Dropbox"
-  }
-
-  function anybar { echo -n $1 | nc -4u -w0 localhost ${2:-1738}; }
-
   gclo() {
     cd ~/code/
     git clone "$*"
   }
-
-  # ls() {
-  #   k --no-vcs --human
-  # }
 
   la() {
     gls -a --color=always $*
@@ -218,26 +182,6 @@ if [[ $IS_MAC -eq 1 ]]; then
     rm -rf provisioning/roles/oracle/files/Disk1
     rm -rf provisioning/roles/oracle/extra/dump/*.log
     rm -rf provisioning/roles/oracle/extra/dump/*_test_dump.dmp
-  }
-
-  bid() {
-    local shortname location
-
-    # combine all args as regex
-    # (and remove ".app" from the end if it exists due to autocomplete)
-    shortname=$(echo "${@%%.app}"|sed 's/ /.*/g')
-    # if the file is a full match in apps folder, roll with it
-    if [ -d "/Applications/$shortname.app" ]; then
-      location="/Applications/$shortname.app"
-    else # otherwise, start searching
-      location=$(mdfind -onlyin /Applications -onlyin ~/Applications -onlyin /Developer/Applications 'kMDItemKind==Application'|awk -F '/' -v re="$shortname" 'tolower($NF) ~ re {print $0}'|head -n1)
-    fi
-    # No results? Die.
-    [[ -z $location || $location = "" ]] && red "$1 not found, I quit" && return
-    # Otherwise, find the bundleid using spotlight metadata
-    bundleid=$(mdls -name kMDItemCFBundleIdentifier -r "$location")
-    # return the result or an error message
-    [[ -z $bundleid || $bundleid = "" ]] && red "Error getting bundle ID for \"$@\"" || echo "$location: $bundleid"
   }
 fi
 

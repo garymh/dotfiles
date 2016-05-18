@@ -4,7 +4,7 @@ local homeSSID     = "dandg"
 local homeSSIDfive = "dandg_5G"
 local nuSSID       = "Northwestern"
 local ruby         = "/usr/local/opt/rbenv/shims/ruby"
-local controlplane = hs.menubar.new()
+-- local controlplane = hs.menubar.new()
 
 local hyper = {"⌘", "⌥", "⌃", "⇧"}
 hs.hotkey.bind(hyper, '0', function()
@@ -34,7 +34,7 @@ function setScenario(id, titlebar, runner, wifiStatus)
   if hs.settings.get("scenario") ~= id then
     print("setting  " .. id)
     hs.settings.set("scenario", id)
-    controlplaneDisplay(titlebar)
+    -- controlplaneDisplay(titlebar)
     rubyRunner(runner)
     if wifiStatus == true then
       wifiOn()
@@ -83,9 +83,9 @@ function powerChangedCallback()
           end
         end
 
-        function controlplaneDisplay(state)
-          controlplane:setTitle(state)
-        end
+        -- function controlplaneDisplay(state)
+        --   controlplane:setTitle(state)
+        -- end
 
         function controlplaneClicked()
           hs.settings.set("scenario", "nil")
@@ -139,26 +139,3 @@ function powerChangedCallback()
           if power == nil then
             powerChangedCallback()
           end
-
-          -- local appwatch  = require("hs.application").watcher
-          -- local hearthWatcher
-          -- hearthWatcher = appwatch.new(function(name,event,hsapp)
-          --   if name then
-          --     if name == "Hearthstone" then
-          --       if event == appwatch.launching then
-          --         hs.application.launchOrFocus("/Applications/HSTracker.app")
-          --         elseif event == appwatch.terminated then
-          --           hs.application.get("HSTracker"):kill()
-          --         end
-          --         elseif name == "Spotify" then
-          --           if event == appwatch.launching then
-          --             -- hs.timer.doAfter(sec, hs.application.launchOrFocus("/Applications/Simplify.app"))
-          --             hs.application.launchOrFocus("/Applications/Simplify.app")
-          --             elseif event == appwatch.terminated then
-          --               hs.application.get("Simplify"):kill()
-          --             end
-          --           end
-          --         end
-          --         hearthWatcher:start() -- we die every so often for some reason...
-          --       end
-          --       ):start()

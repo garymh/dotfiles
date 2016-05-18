@@ -1,118 +1,28 @@
-" Quickhl {{{ "
-nmap <Space>m <Plug>(quickhl-manual-this)
-xmap <Space>m <Plug>(quickhl-manual-this)
-nmap <Space>M <Plug>(quickhl-manual-reset)
-xmap <Space>M <Plug>(quickhl-manual-reset)
-" }}} Quickhl "
-
-" Rainbow Parens {{{ "
-let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
-" }}} Rainbow Parens "
-
-" Neomake {{{ "
-" let g:neomake_ruby = ['reek', 'rubocop']
-" }}} Neomake "
+" vim:fdm=marker
 
 " Airline {{{ "
-  let g:airline#extensions#tabline#enabled       = 1
-  let g:airline#extensions#tabline#show_tab_type = 1
-  let g:airline#extensions#tabline#tab_min_count = 0
-  let g:airline#extensions#tabline#tab_nr_type   = 2
-  let g:airline_detect_crypt                     = 0
-  let g:airline_exclude_preview                  = 1
-  " let g:airline_powerline_fonts                  = 1
-  " let g:airline_theme                            = 'hybridline'
-
+  let g:airline#extensions#tabline#enabled = 1
   if !exists('g:airline_symbols')
     let g:airline_symbols = {}
   endif
-
-  let g:airline_left_sep  = '▓▒░'
-  let g:airline_right_sep = '░▒▓'
-  let g:airline_section_z = '%2p%% %2l/%L:%2v'
+  " unicode symbols
+  let g:airline_left_sep      = ''
+  let g:airline_right_sep     = ''
   let g:airline_symbols.crypt = '🔒'
-  let g:airline_symbols.branch = ' 📖 '
+  " let g:airline_left_sep  = '▓▒░'
+  " let g:airline_right_sep = '░▒▓'
+  let g:airline_section_z = '%2p%% %2l/%L:%2v'
 " }}} Airline "
 
-" CopyRTF {{{ "
-  command! PrintToRTF call RTF()
-  function! RTF()
-    let colors_save = g:colors_name
-    set background=light
-    colorscheme base16-monokai
-    CopyRTF
-    set background=dark
-    execute 'colorscheme' colors_save
-  endfun
-" }}} CopyRTF "
-
-" Vim Oblique {{{ "
-  autocmd! User Oblique       normal! zz
-  autocmd! User ObliqueStar   normal! zz
-  autocmd! User ObliqueRepeat normal! zz
-" }}} Vim Oblique "
-
-" Sideways.vim {{{ "
-  nnoremap <silent> [<Tab> :SidewaysLeft<CR>
-  nnoremap <silent> ]<Tab> :SidewaysRight<CR>
-
-  omap aa <Plug>SidewaysArgumentTextobjA
-  xmap aa <Plug>SidewaysArgumentTextobjA
-  omap ia <Plug>SidewaysArgumentTextobjI
-  xmap ia <Plug>SidewaysArgumentTextobjI
-" }}} Sideways.vim "
-
 " vim-peekabo {{{ "
-  let g:peekaboo_window = 'vertical botright 50new'
+  let g:peekaboo_window = 'vertical topleft 50new'
 " }}} vim-peekabo "
-
-" Sayonara {{{ "
-  let g:sayonara_confirm_quit = 1
-" }}} Sayonara "
 
 " Dash {{{ "
   nmap <silent> K <Plug>DashSearch
 " }}} Dash "
 
 " Surround.vim {{{ "
-  " below stolen from YADR (@skwp)
-  " <leader># Surround a word with #{ruby interpolation}
-  map <leader># ysiw#
-  vmap <leader># S#
-
-  " <leader>" Surround a word with "quotes"
-  map <leader>" ysiw"
-  vmap <leader>" S"
-
-  " <leader>' Surround a word with 'single quotes'
-  map <leader>' ysiw'
-  vmap <leader>' c'<C-R>"'<ESC>
-
-  " <leader>) or <leader>( Surround a word with (parens)
-  " The difference is in whether a space is put in
-  map <leader>( ysiw(
-  map <leader>) ysiw)
-  vmap <leader>( c( <C-R>" )<ESC>
-  vmap <leader>) c(<C-R>")<ESC>
-
-  " <leader>[ Surround a word with [brackets]
-  map <leader>] ysiw]
-  map <leader>[ ysiw[
-  vmap <leader>[ c[ <C-R>" ]<ESC>
-  vmap <leader>] c[<C-R>"]<ESC>
-
-  " <leader>{ Surround a word with {braces}
-  map <leader>} ysiw}
-  map <leader>{ ysiw{
-  vmap <leader>} c{ <C-R>" }<ESC>
-  vmap <leader>{ c{<C-R>"}<ESC>
-
-  " <leader>- and <leader>= for ERB
-  map <leader>e- ysil-
-  map <leader>e= ysil=
-  vmap <leader>e- S-
-  vmap <leader>e= S=
-
   let g:surround_113 = "#{\r}"
   let g:surround_35  = "#{\r}"
   let g:surround_45  = "<% \r %>"
@@ -128,59 +38,57 @@ let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
     s/\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\r\3\5
     call histdel("/", -1)
   endfunction
-
-  nnoremap <silent> sk :SplitjoinSplit<CR>
-  nnoremap <silent> sj :SplitjoinJoin<CR>
   nnoremap <silent> J mzJ`z
   nnoremap <silent> S :call BreakHere()<CR>
 " }}} SplitJoin "
 
-" FZF {{{ "
+" FZF settings {{{ "
   if has('nvim')
     let $FZF_DEFAULT_OPTS .= ' --inline-info'
   endif
-  nnoremap <silent> <c-p> :Files<CR>
-  nnoremap <silent> <c-e> :History<CR>
-  nnoremap <silent> <c-t> :Tags<CR>
+  function! SearchWordWithAg()
+    execute 'Ag' expand('<cword>')
+  endfunction
+  function! SearchVisualSelectionWithAg() range
+    let old_reg = getreg('"')
+    let old_regtype = getregtype('"')
+    let old_clipboard = &clipboard
+    set clipboard&
+    normal! ""gvy
+    let selection = getreg('"')
+    call setreg('"', old_reg, old_regtype)
+    let &clipboard = old_clipboard
+    execute 'Ag' selection
+  endfunction
+  command! Plugs call fzf#run({
+  \ 'source':  map(sort(keys(g:plugs)), 'g:plug_home."/".v:val'),
+  \ 'options': '--delimiter / --nth -1',
+  \ 'down':    '~50%',
+  \ 'sink':    'Explore'})
+" }}} FZF settings "
 
+" FZF commands {{{ "
   autocmd VimEnter * command! Colors
         \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
 
+  nmap <leader><tab> <plug>(fzf-maps-n)
+  nnoremap <silent> <c-e> :History<CR>
+  nnoremap <silent> <c-p> :Files<CR>
+  nnoremap <silent> <c-t> :Tags<CR>
+  nnoremap <silent> <space>. :Lines<CR>
+  nnoremap <silent> <space>; :BLines<CR>
+  nnoremap <silent> <space>; :Commands<CR>
+  nnoremap <silent> <space>a :Buffers<CR>
+  nnoremap <silent> <space>d :call SearchWordWithAg()<CR>
+  nnoremap <silent> <space>o :BTags<CR>
+  nnoremap <silent> <space>t :Tags<CR>
+  omap <leader><tab> <plug>(fzf-maps-o)
+  vnoremap <silent> <space>d :call SearchVisualSelectionWithAg()<CR>
+  xmap <leader><tab> <plug>(fzf-maps-x)
   " nnoremap <silent> <leader><space> :Files<CR>
-" nnoremap <silent> <leader>a :Buffers<CR>
-" nnoremap <silent> <leader>; :BLines<CR>
-" nnoremap <silent> <leader>. :Lines<CR>
-" nnoremap <silent> <leader>o :BTags<CR>
-" nnoremap <silent> <leader>O :Tags<CR>
-" nnoremap <silent> <leader>: :Commands<CR>
-" nnoremap <silent> <leader>? :History<CR>
-" nnoremap <silent> K :call SearchWordWithAg()<CR>
-" vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
-
-function! SearchWordWithAg()
-  execute 'Ag' expand('<cword>')
-endfunction
-
-function! SearchVisualSelectionWithAg() range
-  let old_reg = getreg('"')
-  let old_regtype = getregtype('"')
-  let old_clipboard = &clipboard
-  set clipboard&
-  normal! ""gvy
-  let selection = getreg('"')
-  call setreg('"', old_reg, old_regtype)
-  let &clipboard = old_clipboard
-  execute 'Ag' selection
-endfunction
-
-
-" }}} FZF "
+" }}} FZF commands "
 
 " Testing {{{ "
-    " this was working!
-    " let g:rubytest_cmd_test = "zeus test %p"
-    " let g:rubytest_cmd_testcase = "zeus test %p -n '/%c/'"
-    " let g:rubytest_in_quickfix = 1
   let g:test#strategy = 'neovim'
   nmap <silent> <leader>t :TestNearest<CR>
   nmap <silent> <leader>T :TestFile<CR>
@@ -190,106 +98,47 @@ endfunction
 " }}} Testing "
 
 " EasyAlign {{{ "
-  vmap <Enter> <Plug>(EasyAlign)
-  nmap <Leader>aa <Plug>(EasyAlign)ii<CR>
-  let g:easy_align_delimiters = {
-        \ '>': { 'pattern': '>>\|=>\|>' },
-        \ '\': { 'pattern': '\\' },
-        \ '/': { 'pattern': '//\+\|/\*\|\*/', 'delimiter_align': 'l', 'ignore_groups': ['!Comment'] },
-        \ ']': {
-        \     'pattern':       '[[\]]',
-        \     'left_margin':   0,
-        \     'right_margin':  0,
-        \     'stick_to_left': 0
-        \   },
-        \ ')': {
-        \     'pattern':       '[()]',
-        \     'left_margin':   0,
-        \     'right_margin':  0,
-        \     'stick_to_left': 0
-        \   },
-        \ 'f': {
-        \     'pattern': ' \(\S\+(\)\@=',
-        \     'left_margin': 0,
-        \     'right_margin': 0
-        \   },
-        \ 'd': {
-        \     'pattern': ' \(\S\+\s*[;=]\)\@=',
-        \     'left_margin': 0,
-        \     'right_margin': 0
-        \   }
-        \ }
+  vmap ga <Plug>(EasyAlign)
+  nmap ga <Plug>(EasyAlign)
 " }}} EasyAlign "
 
 " Tmux {{{ "
-  " let g:tmux_navigator_no_mappings = 1
+  let g:tmux_navigator_no_mappings = 1
   nnoremap <silent> <C-w>h :TmuxNavigateLeft<cr>
   nnoremap <silent> <C-w>j :TmuxNavigateDown<cr>
   nnoremap <silent> <C-w>k :TmuxNavigateUp<cr>
   nnoremap <silent> <C-w>l :TmuxNavigateRight<cr>
-  nnoremap <C-i> g;
-  nnoremap <C-o> g,
-  " nnoremap <silent> <tab> :TmuxNavigatePrevious<cr>
-  " nnoremap <tab>   <c-w>w
-  nnoremap <S-tab> <c-w>W
+  nnoremap <silent> <C-w>\ :TmuxNavigatePrevious<cr>
+  nnoremap <tab>   <c-w>w
 " }}} Tmux "
-
-" Multiple Cursors {{{ "
-  vnoremap <Leader>v :MultipleCursorsFind <C-R><C-W><CR>
-  nnoremap <Leader>v :MultipleCursorsFind <C-R><C-W><CR>
-" }}} Multiple Cursors "
-
-" Ruby/Rubocop {{{ "
-  let g:vimrubocop_rubocop_extra_args = "aR"
-  let g:rails_projections = {
-        \ "config/routes.rb": { "command": "routes" }
-        \ }
-" }}} Ruby/Rubocop "
 
 " Quickfix Toggle {{{ "
   let g:toggle_list_no_mappings = 1
-  " nmap <script> <silent> <leader>l :call ToggleLocationList()<CR>
   nmap <script> <silent> qf :call ToggleQuickfixList()<CR>
   nmap <script> <silent> qq :call ToggleQuickfixList()<CR>
 " }}} Quickfix Toggle "
 
 " ctrlsf {{{ "
-  " let g:ags_agexe = 'ag --nocolor'
-  " nmap <script> <silent> qs :CtrlSFToggle<CR>
+  let g:ctrlsf_winsize = '100%'
   nnoremap <space>f :CtrlSF<space>
-  let g:ctrlsf_position = 'right'
   let g:ctrlsf_indent = 1
   let g:ctrlsf_mapping = {
       \ "next": "n",
       \ "prev": "N",
       \ }
+  function! g:CtrlSFAfterMainWindowInit()
+      setl wrap
+      setl nonumber norelativenumber
+  endfunction
 " }}} ctrlsf "
 
-" Identline {{{ "
-  let g:indentLine_first_char           = '┊'
-  let g:indentLine_char                 = '·'
-  let g:indentLine_faster               = 1
-  let g:indentLine_showFirstIndentLevel = 1
-  let g:indentLine_color_gui            = '#5B5C5B'
-
-
-  " let g:indent_guides_default_mapping       = 0
-  " let g:indent_guides_start_level           = 2
-  " let g:indent_guides_enable_on_vim_startup = 1
-  " let g:indent_guides_exclude_filetypes     = ['help', 'diff', 'nerdtree']
-" }}} Identline "
-
 " NERDtree {{{ "
-  nnoremap <f1> :NERDTreeToggle<cr>
+  nnoremap <silent> <f1> :NERDTreeToggle<cr>
+  nnoremap <silent> - :NERDTreeFind<cr>
   let g:NERDTreeQuitOnOpen = 1
   let g:NERDTreeShowHidden = 1
   let g:NERDTreeRespectWildIgnore = 1
   let g:NERDTreeDirArrows=1
   let g:NERDTreeMinimalUI=1
-
 " }}} NERDtree "
 
-" custom text objects {{{ "
-  xmap q iq
-  omap q iq
-" }}} custom text objects "

@@ -21,10 +21,10 @@ function reloadConfig(files)
 end
 
 function startCaffeine(time)
-  os.execute("/usr/bin/caffeinate -u -t " .. time .. " &")
+  os.execute("/usr/bin/caffeinate -d -i -m -s -u -t " .. time .. " &")
 end
 
-caffeine_location = (os.getenv("HOME") .. "/Dropbox/Internal/custom/caffeine/caffeine")
+caffeine_location = (os.getenv("HOME") .. "/Dropbox/Internal/custom/ruby/pi/caffeine")
 function caffeineCheck(files)
   for _,file in pairs(files) do
     print(caffeine_location)
@@ -36,8 +36,6 @@ function caffeineCheck(files)
   end
 end
 
+hs.pathwatcher.new(os.getenv("HOME") .. "/Dropbox/Internal/custom/ruby/pi/caffeine", caffeineCheck):start()
 hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.notify.new({title="Hammerspoon", informativeText="Config reloaded"}):send():release()
-
-hs.pathwatcher.new(os.getenv("HOME") .. "/.caffeine/", caffeineCheck):start()
-

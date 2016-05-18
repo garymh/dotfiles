@@ -20,15 +20,39 @@ let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 let g:ycm_min_num_of_chars_for_completion = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 
-" enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-if has('nvim')
-  " no +ruby for neovim yet :(
-else
-  autocmd FileType ruby set omnifunc=rubycomplete#Complete
-end
+" Disable unhelpful semantic completions.
+let g:ycm_filetype_specific_completion_to_disable = {
+      \   'c': 1,
+      \   'gitcommit': 1,
+      \   'haskell': 1,
+      \   'javascript': 1,
+      \   'ruby': 1
+      \ }
+
+let g:ycm_semantic_triggers = {
+      \   'haskell': [
+      \     '.',
+      \     '(',
+      \     ',',
+      \     ', '
+      \   ],
+      \   'markdown': [
+      \     ']('
+      \   ]
+      \ }
+
+" Same as default, but with "markdown" and "text" removed.
+let g:ycm_filetype_blacklist = {
+      \   'notes': 1,
+      \   'unite': 1,
+      \   'tagbar': 1,
+      \   'pandoc': 1,
+      \   'qf': 1,
+      \   'vimwiki': 1,
+      \   'infolog': 1,
+      \   'mail': 1
+      \ }
+

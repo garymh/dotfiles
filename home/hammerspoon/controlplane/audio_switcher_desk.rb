@@ -6,8 +6,8 @@ def display_audio
 end
 
 def usb_audio
-  system "~/.zsh/bin/AudioSwitcher -s 'C-Media USB Audio Device   '"
-  system "~/.zsh/bin/AudioSwitcher -t system -s 'C-Media USB Audio Device   '"
+  system "~/.zsh/bin/AudioSwitcher -s 'C_Media USB Audio Device   '"
+  system "~/.zsh/bin/AudioSwitcher -t system -s 'C_Media USB Audio Device   '"
 end
 
 def audio?
@@ -23,4 +23,3 @@ else
   display_audio
   system "terminal-notifier -message 'Moving to SPEAKERS 🔊' -title 'Audio Switch' -sender 'com.apple.systempreferences'"
 end
-
