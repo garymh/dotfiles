@@ -1,5 +1,5 @@
 -- omnifocus
-omni = hs.hotkey.modal.new({}, "f17")
+omni = hs.hotkey.modal.new({"shift"}, "f17")
 
 function close_omni()
   hs.alert.closeAll()

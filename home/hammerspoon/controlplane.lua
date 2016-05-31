@@ -30,9 +30,9 @@ function rubyRunner(name)
 end
 
 function setScenario(id, titlebar, runner, wifiStatus)
-  print("checking for " .. id)
+  -- print("checking for " .. id)
   if hs.settings.get("scenario") ~= id then
-    print("setting  " .. id)
+    -- print("setting  " .. id)
     hs.settings.set("scenario", id)
     -- controlplaneDisplay(titlebar)
     rubyRunner(runner)
@@ -56,17 +56,17 @@ function powerChangedCallback()
   local powerSerial = hs.battery.psuSerial()
   if powerSource == "AC Power" then -- if we're on power
     -- hs.alert("power")
-    print("setting power mode")
-    print(powerSerial)
+    -- print("setting power mode")
+    -- print(powerSerial)
     if powerSerial == 6857791 then
-      print("we're at nubic desk")
+      -- print("we're at nubic desk")
       nubic()
       elseif powerSerial == 8600800 then
-        print("we're at nu desk")
+        -- print("we're at nu desk")
         nuDesk()
         elseif powerSerial == 1255676 then
           -- hs.alert("desk")
-          print("we're at home desk")
+          -- print("we're at home desk")
           homeDesk()
           elseif powerSerial == 6771448 then -- portable
             ssidChangedCallback()

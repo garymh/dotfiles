@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-
-local files
-files=$(grep '^>' ~/.nviminfo | cut -c3- |
-    while read line; do
-    [ -f "${line/\~/$HOME}" ] && echo "$line"
-    done | fzf-tmux -d -m -q "$*" -1) && $EDITOR ${files//\~/$HOME}

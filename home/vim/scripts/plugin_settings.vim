@@ -14,19 +14,27 @@
   let g:airline_section_z = '%2p%% %2l/%L:%2v'
 " }}} Airline "
 
+" ragtag {{{ "
+  let g:ragtag_global_maps = 1
+" }}} ragtag "
+
 " vim-peekabo {{{ "
   let g:peekaboo_window = 'vertical topleft 50new'
 " }}} vim-peekabo "
+
+" vim-sayonara {{{ "
+  let g:sayonara_confirm_quit = 1
+" }}} vim-sayonara "
 
 " Dash {{{ "
   nmap <silent> K <Plug>DashSearch
 " }}} Dash "
 
 " Surround.vim {{{ "
-  let g:surround_113 = "#{\r}"
-  let g:surround_35  = "#{\r}"
-  let g:surround_45  = "<% \r %>"
-  let g:surround_61  = "<%= \r %>"
+  " let g:surround_113 = "#{\r}"
+  " let g:surround_35  = "#{\r}"
+  " let g:surround_45  = "<% \r %>"
+  " let g:surround_61  = "<%= \r %>"
 " }}} Surround.vim "
 
 " Switch {{{ "
@@ -70,10 +78,15 @@
 " FZF commands {{{ "
   autocmd VimEnter * command! Colors
         \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
-
   nmap <leader><tab> <plug>(fzf-maps-n)
+  fun! s:fzf_root()
+          let path = finddir(".git", expand("%:p:h").";")
+          return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
+  endfun
+
+  nnoremap <silent> <c-p> :exe 'Files ' . <SID>fzf_root()<CR>
   nnoremap <silent> <c-e> :History<CR>
-  nnoremap <silent> <c-p> :Files<CR>
+  " nnoremap <silent> <c-p> :Files<CR>
   nnoremap <silent> <c-t> :Tags<CR>
   nnoremap <silent> <space>. :Lines<CR>
   nnoremap <silent> <space>; :BLines<CR>
@@ -109,7 +122,7 @@
   nnoremap <silent> <C-w>k :TmuxNavigateUp<cr>
   nnoremap <silent> <C-w>l :TmuxNavigateRight<cr>
   nnoremap <silent> <C-w>\ :TmuxNavigatePrevious<cr>
-  nnoremap <tab>   <c-w>w
+  nnoremap <silent> <tab>  <c-w>w
 " }}} Tmux "
 
 " Quickfix Toggle {{{ "

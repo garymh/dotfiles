@@ -2,13 +2,12 @@
 " set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Bold:h18
 set guifont=Operator\ Mono\ Medium:h20
 
-set guioptions-=mTLlRrb
-" set guioptions-=T
-" set guioptions-=L
-" set guioptions-=l
-" set guioptions-=R
-" set guioptions-=r
-" set guioptions-=b
+set guioptions-=T
+set guioptions-=L
+set guioptions-=l
+set guioptions-=R
+set guioptions-=r
+set guioptions-=b
 
 if has('title') && (has('gui_running') || &title)
     set titlestring=

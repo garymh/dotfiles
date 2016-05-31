@@ -1,16 +1,3 @@
-" folding + show level when you fold something
-nnoremap zr zr:echo &foldlevel<cr>
-nnoremap zm zm:echo &foldlevel<cr>
-nnoremap zR zR:echo &foldlevel<cr>
-nnoremap zM zM:echo &foldlevel<cr>
-nnoremap <space><space> za
-nnoremap <leader>. :e ~/.vim/temp.rb<CR>
-nnoremap gg ggzv
-nnoremap G Gzv
-nnoremap <F6> <C-i>
-nnoremap <silent> ! :silent edit <C-R>=empty(expand('%')) ? '.' : expand('%:p:h')<CR><CR>
-nnoremap <Leader>p :echo expand('%')<CR>
-
 set spelllang=en_us
 set nospell
 nnoremap <silent> <F2> :set spell!<CR> :set spell?<CR>
@@ -18,42 +5,76 @@ nnoremap <silent> <F2> :set spell!<CR> :set spell?<CR>
 let mapleader=","
 let maplocalleader = "\\"
 
-nnoremap <leader>! :Neomake<cr>
-nnoremap <leader>c :RuboCop -a<cr>
+" folding + show level when you fold something
+nnoremap zr zr:echo &foldlevel<cr>
+nnoremap zm zm:echo &foldlevel<cr>
+nnoremap zR zR:echo &foldlevel<cr>
+nnoremap zM zM:echo &foldlevel<cr>
 
-" netrw
-nnoremap <space>e :e.<CR>
+" workaround for using tab as a key
+nnoremap <F6> <C-i>
 
-" i never use H or L's defaults, might as well make them useful!
+map <leader><leader> <C-^>
+" map <space><space> za
+
+map <silent> // :nohlsearch<cr>
+map <silent> <space>e :silent edit <C-R>=empty(expand('%')) ? '.' : expand('%:p:h')<CR><CR>
+
+nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
+
+nnoremap <silent> <space><space> :ArgWrap<CR>
+map <silent> <leader>! :Neomake<cr>
+map <silent> <leader>b :Bonly<cr>
+map <silent> <leader>. :e ~/.vim/temp.rb<CR>
+map <silent> <leader>= mqHmwgg=G`wzt`qzz
+map <silent> <leader>c :RuboCop -a<cr>q
+map <silent> <leader>d :<C-U>Git difftool %<cr>
+map <silent> <leader>p :echo expand('%')<CR>
+map <silent> <leader>w :w<cr>
+
+" find file in git repo
+function! ChooseFile()
+  let dir = expand("%:h")
+  if empty(dir) | let dir = getcwd() | endif
+
+  let root = system("cd " . dir . " && git rev-parse --show-toplevel")
+  if v:shell_error != 0 | echo "Not in a git repo" | return | endif
+  let root = root[0:-2]
+
+  let selection = system("cd " . root . " && git ls-files -co --exclude-standard | choose")
+  if empty(selection) | echo "Canceled" | return | end
+
+  echo "Finding file..."
+  exec ":e " . root . "/" . selection
+endfunction
+
+" shortcut
+nnoremap <leader>f :call ChooseFile()<cr>
+
+map <leader>emap :e ~/.vim/scripts/mappings.vim<cr>
+map <leader>efunction :e ~/.zsh/functions.zsh<cr>
+map <leader>ealias :e ~/.zsh/aliases.zsh<cr>
+map <leader>emp :e ~/.vim/scripts/mappings.vim<cr>
+map <leader>epl :e ~/.vim/scripts/plugin_settings.vim<cr>
+map <leader>esho :!open ~/iCloud/Shorcuts/shortcuts.pages<cr>
+map <leader>eid :e ~/.vim/scripts/ideas.vim<cr>
+map <leader>sid :source ~/.vim/scripts/ideas.vim<cr>
+
+map <leader>ev :e $MYVIMRC<cr>
+map <leader>sv :source $MYVIMRC<cr>
+
+map <silent> <leader>ins :PlugInstall<cr>
+map <silent> <leader>upd :PlugUpdate<cr>
+
+noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 noremap H ^
 noremap L $
+map Y y$
+
+vnoremap < <gv
+vnoremap > >gv
 vnoremap L g_
-
-" make Y behave right
-nnoremap Y y$
-
-" fix movement
-nnoremap j gj
-nnoremap k gk
-
-" vimrc editing and sourcing
-nnoremap <leader>sv :source $MYVIMRC<cr>
-" nnoremap <leader>sv :source $MYVIMRC<cr> | :AirlineRefresh
-nnoremap <leader>qev :vsplit $MYVIMRC<cr>
-nnoremap <leader>ev :e $MYVIMRC<cr>
-nnoremap <leader>emp :e ~/.vim/scripts/mappings.vim<cr>
-nnoremap <leader>emap :e ~/.vim/scripts/mappings.vim<cr>
-nnoremap <leader>epl :e ~/.vim/scripts/plugin_settings.vim<cr>
-nnoremap <leader>esho :e ~/iCloud/Shorcuts/shortcuts<cr>
-nnoremap <leader>qemp :vsplit ~/.vim/scripts/mappings.vim<cr>
-nnoremap <leader>qepl :vsplit ~/.vim/scripts/plugin_settings.vim<cr>
-nnoremap <leader>ins :PlugInstall<cr>
-nnoremap <leader>upd :PlugUpdate<cr>
-
-" who on earth can reach C-^?
-nnoremap <leader><leader> <C-^>
-nnoremap <silent> // :nohlsearch<cr>
-nnoremap <leader>= mqHmwgg=G`wzt`q
 
 " quicker close window
 nnoremap <silent>Q :Sayonara<cr>
@@ -61,27 +82,18 @@ command! -bang Q q<bang>
 command! -bang QA qa<bang>
 command! -bang Qa qa<bang>
 
-" quicker save
-nnoremap <leader>w :w<cr>
-
-" reselect visual block after indent
-vnoremap < <gv
-vnoremap > >gv
-
 " @wincent is very smart
 " https://www.youtube.com/watch?v=0aEv1Nj0IPg
 nnoremap <silent> <Leader>r :call mappings#cycle_numbering()<CR>
 function! mappings#cycle_numbering() abort
   if exists('+relativenumber')
     execute {
-	  \ '00': 'set relativenumber   | set number',
-	  \ '01': 'set norelativenumber | set number',
-	  \ '10': 'set norelativenumber | set nonumber',
-	  \ '11': 'set norelativenumber | set number' }[&number . &relativenumber]
+          \ '00': 'set relativenumber   | set number',
+          \ '01': 'set norelativenumber | set number',
+          \ '10': 'set norelativenumber | set nonumber',
+          \ '11': 'set norelativenumber | set number' }[&number . &relativenumber]
   else
     " No relative numbering, just toggle numbers on and off.
     set number!<CR>
   endif
 endfunction
-
-nnoremap <leader>d :<C-U>Git difftool %<cr>

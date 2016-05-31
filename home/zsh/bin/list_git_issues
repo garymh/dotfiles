@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby -U
 
+require 'pry'
 require 'appscript'
 
 def omnifocus
@@ -27,9 +28,9 @@ class OmniTask
     @info.note.get
   end
 
-  def key
-    /(.*)Key: (.*)/.match(note).captures.last
-  end
+  # def key
+  #   /(.*)Key: (.*)/.match(note).captures.last
+  # end
 
   def self.tasks_for_omnifocus_project project
     [].tap do |tasks|
@@ -40,14 +41,15 @@ class OmniTask
   end
 
   def to_s
-    "#{key}: #{summary}"
+    # "#{key}: #{summary}"
+    "#{summary}"
   end
 end
 
 actual_name =
   case ARGV[0]
-  when 'cancer_center_members'
-    'MembersList'
+  when 'members'
+    'Membership'
   when 'nufinreporter'
     'NUFinancial'
   when 'space'
@@ -64,3 +66,4 @@ issues << 'No issues. Sorry :(' if issues.empty?
 issues.each do |i|
   puts "#{i}\n"
 end
+binding.pry

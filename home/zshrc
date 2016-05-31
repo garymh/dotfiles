@@ -22,18 +22,16 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/rbenv
   zgen oh-my-zsh plugins/zsh_reload
 
+  # ಠ_ಠ https://github.com/robbyrussell/oh-my-zsh/issues/2337
   # zgen oh-my-zsh plugins/rails
-  # zgen doesn't seem to like the rails plugin
 
-  # zgen load Treri/fzf-zsh
   zgen load Tarrasch/zsh-colors
-  # zgen load djui/alias-tips
-  # zgen load zsh-users/zsh-completions src
-  # zgen load zsh-users/zsh-history-substring-search
-  # zgen load zsh-users/zsh-syntax-highlighting
-
-  zgen load garymh/dotfiles home/zsh/themes/gary_pure_mod
-  # source ~/.zsh/themes/gary_pure_mod.zsh-theme
+  zgen load djui/alias-tips
+  zgen load zsh-users/zsh-completions src
+  zgen load zsh-users/zsh-history-substring-search
+  zgen load zsh-users/zsh-syntax-highlighting
+  zgen load mafredri/zsh-async
+  zgen load sindresorhus/pure
 
   zgen save
 fi
@@ -44,8 +42,7 @@ if [ 0 -ne $(ls $HOME/.zsh/private/*.zsh 2>/dev/null | wc -w) ]; then
   for f ($HOME/.zsh/private/*.zsh) {source $f}
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 
 if [[ $HAS_IMG2XTERM -eq 1 ]]; then
   img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png;
@@ -56,3 +53,10 @@ elif [[ $HAS_COWSAY -eq 1 ]]; then
 else
   uptime
 fi
+
+if [[ -f ~/.fzf.zsh ]]; then
+  export FZF_DEFAULT_COMMAND='ag -l -g ""'
+  source ~/.fzf.zsh
+  export FZF_COMPLETION_TRIGGER=';'
+fi
+

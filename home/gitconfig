@@ -1,10 +1,11 @@
 [include]
   path              = ~/.gitconfig.local
 [core]
-  excludesfile = ~/.gitignore_global
+  excludesfile      = ~/.gitignore_global
   whitespace        = space-before-tab,-indent-with-non-tab,trailing-space
-  pager             = cat
+  pager             = ccat
   editor            = vim
+
   # Make `git rebase` safer on OS X
   # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
   trustctime        = false
@@ -12,104 +13,38 @@
   # Prevent showing files whose names contain non-ASCII symbols as unversioned.
   # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
   precomposeunicode = false
+
 [alias]
-  tags                                    = tag -l
-  stashes				  = stash list
+  amend                                   = commit --amend
   branches                                = branch -a
-  remotes                                 = remote -v
-
-  update-submodules                       = submodule update --init --recursive
-
-  ; most below stolen from Steve Losh (@sjl) and Mathias Bynens @mathiasbynens
-  nevermind = !git reset --hard HEAD && git clean -d -f
-  precommit = diff --cached --diff-algorithm=minimal -w
-
-  unstage   = reset -q HEAD --
-  up        = merge --ff-only
-  discard   = checkout --
-  uncommit  = reset --mixed HEAD~
-  amend     = commit --amend
-
-  # View the current working tree status using the short format
-  s                                       = status -s
-
-  forgot-to-commit = difftool HEAD~1 HEAD
-
+  checkout-commit                         = "!sh -c 'git_checkout_commit'"
+  checkout-something                      = "!sh -c 'git_checkout_something'"
   delete-local-branch                     = branch -D
   delete-local-reference-to-remote-branch = "!sh -c 'git branch -rd $1/$2' -"
   delete-remote-branch                    = "!sh -c 'git push $1 --delete $2' -"
-  delete-branch                           = "!sh -c 'git delete-local-branch $1; git remotes | cut -f1 | sort | uniq | xargs -n1 -J % git delete-local-reference-to-remote-branch % $1' -"
-
-  ; BEGIN KALEIDOSCOPE SECTION
-
-  ; Find all commits in the given ref that aren't also in master
-  find-unmerged-commits                   = "!sh -c 'git log $1 --format='''%H''' --not master --' -"
-  find-unmerged-commits-for               = "!sh -c 'git log $1 --format='''%H''' --not $2 --' -"
-
-  ; ksdiff is the bare kaleidoscope difftool alias
-  ; ksdiffid is the one that expects $KSID to be set
-  ksdiff                                  = difftool -y -t Kaleidoscope
-  ksdiffid                                = difftool -y -t KaleidoscopeWithId
-
-  ; ksdiffwith opens a diff of (current revision)->(given revision)
-  ksdiffwith                              = "!sh -c 'git ksdiff HEAD..$1' -"
-
-  ; ksshow will open a single specific commit in kaleidoscope
-  ; it includes the commit log info as a separate file
-  ksshow                                  = "!sh -c 'export KSID=`uuidgen`; git log -n1 $1 > .git/LOG_MESSAGE_$KSID; ksdiff --partial-changeset --UUID $KSID -- /dev/null .git/LOG_MESSAGE_$KSID; git ksdiffid $1^..$1; ksdiff --mark-changeset-as-closed $KSID' -"
-
-  ; ksreview takes a branch, finds all commits in that branch that aren't
-  ; merged into master, and opens them one-by-one with ksshow.  It's good for
-  ; reviewing pull requests.
-  ksreview                                = "!sh -c 'git find-unmerged-commits $1 | xargs -n1 git ksshow' -"
-  ksreviewfor                             = "!sh -c 'git find-unmerged-commits-for $1 $2 | xargs -n1 git ksshow' -"
-
-  ; END KALEIDOSCOPE SECTION
-  ; end @sjl theivery
+  discard                                 = checkout --
+  forgot-to-commit                        = difftool HEAD~1 HEAD
+  nevermind                               = !git reset --hard HEAD && git clean -d -f
+  precommit                               = diff --cached --diff-algorithm=minimal -w
+  remotes                                 = remote -v
+  s                                       = status -s
+  stashes                                 = stash list
+  tags                                    = tag -l
+  uncommit                                = reset --mixed HEAD~
+  unstage                                 = reset -q HEAD --
+  up                                      = merge --ff-only
+  update-submodules                       = submodule update --init --recursive
 
 [push]
-  default      = current
+  default     = current
 [color]
-  branch       = auto
-  diff         = auto
-  interactive  = auto
-  status       = auto
+  branch      = auto
+  diff        = auto
+  interactive = auto
+  status      = auto
 [web]
-  browser      = open
+  browser     = open
 [help]
-	autocorrect  = 1
-
-[difftool "KaleidoscopeWithId"]
-cmd            = ksdiff --partial-changeset --UUID \"$KSID\" --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
-
-[difftool "Kaleidoscope"]
-cmd            = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
-
+  autocorrect = 1
 [difftool]
-  prompt       = false
-
-[diff]
-  tool         = Kaleidoscope
-
-[merge]
-  tool         = Kaleidoscope
-
-[mergetool "Kaleidoscope"]
-cmd            = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-trustExitCode  = true
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-[mergetool "sourcetree"]
-	cmd = /Users/gary/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[filter "hawser"]
-	clean = git hawser clean %f
-	smudge = git hawser smudge %f
-	required = true
-[filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
-[ghi]
-	token = !security find-internet-password -a garymh -s github.com -l 'ghi token' -w
+  prompt      = false

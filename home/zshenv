@@ -1,15 +1,15 @@
 path=(
-  /usr/local/opt/rbenv/shims
-  /usr/local/bin
-  /usr/bin
-  /usr/sbin
-  /bin
-  /sbin
-  /usr/X11/bin
-  /usr/local/heroku/bin
-  ${HOME}/code/custom/go/bin
-  ${HOME}/Library/Python/2.7/bin
-  ${HOME}/.zsh/bin
+/usr/local/opt/rbenv/shims
+/usr/local/bin
+/usr/bin
+/usr/sbin
+/bin
+/sbin
+/usr/X11/bin
+/usr/local/heroku/bin
+${HOME}/code/custom/go/bin
+${HOME}/Library/Python/2.7/bin
+${HOME}/.zsh/bin
 )
 
 if [[ $(uname) = 'Linux' ]]; then
@@ -19,27 +19,12 @@ if [[ $(uname) = 'Linux' ]]; then
     HAS_YUM=1
   fi
 
-  if [ "$HOSTNAME" != "nightcrawler" ]; then
-    source /etc/profile.d/rvm.sh
-    export LD_LIBRARY_PATH="/usr/lib/oracle/11.2/client64//lib:/lib:/usr/lib64:/usr/lib:/usr/local/lib"
-    path=(
-      /usr/local/sbin
-      /usr/lib/oracle/11.2/client64/
-      $path
-    )
-    export ORACLE_HOME="/usr/lib/oracle/11.2/client64/"
-    export EDITOR='vim'
-    export VISUAL='vim'
-  else
-    export EDITOR='nvim'
-    export VISUAL='nvim'
-  fi
-
   export USER="$NETID"
   export DISPLAY=:7
   # export rvmsudo_secure_path=1
   export DOTFILES="$HOME/dotfiles"
   export HOME_DIR="$DOTFILES/home"
+  export HTML_TIDY="$HOME/.tidyrc"
 fi
 
 if [[ $(uname) = 'Darwin' ]]; then
@@ -48,19 +33,21 @@ if [[ $(uname) = 'Darwin' ]]; then
   if (( $+commands[brew] )) ; then
     HAS_BREW=1
     path=(
-      $(brew --prefix)/sbin
-      $(brew --prefix)/share/npm/bin
-      $(brew --cellar)/coreutils
-      $path
+    $(brew --prefix)/sbin
+    $(brew --prefix)/share/npm/bin
+    $(brew --cellar)/coreutils
+    $path
     )
-
   fi
+
+  export GOPATH="$HOME/Dropbox/Internal/custom/go"
+  export DOTFILES="$HOME/Dropbox/Internal/dotfiles"
+  export HOME_DIR="$DOTFILES/home"
+
   export EDITOR='nvim'
   export VISUAL='nvim'
   export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-  export GOPATH="$HOME/code/custom/go"
-  export DOTFILES="$HOME/Dropbox/Internal/dotfiles"
-  export HOME_DIR="$DOTFILES/home"
+
   export TNS_ADMIN="/usr/local/oracle/network/admin/"
   export SQLPATH="/usr/local/oracle/instantclient_11_2"
   export ORACLE_HOME="/usr/local/oracle/instantclient_11_2"
@@ -68,21 +55,19 @@ if [[ $(uname) = 'Darwin' ]]; then
   export OCI_LIB_DIR="$ORACLE_HOME"
   export OCI_DIR="$ORACLE_HOME"
   export PATH="$PATH:$OCI_LIB_DIR"
-  export CLICOLOR=1
+  export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
 
-  export RC_ARCHS=x86_64
-  export JAVA_OPTS="-Dapple.awt.UIElement=true"
-  export HTML_TIDY="$HOME/.tidyrc"
-
-  export RUBY_GC_HEAP_FREE_SLOTS=600000
-  export RUBY_GC_HEAP_INIT_SLOTS=1000000
-  export RUBY_GC_HEAP_SLOTS_INCREMENT=1000000
-  export RUBY_GC_MALLOC_LIMIT=1000000000
-  export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1.25
-  export RUBY_HEAP_MIN_SLOTS=800000
-  export RUBY_FREE_MIN=600000
-
-  export LD_PRELOAD=/usr/lib/libtcmalloc_minimal.so
+  # export CLICOLOR=1
+  # export RC_ARCHS=x86_64
+  # export JAVA_OPTS="-Dapple.awt.UIElement=true"
+  # export RUBY_GC_HEAP_FREE_SLOTS=600000
+  # export RUBY_GC_HEAP_INIT_SLOTS=1000000
+  # export RUBY_GC_HEAP_SLOTS_INCREMENT=1000000
+  # export RUBY_GC_MALLOC_LIMIT=1000000000
+  # export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1.25
+  # export RUBY_HEAP_MIN_SLOTS=800000
+  # export RUBY_FREE_MIN=600000
+  # export LD_PRELOAD=/usr/lib/libtcmalloc_minimal.so
 fi
 
 if (( $+commands[gls] )) ; then
@@ -97,19 +82,6 @@ if [ $(command -v img2xterm) ]; then
   HAS_IMG2XTERM=1
 fi
 
-if [[ -f ~/.dir_colors ]]; then
-  if (( $+commands[gdircolors] )) ; then
-    HAS_COLORS=1
-    eval `gdircolors $HOME/.dir_colors`
-  fi
-fi
-
-if [[ -f ~/.fzf.zsh ]]; then
-  HAS_FZF=1
-  export FZF_DEFAULT_COMMAND='ag -l -g ""'
-  source ~/.fzf.zsh
-fi
-
 if [ $(command -v grc) ]; then
   HAS_GRC=1
   source `brew --prefix`/etc/grc.bashrc
@@ -119,9 +91,6 @@ unsetopt correct_all
 unsetopt correct
 unsetopt promptcr
 setopt notify
-
-# oracle >:(
-export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
 
 # Make zsh know about hosts already accessed by SSH
 zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'

@@ -53,10 +53,6 @@
     ~/.tmux.conf:
       relink: true
       path: home/tmux.conf
-    ~/.tmux/gary_theme.conf:
-      relink: true
-      create: true
-      path: home/tmux/gary_theme.conf
     ~/.tmux/reset.tmux:
       relink: true
       create: true

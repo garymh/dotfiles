@@ -27,4 +27,6 @@ augroup END
 augroup filetype_ruby
   autocmd!
   au BufRead,BufNewFile *.axlsx,Rakefile,Capfile,Gemfile,*pryrc,*pryrc-helpers.rb,Brewfile set ft=ruby syntax=ruby
+  let ruby_operators = 1
+  let ruby_fold = 1
 augroup END
