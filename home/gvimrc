@@ -23,6 +23,9 @@ if has('gui_macvim')
     " transparency
     set transp=1
 
+  let g:jellybeans_use_term_italics = 1
+  colorscheme jellybeans
+
     " full width full screen
     set fuopt+=maxhorz
 endif

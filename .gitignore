@@ -1,6 +1,2 @@
-vm
-tmux/tmuxinator
-private
-.rake_tasks
 *.png
 node_modules

@@ -1,111 +1,60 @@
 - clean: ['~', '~/.ssh']
+- defaults:
+    link:
+      relink: true
+      create: true
+
 - link:
-    ~/.gemrc:
-      relink: true
-      path: home/gemrc
-    ~/.agignore:
-      relink: true
-      path: home/agignore
-    ~/.gitconfig:
-      relink: true
-      path: home/gitconfig
-    ~/.ctags:
-      relink: true
-      path: home/ctags
-    ~/.gitignore_global:
-      relink: true
-      path: home/gitignore_global
-    ~/.gvimrc:
-      relink: true
-      path: home/gvimrc
-    ~/.mackup.cfg:
-      relink: true
-      path: home/mackup.cfg
-    ~/.config/nvim/init.vim:
-      relink: true
-      path: home/vimrc
-    ~/.pryrc-helpers.rb:
-      relink: true
-      path: home/pryrc-helpers.rb
-    ~/.pryrc:
-      relink: true
-      path: home/pryrc
-    ~/.rubocop.yml:
-      relink: true
-      path: home/rubocop.yml
-    ~/.tidyrc:
-      relink: true
-      path: home/tidyrc
-    ~/.vimrc:
-      relink: true
-      path: home/vimrc
+    ~/.agignore: home/agignore
+    ~/.ctags: home/ctags
+    ~/.dircolors: submodules/LS_COLORS/LS_COLORS
+    ~/.gemrc: home/gemrc
+    ~/.gitconfig: home/gitconfig
+    ~/.gitignore_global: home/gitignore_global
+    ~/.mackup.cfg: ../../Mackup/mackup.cfg
+    ~/.pryrc-helpers.rb: home/pryrc-helpers.rb
+    ~/.pryrc: home/pryrc
+    ~/.rubocop.yml: home/rubocop.yml
+    ~/.tidyrc: home/tidyrc
+    ~/.xvimrc: home/xvimrc
+
+    ~/.zshenv: home/zshenv
+    ~/.zshrc: home/zshrc
+    ~/.zsh: home/zsh/
+
+    ~/.gvimrc: home/gvimrc
+
+    ~/.vimrc: home/vimrc
     ~/.vimrc_min: home/vimrc.min
-    ~/.xvimrc:
-      relink: true
-      path: home/xvimrc
-    ~/.zshenv:
-      relink: true
-      path: home/zshenv
-    ~/.zshrc:
-      relink: true
-      path: home/zshrc
+    ~/.config/nvim/init.vim: home/vimrc
 
-    ~/.tmux.conf:
-      relink: true
-      path: home/tmux.conf
-    ~/.tmux/reset.tmux:
-      relink: true
-      create: true
-      path: home/tmux/reset.tmux
-    ~/.tmux/plugins/tpm:
-      create: true
-      relink: true
-      path: submodules/tpm
-
-    ~/.vim/autoload:
-      create: true
-      path: home/vim/autoload/
-    ~/.config/nvim/autoload:
-      create: true
-      path: home/vim/autoload/
-
-    ~/.vim/ftplugin:
-      create: true
-      path: home/vim/ftplugin/
-    ~/.config/nvim/ftplugin:
-      create: true
-      path: home/vim/ftplugin/
-
-    ~/.vim/ftdetect:
-      create: true
-      path: home/vim/ftdetect/
-    ~/.config/nvim/ftdetect:
-      create: true
-      path: home/vim/ftdetect/
-
+    ~/.vim/autoload: home/vim/autoload/
+    ~/.vim/ftplugin: home/vim/ftplugin/
+    ~/.vim/ftdetect: home/vim/ftdetect/
     ~/.vim/UltiSnips: home/vim/UltiSnips/
-    ~/.config/nvim/UltiSnips: home/vim/UltiSnips/
-    ~/.config/nvim/scripts: home/vim/scripts/
     ~/.vim/scripts: home/vim/scripts/
 
-    ~/.zsh:
-      relink: true
-      path: home/zsh/
+    ~/.config/nvim/UltiSnips: home/vim/UltiSnips/
+    ~/.config/nvim/ftdetect: home/vim/ftdetect/
+    ~/.config/nvim/autoload: home/vim/autoload/
+    ~/.config/nvim/ftplugin: home/vim/ftplugin/
+    ~/.config/nvim/scripts: home/vim/scripts/
+
+    ~/.tmux/plugins/tpm: submodules/tpm
+    ~/.tmux/reset.tmux: home/tmux/reset.tmux
+
     ~/.hammerspoon: home/hammerspoon/
     ~/.git_hooks: home/git_hooks/
     ~/.gitconfig.local: private/gitconfig.local
 
-    ~/.ssh/config:
-      create: true
-      path: private/ssh/config
+    ~/.ssh/config: private/ssh/config
     ~/.ssh/github_rsa: private/ssh/github_rsa
     ~/.ssh/github_rsa.pub: private/ssh/github_rsa.pub
     ~/.ssh/id_rsa: private/ssh/id_rsa
     ~/.ssh/id_rsa.pub: private/ssh/id_rsa.pub
 
-    /usr/local/opt/rbenv/default-gems:
-      create: true
-      path: new_machine/gems
+    /usr/local/opt/rbenv/default-gems: new_machine/gems
+
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
-  - [$(which vim) +PlugInstall +qall, Update bundles]
+  # - [$(which vim) +PlugInstall +qall, Update bundles]

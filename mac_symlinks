@@ -1,0 +1,11 @@
+#!/bin/bash
+
+ln -s /Applications ~/Applications
+ln -s /Users/gary/Dropbox/Code ~/code
+ln -s '/Users/gary/Library/Mobile Documents/com~apple~CloudDocs' ~/iCloud
+
+FILES="$HOME/iCloud/Oracle/*.zip"
+for f in $FILES
+do
+  cp $f ~/Library/Caches/Homebrew
+done

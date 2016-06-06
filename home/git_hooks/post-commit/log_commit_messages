@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function run_test {
-  echo $(date +"%Y-%m-%d %H:%M") [$(basename $PWD)]:  $(<./.git/COMMIT_EDITMSG) >> ~/Dropbox/Internal/git_commits.log
+  echo $(date +"%Y-%m-%d %H:%M") [$(basename $PWD)]:  $(<./.git/COMMIT_EDITMSG) >> ~/iCloud/Internal/git_commits.log
   return 1
 }
 

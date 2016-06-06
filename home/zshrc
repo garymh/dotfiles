@@ -21,6 +21,7 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/rake-fast
   zgen oh-my-zsh plugins/rbenv
   zgen oh-my-zsh plugins/zsh_reload
+  zgen oh-my-zsh plugins/command-not-found
 
   # ಠ_ಠ https://github.com/robbyrussell/oh-my-zsh/issues/2337
   # zgen oh-my-zsh plugins/rails
@@ -28,10 +29,11 @@ if ! zgen saved; then
   zgen load Tarrasch/zsh-colors
   zgen load djui/alias-tips
   zgen load zsh-users/zsh-completions src
-  zgen load zsh-users/zsh-history-substring-search
+  # zgen load zsh-users/zsh-history-substring-search
   zgen load zsh-users/zsh-syntax-highlighting
   zgen load mafredri/zsh-async
   zgen load sindresorhus/pure
+  zgen load caarlos0/zsh-pg
 
   zgen save
 fi
@@ -41,8 +43,6 @@ for f ($HOME/.zsh/*.zsh) {source $f}
 if [ 0 -ne $(ls $HOME/.zsh/private/*.zsh 2>/dev/null | wc -w) ]; then
   for f ($HOME/.zsh/private/*.zsh) {source $f}
 fi
-
-[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 
 if [[ $HAS_IMG2XTERM -eq 1 ]]; then
   img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png;
@@ -54,9 +54,4 @@ else
   uptime
 fi
 
-if [[ -f ~/.fzf.zsh ]]; then
-  export FZF_DEFAULT_COMMAND='ag -l -g ""'
-  source ~/.fzf.zsh
-  export FZF_COMPLETION_TRIGGER=';'
-fi
-
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

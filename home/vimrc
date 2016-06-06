@@ -38,13 +38,14 @@ call plug#begin()
   Plug 'Sclarki/neonwave.vim'
   Plug 'morhetz/gruvbox'
   Plug 'nanotech/jellybeans.vim'
+  Plug 'freeo/vim-kalisi'
 " }}} colors "
 
 " ruby {{{ "
   Plug 'janko-m/vim-test'
   Plug 'ngmy/vim-rubocop',  { 'for': 'ruby' }
   Plug 'tpope/vim-bundler', { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
-  Plug 'tpope/vim-rails',   { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
+  Plug 'tpope/vim-rails',   { 'for': ['ruby', 'eruby', 'haml', 'slim', 'yaml'] }
   Plug 'tpope/vim-rake',    { 'for': 'ruby' }
 " }}} ruby "
 
@@ -121,7 +122,7 @@ source ~/.vim/scripts/plugin_settings.vim
 " settings {{{ "
   " set virtualedit=onemore  " allow selection past last character
   set expandtab
-  set foldlevelstart=2
+  set foldlevelstart=5
   set formatprg="par 79"    " respect the 80 character lines
   set gdefault              " assume the /g flag on :s substitutions
   set hidden                " make unsaved buffers hidden
@@ -156,8 +157,8 @@ source ~/.vim/scripts/plugin_settings.vim
   set highlight+=c:LineNr               " blend vertical separators with line numbers
   set background=dark
   " let g:gruvbox_italic=1
-  let g:jellybeans_use_term_italics = 1
-  colorscheme jellybeans
+  " let g:jellybeans_use_term_italics = 1
+  colorscheme kalisi
   highlight OverLength ctermbg=red ctermfg=white guibg=#592929
   match OverLength /\%81v.\+/
 " }}} coloring "

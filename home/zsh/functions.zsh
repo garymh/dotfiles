@@ -82,13 +82,13 @@ search() {
 }
 
 # Show contents of directory after cd-ing into it
-chpwd() {
-  if [[ $HAS_GLS -eq 1 ]]; then
-    gls -rthG --color=tty
-  else
-    ls
-  fi
-}
+# chpwd() {
+#   if [[ $HAS_GLS -eq 1 ]]; then
+#     gls -rthG --color=tty
+#   else
+#     ls
+#   fi
+# }
 
 if [[ $IS_MAC -eq 1 ]]; then
   gclo() {

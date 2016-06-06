@@ -12,49 +12,6 @@ module PryrcHelpers
     0.008 * [*1..5].sample
   end
 
-  ## Welcome messages inspired from Emacs SLIME
-  def welcome_messages
-    [
-      "Let the hacking commence!",
-      "Hacks and glory await!",
-      "Hack and be merry!",
-      "Your hacking starts... NOW!",
-      "May the source be with you!",
-      "Take this REPL, brother, and may it serve you well.",
-      "Lemonodor-fame is but a hack away!",
-      "#{user} this could be the start of a beautiful program.",
-      "Scientifically-proven optimal words of hackerish encouragement.",
-      "Happy Hacking!",
-      "Oh wow. Oh wow. Oh wow. You're hacking with Pry now!"
-    ].sample
-  end
-
-  def farewell_messages
-    [
-     "Nice hack with you!",
-     "We'll hack soon!",
-     "See you next hack!",
-     "Glad you hack Ruby with Pry!",
-     "We'll take a rainhack!",
-     "That was a good hack.",
-     "Gone with Ruby..."
-    ].sample
-  end
-
-  ## Progress bar for .pryrc
-  # done is false, "==>\r"
-  # done is true , "==> Load Completed!\n"
-  def pryrc_progress_bar(len=1, done=false)
-    last = "\r"
-    last = " Load Completed!\n" if done
-    "|#{'====' * len}>#{last}"
-  end
-
-  ## 2/3 true, 1/3 false to increase farewell comes more often.
-  def true_true_or_false
-    [true, true, false].sample
-  end
-
   ## Interpret time (in seconds) to human-readable hash.
   # These numbers are took by Google Search
   # Google: How many seconds in X

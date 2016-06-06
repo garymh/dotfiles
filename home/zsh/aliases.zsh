@@ -65,20 +65,12 @@ alias deploy_stage="stage_deploy"
 alias stage_deploy="cap staging deploy"
 alias prod_deploy="cap production deploy"
 
-# ls better
-alias la="ls -aF"
-alias lh='ls -d .*'
-alias ll='ls -lh'
-
 # typos
 alias gca="gac"
 alias gco="gac"
 alias vim="e"
 
 # more verbose fileutils
-alias cp='nocorrect cp -iv'
-alias rm='nocorrect rm -iv'
-alias mv='nocorrect mv -iv'
 alias rmdir='rmdir -v'
 alias chmod='chmod -v'
 alias chown='chown -v'

@@ -147,7 +147,7 @@
 
 " NERDtree {{{ "
   nnoremap <silent> <f1> :NERDTreeToggle<cr>
-  nnoremap <silent> - :NERDTreeFind<cr>
+  nnoremap <silent> <bs> :NERDTreeFind<cr>
   let g:NERDTreeQuitOnOpen = 1
   let g:NERDTreeShowHidden = 1
   let g:NERDTreeRespectWildIgnore = 1
