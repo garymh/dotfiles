@@ -32,6 +32,7 @@ if [[ $IS_MAC -eq 1 ]]; then
 
   alias plistbuddy="/usr/libexec/PlistBuddy"
   alias cask="brew cask"
+  alias dc="docker-compose run web"
 
   # typos
   alias vm="vmon"

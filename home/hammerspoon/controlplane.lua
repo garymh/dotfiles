@@ -4,50 +4,30 @@ local homeSSID     = "dandg"
 local homeSSIDfive = "dandg_5G"
 local nuSSID       = "Northwestern"
 local ruby         = "/usr/local/opt/rbenv/shims/ruby"
--- local controlplane = hs.menubar.new()
-
-local hyper = {"⌘", "⌥", "⌃", "⇧"}
-hs.hotkey.bind(hyper, '0', function()
-  print(wifiWatcher)
-  print(powerWatcher)
-  print(hearthWatcher)
-end)
-
-function wifiOff()
-  if wifiWatcher then
-    wifiWatcher:stop()
-  end
-  wifiWatcher = nil
-end
-
-function wifiOn()
-  wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
-  wifiWatcher:start()
-end
 
 function rubyRunner(name)
   os.execute(ruby .. " ~/.hammerspoon/controlplane/" .. name .. ".rb")
 end
 
-function setScenario(id, titlebar, runner, wifiStatus)
-  -- print("checking for " .. id)
-  if hs.settings.get("scenario") ~= id then
-    -- print("setting  " .. id)
-    hs.settings.set("scenario", id)
-    -- controlplaneDisplay(titlebar)
-    rubyRunner(runner)
-    if wifiStatus == true then
-      wifiOn()
+function set_vpn(value)
+  print("checking for " .. value)
+  if hs.settings.get("vpn") ~= value then
+    print("setting  " .. value)
+    hs.settings.set("vpn", value)
+    if value == "on" then
+      rubyRunner("vpn")
     else
-      wifiOff()
+      rubyRunner("no_vpn")
     end
-    -- print("checking for keyboard")
-    -- if id == "home_desk" then
-    --   print("setting keyboard!")
-    --   os.execute('/Applications/Karabiner.app/Contents/Library/bin/karabiner select_by_name Bluetooth')
-    -- else
-    --   os.execute('/Applications/Karabiner.app/Contents/Library/bin/karabiner select_by_name Default')
-    -- end
+  end
+end
+
+function setScenario(id)
+  print("checking for " .. id)
+  if hs.settings.get("scenario") ~= id then
+    print("setting  " .. id)
+    hs.settings.set("scenario", id)
+    rubyRunner(id)
   end
 end
 
@@ -55,87 +35,87 @@ function powerChangedCallback()
   local powerSource = hs.battery.powerSource()
   local powerSerial = hs.battery.psuSerial()
   if powerSource == "AC Power" then -- if we're on power
-    -- hs.alert("power")
-    -- print("setting power mode")
-    -- print(powerSerial)
-    if powerSerial == 6857791 then
-      -- print("we're at nubic desk")
-      nubic()
-      elseif powerSerial == 8600800 then
-        -- print("we're at nu desk")
-        nuDesk()
-        elseif powerSerial == 1255676 then
-          -- hs.alert("desk")
-          -- print("we're at home desk")
-          homeDesk()
-          elseif powerSerial == 6771448 then -- portable
-            ssidChangedCallback()
-          elseif powerSerial == 4886968 then -- portable
-            ssidChangedCallback()
-          elseif powerSerial == 1678943 then -- portable
-            ssidChangedCallback()
-            else
-              road()
-            end
-          else
-            -- hs.alert("wifi")
-            ssidChangedCallback()
-          end
-        end
+    print("setting power mode")
+    print("power serial: " .. powerSerial)
 
-        -- function controlplaneDisplay(state)
-        --   controlplane:setTitle(state)
-        -- end
+    if powerSerial     == 6857791 then
+      setScenario("nu_desk")
+    elseif powerSerial == 8600800 then
+      setScenario("nubic")
+    elseif powerSerial == 1255676 then
+      setScenario("home_desk")
+    elseif powerSerial == 6771448 then -- portable
+      ssidChangedCallback()
+    elseif powerSerial == 4886968 then -- portable
+      ssidChangedCallback()
+    elseif powerSerial == 1678943 then -- portable
+      ssidChangedCallback()
+    else
+      road()
+    end
+  else
+    ssidChangedCallback()
+  end
+end
 
-        function controlplaneClicked()
-          hs.settings.set("scenario", "nil")
-          hs.reload()
-        end
+function ssidChangedCallback()
+  local currentSSID = hs.wifi.currentNetwork()
 
-        function ssidChangedCallback()
-          local currentSSID = hs.wifi.currentNetwork()
-          if currentSSID == homeSSID or currentSSID == homeSSIDfive then
-            homeWifi()
-            elseif currentSSID == nuSSID then
-              nuRoaming()
-            else
-              road()
-            end
-          end
+  if currentSSID == homeSSID or currentSSID == homeSSIDfive then
+    setScenario("home_wifi")
+  elseif currentSSID == nuSSID then
+    setScenario("nu_wifi")
+  else
+    setScenario("road")
+  end
+end
 
-          function homeWifi()
-            setScenario("home_wifi","🏠📶", "home", true)
-          end
+-- hs.network.reachability.forAddress("165.x.y.z"):setCallback(function(self, flags)
+--   -- note that because having an internet connection at all will show the remote network
+--   -- as "reachable", we instead look at whether or not our specific address is "local" instead
+--   if (flags & hs.network.reachability.flags.isLocalAddress) > 0 then
+--     -- VPN tunnel is up
+--     print("vpn!")
+--   else
+--     -- VPN tunnel is down
+--     print("vpn down")
+--   end
+-- end):start()
 
-          function homeDesk()
-            setScenario("home_desk","🏠💻", "desk", false)
-          end
+hs.network.reachability.internet():setCallback(function(self)
+  if (hs.network.reachability.flags.reachable) > 0 then
+    -- vpn?
+    local as = [[
+    tell application "System Events"
+    tell current location of network preferences
+    set VPNservice to service "NU VPN"
+    set isConnected to connected of current configuration of VPNservice
+    if isConnected then
+      "on"
+    else
+      "off"
+    end if
+  end tell
+end tell
+]]
+local status, object, descriptor = hs.osascript.applescript(as)
+-- print("config:" .. object)
+if object == "on" then
+  set_vpn("on")
+else
 
-          function nuRoaming()
-            setScenario("nu_roaming","🏥📶", "nu_desk", true)
-          end
+  set_vpn("off")
+end
+  else
+    -- no internet
+  end
+end):start()
 
-          function nuDesk()
-            setScenario("nu_desk","🏥💻", "nu_desk", false)
-          end
+powerWatcher = hs.battery.watcher.new(powerChangedCallback)
+powerWatcher:start()
+wifiWatcher  = hs.wifi.watcher.new(ssidChangedCallback)
+wifiWatcher:start()
 
-          function road()
-            setScenario("road","☕", "road", true)
-          end
-
-          function nubic()
-            setScenario("nubic","NUBIC", "nubic", false)
-          end
-
-          if controlplane then
-            controlplane:setClickCallback(controlplaneClicked)
-          end
-
-          powerWatcher = hs.battery.watcher.new(powerChangedCallback)
-          powerWatcher:start()
-          wifiWatcher  = hs.wifi.watcher.new(ssidChangedCallback)
-          wifiWatcher:start()
-
-          if power == nil then
-            powerChangedCallback()
-          end
+if power == nil then
+  powerChangedCallback()
+end

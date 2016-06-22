@@ -1,26 +1,26 @@
-- clean: ['~', '~/.ssh']
 - defaults:
     link:
       relink: true
-      create: true
+
+- clean: ['~', '~/.ssh']
 
 - link:
-    ~/.agignore: home/agignore
     ~/.ctags: home/ctags
     ~/.dircolors: submodules/LS_COLORS/LS_COLORS
     ~/.gemrc: home/gemrc
     ~/.gitconfig: home/gitconfig
     ~/.gitignore_global: home/gitignore_global
-    ~/.mackup.cfg: ../../Mackup/mackup.cfg
     ~/.pryrc-helpers.rb: home/pryrc-helpers.rb
     ~/.pryrc: home/pryrc
     ~/.rubocop.yml: home/rubocop.yml
     ~/.tidyrc: home/tidyrc
     ~/.xvimrc: home/xvimrc
-
     ~/.zshenv: home/zshenv
     ~/.zshrc: home/zshrc
     ~/.zsh: home/zsh/
+
+    ~/.mackup.cfg:
+      path: ../../iCloud/Mackup/mackup.cfg
 
     ~/.gvimrc: home/gvimrc
 
@@ -28,33 +28,36 @@
     ~/.vimrc_min: home/vimrc.min
     ~/.config/nvim/init.vim: home/vimrc
 
-    ~/.vim/autoload: home/vim/autoload/
+    ~/.vim/autoload:
+      create: true
+      path: home/vim/autoload/
     ~/.vim/ftplugin: home/vim/ftplugin/
-    ~/.vim/ftdetect: home/vim/ftdetect/
     ~/.vim/UltiSnips: home/vim/UltiSnips/
     ~/.vim/scripts: home/vim/scripts/
 
-    ~/.config/nvim/UltiSnips: home/vim/UltiSnips/
-    ~/.config/nvim/ftdetect: home/vim/ftdetect/
+    ~/.config/nvim/UltiSnips:
+      create: true
+      path: home/vim/UltiSnips/
     ~/.config/nvim/autoload: home/vim/autoload/
     ~/.config/nvim/ftplugin: home/vim/ftplugin/
     ~/.config/nvim/scripts: home/vim/scripts/
 
-    ~/.tmux/plugins/tpm: submodules/tpm
+    ~/.tmux/plugins/tpm:
+      path: submodules/tpm
+      create: true
     ~/.tmux/reset.tmux: home/tmux/reset.tmux
 
     ~/.hammerspoon: home/hammerspoon/
     ~/.git_hooks: home/git_hooks/
-    ~/.gitconfig.local: private/gitconfig.local
+    ~/.gitconfig.local: home/zsh/private/gitconfig.local
 
-    ~/.ssh/config: private/ssh/config
-    ~/.ssh/github_rsa: private/ssh/github_rsa
-    ~/.ssh/github_rsa.pub: private/ssh/github_rsa.pub
-    ~/.ssh/id_rsa: private/ssh/id_rsa
-    ~/.ssh/id_rsa.pub: private/ssh/id_rsa.pub
+    ~/.ssh/config: home/zsh/private/ssh/config
+    ~/.ssh/github_rsa: home/zsh/private/ssh/github_rsa
+    ~/.ssh/github_rsa.pub: home/zsh/private/ssh/github_rsa.pub
+    ~/.ssh/id_rsa: home/zsh/private/ssh/id_rsa
+    ~/.ssh/id_rsa.pub: home/zsh/private/ssh/id_rsa.pub
 
     /usr/local/opt/rbenv/default-gems: new_machine/gems
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
-  # - [$(which vim) +PlugInstall +qall, Update bundles]

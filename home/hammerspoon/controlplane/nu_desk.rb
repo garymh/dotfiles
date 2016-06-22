@@ -2,4 +2,5 @@ Dir["#{File.dirname(__FILE__)}/actions/*.rb"].each { |file| require_relative fil
 
 omni_perspective('Work')
 usb_audio_676
-rhrccc_printer
+set_password_prompt 600
+rhlccc_printer

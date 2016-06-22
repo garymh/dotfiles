@@ -41,7 +41,7 @@ if [[ $(uname) = 'Darwin' ]]; then
   fi
 
   export GOPATH="$HOME/iCloud/Internal/custom/go"
-  export DOTFILES="$HOME/iCloud/Internal/dotfiles"
+  export DOTFILES="$HOME/code/dotfiles"
   export HOME_DIR="$DOTFILES/home"
 
   export EDITOR='nvim'

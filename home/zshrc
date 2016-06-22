@@ -22,6 +22,7 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/rbenv
   zgen oh-my-zsh plugins/zsh_reload
   zgen oh-my-zsh plugins/command-not-found
+  zgen oh-my-zsh plugins/docker
 
   # ಠ_ಠ https://github.com/robbyrussell/oh-my-zsh/issues/2337
   # zgen oh-my-zsh plugins/rails
@@ -52,6 +53,11 @@ elif [[ $HAS_COWSAY -eq 1 ]]; then
   echo "CAN DO!" | cowsay -f $HOME/.zsh/plugins/cows/meeseeks.cow
 else
   uptime
+fi
+
+if (( $+commands[tag] )); then
+  tag() { command tag "$@"; source ${TAG_ALIAS_FILE:-/tmp/tag_aliases} 2>/dev/null }
+  alias ag=tag
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

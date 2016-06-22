@@ -3,7 +3,7 @@ def home_printer
 end
 
 def rhlccc_printer
-  system 'lpoptions -d _676_Copy_Room'
+  system 'lpoptions -d _165_124_121_95'
 end
 
 def dvorak_printer

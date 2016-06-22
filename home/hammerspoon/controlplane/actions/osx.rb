@@ -1,6 +1,5 @@
 def dock_hiding value
   system "defaults write com.apple.dock autohide -boolean #{value} && killall Dock"
-  puts value ? 'Auto hiding Dock' : 'Making dock always visible'
 end
 
 def app_is_running? app_name
@@ -11,13 +10,20 @@ def set_password_prompt time
   system "defaults write com.apple.screensaver askForPasswordDelay -int #{time}"
 end
 
-def kill_bt_menu
-  # system "/usr/libexec/PlistBuddy -c 'Delete :menuExtras:1' ~/Library/Preferences/com.apple.systemuiserver.plist"
-  # system "killall SystemUIServer"
-end
-
 def quit app_name
   system "osascript -e 'tell application \"#{app_name}\" to quit'"
+end
+
+def wifi status
+  system "networksetup -setairportpower en0 #{status}"
+end
+
+def remove_item
+  system "/usr/libexec/PlistBuddy -c 'Delete :menuExtras:1' ~/Library/Preferences/com.apple.systemuiserver.plist"
+end
+
+def set_wallpaper file
+  system "osascript -e 'tell application \"Finder\" to set desktop picture to POSIX file \"#{ENV['HOME']}/iCloud/Wallpapers/#{file}\"'"
 end
 
 def display_audio
