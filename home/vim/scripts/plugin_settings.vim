@@ -1,5 +1,14 @@
 " vim:fdm=marker
 
+" Sideways {{{ "
+  nnoremap [<Tab> :SidewaysLeft<cr>
+  nnoremap ]<Tab> :SidewaysRight<cr>
+  omap aa <Plug>SidewaysArgumentTextobjA
+  xmap aa <Plug>SidewaysArgumentTextobjA
+  omap ia <Plug>SidewaysArgumentTextobjI
+  xmap ia <Plug>SidewaysArgumentTextobjI
+" }}} Sideways "
+
 " Airline {{{ "
   let g:airline#extensions#tabline#enabled = 1
   if !exists('g:airline_symbols')
@@ -11,12 +20,18 @@
   let g:airline_symbols.crypt = '🔒'
   " let g:airline_left_sep  = '▓▒░'
   " let g:airline_right_sep = '░▒▓'
+  " let g:airline_left_sep  = '▒'
   let g:airline_section_z = '%2p%% %2l/%L:%2v'
 " }}} Airline "
 
 " ragtag {{{ "
   let g:ragtag_global_maps = 1
 " }}} ragtag "
+
+" indentLine {{{ "
+  let g:indentLine_char = '░'
+  " let g:indentLine_first_char = '▓'
+" }}} indentLine "
 
 " vim-peekabo {{{ "
   let g:peekaboo_window = 'vertical topleft 50new'

@@ -13,6 +13,12 @@ build_neovim() {
 # zle -N _git_issue_list
 # bindkey '^;' _git_issue_list
 
+destroy_docker() {
+  docker rm $(docker kill $(docker ps -aq))
+  docker rm $(docker ps -a -q)
+  docker rmi $(docker images -q)
+}
+
 fancy-ctrl-z () {
 if [[ $#BUFFER -eq 0 ]]; then
   BUFFER="fg"

@@ -25,6 +25,7 @@ if [[ $(uname) = 'Linux' ]]; then
   export DOTFILES="$HOME/dotfiles"
   export HOME_DIR="$DOTFILES/home"
   export HTML_TIDY="$HOME/.tidyrc"
+  alias gls="ls"
 fi
 
 if [[ $(uname) = 'Darwin' ]]; then
@@ -58,7 +59,7 @@ if [[ $(uname) = 'Darwin' ]]; then
   export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
 
   [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
-  export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES="jimweirich :q eivm"
+  export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES="jimweirich :q eivm evimrc ezshrc _"
 fi
 
 if (( $+commands[gls] )) ; then
