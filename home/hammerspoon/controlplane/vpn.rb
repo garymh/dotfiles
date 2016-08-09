@@ -5,4 +5,4 @@ Dir["#{File.dirname(__FILE__)}/actions/*.rb"].each { |file| require_relative fil
 # display_audio
 # home_printer
 # `osascript -e "set Volume 7"`
-set_wallpaper 'vpn.png'
+vpn_wallpaper

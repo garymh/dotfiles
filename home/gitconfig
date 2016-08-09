@@ -3,7 +3,7 @@
 [core]
   excludesfile = ~/.gitignore_global
   whitespace        = space-before-tab,-indent-with-non-tab,trailing-space
-  pager             = ccat
+  pager             = less -RM
   editor            = vim
 
   # Make `git rebase` safer on OS X
@@ -43,6 +43,7 @@
   diff        = auto
   interactive = auto
   status      = auto
+  ui          = true
 [web]
   browser     = open
 [help]

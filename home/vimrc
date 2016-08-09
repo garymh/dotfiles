@@ -15,7 +15,6 @@ call plug#begin()
   Plug 'junegunn/fzf.vim'
   Plug 'junegunn/vim-oblique'
   Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
-  Plug 'milkypostman/vim-togglelist', { 'on': 'ToggleQuickfixList' }
   Plug 'takac/vim-commandcaps'
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-repeat'
@@ -26,8 +25,7 @@ call plug#begin()
 
 " looks {{{ "
   Plug 'Xuyuanp/nerdtree-git-plugin'
-  Plug 'Yggdroot/indentLine'
-  Plug 'kien/rainbow_parentheses.vim'
+  Plug 'nathanaelkane/vim-indent-guides'
   Plug 'junegunn/vim-peekaboo'
   Plug 'lilydjwg/colorizer', { 'for': ['css', 'sass', 'scss', 'less', 'html', 'javascript'] }
   Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
@@ -144,14 +142,16 @@ source ~/.vim/scripts/plugin_settings.vim
   set noshowmatch           " don't jump between matching brackets
   set noswapfile
   set nowrap
-  set number
-  set relativenumber
+  " set number
+  " set relativenumber
   set shiftround            " indenting to nearest tabstop
   set smartcase             " smartcase for searching
   set splitbelow            " default split behavior
   set synmaxcol=180
   set ttimeoutlen=50        " vim-sensible's is kinda slow
   syntax sync minlines=256  " start highlighting from 256 lines backwards
+
+  set ts=2 sts=2 sw=2
 " }}} settings "
 
 " wildignore {{{ "
@@ -165,17 +165,24 @@ source ~/.vim/scripts/plugin_settings.vim
   set highlight+=@:ColorColumn          " ~/@ at end of window, 'showbreak'
   set highlight+=N:DiffText             " make current line number stand out a little
   set highlight+=c:LineNr               " blend vertical separators with line numbers
-  set background=dark
-  " let g:jellybeans_use_term_italics = 1
-  " colorscheme kalisi
   " let g:gruvbox_italic=1
   " colorscheme gruvbox
-  " let g:one_allow_italics = 1
-  " colorscheme one
-  colorscheme deep-space
+  set background=dark
+  let g:one_allow_italics = 1
+  colorscheme one
+
   highlight OverLength ctermbg=red ctermfg=white guibg=#592929
   match OverLength /\%81v.\+/
 " }}} coloring "
+
+if has('termguicolors')
+  " Don't need this in xterm-256color, but do need it inside tmux.
+  " (See `:h xterm-true-color`.)
+  if &term =~# 'tmux-256color'
+    let &t_8f="\e[38;2;%ld;%ld;%ldm"
+    let &t_8b="\e[48;2;%ld;%ld;%ldm"
+  endif
+endif
 
 " Persistent Undo {{{
   silent !mkdir ~/.vim/backups > /dev/null 2>&1

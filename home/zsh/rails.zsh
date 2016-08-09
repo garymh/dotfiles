@@ -18,11 +18,11 @@ function _rake_command () {
   fi
 }
 
-alias rails='_rails_command'
-compdef _rails_command=rails
+# alias rails='_rails_command'
+# compdef _rails_command=rails
 
-alias rake='_rake_command'
-compdef _rake_command=rake
+# alias rake='_rake_command'
+# compdef _rake_command=rake
 
 alias devlog='tail -f log/development.log'
 alias prodlog='tail -f log/production.log'
@@ -31,3 +31,4 @@ alias testlog='tail -f log/test.log'
 alias -g RED='RAILS_ENV=development'
 alias -g REP='RAILS_ENV=production'
 alias -g RET='RAILS_ENV=test'
+alias -g RES='RAILS_ENV=staging'

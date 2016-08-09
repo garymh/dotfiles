@@ -1,5 +1,5 @@
 def home_printer
-  system 'lpoptions -d b___Brother_HL_2170W_series___ProfX'
+  system 'lpoptions -d Brother_HL_2170W_series___ProfX'
 end
 
 def rhlccc_printer

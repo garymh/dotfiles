@@ -18,9 +18,6 @@
   let g:airline_left_sep      = ''
   let g:airline_right_sep     = ''
   let g:airline_symbols.crypt = '🔒'
-  " let g:airline_left_sep  = '▓▒░'
-  " let g:airline_right_sep = '░▒▓'
-  " let g:airline_left_sep  = '▒'
   let g:airline_section_z = '%2p%% %2l/%L:%2v'
 " }}} Airline "
 
@@ -29,8 +26,12 @@
 " }}} ragtag "
 
 " indentLine {{{ "
-  let g:indentLine_char = '░'
+  " let g:indentLine_char = '░'
   " let g:indentLine_first_char = '▓'
+  let g:indent_guides_start_level = 2
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_guide_size = 1
+  let g:indent_guides_color_change_percent = 5
 " }}} indentLine "
 
 " vim-peekabo {{{ "
@@ -44,13 +45,6 @@
 " Dash {{{ "
   nmap <silent> K <Plug>DashSearch
 " }}} Dash "
-
-" Surround.vim {{{ "
-  " let g:surround_113 = "#{\r}"
-  " let g:surround_35  = "#{\r}"
-  " let g:surround_45  = "<% \r %>"
-  " let g:surround_61  = "<%= \r %>"
-" }}} Surround.vim "
 
 " Switch {{{ "
   nnoremap <silent> - :Switch<CR>
@@ -100,8 +94,10 @@
   endfun
 
   nnoremap <silent> <c-p> :exe 'Files ' . <SID>fzf_root()<CR>
-  nnoremap <silent> <c-e> :History<CR>
   " nnoremap <silent> <c-p> :Files<CR>
+
+  nnoremap <silent> <c-e> :History<CR>
+  nnoremap <silent> <space>r :History<CR>
   nnoremap <silent> <c-t> :Tags<CR>
   nnoremap <silent> <space>. :Lines<CR>
   nnoremap <silent> <space>; :BLines<CR>
@@ -132,19 +128,13 @@
 
 " Tmux {{{ "
   let g:tmux_navigator_no_mappings = 1
-  nnoremap <silent> <C-w>h :TmuxNavigateLeft<cr>
-  nnoremap <silent> <C-w>j :TmuxNavigateDown<cr>
-  nnoremap <silent> <C-w>k :TmuxNavigateUp<cr>
-  nnoremap <silent> <C-w>l :TmuxNavigateRight<cr>
-  nnoremap <silent> <C-w>\ :TmuxNavigatePrevious<cr>
-  nnoremap <silent> <tab>  <c-w>w
+  nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
+  nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
+  nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
+  nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
+  nnoremap <silent> <M-\> :TmuxNavigatePrevious<cr>
+  nnoremap <silent> <tab> <c-w>w
 " }}} Tmux "
-
-" Quickfix Toggle {{{ "
-  let g:toggle_list_no_mappings = 1
-  nmap <script> <silent> qf :call ToggleQuickfixList()<CR>
-  nmap <script> <silent> qq :call ToggleQuickfixList()<CR>
-" }}} Quickfix Toggle "
 
 " ctrlsf {{{ "
   let g:ctrlsf_winsize = '100%'

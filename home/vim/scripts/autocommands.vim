@@ -1,10 +1,5 @@
 augroup random
   autocmd!
-  au VimEnter * RainbowParenthesesToggle
-  au Syntax * RainbowParenthesesLoadRound
-  au Syntax * RainbowParenthesesLoadSquare
-  au Syntax * RainbowParenthesesLoadBraces
-
   autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
   autocmd BufWritePre * StripWhitespace
 
@@ -22,11 +17,7 @@ augroup random
   autocmd BufReadPost fugitive://* set bufhidden=delete
 
   autocmd filetype crontab setlocal nobackup nowritebackup
-augroup END
-
-augroup filetype_ruby
-  autocmd!
-  au BufRead,BufNewFile *.axlsx,Rakefile,Capfile,Gemfile,*pryrc,*pryrc-helpers.rb,Brewfile set ft=ruby syntax=ruby
-  let ruby_operators = 1
-  let ruby_fold = 1
+  autocmd BufRead,BufNewFile *.axlsx,Rakefile,Capfile,Gemfile,*pryrc,*pryrc-helpers.rb,Brewfile set ft=ruby syntax=ruby foldmethod=indent
+"   let ruby_operators = 1
+  " let ruby_fold = 1
 augroup END

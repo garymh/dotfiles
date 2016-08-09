@@ -1,0 +1,15 @@
+#!/bin/bash
+
+vpn_wallpaper="$HOME/Documents/vpn.png"
+cached_wallpaper="$HOME/Documents/wallpaper.png"
+current_wallpaper=`osascript -e 'tell app "finder" to get posix path of (get desktop picture as alias)'`
+
+if ! cmp --silent "$current_wallpaper" $cached_wallpaper
+then
+  convert "$current_wallpaper" -fill red -tint 90 $vpn_wallpaper
+  osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"$vpn_wallpaper\""
+  cp "$current_wallpaper" $cached_wallpaper
+else
+  osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"$vpn_wallpaper\""
+fi
+

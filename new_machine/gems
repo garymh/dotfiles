@@ -1,10 +1,11 @@
-gem-ctags
 gem-shut-the-fuck-up
-bundler
 awesome_print
+bundler
 gem-browse
+gem-ctags
 ghi
 hirb
+neovim
 otask
 pry
 pry-bloodline

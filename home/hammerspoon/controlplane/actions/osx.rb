@@ -26,6 +26,14 @@ def set_wallpaper file
   system "osascript -e 'tell application \"Finder\" to set desktop picture to POSIX file \"#{ENV['HOME']}/iCloud/Wallpapers/#{file}\"'"
 end
 
+def stock_wallpaper
+  system "osascript -e 'tell application \"Finder\" to set desktop picture to POSIX file \"#{ENV['HOME']}/Documents/wallpaper.png\"'"
+end
+
+def vpn_wallpaper
+  system "~/.zsh/bin/vpn_wallpaper"
+end
+
 def display_audio
   system "~/.zsh/bin/AudioSwitcher -s 'Display Audio'"
   system "~/.zsh/bin/AudioSwitcher -t system  -s 'Display Audio'"

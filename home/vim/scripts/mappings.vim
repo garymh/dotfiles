@@ -52,6 +52,7 @@ endfunction
 nnoremap <leader>f :call ChooseFile()<cr>
 
 map <leader>emap :e ~/.vim/scripts/mappings.vim<cr>
+map <leader>eauto :e ~/.vim/scripts/autocommands.vim<cr>
 map <leader>efunction :e ~/.zsh/functions.zsh<cr>
 map <leader>ealias :e ~/.zsh/aliases.zsh<cr>
 map <leader>emp :e ~/.vim/scripts/mappings.vim<cr>

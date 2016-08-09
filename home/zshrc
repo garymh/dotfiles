@@ -8,14 +8,12 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/brew
     zgen oh-my-zsh plugins/brew-cask
     zgen oh-my-zsh plugins/osx
-    zgen oh-my-zsh plugins/vagrant
     zgen oh-my-zsh plugins/heroku
   fi
 
   zgen oh-my-zsh plugins/bundler
   zgen oh-my-zsh plugins/capistrano
   zgen oh-my-zsh plugins/fasd
-  zgen oh-my-zsh plugins/gem
   zgen oh-my-zsh plugins/github
   zgen oh-my-zsh plugins/rake
   zgen oh-my-zsh plugins/rake-fast
@@ -23,13 +21,14 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/zsh_reload
   zgen oh-my-zsh plugins/command-not-found
   zgen oh-my-zsh plugins/docker
+  zgen oh-my-zsh plugins/docker-compose
 
   # ಠ_ಠ https://github.com/robbyrussell/oh-my-zsh/issues/2337
   # zgen oh-my-zsh plugins/rails
 
   zgen load Tarrasch/zsh-colors
   zgen load djui/alias-tips
-  zgen load zsh-users/zsh-completions src
+  # zgen load zsh-users/zsh-completions src
   # zgen load zsh-users/zsh-history-substring-search
   zgen load zsh-users/zsh-syntax-highlighting
   zgen load mafredri/zsh-async
@@ -45,9 +44,11 @@ if [ 0 -ne $(ls $HOME/.zsh/private/*.zsh 2>/dev/null | wc -w) ]; then
   for f ($HOME/.zsh/private/*.zsh) {source $f}
 fi
 
-if [[ $HAS_IMG2XTERM -eq 1 ]]; then
+if [[ $HAS_IMGCAT -eq 1 ]]; then
+  imgcat $HOME/iCloud/Public/tiny_rick.jpg
+  echo "$(uptime | awk -F'[a-z]:' '{ print "Load:"$2 }') | $(battery)"
+elif [[ $HAS_IMG2XTERM -eq 1 ]]; then
   img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png;
-  green "-------------------------------"
   echo "$(uptime | awk -F'[a-z]:' '{ print "Load:"$2 }') | $(battery)"
 elif [[ $HAS_COWSAY -eq 1 ]]; then
   echo "CAN DO!" | cowsay -f $HOME/.zsh/plugins/cows/meeseeks.cow
@@ -63,3 +64,5 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)

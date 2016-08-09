@@ -49,30 +49,34 @@ if [[ $(uname) = 'Darwin' ]]; then
   export VISUAL='nvim'
   export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
-  export TNS_ADMIN="/usr/local/oracle/network/admin/"
-  export SQLPATH="/usr/local/oracle/instantclient_11_2"
-  export ORACLE_HOME="/usr/local/oracle/instantclient_11_2"
-  export ORACLE_SID="xe"
-  export OCI_LIB_DIR="$ORACLE_HOME"
-  export OCI_DIR="$ORACLE_HOME"
-  export PATH="$PATH:$OCI_LIB_DIR"
+  # export TNS_ADMIN="/usr/local/oracle/network/admin/"
+  # export SQLPATH="/usr/local/oracle/instantclient_11_2"
+  # export ORACLE_HOME="/usr/local/oracle/instantclient_11_2"
+  # export ORACLE_HOME="/usr/local/lib"
+  # export ORACLE_SID="xe"
+  # export OCI_LIB_DIR="$ORACLE_HOME"
+  # export OCI_DIR="$ORACLE_HOME"
+  export OCI_DIR=$(brew --prefix)/lib
+  # export PATH="$PATH:$OCI_LIB_DIR"
   export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
 
   [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
-  export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES="jimweirich :q eivm evimrc ezshrc _"
+  export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES="jimweirich :q eivm evimrc ezshrc _ gls"
 fi
 
 if (( $+commands[gls] )) ; then
-  HAS_GLS=1
+  export HAS_GLS=1
 fi
 
 if [ $(command -v cowsay) ]; then
-  HAS_COWSAY=1
+  export HAS_COWSAY=1
 fi
 
 if [ $(command -v img2xterm) ]; then
-  HAS_IMG2XTERM=1
+  export HAS_IMG2XTERM=1
 fi
+
+test -e "${HOME}/.iterm2/imgcat" && export HAS_IMGCAT=1
 
 if [ $(command -v grc) ]; then
   HAS_GRC=1

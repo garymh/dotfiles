@@ -46,6 +46,8 @@
       path: submodules/tpm
       create: true
     ~/.tmux/reset.tmux: home/tmux/reset.tmux
+    ~/.tmux/gary_theme.conf: home/tmux/gary_theme.conf
+    ~/.tmux.conf: home/tmux.conf
 
     ~/.hammerspoon: home/hammerspoon/
     ~/.git_hooks: home/git_hooks/
