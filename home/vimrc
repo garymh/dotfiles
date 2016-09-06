@@ -7,111 +7,113 @@
 call plug#begin()
 
 " standard {{{ "
-  Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-surround'
 " }}} standard "
 
 " almost standard {{{ "
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-  Plug 'junegunn/fzf.vim'
-  Plug 'junegunn/vim-oblique'
-  Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
-  Plug 'takac/vim-commandcaps'
-  Plug 'tpope/vim-commentary'
-  Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-sleuth'
-  Plug 'tpope/vim-surround'
-  Plug 'tpope/vim-ragtag'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-oblique'
+Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
+Plug 'takac/vim-commandcaps'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-ragtag'
+Plug 'EinfachToll/DidYouMean'
 " }}} almost standard "
 
 " looks {{{ "
-  Plug 'Xuyuanp/nerdtree-git-plugin'
-  Plug 'nathanaelkane/vim-indent-guides'
-  Plug 'junegunn/vim-peekaboo'
-  Plug 'lilydjwg/colorizer', { 'for': ['css', 'sass', 'scss', 'less', 'html', 'javascript'] }
-  Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'junegunn/vim-peekaboo'
+Plug 'lilydjwg/colorizer', { 'for': ['css', 'sass', 'scss', 'less', 'html', 'javascript'] }
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 " }}} looks "
 
 " colors {{{ "
-  Plug 'w0ng/vim-hybrid'
-  Plug 'Sclarki/neonwave.vim'
-  Plug 'morhetz/gruvbox'
-  Plug 'nanotech/jellybeans.vim'
-  Plug 'freeo/vim-kalisi'
-  Plug 'rakr/vim-one'
-  Plug 'tyrannicaltoucan/vim-deep-space'
+" Plug 'w0ng/vim-hybrid'
+" Plug 'Sclarki/neonwave.vim'
+" Plug 'morhetz/gruvbox'
+Plug 'nanotech/jellybeans.vim'
+" Plug 'freeo/vim-kalisi'
+Plug 'rakr/vim-one'
+" Plug 'tyrannicaltoucan/vim-deep-space'
 " }}} colors "
 
 " ruby {{{ "
-  Plug 'janko-m/vim-test'
-  Plug 'ngmy/vim-rubocop',  { 'for': 'ruby' }
-  Plug 'tpope/vim-bundler', { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
-  Plug 'tpope/vim-rails',   { 'for': ['ruby', 'eruby', 'haml', 'slim', 'yaml'] }
-  Plug 'tpope/vim-rake',    { 'for': 'ruby' }
+Plug 'janko-m/vim-test'
+Plug 'ngmy/vim-rubocop',  { 'for': 'ruby' }
+Plug 'tpope/vim-bundler', { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
+Plug 'tpope/vim-rails',   { 'for': ['ruby', 'eruby', 'haml', 'slim', 'yaml'] }
+Plug 'tpope/vim-rake',    { 'for': 'ruby' }
 " }}} ruby "
 
 " syntax {{{ "
-  Plug 'sheerun/vim-polyglot'
-  Plug 'davejlong/cf-utils.vim',   { 'for': ['coldfusion', 'cfml'] }
-  Plug 'sunaku/vim-ruby-minitest', { 'for': 'ruby' }
-  Plug 'xolox/vim-lua-ftplugin',   { 'for': 'lua' }
-  Plug 'chrisbra/csv.vim',         { 'for': 'csv' }
+Plug 'sheerun/vim-polyglot'
+Plug 'davejlong/cf-utils.vim',   { 'for': ['coldfusion', 'cfml'] }
+Plug 'sunaku/vim-ruby-minitest', { 'for': 'ruby' }
+Plug 'chrisbra/csv.vim',         { 'for': 'csv' }
 " }}} syntax "
 
 " dependencies {{{ "
-  Plug 'xolox/vim-misc'
-  Plug 'junegunn/vim-pseudocl'
+Plug 'xolox/vim-misc'
+Plug 'junegunn/vim-pseudocl'
 " }}} dependencies "
 
 " misc {{{ "
-  Plug 'AndrewRadev/sideways.vim'
-  Plug 'wincent/terminus'
-  Plug 'AndrewRadev/splitjoin.vim'
-  Plug 'AndrewRadev/switch.vim'
-  Plug 'benekastah/neomake', { 'on': 'Neomake' }
-  Plug 'chip/vim-fat-finger'
-  Plug 'christoomey/vim-sort-motion'
-  Plug 'christoomey/vim-system-copy'
-  Plug 'christoomey/vim-tmux-navigator'
-  Plug 'duggiefresh/vim-easydir'
-  Plug 'dyng/ctrlsf.vim', { 'on': ['CtrlSF', 'CtrlSFToggle'] }
-  Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-  Plug 'ntpeters/vim-better-whitespace'
-  Plug 'scrooloose/nerdtree'
-  Plug 'tpope/vim-abolish'
-  Plug 'cohama/lexima.vim'
-  Plug 'tpope/vim-eunuch'
-  Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-projectionist'
-  Plug 'tpope/vim-rsi'
-  Plug 'vim-scripts/BufOnly.vim', { 'on': 'Bonly' }
-  Plug 'foosoft/vim-argwrap'
+" Plug 'ntpeters/vim-better-whitespace'
+" Plug 'cohama/lexima.vim'
+" Plug 'christoomey/vim-tmux-navigator'
+Plug 'AndrewRadev/sideways.vim'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'AndrewRadev/switch.vim'
+Plug 'chip/vim-fat-finger'
+Plug 'christoomey/vim-sort-motion'
+Plug 'christoomey/vim-system-copy'
+Plug 'duggiefresh/vim-easydir'
+Plug 'dyng/ctrlsf.vim', { 'on': ['CtrlSF', 'CtrlSFToggle', '<Plug>CtrlSFPrompt' ] }
+Plug 'foosoft/vim-argwrap', { 'on': 'ArgWrap' }
+Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+Plug 'scrooloose/nerdtree'
+Plug 'thirtythreeforty/lessspace.vim'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-rsi'
+Plug 'vim-scripts/BufOnly.vim', { 'on': 'Bonly' }
+Plug 'wincent/terminus'
 " }}} misc "
 
 " mac/nvim {{{ "
-  if has('mac')
-    Plug 'rizzatti/dash.vim',         { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
-    Plug 'zerowidth/vim-copy-as-rtf', { 'on': 'CopyRTF' }
-    source ~/.vim/scripts/completions.vim
-  endif
-  if has('nvim')
-    set termguicolors
-  else
-    Plug 'jszakmeister/vim-togglecursor'
-    Plug 'tpope/vim-sensible'
-  endif
+if has('mac')
+  Plug 'rizzatti/dash.vim',         { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
+  " Plug 'zerowidth/vim-copy-as-rtf', { 'on': 'CopyRTF' }
+  source ~/.vim/scripts/completions.vim
+endif
+if has('nvim')
+  set termguicolors
+  Plug 'bfredl/nvim-miniyank'
+  Plug 'benekastah/neomake', { 'on': 'Neomake' }
+else
+  Plug 'jszakmeister/vim-togglecursor'
+  Plug 'tpope/vim-sensible'
+endif
 " }}} mac/nvim "
 
 " custom vim objects {{{ "
-  Plug 'Julian/vim-textobj-brace'
-  Plug 'beloglazov/vim-textobj-quotes'
-  Plug 'coderifous/textobj-word-column.vim'
-  Plug 'glts/vim-textobj-indblock'
-  Plug 'kana/vim-textobj-entire'
-  Plug 'kana/vim-textobj-fold'
-  Plug 'kana/vim-textobj-indent'
-  Plug 'kana/vim-textobj-user'
-  Plug 'tek/vim-textobj-ruby'
-  Plug 'kana/vim-textobj-line'
+Plug 'Julian/vim-textobj-brace'
+Plug 'beloglazov/vim-textobj-quotes'
+Plug 'coderifous/textobj-word-column.vim'
+Plug 'glts/vim-textobj-indblock'
+Plug 'kana/vim-textobj-entire'
+Plug 'kana/vim-textobj-fold'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-user'
+Plug 'tek/vim-textobj-ruby'
+Plug 'kana/vim-textobj-line'
 " }}} custom vim objects "
 
 call plug#end()
@@ -121,17 +123,17 @@ source ~/.vim/scripts/mappings.vim
 source ~/.vim/scripts/plugin_settings.vim
 
 " settings {{{ "
-  " set virtualedit=onemore  " allow selection past last character
+" set virtualedit=onemore  " allow selection past last character
   set expandtab
-  set foldlevelstart=5
+  set foldlevelstart=99
   set formatprg="par 79"    " respect the 80 character lines
   set gdefault              " assume the /g flag on :s substitutions
   set hidden                " make unsaved buffers hidden
   set ignorecase
   set list
   set listchars=nbsp:⦸      " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
-  set listchars+=tab:▷┅     " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
-                            " + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
+  set listchars+=tab:├─     " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
+  " + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
   set listchars+=extends:»  " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
   set listchars+=precedes:« " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
   set listchars+=trail:•    " BULLET (U+2022, UTF-8: E2 80 A2)
@@ -142,8 +144,6 @@ source ~/.vim/scripts/plugin_settings.vim
   set noshowmatch           " don't jump between matching brackets
   set noswapfile
   set nowrap
-  " set number
-  " set relativenumber
   set shiftround            " indenting to nearest tabstop
   set smartcase             " smartcase for searching
   set splitbelow            " default split behavior
@@ -165,14 +165,9 @@ source ~/.vim/scripts/plugin_settings.vim
   set highlight+=@:ColorColumn          " ~/@ at end of window, 'showbreak'
   set highlight+=N:DiffText             " make current line number stand out a little
   set highlight+=c:LineNr               " blend vertical separators with line numbers
-  " let g:gruvbox_italic=1
-  " colorscheme gruvbox
   set background=dark
   let g:one_allow_italics = 1
   colorscheme one
-
-  highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-  match OverLength /\%81v.\+/
 " }}} coloring "
 
 if has('termguicolors')
@@ -183,6 +178,22 @@ if has('termguicolors')
     let &t_8b="\e[48;2;%ld;%ld;%ldm"
   endif
 endif
+
+function! PlainText()
+  set spell
+  set wrap
+  set linebreak
+  set breakindent
+  set formatoptions+=tcoqnl1j
+endfunction
+
+function! SetupRuby()
+  set ft=ruby
+  set syntax=ruby
+  set foldmethod=indent
+  " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+  " match OverLength /\%81v.\+/
+endfunction
 
 " Persistent Undo {{{
   silent !mkdir ~/.vim/backups > /dev/null 2>&1

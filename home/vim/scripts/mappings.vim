@@ -11,6 +11,10 @@ nnoremap zm zm:echo &foldlevel<cr>
 nnoremap zR zR:echo &foldlevel<cr>
 nnoremap zM zM:echo &foldlevel<cr>
 
+" nnoremap ß
+" nnoremap <bs>
+" nnoremap <tab> ??
+
 " workaround for using tab as a key
 nnoremap <F6> <C-i>
 
@@ -24,6 +28,7 @@ nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
 
 nnoremap <silent> <space><space> :ArgWrap<CR>
 map <silent> <leader>! :Neomake<cr>
+map <silent> ! :Neomake<cr>
 map <silent> <leader>b :Bonly<cr>
 map <silent> <leader>. :e ~/.vim/temp.rb<CR>
 map <silent> <leader>= mqHmwgg=G`wzt`qzz
@@ -51,14 +56,23 @@ endfunction
 " shortcut
 nnoremap <leader>f :call ChooseFile()<cr>
 
-map <leader>emap :e ~/.vim/scripts/mappings.vim<cr>
-map <leader>eauto :e ~/.vim/scripts/autocommands.vim<cr>
-map <leader>efunction :e ~/.zsh/functions.zsh<cr>
-map <leader>ealias :e ~/.zsh/aliases.zsh<cr>
-map <leader>emp :e ~/.vim/scripts/mappings.vim<cr>
-map <leader>epl :e ~/.vim/scripts/plugin_settings.vim<cr>
-map <leader>esho :!open ~/iCloud/Shorcuts/shortcuts.pages<cr>
-map <leader>eid :e ~/.vim/scripts/ideas.vim<cr>
+function! EditAll()
+  e ~/.vim/scripts/plugin_settings.vim 
+  e ~/.vim/scripts/autocommands.vim 
+  e ~/.vim/scripts/mappings.vim
+endfunction
+
+command! Ruby execute "set syntax=ruby"
+
+command! Emap execute "e ~/.vim/scripts/mappings.vim"
+command! Eauto execute "e ~/.vim/scripts/autocommands.vim"
+command! Eplugin execute "e ~/.vim/scripts/plugin_settings.vim"
+command! Eideas execute "e ~/.vim/scripts/ideas.vim"
+command! Eall execute "call EditAll()"
+
+command! Efunction execute "e ~/.zsh/functions.zsh"
+command! Ealiases execute "e ~/.zsh/aliases.zsh"
+command! Esho execute "!open ~/iCloud/Shorcuts/shortcuts.pages"
 map <leader>sid :source ~/.vim/scripts/ideas.vim<cr>
 
 map <leader>ev :e $MYVIMRC<cr>

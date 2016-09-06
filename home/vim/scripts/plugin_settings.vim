@@ -1,5 +1,17 @@
 " vim:fdm=marker
 
+" system copy {{{ "
+  map cpp cP
+" }}} system copy "
+
+" yankring {{{ "
+  if has('nvim')
+    map p <Plug>(miniyank-autoput)
+    map P <Plug>(miniyank-autoPut)
+    map <c-c> <Plug>(miniyank-cycle)
+  endif
+" }}} yankring "
+
 " Sideways {{{ "
   nnoremap [<Tab> :SidewaysLeft<cr>
   nnoremap ]<Tab> :SidewaysRight<cr>
@@ -36,6 +48,7 @@
 
 " vim-peekabo {{{ "
   let g:peekaboo_window = 'vertical topleft 50new'
+  let g:peekaboo_delay = 750
 " }}} vim-peekabo "
 
 " vim-sayonara {{{ "
@@ -96,12 +109,12 @@
   nnoremap <silent> <c-p> :exe 'Files ' . <SID>fzf_root()<CR>
   " nnoremap <silent> <c-p> :Files<CR>
 
-  nnoremap <silent> <c-e> :History<CR>
+  " nnoremap <silent> <c-e> :History<CR>
   nnoremap <silent> <space>r :History<CR>
   nnoremap <silent> <c-t> :Tags<CR>
   nnoremap <silent> <space>. :Lines<CR>
   nnoremap <silent> <space>; :BLines<CR>
-  nnoremap <silent> <space>; :Commands<CR>
+  nnoremap <silent> <C-@> :Commands<CR>
   nnoremap <silent> <space>a :Buffers<CR>
   nnoremap <silent> <space>d :call SearchWordWithAg()<CR>
   nnoremap <silent> <space>o :BTags<CR>
@@ -127,18 +140,19 @@
 " }}} EasyAlign "
 
 " Tmux {{{ "
-  let g:tmux_navigator_no_mappings = 1
-  nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
-  nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
-  nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
-  nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
-  nnoremap <silent> <M-\> :TmuxNavigatePrevious<cr>
+  " let g:tmux_navigator_no_mappings = 1
+  " nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
+  " nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
+  " nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
+  " nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
+  " nnoremap <silent> <M-\> :TmuxNavigatePrevious<cr>
   nnoremap <silent> <tab> <c-w>w
 " }}} Tmux "
 
 " ctrlsf {{{ "
   let g:ctrlsf_winsize = '100%'
-  nnoremap <space>f :CtrlSF<space>
+  nmap <space>f <Plug>CtrlSFPrompt
+  vmap F <Plug>CtrlSFVwordExec
   let g:ctrlsf_indent = 1
   let g:ctrlsf_mapping = {
       \ "next": "n",
@@ -152,7 +166,7 @@
 
 " NERDtree {{{ "
   nnoremap <silent> <f1> :NERDTreeToggle<cr>
-  nnoremap <silent> <bs> :NERDTreeFind<cr>
+  " nnoremap <silent> <bs> :NERDTreeFind<cr>
   let g:NERDTreeQuitOnOpen = 1
   let g:NERDTreeShowHidden = 1
   let g:NERDTreeRespectWildIgnore = 1

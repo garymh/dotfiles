@@ -7,11 +7,11 @@ build_neovim() {
   make install
 }
 
-wallpaper() {
-  convert $1 -fill red -tint 90 ~/iCloud/Wallpapers/vpn.png
-  cp $1 ~/iCloud/Wallpapers/wallpaper.png
-  osascript -e "tell application \"Finder\" to set desktop picture to POSIX file $1"
-}
+# wallpaper() {
+#   convert $1 -fill red -tint 90 ~/iCloud/Wallpapers/vpn.png
+#   cp $1 ~/iCloud/Wallpapers/wallpaper.png
+#   osascript -e "tell application \"Finder\" to set desktop picture to POSIX file $1"
+# }
 
 insert_sudo () { zle beginning-of-line; zle -U "sudo " }
 zle -N insert-sudo insert_sudo

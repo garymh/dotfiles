@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby -U
 
 require 'fileutils'
-require 'pry'
 
 def set_wallpaper source
   system "osascript -e 'tell application \"Finder\" to set desktop picture to POSIX file \"#{source}\"'"
@@ -16,7 +15,6 @@ cached_wallpaper = "#{ENV['HOME']}/Documents/wallpaper.png"
 vpn_wallpaper    = "#{ENV['HOME']}/Documents/vpn.png"
 
 if !File.exist?(cached_wallpaper) || File.size(wallpaper) != File.size(cached_wallpaper)
-  puts "HMM"
   FileUtils.cp(wallpaper, cached_wallpaper)
   convert_wallpaper(wallpaper, vpn_wallpaper)
 end

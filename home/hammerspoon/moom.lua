@@ -7,6 +7,7 @@ hs.window.animationDuration = 0.01
 -- moom-like functionality
 moom = hs.hotkey.modal.new({"cmd"}, "f16")
 moom:bind({}, 'escape', function() moom:exit() end)
+moom:bind({}, 'space', function() moom:exit() end)
 
 local function set_full_screen()
   win = hs.window.focusedWindow()
@@ -72,6 +73,15 @@ moom:bind({}, 's', function()
   hs.grid.maximizeWindow()
   moom:exit()
 end)
+
+moom:bind({}, 'DOWN', hs.grid.pushWindowDown)
+moom:bind({}, 'UP', hs.grid.pushWindowUp)
+moom:bind({}, 'LEFT', hs.grid.pushWindowLeft)
+moom:bind({}, 'RIGHT', hs.grid.pushWindowRight)
+moom:bind({"shift"}, 'UP', hs.grid.resizeWindowShorter)
+moom:bind({"shift"}, 'DOWN', hs.grid.resizeWindowTaller)
+moom:bind({"shift"}, 'RIGHT', hs.grid.resizeWindowWider)
+moom:bind({"shift"}, 'LEFT', hs.grid.resizeWindowThinner)
 
 moom:bind({}, "f16", function()
   hs.hints.fontName = "Helvetica-BoldOblique"

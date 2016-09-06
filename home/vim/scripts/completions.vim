@@ -7,16 +7,17 @@ endfunction
 Plug 'honza/vim-snippets'
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'SirVer/ultisnips'
+Plug 'ervandew/supertab'
 
-" YCM-UltiSnip-SuperTab:
-" ------------------------------
+" make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>" " you can use <c-j>
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
@@ -27,10 +28,9 @@ let g:ycm_filetype_specific_completion_to_disable = {
       \   'c': 1,
       \   'gitcommit': 1,
       \   'haskell': 1,
-      \   'ruby': 1,
-      \   'javascript': 1
+      \   'javascript': 1,
+      \   'ruby': 1
       \ }
-
 
 let g:ycm_semantic_triggers = {
       \   'haskell': [

@@ -9,18 +9,18 @@ function rubyRunner(name)
   os.execute(ruby .. " ~/.hammerspoon/controlplane/" .. name .. ".rb")
 end
 
-function set_vpn(value)
-  print("checking for " .. value)
-  if hs.settings.get("vpn") ~= value then
-    print("setting  " .. value)
-    hs.settings.set("vpn", value)
-    if value == "on" then
-      rubyRunner("vpn")
-    else
-      rubyRunner("no_vpn")
-    end
-  end
-end
+-- function set_vpn(value)
+--   print("checking for " .. value)
+--   if hs.settings.get("vpn") ~= value then
+--     print("setting  " .. value)
+--     hs.settings.set("vpn", value)
+--     if value == "on" then
+--       rubyRunner("vpn")
+--     else
+--       rubyRunner("no_vpn")
+--     end
+--   end
+-- end
 
 function setScenario(id)
   print("checking for " .. id)
@@ -70,46 +70,34 @@ function ssidChangedCallback()
   end
 end
 
--- hs.network.reachability.forAddress("165.x.y.z"):setCallback(function(self, flags)
---   -- note that because having an internet connection at all will show the remote network
---   -- as "reachable", we instead look at whether or not our specific address is "local" instead
---   if (flags & hs.network.reachability.flags.isLocalAddress) > 0 then
---     -- VPN tunnel is up
---     print("vpn!")
+-- hs.network.reachability.internet():setCallback(function(self)
+--   if (hs.network.reachability.flags.reachable) > 0 then
+--     -- vpn?
+--     local as = [[
+--     tell application "System Events"
+--     tell current location of network preferences
+--     set VPNservice to service "NU VPN"
+--     set isConnected to connected of current configuration of VPNservice
+--     if isConnected then
+--       "on"
+--     else
+--       "off"
+--     end if
+--   end tell
+-- end tell
+-- ]]
+-- local status, object, descriptor = hs.osascript.applescript(as)
+-- -- print("config:" .. object)
+-- if object == "on" then
+--   set_vpn("on")
+-- else
+--
+--   set_vpn("off")
+-- end
 --   else
---     -- VPN tunnel is down
---     print("vpn down")
+--     -- no internet
 --   end
 -- end):start()
-
-hs.network.reachability.internet():setCallback(function(self)
-  if (hs.network.reachability.flags.reachable) > 0 then
-    -- vpn?
-    local as = [[
-    tell application "System Events"
-    tell current location of network preferences
-    set VPNservice to service "NU VPN"
-    set isConnected to connected of current configuration of VPNservice
-    if isConnected then
-      "on"
-    else
-      "off"
-    end if
-  end tell
-end tell
-]]
-local status, object, descriptor = hs.osascript.applescript(as)
--- print("config:" .. object)
-if object == "on" then
-  set_vpn("on")
-else
-
-  set_vpn("off")
-end
-  else
-    -- no internet
-  end
-end):start()
 
 powerWatcher = hs.battery.watcher.new(powerChangedCallback)
 powerWatcher:start()

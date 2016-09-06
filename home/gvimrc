@@ -1,6 +1,6 @@
-" set guifont=Fixedsys\ Excelsior\ 3.01:h20
-" set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Bold:h18
-set guifont=Operator\ Mono\ Medium:h20
+" set guifont=Fixedsys\ Excelsior:h22
+set guifont=M+\ 1mn\ medium:h22
+" set guifont=Operator\ Mono\ Medium:h20
 
 set guioptions-=T
 set guioptions-=L
@@ -23,7 +23,7 @@ if has('gui_macvim')
     " transparency
     set transp=1
 
-  let g:jellybeans_use_term_italics = 1
+  " let g:jellybeans_use_term_italics = 1
   colorscheme jellybeans
 
     " full width full screen
