@@ -1,58 +1,18 @@
-function! BuildYCM(info)
-  if a:info.status == 'installed' || a:info.force
-    !./install.py
-  endif
-endfunction
-
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'honza/vim-snippets'
-Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'SirVer/ultisnips'
 Plug 'ervandew/supertab'
 
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#disable_auto_complete = 0
+let g:deoplete#max_list = 10
 
-" better key bindings for UltiSnipsExpandTrigger
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+
+let g:SuperTabDefaultCompletionType = '<C-n>'
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
-let g:ycm_min_num_of_chars_for_completion = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-
-" Disable unhelpful semantic completions.
-let g:ycm_filetype_specific_completion_to_disable = {
-      \   'c': 1,
-      \   'gitcommit': 1,
-      \   'haskell': 1,
-      \   'javascript': 1,
-      \   'ruby': 1
-      \ }
-
-let g:ycm_semantic_triggers = {
-      \   'haskell': [
-      \     '.',
-      \     '(',
-      \     ',',
-      \     ', '
-      \   ],
-      \   'markdown': [
-      \     ']('
-      \   ]
-      \ }
-
-" Same as default, but with "markdown" and "text" removed.
-let g:ycm_filetype_blacklist = {
-      \   'notes': 1,
-      \   'unite': 1,
-      \   'tagbar': 1,
-      \   'pandoc': 1,
-      \   'qf': 1,
-      \   'vimwiki': 1,
-      \   'infolog': 1,
-      \   'mail': 1
-      \ }
-

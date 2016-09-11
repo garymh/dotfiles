@@ -1,7 +1,19 @@
 " vim:fdm=marker
 
+" vim-surround {{{ "
+nmap s  <Plug>Ysurround
+" nmap S  <Plug>YSurround
+xmap s  <Plug>VSurround
+xmap S  <Plug>VgSurround
+let g:surround_{char2nr("d")} = "<div\1id: \r..*\r id=\"&\"\1>\r</div>"
+" }}} vim-surround "
+
 " system copy {{{ "
-  map cpp cP
+  nmap cpp cP
+  noremap <Leader>y "*y
+  noremap <Leader>p "*p
+  noremap <Leader>Y "+y
+  noremap <Leader>P "+p
 " }}} system copy "
 
 " yankring {{{ "

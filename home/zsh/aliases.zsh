@@ -7,6 +7,8 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias debug_vim="/usr/local/bin/vim -u ~/.vimrc_min"
   alias debug_nvim="nvim -u ~/.vimrc_min"
 
+  alias gd='git diff --color | sed -E "s/^([^-+ ]*)[-+ ]/\\1/" | less -r'
+
   alias ezshenv="$EDITOR $HOME_DIR/zshenv"
   alias ealias="$EDITOR $HOME_DIR/zsh/aliases.zsh"
   alias efunction="$EDITOR $HOME_DIR/zsh/functions.zsh"

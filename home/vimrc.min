@@ -1,75 +1,32 @@
-" ~/.vimrc
+" Your minimal init.vim
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-call plug#begin()
-  " standard
-  Plug 'tpope/vim-sensible'
-  Plug 'tpope/vim-unimpaired'
-  Plug 'tpope/vim-commentary'
-  Plug 'junegunn/vim-peekaboo'
+" Load vim-plug
+if empty(glob("~/.vim/autoload/plug.vim"))
+    execute '!mkdir ~/.vim/autoload/'
+    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+endif
 
-  " Default peekaboo window
-let g:peekaboo_window = 'topleft vertical new'
+if has('nvim')
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+    let g:python_host_prog='/usr/local/bin/python'
+    let g:python3_host_prog = '/usr/local/bin/python3'
+endif
 
-  " almost standard
-  " Plug 'mhinz/vim-sayonara'
-  " Plug 'tpope/vim-surround'
-  " Plug 'junegunn/vim-oblique'
-  " Plug 'junegunn/vim-pseudocl'
-  " Plug 'milkypostman/vim-togglelist'
-  " Plug 'takac/vim-commandcaps'
-  " Plug 'tpope/vim-repeat'
-" " Plug 'tpope/vim-endwise'
-  " Plug 'Raimondi/delimitMate'
+call plug#begin('~/.vim/plugged')
 
- Plug 'morhetz/gruvbox'
- Plug 'nanotech/jellybeans.vim'
-  " completions
-  " source ~/.vim/scripts/completions.vim
+" start plugin definition
+function! DoRemote(arg)
+    UpdateRemotePlugins
+endfunction
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 
-  call plug#end()
-  set termguicolors
-  set background=dark
-  colorscheme gruvbox
+" All of your Plugins must be added before the following line
+call plug#end()
 
-" set cmdheight=2          " hopefully prevents the 'hit enter' prompts
-" set formatprg="par 79"   " respect the 80 character lines
-" set gdefault             " assume the /g flag on :s substitutions
-" set guicursor=a:blinkon0 " stop blinking
-" set hidden               " make unsaved buffers hidden
-" set hlsearch             " highlight searched phrases
-" set ignorecase
-" set modeline modelines=1 " check for syntax hints
-" set nojoinspaces         " use only 1 space after '.' when joining lines
-" set nowrap               " don't wrap
-" set noswapfile
-" set number
-" set shiftround           " indenting to nearest tabstop
-" set shortmess=WatAIT     " no interruptive prompts http://items.sjbach.com/319/configuring-vim-right
-" set showbreak=↪\         " show this character for breaks
-" set showmatch            " show matching brackets
-" set smartcase            " smartcase for searching
-" set splitbelow           " default split behavior
-" set splitright           " default split behavior
-" set virtualedit=onemore  " allow selection past last character
-
-" set notimeout
-" set ttimeout             " fix console vim speed
-" set ttimeoutlen=10
-
-" set wildignore+=.DS_Store
-" set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.gif,*.psd,*.o,*.obj,*.min.js
-" set wildignore+=*/bower_components/*,*/node_modules/*
-" set wildignore+=*/smarty/*,*/vendor/*,*/.git/*,*/.hg/*,*/.svn/*,*/.sass-cache/*,*/log/*,*/tmp/*,*/build/*,*/ckeditor/*,*/doc/*,*/source_maps/*,*/dist/*
-" set wildmode=list:longest
-
-" " let g:netrw_liststyle=1
-" set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
-
-" set fillchars=diff:⣿,vert:│
-
-exe 'set t_kB=' . nr2char(27) . '[Z'
-
-" source ~/.vim/scripts/autocommands.vim
-" source ~/.vim/scripts/mappings.vim
-" source ~/.vim/scripts/plugin_settings.vim
-
+filetype plugin indent on    " required
+"
+" deoplete
+let g:deoplete#enable_at_startup = 1

@@ -88,15 +88,15 @@ Plug 'wincent/terminus'
 " }}} misc "
 
 " mac/nvim {{{ "
-if has('mac')
-  Plug 'rizzatti/dash.vim',         { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
+" if has('mac')
+  " Plug 'rizzatti/dash.vim',         { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
   " Plug 'zerowidth/vim-copy-as-rtf', { 'on': 'CopyRTF' }
-  source ~/.vim/scripts/completions.vim
-endif
+" endif
 if has('nvim')
   set termguicolors
   Plug 'bfredl/nvim-miniyank'
   Plug 'benekastah/neomake', { 'on': 'Neomake' }
+  source ~/.vim/scripts/completions.vim
 else
   Plug 'jszakmeister/vim-togglecursor'
   Plug 'tpope/vim-sensible'

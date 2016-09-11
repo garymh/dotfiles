@@ -68,6 +68,7 @@ command! Emap execute "e ~/.vim/scripts/mappings.vim"
 command! Eauto execute "e ~/.vim/scripts/autocommands.vim"
 command! Eplugin execute "e ~/.vim/scripts/plugin_settings.vim"
 command! Eideas execute "e ~/.vim/scripts/ideas.vim"
+command! Ecomp execute "e ~/.vim/scripts/completions.vim"
 command! Eall execute "call EditAll()"
 
 command! Efunction execute "e ~/.zsh/functions.zsh"
