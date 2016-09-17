@@ -16,3 +16,6 @@
 [submodule "submodules/LS_COLORS"]
 	path = submodules/LS_COLORS
 	url = https://github.com/trapd00r/LS_COLORS
+[submodule "submodules/pure"]
+	path = submodules/pure
+	url = git@github.com:garymh/pure.git
