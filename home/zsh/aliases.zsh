@@ -50,7 +50,18 @@ if [[ $IS_LINUX -eq 1 ]]; then
   alias cf_on="sudo service coldfusion_10 start"
   alias cf_off="sudo service coldfusion_10 stop"
   alias cf_restart="sudo service coldfusion_10 restart"
+  alias prod="RAILS_ENV=production bundle exec"
+  alias stage="RAILS_ENV=staging bundle exec"
 fi
+
+alias devlog='tail -f log/development.log'
+alias prodlog='tail -f log/production.log'
+alias testlog='tail -f log/test.log'
+
+alias -g RED='RAILS_ENV=development'
+alias -g REP='RAILS_ENV=production'
+alias -g RET='RAILS_ENV=test'
+alias -g RES='RAILS_ENV=staging'
 
 alias :q="exit"
 alias be="bundle exec"

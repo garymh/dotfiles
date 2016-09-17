@@ -162,9 +162,11 @@ source ~/.vim/scripts/plugin_settings.vim
 " }}} wildignore "
 
 " coloring {{{ "
-  set highlight+=@:ColorColumn          " ~/@ at end of window, 'showbreak'
-  set highlight+=N:DiffText             " make current line number stand out a little
-  set highlight+=c:LineNr               " blend vertical separators with line numbers
+  if has('nvim')
+    set highlight+=@:ColorColumn          " ~/@ at end of window, 'showbreak'
+    set highlight+=N:DiffText             " make current line number stand out a little
+    set highlight+=c:LineNr               " blend vertical separators with line numbers
+  endif
   set background=dark
   let g:one_allow_italics = 1
   colorscheme one
@@ -191,8 +193,6 @@ function! SetupRuby()
   set ft=ruby
   set syntax=ruby
   set foldmethod=indent
-  " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-  " match OverLength /\%81v.\+/
 endfunction
 
 " Persistent Undo {{{

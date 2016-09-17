@@ -1,4 +1,4 @@
-build_neovim() {
+function build_neovim() {
   cd ~/code/neovim
   git pull
   rm -rf build
@@ -7,11 +7,11 @@ build_neovim() {
   make install
 }
 
-# wallpaper() {
-#   convert $1 -fill red -tint 90 ~/iCloud/Wallpapers/vpn.png
-#   cp $1 ~/iCloud/Wallpapers/wallpaper.png
-#   osascript -e "tell application \"Finder\" to set desktop picture to POSIX file $1"
-# }
+function fix_key_permissions() {
+  # after reinstalling macos
+  sudo chmod 600 ~/.ssh/id_rsa
+  sudo chmod 600 ~/.ssh/id_rsa.pub
+}
 
 insert_sudo () { zle beginning-of-line; zle -U "sudo " }
 zle -N insert-sudo insert_sudo
@@ -50,82 +50,50 @@ h() { cd ~/$1;  }
 _h() { _files -W ~/ -/; }
 compdef _h h
 
-function localhost() {
-  open "http://localhost:${1:-3000}"
-}
+function vpn() {
+  /usr/bin/env osascript <<-EOF
+  tell application "Shimo"
+  set title to "NU VPN"
+  set status to connected of account title
+  set nu_account to account title
 
-function port() {
-  lsof -i ":${1:-80}"
-}
-
-vpn_status() {
-  scutil --nc status "NU VPN" | sed -n 1p | grep -qv Disconnected
-}
-
-function vpnon() {
-  scutil --nc start "NU VPN" --user $NETID --password $NU_PASS --secret northwesternvpn
-}
-
-function vpnoff() {
-/usr/bin/env osascript <<-EOF
-  tell application "System Events"
-          tell current location of network preferences
-                  set VPN to service "NU VPN"
-                  if exists VPN then disconnect VPN
-          end tell
-  end tell
-  return
+  if status = true then
+    disconnect account nu_account
+  else
+    connect account nu_account
+  end if
+end tell
+return
 EOF
 }
 
-vpn() {
-  if vpn_status; then
-    vpnoff
-    red "Turning VPN off"
-  else
-    vpnon
-    green "Turning VPN on"
-  fi
-}
-
-gac() {
+function gac() {
   hub add -A && hub commit -avm "$*"
 }
 
-search() {
+function search() {
   yellow "find . -iname \"*$1*\""
   sudo find . -iname "*$1*"
 }
 
-# Show contents of directory after cd-ing into it
-# chpwd() {
-#   if [[ $HAS_GLS -eq 1 ]]; then
-#     gls -rthG --color=tty
-#   else
-#     ls
-#   fi
-# }
-
 if [[ $IS_MAC -eq 1 ]]; then
-  gclo() {
+  function gclo() {
     cd ~/code/
     git clone "$*"
   }
 
-  destroy_vm() {
-    cd ~/vagrant
-    vagrant destroy -f
-    rm -rf vagrant_ansible_inventory_default
-    rm -rf provisioning/roles/oracle/files/xe.rsp
-    rm -rf provisioning/roles/oracle/files/Disk1
-    rm -rf provisioning/roles/oracle/extra/dump/*.log
-    rm -rf provisioning/roles/oracle/extra/dump/*_test_dump.dmp
+  function localhost() {
+    open "http://localhost:${1:-3000}"
+  }
+
+  function port() {
+    lsof -i ":${1:-80}"
   }
 fi
 
 # alias last and save
 # use `als c NAME` to chop off the last argument (for filenames/patterns)
-make_alias() {
+function make_alias() {
   local aliasfile chop x
   [[ $# == 0 ]] && green "Name your alias" && return
   if [[ $1 == "c" ]]; then
@@ -147,7 +115,7 @@ make_alias() {
   fi
 }
 
-any() {
+function any() {
   emulate -L zsh
   unsetopt KSH_ARRAYS
   if [[ -z "$1" ]] ; then

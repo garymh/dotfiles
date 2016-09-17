@@ -5,7 +5,7 @@ hs.grid.MARGINY             = 0
 hs.window.animationDuration = 0.01
 
 -- moom-like functionality
-moom = hs.hotkey.modal.new({"cmd"}, "f16")
+moom = hs.hotkey.modal.new({"cmd"}, "f18")
 moom:bind({}, 'escape', function() moom:exit() end)
 moom:bind({}, 'space', function() moom:exit() end)
 

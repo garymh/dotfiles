@@ -1,15 +1,15 @@
 path=(
-/usr/local/opt/rbenv/shims
-/usr/local/bin
-/usr/bin
-/usr/sbin
-/bin
-/sbin
-/usr/X11/bin
-/usr/local/heroku/bin
-${HOME}/code/custom/go/bin
-${HOME}/Library/Python/2.7/bin
-${HOME}/.zsh/bin
+  /usr/local/opt/rbenv/shims
+  /usr/local/bin
+  /usr/bin
+  /usr/sbin
+  /bin
+  /sbin
+  /usr/X11/bin
+  /usr/local/heroku/bin
+  ${HOME}/code/custom/go/bin
+  ${HOME}/Library/Python/2.7/bin
+  ${HOME}/.zsh/bin
 )
 
 if [[ $(uname) = 'Linux' ]]; then
@@ -21,10 +21,12 @@ if [[ $(uname) = 'Linux' ]]; then
 
   export USER="$NETID"
   export DISPLAY=:7
-  # export rvmsudo_secure_path=1
+  export rvmsudo_secure_path=1
   export DOTFILES="$HOME/dotfiles"
   export HOME_DIR="$DOTFILES/home"
   export HTML_TIDY="$HOME/.tidyrc"
+  export EDITOR='vim'
+  export VISUAL='vim'
   alias gls="ls"
 fi
 
@@ -41,6 +43,11 @@ if [[ $(uname) = 'Darwin' ]]; then
     )
   fi
 
+  if [ $(command -v grc) ]; then
+    HAS_GRC=1
+    source `brew --prefix`/etc/grc.bashrc
+  fi
+
   export GOPATH="$HOME/iCloud/Internal/custom/go"
   export DOTFILES="$HOME/code/dotfiles"
   export HOME_DIR="$DOTFILES/home"
@@ -49,19 +56,10 @@ if [[ $(uname) = 'Darwin' ]]; then
   export VISUAL='nvim'
   export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
-  # export TNS_ADMIN="/usr/local/oracle/network/admin/"
-  # export SQLPATH="/usr/local/oracle/instantclient_11_2"
-  # export ORACLE_HOME="/usr/local/oracle/instantclient_11_2"
-  # export ORACLE_HOME="/usr/local/lib"
-  # export ORACLE_SID="xe"
-  # export OCI_LIB_DIR="$ORACLE_HOME"
-  # export OCI_DIR="$ORACLE_HOME"
   export OCI_DIR=$(brew --prefix)/lib
-  # export PATH="$PATH:$OCI_LIB_DIR"
   export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
 
   [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
-  export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES="jimweirich :q eivm evimrc ezshrc _ gls"
 fi
 
 if (( $+commands[gls] )) ; then
@@ -78,20 +76,8 @@ fi
 
 test -e "${HOME}/.iterm2/imgcat" && export HAS_IMGCAT=1
 
-if [ $(command -v grc) ]; then
-  HAS_GRC=1
-  source `brew --prefix`/etc/grc.bashrc
-fi
-
 if [[ -f ~/.fzf.zsh ]]; then
   export FZF_DEFAULT_COMMAND='ag -l -g ""'
   source ~/.fzf.zsh
   export FZF_COMPLETION_TRIGGER=';'
 fi
-
-# if [[ -f ~/.dircolors ]]; then
-#   eval $( gdircolors -b $HOME/.dircolors )
-# fi
-
-# unsetopt promptcr
-# setopt notify

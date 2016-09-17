@@ -23,17 +23,13 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/docker
   zgen oh-my-zsh plugins/docker-compose
 
-  # ಠ_ಠ https://github.com/robbyrussell/oh-my-zsh/issues/2337
-  # zgen oh-my-zsh plugins/rails
-
   zgen load Tarrasch/zsh-colors
   zgen load djui/alias-tips
-  # zgen load zsh-users/zsh-completions src
-  # zgen load zsh-users/zsh-history-substring-search
   zgen load zsh-users/zsh-syntax-highlighting
   zgen load mafredri/zsh-async
-  zgen load sindresorhus/pure
   zgen load caarlos0/zsh-pg
+
+  zgen load $DOTFILES/submodules/pure
 
   zgen save
 fi
@@ -56,13 +52,9 @@ else
   uptime
 fi
 
-if (( $+commands[tag] )); then
-  tag() { command tag "$@"; source ${TAG_ALIAS_FILE:-/tmp/tag_aliases} 2>/dev/null }
-  alias ag=tag
-fi
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
+export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES="jimweirich :q eivm evimrc ezshrc _ gls"
