@@ -2,6 +2,7 @@ local hyper = {"cmd", "alt", "ctrl", "shift" }
 hs.hotkey.bind(hyper, 'n', function() os.execute("open ~") end)
 hs.hotkey.bind({"cmd", "alt"}, "V", function() hs.eventtap.keyStrokes(hs.pasteboard.getContents()) end)
 
+require "btt"
 require "moom"
 require "controlplane"
 

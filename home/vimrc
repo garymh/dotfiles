@@ -12,7 +12,7 @@ Plug 'tpope/vim-surround'
 " }}} standard "
 
 " almost standard {{{ "
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'junegunn/fzf',       { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-oblique'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
@@ -36,10 +36,12 @@ Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 " Plug 'w0ng/vim-hybrid'
 " Plug 'Sclarki/neonwave.vim'
 " Plug 'morhetz/gruvbox'
-Plug 'nanotech/jellybeans.vim'
+" Plug 'nanotech/jellybeans.vim'
+Plug 'whatyouhide/vim-gotham'
 " Plug 'freeo/vim-kalisi'
-Plug 'rakr/vim-one'
+" Plug 'rakr/vim-one'
 " Plug 'tyrannicaltoucan/vim-deep-space'
+" Plug 'kabbamine/yowish.vim'
 " }}} colors "
 
 " ruby {{{ "
@@ -63,6 +65,7 @@ Plug 'junegunn/vim-pseudocl'
 " }}} dependencies "
 
 " misc {{{ "
+Plug 'Konfekt/FastFold'
 " Plug 'ntpeters/vim-better-whitespace'
 " Plug 'cohama/lexima.vim'
 " Plug 'christoomey/vim-tmux-navigator'
@@ -73,8 +76,8 @@ Plug 'chip/vim-fat-finger'
 Plug 'christoomey/vim-sort-motion'
 Plug 'christoomey/vim-system-copy'
 Plug 'duggiefresh/vim-easydir'
-Plug 'dyng/ctrlsf.vim', { 'on': ['CtrlSF', 'CtrlSFToggle', '<Plug>CtrlSFPrompt' ] }
-Plug 'foosoft/vim-argwrap', { 'on': 'ArgWrap' }
+Plug 'dyng/ctrlsf.vim',         { 'on': ['CtrlSF', 'CtrlSFToggle', '<Plug>CtrlSFPrompt' ] }
+Plug 'foosoft/vim-argwrap',     { 'on': 'ArgWrap' }
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'scrooloose/nerdtree'
 Plug 'thirtythreeforty/lessspace.vim'
@@ -88,14 +91,10 @@ Plug 'wincent/terminus'
 " }}} misc "
 
 " mac/nvim {{{ "
-" if has('mac')
-  " Plug 'rizzatti/dash.vim',         { 'on': ['Dash', '<Plug>DashSearch', '<Plug>DashGlobalSearch'] }
-  " Plug 'zerowidth/vim-copy-as-rtf', { 'on': 'CopyRTF' }
-" endif
 if has('nvim')
   set termguicolors
   Plug 'bfredl/nvim-miniyank'
-  Plug 'benekastah/neomake', { 'on': 'Neomake' }
+  Plug 'benekastah/neomake',    { 'on': 'Neomake' }
   source ~/.vim/scripts/completions.vim
 else
   Plug 'jszakmeister/vim-togglecursor'
@@ -123,7 +122,7 @@ source ~/.vim/scripts/mappings.vim
 source ~/.vim/scripts/plugin_settings.vim
 
 " settings {{{ "
-" set virtualedit=onemore  " allow selection past last character
+  set virtualedit=onemore   " allow selection past last character
   set expandtab
   set foldlevelstart=99
   set formatprg="par 79"    " respect the 80 character lines
@@ -133,7 +132,7 @@ source ~/.vim/scripts/plugin_settings.vim
   set list
   set listchars=nbsp:⦸      " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
   set listchars+=tab:├─     " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
-  " + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
+                            " + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
   set listchars+=extends:»  " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
   set listchars+=precedes:« " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
   set listchars+=trail:•    " BULLET (U+2022, UTF-8: E2 80 A2)
@@ -168,8 +167,7 @@ source ~/.vim/scripts/plugin_settings.vim
     set highlight+=c:LineNr               " blend vertical separators with line numbers
   endif
   set background=dark
-  let g:one_allow_italics = 1
-  colorscheme one
+  colorscheme gotham256
 " }}} coloring "
 
 if has('termguicolors')
@@ -180,20 +178,6 @@ if has('termguicolors')
     let &t_8b="\e[48;2;%ld;%ld;%ldm"
   endif
 endif
-
-function! PlainText()
-  set spell
-  set wrap
-  set linebreak
-  set breakindent
-  set formatoptions+=tcoqnl1j
-endfunction
-
-function! SetupRuby()
-  set ft=ruby
-  set syntax=ruby
-  set foldmethod=indent
-endfunction
 
 " Persistent Undo {{{
   silent !mkdir ~/.vim/backups > /dev/null 2>&1

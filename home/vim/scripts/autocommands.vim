@@ -1,3 +1,16 @@
+function! PlainText()
+  set spell
+  set wrap
+  set linebreak
+  set breakindent
+  set formatoptions+=tcoqnl1j
+endfunction
+
+function! SetupRuby()
+  set ft=ruby
+  set syntax=ruby
+endfunction
+
 augroup random
   autocmd!
   autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -10,9 +23,12 @@ augroup random
   autocmd filetype help nnoremap <buffer><bs> <c-T>
   autocmd filetype help nnoremap <buffer>q :q<cr>
 
+  let g:ruby_fold = 1
+
   " Set a pseudo filetype upon opening a buffer if filetype is not set.
   autocmd BufRead,BufNewFile * setfiletype txt
   autocmd FileType txt call PlainText()
+  autocmd FileType ruby set foldmethod=syntax
   autocmd BufRead,BufNewFile *.axlsx,Rakefile,Capfile,Gemfile,*pryrc*,Brewfile call SetupRuby()
 
   autocmd FileType cf set commentstring=<!--%s-->
