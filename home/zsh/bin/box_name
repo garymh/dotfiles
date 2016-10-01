@@ -5,6 +5,8 @@ if [[ -f ~/.box-name  ]]; then
     echo "\e[33mSTAGING!"
   elif grep -q PRODUCTION "$HOME/.box-name"; then
     echo "\e[31mPRODUCTION!"
+  elif grep -q ORACLE "$HOME/.box-name"; then
+    echo "\e[34mBATGIRL"
   else
     cat ~/.box-name
   fi

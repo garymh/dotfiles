@@ -3,6 +3,7 @@ Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
 Plug 'ervandew/supertab'
 
+set completeopt=longest,menuone,preview
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#disable_auto_complete = 0
 let g:deoplete#max_list = 10

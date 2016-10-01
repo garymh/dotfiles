@@ -11,6 +11,9 @@ nnoremap zm zm:echo &foldlevel<cr>
 nnoremap zR zR:echo &foldlevel<cr>
 nnoremap zM zM:echo &foldlevel<cr>
 
+inoremap jj <esc>
+nmap <leader>dc :t.<CR>k<Plug>CommentaryLinej
+
 " nnoremap ß
 " nnoremap <bs>
 " nnoremap <tab> ??

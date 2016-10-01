@@ -1,5 +1,5 @@
-" set guifont=Fixedsys\ Excelsior:h22
-set guifont=M+\ 1mn\ medium:h22
+set guifont=Fixedsys\ Excelsior:h22
+" set guifont=M+\ 1mn\ medium:h22
 " set guifont=Operator\ Mono\ Medium:h20
 
 set guioptions-=T
@@ -24,7 +24,7 @@ if has('gui_macvim')
     set transp=1
 
   " let g:jellybeans_use_term_italics = 1
-  colorscheme jellybeans
+  colorscheme tender
 
     " full width full screen
     set fuopt+=maxhorz

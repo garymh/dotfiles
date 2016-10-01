@@ -2,35 +2,25 @@ path=(
   /usr/local/opt/rbenv/shims
   /usr/local/bin
   /usr/bin
-  /usr/sbin
+  ${PATH}
   /bin
-  /sbin
-  /usr/X11/bin
-  /usr/local/heroku/bin
   ${HOME}/code/custom/go/bin
-  ${HOME}/Library/Python/2.7/bin
   ${HOME}/.zsh/bin
 )
+OS=$(/usr/bin/uname)
 
-if [[ $(uname) = 'Linux' ]]; then
+if [[ $OS = 'Linux' ]]; then
   IS_LINUX=1
 
-  if (( $+commands[yum] )) ; then
-    HAS_YUM=1
-  fi
-
   export USER="$NETID"
-  export DISPLAY=:7
   export rvmsudo_secure_path=1
   export DOTFILES="$HOME/dotfiles"
-  export HOME_DIR="$DOTFILES/home"
-  export HTML_TIDY="$HOME/.tidyrc"
   export EDITOR='vim'
   export VISUAL='vim'
   alias gls="ls"
 fi
 
-if [[ $(uname) = 'Darwin' ]]; then
+if [[ $OS = 'Darwin' ]]; then
   IS_MAC=1
 
   if (( $+commands[brew] )) ; then
@@ -48,36 +38,31 @@ if [[ $(uname) = 'Darwin' ]]; then
     source `brew --prefix`/etc/grc.bashrc
   fi
 
-  export GOPATH="$HOME/iCloud/Internal/custom/go"
+  export GOPATH="$HOME/code/custom/go"
   export DOTFILES="$HOME/code/dotfiles"
-  export HOME_DIR="$DOTFILES/home"
-
   export EDITOR='nvim'
   export VISUAL='nvim'
   export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-
   export OCI_DIR=$(brew --prefix)/lib
-  export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
 
-  [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 fi
+
+export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
+export HOME_DIR="$DOTFILES/home"
 
 if (( $+commands[gls] )) ; then
   export HAS_GLS=1
 fi
 
-if [ $(command -v cowsay) ]; then
-  export HAS_COWSAY=1
-fi
-
-if [ $(command -v img2xterm) ]; then
-  export HAS_IMG2XTERM=1
-fi
-
+[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 test -e "${HOME}/.iterm2/imgcat" && export HAS_IMGCAT=1
 
 if [[ -f ~/.fzf.zsh ]]; then
-  export FZF_DEFAULT_COMMAND='ag -l -g ""'
+  if (( $+commands[rg] )) ; then
+    export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+  else
+    export FZF_DEFAULT_COMMAND='ag -l -g ""'
+  fi
   source ~/.fzf.zsh
   export FZF_COMPLETION_TRIGGER=';'
 fi

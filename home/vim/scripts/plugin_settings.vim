@@ -1,11 +1,10 @@
 " vim:fdm=marker
 
 " vim-surround {{{ "
-nmap s  <Plug>Ysurround
-" nmap S  <Plug>YSurround
-xmap s  <Plug>VSurround
-xmap S  <Plug>VgSurround
-let g:surround_{char2nr("d")} = "<div\1id: \r..*\r id=\"&\"\1>\r</div>"
+  nmap s  <Plug>Ysurround
+  xmap s  <Plug>VSurround
+  xmap S  <Plug>VgSurround
+  let g:surround_{char2nr("d")} = "<div\1id: \r..*\r id=\"&\"\1>\r</div>"
 " }}} vim-surround "
 
 " system copy {{{ "
@@ -50,26 +49,20 @@ let g:surround_{char2nr("d")} = "<div\1id: \r..*\r id=\"&\"\1>\r</div>"
 " }}} ragtag "
 
 " indentLine {{{ "
-  " let g:indentLine_char = '░'
-  " let g:indentLine_first_char = '▓'
-  let g:indent_guides_start_level = 2
+  let g:indent_guides_start_level           = 2
   let g:indent_guides_enable_on_vim_startup = 1
-  let g:indent_guides_guide_size = 1
-  let g:indent_guides_color_change_percent = 5
+  let g:indent_guides_guide_size            = 1
+  let g:indent_guides_color_change_percent  = 15
 " }}} indentLine "
 
 " vim-peekabo {{{ "
   let g:peekaboo_window = 'vertical topleft 50new'
-  let g:peekaboo_delay = 750
+  let g:peekaboo_delay  = 750
 " }}} vim-peekabo "
 
 " vim-sayonara {{{ "
   let g:sayonara_confirm_quit = 1
 " }}} vim-sayonara "
-
-" Dash {{{ "
-  nmap <silent> K <Plug>DashSearch
-" }}} Dash "
 
 " Switch {{{ "
   nnoremap <silent> - :Switch<CR>
@@ -88,53 +81,25 @@ let g:surround_{char2nr("d")} = "<div\1id: \r..*\r id=\"&\"\1>\r</div>"
   if has('nvim')
     let $FZF_DEFAULT_OPTS .= ' --inline-info'
   endif
-  function! SearchWordWithAg()
-    execute 'Ag' expand('<cword>')
-  endfunction
-  function! SearchVisualSelectionWithAg() range
-    let old_reg = getreg('"')
-    let old_regtype = getregtype('"')
-    let old_clipboard = &clipboard
-    set clipboard&
-    normal! ""gvy
-    let selection = getreg('"')
-    call setreg('"', old_reg, old_regtype)
-    let &clipboard = old_clipboard
-    execute 'Ag' selection
-  endfunction
-  command! Plugs call fzf#run({
-  \ 'source':  map(sort(keys(g:plugs)), 'g:plug_home."/".v:val'),
-  \ 'options': '--delimiter / --nth -1',
-  \ 'down':    '~50%',
-  \ 'sink':    'Explore'})
+  let g:fzf_files_options =
+        \ '--preview "(highlight -O ansi {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+  let g:fzf_tags_command = 'ctags -R'
 " }}} FZF settings "
 
 " FZF commands {{{ "
-  autocmd VimEnter * command! Colors
-        \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
-  nmap <leader><tab> <plug>(fzf-maps-n)
   fun! s:fzf_root()
           let path = finddir(".git", expand("%:p:h").";")
           return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
   endfun
-
   nnoremap <silent> <c-p> :exe 'Files ' . <SID>fzf_root()<CR>
-  " nnoremap <silent> <c-p> :Files<CR>
-
-  " nnoremap <silent> <c-e> :History<CR>
+  nnoremap <silent> <c-p> :Files<CR>
   nnoremap <silent> <space>r :History<CR>
   nnoremap <silent> <c-t> :Tags<CR>
   nnoremap <silent> <space>. :Lines<CR>
   nnoremap <silent> <space>; :BLines<CR>
-  nnoremap <silent> <C-@> :Commands<CR>
   nnoremap <silent> <space>a :Buffers<CR>
-  nnoremap <silent> <space>d :call SearchWordWithAg()<CR>
   nnoremap <silent> <space>o :BTags<CR>
   nnoremap <silent> <space>t :Tags<CR>
-  omap <leader><tab> <plug>(fzf-maps-o)
-  vnoremap <silent> <space>d :call SearchVisualSelectionWithAg()<CR>
-  xmap <leader><tab> <plug>(fzf-maps-x)
-  " nnoremap <silent> <leader><space> :Files<CR>
 " }}} FZF commands "
 
 " Testing {{{ "
@@ -178,11 +143,11 @@ let g:surround_{char2nr("d")} = "<div\1id: \r..*\r id=\"&\"\1>\r</div>"
 
 " NERDtree {{{ "
   nnoremap <silent> <f1> :NERDTreeToggle<cr>
-  " nnoremap <silent> <bs> :NERDTreeFind<cr>
-  let g:NERDTreeQuitOnOpen = 1
-  let g:NERDTreeShowHidden = 1
+  nnoremap <silent> <bs><bs> :NERDTreeFind<cr>
+  let g:NERDTreeQuitOnOpen        = 1
+  let g:NERDTreeShowHidden        = 1
   let g:NERDTreeRespectWildIgnore = 1
-  let g:NERDTreeDirArrows=1
-  let g:NERDTreeMinimalUI=1
+  let g:NERDTreeDirArrows         = 0
+  let g:NERDTreeMinimalUI         = 1
 " }}} NERDtree "
 

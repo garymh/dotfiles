@@ -1,1 +1,2 @@
-node_modules
+/home/zsh/private/*
+!/home/zsh/private/.keep

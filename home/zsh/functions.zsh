@@ -7,6 +7,10 @@ function build_neovim() {
   make install
 }
 
+function check_ssl_end() {
+  openssl s_client -connect $1:443 | openssl x509 -noout -enddate
+}
+
 function fix_key_permissions() {
   # after reinstalling macos
   sudo chmod 600 ~/.ssh/id_rsa

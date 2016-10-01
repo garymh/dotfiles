@@ -6,6 +6,8 @@
 
 - link:
     ~/.ctags: home/ctags
+    ~/.agignore: home/agignore
+    ~/.rgignore: home/agignore
     ~/.dircolors: submodules/LS_COLORS/LS_COLORS
     ~/.gemrc: home/gemrc
     ~/.gitconfig: home/gitconfig

@@ -33,15 +33,17 @@ Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 " }}} looks "
 
 " colors {{{ "
-" Plug 'w0ng/vim-hybrid'
-" Plug 'Sclarki/neonwave.vim'
-" Plug 'morhetz/gruvbox'
-" Plug 'nanotech/jellybeans.vim'
+Plug 'w0ng/vim-hybrid'
+Plug 'Sclarki/neonwave.vim'
+Plug 'morhetz/gruvbox'
+Plug 'nanotech/jellybeans.vim'
 Plug 'whatyouhide/vim-gotham'
-" Plug 'freeo/vim-kalisi'
-" Plug 'rakr/vim-one'
-" Plug 'tyrannicaltoucan/vim-deep-space'
-" Plug 'kabbamine/yowish.vim'
+Plug 'freeo/vim-kalisi'
+Plug 'rakr/vim-one'
+Plug 'tyrannicaltoucan/vim-deep-space'
+Plug 'kabbamine/yowish.vim'
+Plug 'jacoborus/tender.vim'
+Plug 'trevordmiller/nova-vim'
 " }}} colors "
 
 " ruby {{{ "
@@ -65,6 +67,8 @@ Plug 'junegunn/vim-pseudocl'
 " }}} dependencies "
 
 " misc {{{ "
+Plug 'rstacruz/vim-xtract'
+Plug 'AndrewRadev/bufferize.vim'
 Plug 'Konfekt/FastFold'
 " Plug 'ntpeters/vim-better-whitespace'
 " Plug 'cohama/lexima.vim'
@@ -94,7 +98,8 @@ Plug 'wincent/terminus'
 if has('nvim')
   set termguicolors
   Plug 'bfredl/nvim-miniyank'
-  Plug 'benekastah/neomake',    { 'on': 'Neomake' }
+  " Plug 'benekastah/neomake',    { 'on': 'Neomake' }
+  Plug 'rbong/galvanize.vim'
   source ~/.vim/scripts/completions.vim
 else
   Plug 'jszakmeister/vim-togglecursor'
@@ -122,13 +127,15 @@ source ~/.vim/scripts/mappings.vim
 source ~/.vim/scripts/plugin_settings.vim
 
 " settings {{{ "
-  set virtualedit=onemore   " allow selection past last character
+  set cursorline
   set expandtab
   set foldlevelstart=99
   set formatprg="par 79"    " respect the 80 character lines
+  set formatoptions+=n      " smart auto-indenting inside numbered lists
   set gdefault              " assume the /g flag on :s substitutions
   set hidden                " make unsaved buffers hidden
   set ignorecase
+  set lazyredraw            " enables faster macros
   set list
   set listchars=nbsp:⦸      " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
   set listchars+=tab:├─     " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
@@ -136,19 +143,31 @@ source ~/.vim/scripts/plugin_settings.vim
   set listchars+=extends:»  " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
   set listchars+=precedes:« " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
   set listchars+=trail:•    " BULLET (U+2022, UTF-8: E2 80 A2)
-  if has('linebreak')
-    let &showbreak='⤷ '     " ARROW POINTING DOWNWARDS THEN CURVING RIGHTWARDS (U+2937, UTF-8: E2 A4 B7)
-  endif
   set nojoinspaces          " don't autoinsert two spaces after '.', '?', '!' for join command
   set noshowmatch           " don't jump between matching brackets
-  set noswapfile
   set nowrap
+  set scrolloff=3           " start scrolling 3 lines before edge of viewport
   set shiftround            " indenting to nearest tabstop
   set smartcase             " smartcase for searching
+  set smarttab              " <tab>/<BS> indent/dedent in leading whitespace
   set splitbelow            " default split behavior
   set synmaxcol=180
   set ttimeoutlen=50        " vim-sensible's is kinda slow
+  set virtualedit=onemore   " allow selection past last character
   syntax sync minlines=256  " start highlighting from 256 lines backwards
+
+  if has('linebreak')
+    let &showbreak='⤷ '     " ARROW POINTING DOWNWARDS THEN CURVING RIGHTWARDS (U+2937, UTF-8: E2 A4 B7)
+  endif
+  if has('windows')
+    set fillchars=vert:┃    " BOX DRAWINGS HEAVY VERTICAL (U+2503, UTF-8: E2 94 83)
+  endif
+
+  set shortmess+=A          " ignore annoying swapfile messages
+  set shortmess+=I          " no splash screen
+  set shortmess+=O          " file-read message overwrites previous
+  set shortmess+=T          " truncate non-file messages in middle
+  set shortmess+=o          " overwrite file-written messages
 
   set ts=2 sts=2 sw=2
 " }}} settings "
@@ -156,18 +175,29 @@ source ~/.vim/scripts/plugin_settings.vim
 " wildignore {{{ "
   set wildignore+=.DS_Store
   set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.psd,*.min.js,*.sock
-  set wildignore+=*/.git/*,*/log/*,*/tmp/*,.keep
-  set wildmode=list:longest
+  set wildignore+=*/.git/*,*/log/*,*/tmp/*,.keep,.git/*
+  " set wildmode=list:longest
+  set wildmode=longest:full,full
 " }}} wildignore "
 
 " coloring {{{ "
   if has('nvim')
-    set highlight+=@:ColorColumn          " ~/@ at end of window, 'showbreak'
-    set highlight+=N:DiffText             " make current line number stand out a little
-    set highlight+=c:LineNr               " blend vertical separators with line numbers
+    set highlight+=@:ColorColumn " ~/@ at end of window, 'showbreak'
+    set highlight+=N:DiffText    " make current line number stand out a little
+    set highlight+=c:LineNr      " blend vertical separators with line numbers
+  else
+    if v:version > 703 || v:version == 703 && has('patch541')
+      set formatoptions+=j       " remove comment leader when joining comment lines
+    endif
   endif
   set background=dark
-  colorscheme gotham256
+  colorscheme nova
+  let g:airline_theme = 'nova'
+
+  if exists('+colorcolumn')
+    " Highlight up to 255 columns (this is the current Vim max) beyond 'textwidth'
+    let &l:colorcolumn='+' . join(range(0, 254), ',+')
+  endif
 " }}} coloring "
 
 if has('termguicolors')
@@ -179,10 +209,49 @@ if has('termguicolors')
   endif
 endif
 
-" Persistent Undo {{{
-  silent !mkdir ~/.vim/backups > /dev/null 2>&1
-  if has("persistent_undo")
-    set undodir=~/.vim/backups
-    set undofile
+" @wincent smart undo/backup settings {{{
+  silent !mkdir ~/.vim/tmp/backup > /dev/null 2>&1
+  silent !mkdir ~/.vim/tmp/undo > /dev/null 2>&1
+  silent !mkdir ~/.vim/tmp/swap > /dev/null 2>&1
+
+  if exists('$SUDO_USER')
+    set nobackup                        " don't create root-owned files
+    set nowritebackup                   " don't create root-owned files
+  else
+    set backupdir+=~/.vim/tmp/backup    " keep backup files out of the way
+    set backupdir+=.
+  endif
+
+  if has('persistent_undo')
+    if exists('$SUDO_USER')
+      set noundofile                    " don't create root-owned files
+    else
+      set undodir+=~/.vim/tmp/undo      " keep undo files out of the way
+      set undodir+=.
+      set undofile                      " actually use undo files
+    endif
+  endif
+
+  if exists('$SUDO_USER')
+    set noswapfile                      " don't create root-owned files
+  else
+    set directory+=~/.vim/tmp/swap//    " keep swap files out of the way
+    set directory+=.
+  endif
+
+  if has('viminfo')
+    if exists('$SUDO_USER')
+      set viminfo=                      " don't create root-owned files
+    else
+      set viminfo+=n~/.vim/tmp/viminfo  " override ~/.viminfo default
+
+      if !empty(glob('~/.vim/tmp/viminfo'))
+        if !filereadable(expand('~/.vim/tmp/viminfo'))
+          echoerr 'warning: ~/.vim/tmp/viminfo exists but is not readable'
+        endif
+      endif
+    endif
   endif
 " }}}
+
+command! -bang -nargs=* RFind call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
