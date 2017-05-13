@@ -1,25 +1,16 @@
+require 'json'
+
+def terminal_notifier message
+  app = "/usr/local/bin/terminal-notifier"
+  system "#{app} -message \"#{message}\""
+end
+
 def dock_hiding value
   system "defaults write com.apple.dock autohide -boolean #{value} && killall Dock"
 end
 
-def app_is_running? app_name
-  `ps aux` =~ /#{app_name}/ ? true : false
-end
-
 def set_password_prompt time
   system "defaults write com.apple.screensaver askForPasswordDelay -int #{time}"
-end
-
-def quit app_name
-  system "osascript -e 'tell application \"#{app_name}\" to quit'"
-end
-
-def wifi status
-  system "networksetup -setairportpower en0 #{status}"
-end
-
-def remove_item
-  system "/usr/libexec/PlistBuddy -c 'Delete :menuExtras:1' ~/Library/Preferences/com.apple.systemuiserver.plist"
 end
 
 def set_wallpaper file
@@ -27,7 +18,7 @@ def set_wallpaper file
 end
 
 def stock_wallpaper
-  system "osascript -e 'tell application \"Finder\" to set desktop picture to POSIX file \"#{ENV['HOME']}/Documents/wallpaper.png\"'"
+  system "osascript -e 'tell application \"Finder\" to set desktop picture to POSIX file \"#{ENV['HOME']}/iCloud/wallpaper.png\"'"
 end
 
 def vpn_wallpaper
@@ -39,7 +30,7 @@ def display_audio
   system "~/.zsh/bin/AudioSwitcher -t system  -s 'Display Audio'"
 end
 
-def podcast_audio
+def recording_audio
   system "~/.zsh/bin/AudioSwitcher -s 'BLUE NESSIE USB MIC'"
   system "~/.zsh/bin/AudioSwitcher -t system  -s 'BLUE NESSIE USB MIC'"
   system "~/.zsh/bin/AudioSwitcher -t input  -s 'BLUE NESSIE USB MIC'"
@@ -56,6 +47,23 @@ def internal_audio
 end
 
 def usb_audio
-  system "~/.zsh/bin/AudioSwitcher -s 'USB PnP Sound Device'"
-  system "~/.zsh/bin/AudioSwitcher -t system -s 'USB PnP Sound Device'"
+  system "~/.zsh/bin/AudioSwitcher -s 'C-Media USB Audio Device   '"
+  system "~/.zsh/bin/AudioSwitcher -t system -s 'C-Media USB Audio Device   '"
+end
+
+def omni_perspective perspective
+  system "osascript -e 'tell application \"OmniFocus\" to tell the default document to tell the front document window to set perspective name to \"#{perspective}\"'"
+  puts "Changing Omnifocus perspective to #{perspective}"
+end
+
+def home_printer
+  system 'lpoptions -d Brother_HL_2170W_series___Oracle'
+end
+
+def rhlccc_printer
+  system 'lpoptions -d _165_124_121_95'
+end
+
+def dvorak_printer
+  system 'lpoptions -d Brother_HL_2270DW_series___The_Dvorak_Family_iMac'
 end

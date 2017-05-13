@@ -60,29 +60,28 @@ brew 'webkit2png'
 brew 'zsh'
 brew 'sudolikeaboss'
 brew 'brew-cask-completions'
+brew 'jq'
 
 cask 'alfred'
 cask 'appcleaner'
-cask 'bartender'
 cask 'battle-net'
-cask 'bettertouchtool'
 cask 'coconutbattery'
 cask 'codekit'
 cask 'daisydisk'
+cask 'docker-beta'
 cask 'fake'
 cask 'firefox'
 cask 'fluid'
 cask 'flux'
-cask 'fuzzyclock'
+cask 'gitscout'
 cask 'google-chrome'
 cask 'hammerspoon'
 cask 'iexplorer'
 cask 'kaleidoscope'
-cask 'karabiner'
+cask 'karabiner-elements'
 cask 'keyboard-cleaner'
 cask 'launchrocket'
 cask 'lingon-x'
-cask 'microsoft-lync'
 cask 'microsoft-office'
 cask 'name-mangler'
 cask 'numi'
@@ -95,6 +94,7 @@ cask 'seil'
 cask 'sequel-pro'
 cask 'shimo'
 cask 'skype'
+cask 'skype-for-business'
 cask 'slack'
 cask 'sourcetree'
 cask 'spotify'
@@ -116,7 +116,7 @@ mas 'SQLPro for SQLite', id: 586001240
 mas 'Type2Phone', id: 472717129
 mas 'Microsoft Remote Desktop', id: 715768417
 mas '1Password', id: 443987910
-mas 'Soulver', id: 413965349
+# mas 'Soulver', id: 413965349
 mas 'iFlicks 2', id: 731062389
 mas 'Tweetbot', id: 557168941
 mas 'Pages', id: 409201541

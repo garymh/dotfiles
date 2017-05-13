@@ -24,6 +24,7 @@
 */source_maps/*
 */tmp/*
 */vendor/*
+*/dotbot/*
 .DS_Store
 .keep
 .starscope.db

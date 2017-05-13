@@ -14,8 +14,8 @@ def convert_wallpaper source, result
 end
 
 wallpaper        = `osascript -e 'tell app "finder" to get posix path of (get desktop picture as alias)'`.gsub("\n",'')
-cached_wallpaper = "#{ENV['HOME']}/Documents/wallpaper.png"
-vpn_wallpaper    = "#{ENV['HOME']}/Documents/#{@type}_vpn.png"
+cached_wallpaper = "#{ENV['HOME']}/Documents/temp/wallpaper.png"
+vpn_wallpaper    = "#{ENV['HOME']}/Documents/temp/#{@type}_vpn.png"
 
 FileUtils.cp(wallpaper, cached_wallpaper) unless wallpaper == cached_wallpaper
 convert_wallpaper(wallpaper, vpn_wallpaper)

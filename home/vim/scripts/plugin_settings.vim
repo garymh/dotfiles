@@ -1,10 +1,85 @@
 " vim:fdm=marker
 
+" vim-slash {{{ "
+noremap <plug>(slash-after) zz
+" }}} vim-slash "
+
+" vim polygot individual settings {{{ "
+  let g:vim_json_syntax_conceal = 0
+  " Requires 'jq' (brew install jq)
+  function! s:PrettyJSON()
+    %!jq .
+    set filetype=json
+  endfunction
+  command! PrettyJSON :call <sid>PrettyJSON()
+" }}} vim polygot individual settings "
+
+" Arpeggio {{{ "
+  call arpeggio#map('i', '', 0, 'jk', '<Esc>')
+  call arpeggio#map('i', '', 0, 'fj', '<Esc>')
+" }}} Arpeggio "
+
+" neomake {{{ "
+let g:neomake_list_height = 2
+let g:neomake_open_list = 2
+let g:neomake_verbose = 3
+" let g:neomake_javascript_eslint_exe = './node_modules/.bin/eslint_d'
+" let g:neomake_javascript_enabled_makers = ['eslint']
+" autocmd! BufWritePost *.js silent! Neomake
+" https://www.reddit.com/r/neovim/comments/50678h/switched_to_neovim_asking_tips_about_javascript/
+" }}} neomake "
+
 " vim-surround {{{ "
   nmap s  <Plug>Ysurround
   xmap s  <Plug>VSurround
   xmap S  <Plug>VgSurround
   let g:surround_{char2nr("d")} = "<div\1id: \r..*\r id=\"&\"\1>\r</div>"
+
+  let [s:single_quote, s:double_quote, s:no_match] = [1,2,0]
+  function! SurroundRequote()
+    let matched_quote = s:no_match
+    let [column, line] = [virtcol('.'), getline('.')]
+    let offset = 1
+    while offset < 30
+      let matched_quote = s:QuoteStyle(line, column, offset)
+      if matched_quote
+        call s:SwapSurroundingQuotes(matched_quote)
+        break
+      endif
+      let offset += 1
+    endwhile
+  endfunction
+
+  function! s:SwapSurroundingQuotes(current_quote)
+    if a:current_quote != s:single_quote && a:current_quote != s:double_quote
+      return
+    endif
+    call s:CacheCursorLocation()
+    let quote_sequence = a:current_quote == s:single_quote ? "'\"" : "\"'"
+    execute "normal cs" . quote_sequence
+    call s:RestoreCursorLocation()
+  endfunction
+
+  function! s:QuoteStyle(line, column, offset)
+    let left_character = a:line[a:column - a:offset - 1]
+    let right_character = a:line[a:column + a:offset - 1]
+    if left_character == "'" || right_character == "'"
+      return s:single_quote
+    elseif left_character == '"' || right_character == '"'
+      return s:double_quote
+    endif
+    return s:no_match
+  endfunction
+
+  function! s:CacheCursorLocation()
+    execute "normal mm"
+  endfunction
+
+  function! s:RestoreCursorLocation()
+    execute "normal `m"
+  endfunction
+
+  nmap <leader>c' :call SurroundRequote()<cr>
 " }}} vim-surround "
 
 " system copy {{{ "
@@ -15,14 +90,6 @@
   noremap <Leader>P "+p
 " }}} system copy "
 
-" yankring {{{ "
-  if has('nvim')
-    map p <Plug>(miniyank-autoput)
-    map P <Plug>(miniyank-autoPut)
-    map <c-c> <Plug>(miniyank-cycle)
-  endif
-" }}} yankring "
-
 " Sideways {{{ "
   nnoremap [<Tab> :SidewaysLeft<cr>
   nnoremap ]<Tab> :SidewaysRight<cr>
@@ -32,16 +99,30 @@
   xmap ia <Plug>SidewaysArgumentTextobjI
 " }}} Sideways "
 
+" Text objects {{{ "
+	let g:textobj_comment_no_default_key_mappings = 1
+	xmap ax <Plug>(textobj-comment-a)
+	omap ax <Plug>(textobj-comment-a)
+	xmap aX <Plug>(textobj-comment-big-a)
+	omap aX <Plug>(textobj-comment-big-a)
+	xmap ix <Plug>(textobj-comment-i)
+	omap ix <Plug>(textobj-comment-i)
+	xmap iX <Plug>(textobj-comment-big-i)
+	omap iX <Plug>(textobj-comment-big-i)
+" }}} Text objects "
+
 " Airline {{{ "
   let g:airline#extensions#tabline#enabled = 1
   if !exists('g:airline_symbols')
     let g:airline_symbols = {}
   endif
+
   " unicode symbols
-  let g:airline_left_sep      = ''
-  let g:airline_right_sep     = ''
-  let g:airline_symbols.crypt = '🔒'
-  let g:airline_section_z = '%2p%% %2l/%L:%2v'
+  let g:airline_left_sep       = ''
+  let g:airline_right_sep      = ''
+  let g:airline_symbols.crypt  = '🔒'
+  let g:airline_section_z      = '%2l/%L:%2v'
+  let g:airline_symbols.branch = ''
 " }}} Airline "
 
 " ragtag {{{ "
@@ -49,16 +130,9 @@
 " }}} ragtag "
 
 " indentLine {{{ "
-  let g:indent_guides_start_level           = 2
-  let g:indent_guides_enable_on_vim_startup = 1
-  let g:indent_guides_guide_size            = 1
-  let g:indent_guides_color_change_percent  = 15
+  let g:indentLine_showFirstIndentLevel = 1
+  let g:indentLine_faster = 1
 " }}} indentLine "
-
-" vim-peekabo {{{ "
-  let g:peekaboo_window = 'vertical topleft 50new'
-  let g:peekaboo_delay  = 750
-" }}} vim-peekabo "
 
 " vim-sayonara {{{ "
   let g:sayonara_confirm_quit = 1
@@ -81,8 +155,7 @@
   if has('nvim')
     let $FZF_DEFAULT_OPTS .= ' --inline-info'
   endif
-  let g:fzf_files_options =
-        \ '--preview "(highlight -O ansi {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+  let g:fzf_layout = { 'window': '-tabnew' }
   let g:fzf_tags_command = 'ctags -R'
 " }}} FZF settings "
 
@@ -91,15 +164,44 @@
           let path = finddir(".git", expand("%:p:h").";")
           return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
   endfun
-  nnoremap <silent> <c-p> :exe 'Files ' . <SID>fzf_root()<CR>
-  nnoremap <silent> <c-p> :Files<CR>
+
+  command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('up:40%'), <bang>0)
+
+  command! -bang -nargs=* Rg
+    \ call fzf#vim#grep(
+    \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+    \   <bang>0 ? fzf#vim#with_preview('up:60%')
+    \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+    \   <bang>0)
+
   nnoremap <silent> <space>r :History<CR>
-  nnoremap <silent> <c-t> :Tags<CR>
-  nnoremap <silent> <space>. :Lines<CR>
-  nnoremap <silent> <space>; :BLines<CR>
   nnoremap <silent> <space>a :Buffers<CR>
   nnoremap <silent> <space>o :BTags<CR>
   nnoremap <silent> <space>t :Tags<CR>
+  nnoremap <silent> <space>g :GFiles?<CR>
+
+  " find file in git repo
+  function! ChooseFile()
+    let dir = expand("%:h")
+    if empty(dir) | let dir = getcwd() | endif
+
+    let root = system("cd " . dir . " && git rev-parse --show-toplevel")
+    if v:shell_error != 0 | echo "Not in a git repo" | return | endif
+    let root = root[0:-2]
+
+    let selection = system("cd " . root . " && git ls-files -co --exclude-standard | choose")
+    if empty(selection) | echo "Canceled" | return | end
+
+    echo "Finding file..."
+    exec ":e " . root . "/" . selection
+  endfunction
+
+  if has('nvim')
+    nnoremap <silent> <c-p> :exe 'Files ' . <SID>fzf_root()<CR>
+  else
+    nnoremap <silent> <c-p> :call ChooseFile()<cr>
+  endif
 " }}} FZF commands "
 
 " Testing {{{ "
@@ -114,20 +216,11 @@
 " EasyAlign {{{ "
   vmap ga <Plug>(EasyAlign)
   nmap ga <Plug>(EasyAlign)
+  vmap <cr> <Plug>(EasyAlign)
 " }}} EasyAlign "
 
-" Tmux {{{ "
-  " let g:tmux_navigator_no_mappings = 1
-  " nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
-  " nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
-  " nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
-  " nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
-  " nnoremap <silent> <M-\> :TmuxNavigatePrevious<cr>
-  nnoremap <silent> <tab> <c-w>w
-" }}} Tmux "
-
 " ctrlsf {{{ "
-  let g:ctrlsf_winsize = '100%'
+  let g:ctrlsf_ackprg = '/usr/local/bin/rg'
   nmap <space>f <Plug>CtrlSFPrompt
   vmap F <Plug>CtrlSFVwordExec
   let g:ctrlsf_indent = 1
@@ -149,5 +242,5 @@
   let g:NERDTreeRespectWildIgnore = 1
   let g:NERDTreeDirArrows         = 0
   let g:NERDTreeMinimalUI         = 1
+  let g:NERDTreeShowBookmarks     = 1
 " }}} NERDtree "
-

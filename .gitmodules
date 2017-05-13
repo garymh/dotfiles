@@ -19,3 +19,6 @@
 [submodule "submodules/pure"]
 	path = submodules/pure
 	url = git@github.com:garymh/pure.git
+[submodule "submodules/prettydiff"]
+	path = submodules/prettydiff
+	url = https://github.com/prettydiff/prettydiff

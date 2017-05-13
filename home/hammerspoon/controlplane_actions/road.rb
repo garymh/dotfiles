@@ -1,4 +1,4 @@
-Dir["#{File.dirname(__FILE__)}/actions/*.rb"].each { |file| require_relative file }
+require_relative 'actions'
 
 omni_perspective 'Road'
 internal_audio

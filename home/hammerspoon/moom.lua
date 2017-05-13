@@ -5,7 +5,7 @@ hs.grid.MARGINY             = 0
 hs.window.animationDuration = 0.01
 
 -- moom-like functionality
-moom = hs.hotkey.modal.new({"cmd"}, "f18")
+moom = hs.hotkey.modal.new({"cmd"}, "f16")
 moom:bind({}, 'escape', function() moom:exit() end)
 moom:bind({}, 'space', function() moom:exit() end)
 
@@ -83,12 +83,13 @@ moom:bind({"shift"}, 'DOWN', hs.grid.resizeWindowTaller)
 moom:bind({"shift"}, 'RIGHT', hs.grid.resizeWindowWider)
 moom:bind({"shift"}, 'LEFT', hs.grid.resizeWindowThinner)
 
-moom:bind({}, "f16", function()
+hs.hotkey.bind({"shift"}, 'F16', function()
   hs.hints.fontName = "Helvetica-BoldOblique"
   hs.hints.fontSize = 16
   moom:exit()
   hs.hints.windowHints()
 end)
 
--- function moom:entered()
--- end
+function moom:entered()
+  hs.alert("Resize")
+end

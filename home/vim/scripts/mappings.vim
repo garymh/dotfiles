@@ -5,18 +5,51 @@ nnoremap <silent> <F2> :set spell!<CR> :set spell?<CR>
 let mapleader=","
 let maplocalleader = "\\"
 
+function! ListLeaders()
+     silent! redir @a
+     silent! nmap <LEADER>
+     silent! redir END
+     silent! new
+     silent! put! a
+     silent! g/^s*$/d
+     silent! %s/^.*,//
+     silent! normal ggVg
+     silent! sort
+     silent! let lines = getline(1,"$")
+endfunction
+
+vnoremap @ :norm@
+
+nmap <leader>lead :call ListLeaders()<cr>
+
 " folding + show level when you fold something
 nnoremap zr zr:echo &foldlevel<cr>
 nnoremap zm zm:echo &foldlevel<cr>
 nnoremap zR zR:echo &foldlevel<cr>
 nnoremap zM zM:echo &foldlevel<cr>
 
+nnoremap Z za
+
+nnoremap gV `[V`]
+
+if has('nvim')
+  nnoremap <Leader>e :cd %:h\|execute "term"\|cd -<cr>
+endif
+
 inoremap jj <esc>
+cnoremap jj <esc>
+
 nmap <leader>dc :t.<CR>k<Plug>CommentaryLinej
+
+if has('nvim')
+  tnoremap jj <C-\><C-n>
+  tnoremap kk <C-\><C-n><c-^>
+  nnoremap <silent> <c-t> <c-^>i
+endif
 
 " nnoremap ß
 " nnoremap <bs>
-" nnoremap <tab> ??
+nnoremap <s-tab> <c-w>w
 
 " workaround for using tab as a key
 nnoremap <F6> <C-i>
@@ -30,38 +63,21 @@ map <silent> <space>e :silent edit <C-R>=empty(expand('%')) ? '.' : expand('%:p:
 nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
 
 nnoremap <silent> <space><space> :ArgWrap<CR>
-map <silent> <leader>! :Neomake<cr>
+" map <silent> <leader>! :Neomake<cr>
 map <silent> ! :Neomake<cr>
 map <silent> <leader>b :Bonly<cr>
 map <silent> <leader>. :e ~/.vim/temp.rb<CR>
 map <silent> <leader>= mqHmwgg=G`wzt`qzz
 map <silent> <leader>c :RuboCop -a<cr>q
 map <silent> <leader>d :<C-U>Git difftool %<cr>
+map <silent> <F5> :Neoformat<CR>
 map <silent> <leader>p :echo expand('%')<CR>
 map <silent> <leader>w :w<cr>
-
-" find file in git repo
-function! ChooseFile()
-  let dir = expand("%:h")
-  if empty(dir) | let dir = getcwd() | endif
-
-  let root = system("cd " . dir . " && git rev-parse --show-toplevel")
-  if v:shell_error != 0 | echo "Not in a git repo" | return | endif
-  let root = root[0:-2]
-
-  let selection = system("cd " . root . " && git ls-files -co --exclude-standard | choose")
-  if empty(selection) | echo "Canceled" | return | end
-
-  echo "Finding file..."
-  exec ":e " . root . "/" . selection
-endfunction
-
-" shortcut
-nnoremap <leader>f :call ChooseFile()<cr>
+map <silent> <leader>gs :Gstatus<CR>:resize 25<CR>
 
 function! EditAll()
-  e ~/.vim/scripts/plugin_settings.vim 
-  e ~/.vim/scripts/autocommands.vim 
+  e ~/.vim/scripts/plugin_settings.vim
+  e ~/.vim/scripts/autocommands.vim
   e ~/.vim/scripts/mappings.vim
 endfunction
 
@@ -73,6 +89,7 @@ command! Eplugin execute "e ~/.vim/scripts/plugin_settings.vim"
 command! Eideas execute "e ~/.vim/scripts/ideas.vim"
 command! Ecomp execute "e ~/.vim/scripts/completions.vim"
 command! Eall execute "call EditAll()"
+
 
 command! Efunction execute "e ~/.zsh/functions.zsh"
 command! Ealiases execute "e ~/.zsh/aliases.zsh"
@@ -97,9 +114,9 @@ vnoremap L g_
 
 " quicker close window
 nnoremap <silent>Q :Sayonara<cr>
-command! -bang Q q<bang>
-command! -bang QA qa<bang>
-command! -bang Qa qa<bang>
+" command! -bang Q q<bang>
+" command! -bang QA qa<bang>
+" command! -bang Qa qa<bang>
 
 " @wincent is very smart
 " https://www.youtube.com/watch?v=0aEv1Nj0IPg

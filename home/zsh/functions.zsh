@@ -11,6 +11,8 @@ function check_ssl_end() {
   openssl s_client -connect $1:443 | openssl x509 -noout -enddate
 }
 
+bindkey ' ' magic-space # do history expansion on space
+
 function fix_key_permissions() {
   # after reinstalling macos
   sudo chmod 600 ~/.ssh/id_rsa
@@ -27,24 +29,61 @@ bindkey "^s" insert-sudo
 # zle -N _git_issue_list
 # bindkey '^;' _git_issue_list
 
+
+# Will return non-zero status if the current directory is not managed by git
+is_in_git_repo() {
+  git rev-parse HEAD > /dev/null 2>&1
+}
+
+gh() {
+  is_in_git_repo || return
+  git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph |
+  fzf-tmux --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
+    --header 'Press CTRL-S to toggle sort' \
+    --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always | head -'$LINES |
+  grep -o "[a-f0-9]\{7,\}"
+}
+
+# A helper function to join multi-line output from fzf
+join-lines() {
+local item
+while read item; do
+  echo -n "${(q)item} "
+done
+}
+
+fzf-gg-widget() LBUFFER+=$(gh | join-lines)
+zle -N fzf-gg-widget
+bindkey '^g^g' fzf-gg-widget
+
 destroy_docker() {
   docker rm $(docker kill $(docker ps -aq))
   docker rm $(docker ps -a -q)
   docker rmi $(docker images -q)
 }
 
-fancy-ctrl-z () {
-if [[ $#BUFFER -eq 0 ]]; then
-  BUFFER="fg"
-  zle accept-line
-else
-  zle push-input
-  zle clear-screen
-fi
+clean_lattice() {
+  rm -rf ~/code/LatticeGrid/public/abstracts
+  rm -rf ~/code/LatticeGrid/public/graphs
+  rm -rf ~/code/LatticeGrid/public/graphviz
+  rm -rf ~/code/LatticeGrid/public/orgs
+  rm -rf ~/code/LatticeGrid/public/mesh
+  rm -rf ~/code/LatticeGrid/public/member_nodes
+  rm -rf ~/code/LatticeGrid/public/orgs.html
+  rm -rf ~/code/LatticeGrid/public/org_nodes
+  rm -rf ~/code/LatticeGrid/public/member_nodes
 }
 
-zle -N fancy-ctrl-z
-bindkey '^Z' fancy-ctrl-z
+# Make CTRL-Z background things and unbackground them.
+function fg-bg() {
+  if [[ $#BUFFER -eq 0 ]]; then
+    fg
+  else
+    zle push-input
+  fi
+}
+zle -N fg-bg
+bindkey '^Z' fg-bg
 
 c() { cd ~/code/$1;  }
 _c() { _files -W ~/code -/; }
@@ -116,6 +155,17 @@ function make_alias() {
     fi
     echo -e "\nalias ${1// /}=\"`echo $x|sed -e 's/ *$//'|sed -e 's/\"/\\\\"/g'`\"" >> $aliasfile && source $aliasfile
     alias $1
+  fi
+}
+function switch_keyboard() {
+  testfile="$HOME/.karabiner.d/configuration/desk_active"
+  if [ -e "$testfile" ]
+  then
+    ruby ~/.hammerspoon/controlplane_actions/switch_keyboard.rb
+    yellow "Switching to internal keyboard"
+  else
+    ruby ~/.hammerspoon/controlplane_actions/switch_keyboard.rb desk
+    yellow "Switching to desk keyboard"
   fi
 }
 

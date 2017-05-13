@@ -12,32 +12,32 @@ function action_key()
     hs.eventtap.keyStroke({'shift', 'cmd'}, 'b')
   elseif name == 'Tweetbot' then
     hs.eventtap.keyStroke({'shift', 'cmd'}, 'l')
+  elseif name == 'Firefox' then
+    hs.eventtap.keyStroke({'alt', 'cmd'}, 'c')
   elseif name == 'Slack' then
     hs.eventtap.keyStroke({'cmd'}, 't')
+  elseif name == 'iTerm2' or name == 'MacVim' then
+    -- hs.alert("You're better than this.")
   else
-    -- hs.eventtap.keyStroke({}, 'f18')
-    do return end
+    hs.alert("Unknown application")
   end
 end
 
-function cleanup_key()
-  local app = hs.application.frontmostApplication()
-  local name = app:name()
+hs.hotkey.bind({""}, 'F16', action_key)
 
-  if name == 'Mail' then
-    if app:selectMenuItem("Hide Mailbox List") == nil then
-      app:selectMenuItem("Show Mailbox List")
-    end
-    if app:selectMenuItem("Hide Toolbar") == nil then
-      app:selectMenuItem("Show Toolbar")
-    end
-  else
-    if app:selectMenuItem("Hide Toolbar") == nil then
-      app:selectMenuItem("Show Toolbar")
-    end
+local remap = function(mods, key)
+  return function()
+    hs.eventtap.keyStroke(mods, key)
   end
 end
 
-local hyper = {"cmd", "alt", "ctrl", "shift" }
-hs.hotkey.bind('', 'f18', function() action_key() end)
-hs.hotkey.bind(hyper, 'f18', function() cleanup_key() end)
+hs.fnutils.each({
+    { key = 'h', fn = "left"  },
+    { key = 'j', fn = "down"  },
+    { key = 'k', fn = "up"    },
+    { key = 'l', fn = "right" },
+  },
+  function(object)
+    hs.hotkey.bind({"ctrl"}, object.key, remap({}, object.fn))
+  end
+  )

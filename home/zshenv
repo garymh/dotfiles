@@ -5,7 +5,8 @@ path=(
   ${PATH}
   /bin
   ${HOME}/code/custom/go/bin
-  ${HOME}/.zsh/bin
+  ${HOME}/bin
+  ${HOME}/.composer/vendor/bin
 )
 OS=$(/usr/bin/uname)
 
@@ -49,20 +50,10 @@ fi
 
 export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
 export HOME_DIR="$DOTFILES/home"
+export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 if (( $+commands[gls] )) ; then
   export HAS_GLS=1
 fi
 
-[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 test -e "${HOME}/.iterm2/imgcat" && export HAS_IMGCAT=1
-
-if [[ -f ~/.fzf.zsh ]]; then
-  if (( $+commands[rg] )) ; then
-    export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-  else
-    export FZF_DEFAULT_COMMAND='ag -l -g ""'
-  fi
-  source ~/.fzf.zsh
-  export FZF_COMPLETION_TRIGGER=';'
-fi

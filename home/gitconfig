@@ -24,7 +24,7 @@
   delete-remote-branch                    = "!sh -c 'git push $1 --delete $2' -"
   discard                                 = checkout --
   forgot-to-commit                        = difftool HEAD~1 HEAD
-  nevermind                               = !git reset --hard HEAD && git clean -d -f
+  explode                               = !git reset --hard HEAD && git clean -d -f
   precommit                               = diff --cached --diff-algorithm=minimal -w
   remotes                                 = remote -v
   s                                       = status -s
@@ -35,6 +35,7 @@
   up                                      = merge --ff-only
   update-submodules                       = submodule update --init --recursive
   ksdiff                                  = difftool
+  combine-commits                         = "!sh -c 'git rebase -i HEAD$1'"
 
 [push]
   default     = current
@@ -69,3 +70,7 @@
 	trustExitCode = true
 [gui]
 	recentrepo = /Users/gmh/code/NUDAIS
+[commit]
+	gpgsign = true
+[credential]
+	helper = osxkeychain

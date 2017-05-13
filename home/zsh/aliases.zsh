@@ -7,7 +7,12 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias debug_vim="/usr/local/bin/vim -u ~/.vimrc_min"
   alias debug_nvim="nvim -u ~/.vimrc_min"
 
+  alias debug_vimrc="/usr/local/bin/vim -u ~/.vimrc_min ~/.vimrc_min"
+  alias debug_nvimrc="nvim -u ~/.vimrc_min ~/.vimrc_min"
+
   alias gd='git diff --color | sed -E "s/^([^-+ ]*)[-+ ]/\\1/" | less -r'
+
+  alias netwtf='sudo /usr/local/sbin/mtr -n 8.8.8.8'
 
   alias ezshenv="$EDITOR $HOME_DIR/zshenv"
   alias ealias="$EDITOR $HOME_DIR/zsh/aliases.zsh"
@@ -78,6 +83,8 @@ alias deploy_prod="prod_deploy"
 alias deploy_stage="stage_deploy"
 alias stage_deploy="cap staging deploy"
 alias prod_deploy="cap production deploy"
+
+alias dcup='rm tmp/pids/server.pid ; docker-compose up'
 
 # typos
 alias gca="gac"

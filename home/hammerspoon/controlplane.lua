@@ -1,109 +1,130 @@
-local wifiWatcher  = nil
-local powerWatcher = nil
-local homeSSID     = "dandg"
-local homeSSIDfive = "dandg_5G"
-local nuSSID       = "Northwestern"
-local ruby         = "/usr/local/opt/rbenv/shims/ruby"
+local whereami    = sh.command('/usr/local/bin/whereami', 'predict')
+local cachedWifi  = hs.wifi.currentNetwork()
+local cachedPower = hs.battery.powerSource()
 
-function rubyRunner(name)
-  os.execute(ruby .. " ~/.hammerspoon/controlplane/" .. name .. ".rb")
+local usbWatcher      = nil
+local wifiWatcher     = nil
+local powerWatcher    = nil
+local caffeineWatcher = nil
+
+function getLocation()
+  return tostring(whereami())
 end
 
--- function set_vpn(value)
---   print("checking for " .. value)
---   if hs.settings.get("vpn") ~= value then
---     print("setting  " .. value)
---     hs.settings.set("vpn", value)
---     if value == "on" then
---       rubyRunner("vpn")
---     else
---       rubyRunner("no_vpn")
---     end
---   end
--- end
+function rubyRunner(name, argument)
+  print(" running:/usr/bin/env ruby ~/.hammerspoon/controlplane_actions/" .. name .. ".rb " .. argument)
+  os.execute("/usr/bin/env ruby ~/.hammerspoon/controlplane_actions/" .. name .. ".rb " .. argument)
+end
+
+scenarios = {
+  living_room_left_couch = "home_wifi",
+  back_kitchen_table     = "home_wifi",
+  bed                    = "home_wifi",
+  home_desk              = "home_desk",
+  nubic_conf_room        = "nubic"
+}
+
+function caffeineCheckForChange(data)
+  print("Running caffeine check for change")
+  if data == hs.caffeinate.watcher.systemDidWake then
+    time = os.date("*t")
+    print("LOG caffeine: " .. time.hour .. ":" .. time.min .. ":" .. time.sec)
+    checkForChange()
+  end
+end
+
+function powerCheckForChange()
+  print("Running power check for change")
+  local powerSource = hs.battery.powerSource()
+  if powerSource ~= cachedPower then
+    time = os.date("*t")
+    print("LOG power: " .. time.hour .. ":" .. time.min .. ":" .. time.sec)
+    cachedPower = powerSource
+    checkForChange()
+  end
+end
+
+function wifiCheckForChange(data)
+  print("Running wifi check for change")
+  print("wifi event: " .. hs.inspect(data))
+  currentSSID = hs.wifi.currentNetwork()
+  if currentSSID ~= cachedWifi then
+    time = os.date("*t")
+    print("LOG wifi: " .. time.hour .. ":" .. time.min .. ":" .. time.sec)
+    checkForChange()
+    cachedWifi = currentSSID
+  end
+end
+
+function checkForChange()
+  location = getLocation()
+  print("we think we're at: " .. location)
+  if location ~= nil then
+    setScenario(scenarios[location])
+  else
+    hs.alert("Unknown location! Please set")
+    setScenario('road')
+  end
+end
 
 function setScenario(id)
-  print("checking for " .. id)
   if hs.settings.get("scenario") ~= id then
-    print("setting  " .. id)
+    print("setting scenario:" .. id)
     hs.settings.set("scenario", id)
-    rubyRunner(id)
+    rubyRunner(id, "")
   end
 end
 
-function powerChangedCallback()
-  local powerSource = hs.battery.powerSource()
-  local powerSerial = hs.battery.psuSerial()
-  if powerSource == "AC Power" then -- if we're on power
-    print("setting power mode")
-    print("power serial: " .. powerSerial)
+function usbDevices()
+  devices = hs.usb.attachedDevices()
+  print(hs.inspect(devices))
+end
 
-    if powerSerial     == 6857791 then
-      setScenario("nu_desk")
-    elseif powerSerial == 8600800 then
-      setScenario("nubic")
-    elseif powerSerial == 1255676 then
-      setScenario("home_desk")
-    elseif powerSerial == 6771448 then -- portable
-      ssidChangedCallback()
-    elseif powerSerial == 4886968 then -- portable
-      ssidChangedCallback()
-    elseif powerSerial == 1678943 then -- portable
-      ssidChangedCallback()
-    else
-      road()
-    end
-  else
-    ssidChangedCallback()
+function deviceToggle(data, addedFunction, removedFunction)
+  if (data["eventType"] == "added") then
+    print("Added: " .. data["productName"])
+    addedFunction()
+  elseif (data["eventType"] == "removed") then
+    print("Removed: " .. data["productName"])
+    removedFunction()
   end
 end
 
-function ssidChangedCallback()
-  local currentSSID = hs.wifi.currentNetwork()
-
-  if currentSSID == homeSSID or currentSSID == homeSSIDfive then
-    setScenario("home_wifi")
-  elseif currentSSID == nuSSID then
-    setScenario("nu_wifi")
-  else
-    setScenario("road")
+function usbDeviceCallback(data)
+  print("Device: " .. data["productName"])
+  if (data["productName"] == "BLUE NESSIE USB MIC") then
+    deviceToggle(
+      data,
+      function() setScenario("recording") end,
+      function() checkForChange() end
+    )
+  elseif (data["productName"] == "D4269") then
+    deviceToggle(
+      data,
+      function() rubyRunner("switch_keyboard", "desk") end,
+      function() rubyRunner("switch_keyboard", "laptop") end
+    )
+  -- elseif (data["productName"] == "C-Media USB Audio Device   ") then
+  --   deviceToggle(
+  --     data,
+  --     function() rubyRunner("headphones", "") end,
+  --     function() rubyRunner("desk_audio", "") end
+  --   )
+  elseif (data["productName"] == "Display Audio") then
+    deviceToggle(
+      data,
+      function() rubyRunner("desk_audio", "") end,
+      function() end
+    )
   end
 end
 
--- hs.network.reachability.internet():setCallback(function(self)
---   if (hs.network.reachability.flags.reachable) > 0 then
---     -- vpn?
---     local as = [[
---     tell application "System Events"
---     tell current location of network preferences
---     set VPNservice to service "NU VPN"
---     set isConnected to connected of current configuration of VPNservice
---     if isConnected then
---       "on"
---     else
---       "off"
---     end if
---   end tell
--- end tell
--- ]]
--- local status, object, descriptor = hs.osascript.applescript(as)
--- -- print("config:" .. object)
--- if object == "on" then
---   set_vpn("on")
--- else
---
---   set_vpn("off")
--- end
---   else
---     -- no internet
---   end
--- end):start()
+powerWatcher = hs.battery.watcher.new(powerCheckForChange)
+wifiWatcher = hs.wifi.watcher.new(wifiCheckForChange)
+caffeineWatcher = hs.caffeinate.watcher.new(caffeineCheckForChange)
+usbWatcher = hs.usb.watcher.new(usbDeviceCallback)
 
-powerWatcher = hs.battery.watcher.new(powerChangedCallback)
 powerWatcher:start()
-wifiWatcher  = hs.wifi.watcher.new(ssidChangedCallback)
 wifiWatcher:start()
-
-if power == nil then
-  powerChangedCallback()
-end
+usbWatcher:start()
+caffeineWatcher:start()

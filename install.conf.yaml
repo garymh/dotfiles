@@ -11,6 +11,7 @@
     ~/.dircolors: submodules/LS_COLORS/LS_COLORS
     ~/.gemrc: home/gemrc
     ~/.gitconfig: home/gitconfig
+    ~/.bundle/config: home/bundle_config
     ~/.gitignore_global: home/gitignore_global
     ~/.pryrc-helpers.rb: home/pryrc-helpers.rb
     ~/.pryrc: home/pryrc
@@ -20,6 +21,7 @@
     ~/.zshenv: home/zshenv
     ~/.zshrc: home/zshrc
     ~/.zsh: home/zsh/
+    ~/bin: home/zsh/bin
 
     ~/.mackup.cfg:
       path: ../../iCloud/Mackup/mackup.cfg
@@ -33,15 +35,18 @@
     ~/.vim/autoload:
       create: true
       path: home/vim/autoload/
+    ~/.vim/after: home/vim/after/
     ~/.vim/ftplugin: home/vim/ftplugin/
+    ~/.vim/ftdetect: home/vim/ftdetect/
     ~/.vim/UltiSnips: home/vim/UltiSnips/
     ~/.vim/scripts: home/vim/scripts/
 
     ~/.config/nvim/UltiSnips:
       create: true
       path: home/vim/UltiSnips/
+    ~/.config/nvim/after: home/vim/after/
     ~/.config/nvim/autoload: home/vim/autoload/
-    ~/.config/nvim/ftplugin: home/vim/ftplugin/
+    ~/.config/nvim/ftdetect: home/vim/ftdetect/
     ~/.config/nvim/scripts: home/vim/scripts/
 
     ~/.tmux/plugins/tpm:

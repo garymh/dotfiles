@@ -1,32 +1,101 @@
-" Your minimal init.vim
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" call plug#begin()
 
-" Load vim-plug
-if empty(glob("~/.vim/autoload/plug.vim"))
-    execute '!mkdir ~/.vim/autoload/'
-    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
-endif
+" standard {{{ "
+   " Plug 'tpope/vim-unimpaired'
+   " Plug 'tpope/vim-surround'
+   " Plug 'tpope/vim-commentary'
+   " Plug 'lifepillar/vim-mucomplete'
+   " Plug 'honza/vim-snippets'
+   " Plug 'SirVer/ultisnips'
+" }}} standard "
 
-if has('nvim')
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-    let g:python_host_prog='/usr/local/bin/python'
-    let g:python3_host_prog = '/usr/local/bin/python3'
-endif
 
-call plug#begin('~/.vim/plugged')
 
-" start plugin definition
-function! DoRemote(arg)
-    UpdateRemotePlugins
-endfunction
-Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+" call plug#end()
 
-" All of your Plugins must be added before the following line
-call plug#end()
+" set completeopt+=menuone,noinsert,noselect
+" set showmode shortmess+=c
 
-filetype plugin indent on    " required
-"
-" deoplete
-let g:deoplete#enable_at_startup = 1
+" " 	   menu	    Use a popup menu to show the possible completions.  The
+" " 		    menu is only shown when there is more than one match and
+" " 		    sufficient colors are available.  |ins-completion-menu|
+
+" " 	   menuone  Use the popup menu also when there is only one match.
+" " 		    Useful when there is additional information about the
+" " 		    match, e.g., what file it comes from.
+
+" " 	   longest  Only insert the longest common text of the matches.  If
+" " 		    the menu is displayed you can use CTRL-L to add more
+" " 		    characters.  Whether case is ignored depends on the kind
+" " 		    of completion.  For buffer text the 'ignorecase' option is
+" " 		    used.
+
+" " 	   preview  Show extra information about the currently selected
+" " 		    completion in the preview window.  Only works in
+" " 		    combination with "menu" or "menuone".
+
+" " 	  noinsert  Do not insert any text for a match until the user selects
+" " 		    a match from the menu. Only works in combination with
+" " 		    "menu" or "menuone". No effect if "longest" is present.
+
+" " 	  noselect  Do not select a match in the menu, force the user to
+" " 		    select one from the menu. Only works in combination with
+" " 		    "menu" or "menuone".
+
+
+" let g:mucomplete#enable_auto_at_startup = 1
+" " let g:mucomplete_chains = {
+" "       \ 'default' : ['ulti' ,'file', 'keyn', 'dict', 'tags']
+" "       \ }
+
+" " `'c-n'` : keywords in |'complete'| (search forwards);
+" " `'c-p'` : keywords in |'complete'| (search backwards);
+" " `'cmd'` : Vim command line;
+" " `'defs'`: definitions or macros;
+" " `'dict'`: keywords in |'dictionary'|;
+" " `'file'`: file names;
+" " `'incl'`: keywords in the current and included files;
+" " `'keyn'`: keywords in the current file (search forwards);
+" " `'keyp'`: keywords in the current file (search backwards);
+" " `'line'`: whole lines;
+" " `'omni'`: omni completion (|'omnifunc'|);
+" " `'spel'`: spelling suggestions;
+" " `'tags'`: tags;
+" " `'thes'`: keywords in |'thesaurus'|;
+" " `'user'`: user defined completion (|'completefunc'|).
+
+" " Besides, µcomplete implements its own alternative file completion
+" " and spelling suggestions:
+
+" " `'path'`: file names (µcomplete's implementation).
+" " `'uspl'`: spelling suggestions (µcomplete's implementation).
+
+" " If you have installed UltiSnips, there is also a method to get
+" " suggestions for snippets (if you use SnipMate, see
+" " |mucomplete-tips|):
+
+" " `'ulti'`: UltiSnips snippets.
+
+" let g:mucomplete#chains = {
+" 			\ 'default' : ['path', 'omni', 'incl', 'uspl', 'ulti', 'tags']
+" 			\ }
+
+" " let g:mucomplete#chains = {
+" "       \ 'default' : ['path', 'omni', 'incl', 'uspl', 'ulti'],
+" "       \ 'vim'     : ['path', 'cmd', 'incl', 'ulti'],
+" "       \ 'ruby'    : ['path', 'tags', 'incl', 'ulti']
+" "       \ }
+
+" let g:UltiSnipsExpandTrigger = "<D-!>"
+" let g:UltiSnipsJumpForwardTrigger = "<tab>"
+" let g:UltiSnipsJumpBackwardTrigger = "<tab>"
+
+ inoremap <M-Space> :echo test1
+ inoremap <C-S-Space> :echo test2
+ inoremap <S-Space> :echo test3
+ inoremap <C-Space> :echo test4
+ inoremap <D-Space> :echo test5
+ inoremap <S-Enter> :echo test6
+ inoremap <C-Enter> :echo test7
+ inoremap <d-enter> :echo test3
+ inoremap <s-enter> :echo test4

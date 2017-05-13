@@ -1,2 +1,3 @@
 setlocal colorcolumn=
-set nobuflisted
+setlocal cursorline
+setlocal nobuflisted
