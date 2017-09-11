@@ -29,7 +29,6 @@ Plug 'tpope/vim-repeat'
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'Yggdroot/indentLine'
   Plug 'lilydjwg/colorizer', { 'for': ['css', 'sass', 'scss', 'less', 'html', 'javascript'] }
-  Plug 'machakann/vim-highlightedyank'
   Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
   " Plug 'bagrat/vim-workspace'
 " }}} looks "
@@ -106,6 +105,7 @@ if has('nvim')
   " Plug 'benekastah/neomake'
   Plug 'sbdchd/neoformat'
   Plug 'janko-m/vim-test'
+  Plug 'machakann/vim-highlightedyank'
   source ~/.vim/scripts/completions.vim
 
   let g:python_host_prog  = '/usr/local/bin/python2'

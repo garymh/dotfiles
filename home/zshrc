@@ -25,33 +25,36 @@ if ! zgen saved; then
   zgen load mafredri/zsh-async
   zgen load zsh-users/zsh-completions src
 
-  # zgen load $DOTFILES/submodules/pure
-  zgen load dfurnes/purer
+  if [[ $(zsh --version | awk '{print $2}') > 5.3.0 ]]; then
+    zgen load dfurnes/purer
+  else
+    zgen load sindresorhus/pure
+  fi
 
   zgen save
 fi
 
 for f ($HOME/.zsh/*.zsh) {source $f}
 
-for f in ~/.zsh/private/*.zsh(N); do
-  [ -e "$f" ] && source $f || break
-done
+  for f in ~/.zsh/private/*.zsh(N); do
+    [ -e "$f" ] && source $f || break
+  done
 
-[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
+  [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 
-if [[ $HAS_IMGCAT -eq 1 ]]; then
-  if [[ -a $HOME/Documents/Public/tiny_rick.jpg ]]; then
-    imgcat $HOME/Documents/Public/tiny_rick.jpg
+  if [[ $HAS_IMGCAT -eq 1 ]]; then
+    if [[ -a $HOME/Documents/Public/tiny_rick.jpg ]]; then
+      imgcat $HOME/Documents/Public/tiny_rick.jpg
+    fi
+  elif [[ $HAS_IMG2XTERM -eq 1 ]]; then
+    img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png;
+  elif [[ $HAS_COWSAY -eq 1 ]]; then
+    echo "CAN DO!" | cowsay -f $HOME/.zsh/plugins/cows/meeseeks.cow
   fi
-elif [[ $HAS_IMG2XTERM -eq 1 ]]; then
-  img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png;
-elif [[ $HAS_COWSAY -eq 1 ]]; then
-  echo "CAN DO!" | cowsay -f $HOME/.zsh/plugins/cows/meeseeks.cow
-fi
-echo "$(uptime | awk -F'[a-z]:' '{ print "Load:"$2 }') $(battery-status)"
+  echo "$(uptime | awk -F'[a-z]:' '{ print "Load:"$2 }') $(battery-status)"
 
-ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
-export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES=":q eivm evimrc ezshrc _ gls"
-export LC_ALL="en_US.UTF-8"
+  ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
+  export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES=":q eivm evimrc ezshrc _ gls"
+  export LC_ALL="en_US.UTF-8"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
