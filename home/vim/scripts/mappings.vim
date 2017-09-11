@@ -64,16 +64,20 @@ nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
 
 nnoremap <silent> <space><space> :ArgWrap<CR>
 " map <silent> <leader>! :Neomake<cr>
-map <silent> ! :Neomake<cr>
+map <silent> ! :A<cr>
 map <silent> <leader>b :Bonly<cr>
 map <silent> <leader>. :e ~/.vim/temp.rb<CR>
 map <silent> <leader>= mqHmwgg=G`wzt`qzz
 map <silent> <leader>c :RuboCop -a<cr>q
-map <silent> <leader>d :<C-U>Git difftool %<cr>
+vmap p "_dP
+map <silent> <leader>diff :<C-U>Git difftool %<cr>
 map <silent> <F5> :Neoformat<CR>
 map <silent> <leader>p :echo expand('%')<CR>
 map <silent> <leader>w :w<cr>
 map <silent> <leader>gs :Gstatus<CR>:resize 25<CR>
+
+nnoremap c* *Ncgn
+nnoremap c# #NcgN
 
 function! EditAll()
   e ~/.vim/scripts/plugin_settings.vim
@@ -93,7 +97,7 @@ command! Eall execute "call EditAll()"
 
 command! Efunction execute "e ~/.zsh/functions.zsh"
 command! Ealiases execute "e ~/.zsh/aliases.zsh"
-command! Esho execute "!open ~/iCloud/Shorcuts/shortcuts.pages"
+command! Esho execute "!open ~/Documents/Shorcuts/shortcuts.pages"
 map <leader>sid :source ~/.vim/scripts/ideas.vim<cr>
 
 map <leader>ev :e $MYVIMRC<cr>

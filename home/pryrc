@@ -60,7 +60,7 @@ if defined? AwesomePrint
   end
 end
 
-Pry.config.history.file = "~/.irb_history"
+Pry.config.history.file = "#{ENV['HOME']}/.irb_history"
 
 if defined?(PryBloodline)
   PryBloodline.setup!

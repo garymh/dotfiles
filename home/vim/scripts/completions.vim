@@ -1,6 +1,10 @@
+" Plug 'roxma/nvim-completion-manager'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
+" Plug 'roxma/ncm-rct-complete'
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 Plug 'ervandew/supertab'
 
 set completeopt=longest,menuone,preview

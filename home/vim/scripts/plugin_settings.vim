@@ -122,7 +122,7 @@ let g:neomake_verbose = 3
   let g:airline_right_sep      = ''
   let g:airline_symbols.crypt  = '🔒'
   let g:airline_section_z      = '%2l/%L:%2v'
-  let g:airline_symbols.branch = ''
+  let g:airline_symbols.branch = 'ᚬ'
 " }}} Airline "
 
 " ragtag {{{ "

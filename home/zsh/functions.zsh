@@ -29,7 +29,6 @@ bindkey "^s" insert-sudo
 # zle -N _git_issue_list
 # bindkey '^;' _git_issue_list
 
-
 # Will return non-zero status if the current directory is not managed by git
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1

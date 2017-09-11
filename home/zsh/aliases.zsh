@@ -15,6 +15,7 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias netwtf='sudo /usr/local/sbin/mtr -n 8.8.8.8'
 
   alias ezshenv="$EDITOR $HOME_DIR/zshenv"
+  alias ekar="$EDITOR $HOME_DIR/karabiner.json"
   alias ealias="$EDITOR $HOME_DIR/zsh/aliases.zsh"
   alias efunction="$EDITOR $HOME_DIR/zsh/functions.zsh"
   alias egems="$EDITOR $DOTFILES/new_machine/gems"
@@ -75,7 +76,8 @@ alias gs="git status -sb"
 alias killruby='killall -9 ruby'
 alias please='sudo $SHELL -c "$(fc -ln -1)"'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | green '=> Public key copied to pasteboard.'"
-alias ref="source ~/.zshrc"
+# alias ref="source ~/.zshrc"
+alias ref="src"
 alias ungit="find . -name '.git' -exec rm -rf {} \;"
 alias update_tags="ctags -R . $(bundle list --paths)"
 
@@ -95,6 +97,10 @@ alias vim="e"
 alias rmdir='rmdir -v'
 alias chmod='chmod -v'
 alias chown='chown -v'
+
+# git alises
+alias co='git checkout'
+alias branches='git branches'
 
 # zsh global aliases for piping
 alias -g .....='../../../..'

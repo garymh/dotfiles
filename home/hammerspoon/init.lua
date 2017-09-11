@@ -5,6 +5,8 @@ require "hyper"
 require "caffeine"
 require "controlplane"
 
+hs.ipc.cliInstall()
+
 -- reloader
 function reloadConfig(files)
   doReload = false

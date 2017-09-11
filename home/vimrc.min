@@ -9,7 +9,7 @@
    " Plug 'SirVer/ultisnips'
 " }}} standard "
 
-
+vmap p "_dP
 
 " call plug#end()
 

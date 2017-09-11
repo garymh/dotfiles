@@ -2,7 +2,7 @@ local whereami    = sh.command('/usr/local/bin/whereami', 'predict')
 local cachedWifi  = hs.wifi.currentNetwork()
 local cachedPower = hs.battery.powerSource()
 
-local usbWatcher      = nil
+-- local usbWatcher      = nil
 local wifiWatcher     = nil
 local powerWatcher    = nil
 local caffeineWatcher = nil
@@ -34,7 +34,8 @@ function caffeineCheckForChange(data)
 end
 
 function powerCheckForChange()
-  print("Running power check for change")
+  -- print("Running power check for change")
+  -- this runs every 1m
   local powerSource = hs.battery.powerSource()
   if powerSource ~= cachedPower then
     time = os.date("*t")
@@ -98,7 +99,7 @@ function usbDeviceCallback(data)
       function() setScenario("recording") end,
       function() checkForChange() end
     )
-  elseif (data["productName"] == "D4269") then
+  elseif (data["productName"] == "D4269" or data["productName"] == "daskeyboard") then
     deviceToggle(
       data,
       function() rubyRunner("switch_keyboard", "desk") end,
@@ -119,12 +120,12 @@ function usbDeviceCallback(data)
   end
 end
 
-powerWatcher = hs.battery.watcher.new(powerCheckForChange)
-wifiWatcher = hs.wifi.watcher.new(wifiCheckForChange)
+powerWatcher    = hs.battery.watcher.new(powerCheckForChange)
+wifiWatcher     = hs.wifi.watcher.new(wifiCheckForChange)
 caffeineWatcher = hs.caffeinate.watcher.new(caffeineCheckForChange)
-usbWatcher = hs.usb.watcher.new(usbDeviceCallback)
+-- usbWatcher      = hs.usb.watcher.new(usbDeviceCallback)
 
 powerWatcher:start()
 wifiWatcher:start()
-usbWatcher:start()
+-- usbWatcher:start()
 caffeineWatcher:start()

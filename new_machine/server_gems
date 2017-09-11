@@ -1,9 +1,10 @@
+gem-shut-the-fuck-up
 activesupport
 amatch
 chronic
 forecast_io
-gem-shut-the-fuck-up
 highline
 otask
+oauth
 pry
 rb-appscript

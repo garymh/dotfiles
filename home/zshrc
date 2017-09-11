@@ -25,7 +25,8 @@ if ! zgen saved; then
   zgen load mafredri/zsh-async
   zgen load zsh-users/zsh-completions src
 
-  zgen load $DOTFILES/submodules/pure
+  # zgen load $DOTFILES/submodules/pure
+  zgen load dfurnes/purer
 
   zgen save
 fi
@@ -51,5 +52,6 @@ echo "$(uptime | awk -F'[a-z]:' '{ print "Load:"$2 }') $(battery-status)"
 
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
 export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES=":q eivm evimrc ezshrc _ gls"
+export LC_ALL="en_US.UTF-8"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

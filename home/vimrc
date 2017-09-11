@@ -31,6 +31,7 @@ Plug 'tpope/vim-repeat'
   Plug 'lilydjwg/colorizer', { 'for': ['css', 'sass', 'scss', 'less', 'html', 'javascript'] }
   Plug 'machakann/vim-highlightedyank'
   Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+  " Plug 'bagrat/vim-workspace'
 " }}} looks "
 
 " colors {{{ "
@@ -44,16 +45,17 @@ Plug 'tpope/vim-repeat'
   " Plug 'freeo/vim-kalisi'
   " Plug 'jacoborus/tender.vim'
   " Plug 'kabbamine/yowish.vim'
-  " Plug 'morhetz/gruvbox'
+  Plug 'morhetz/gruvbox'
   " Plug 'nanotech/jellybeans.vim'
-  " Plug 'rakr/vim-one'
-  " Plug 'raphamorim/lucario'
+  Plug 'rakr/vim-one'
+  Plug 'raphamorim/lucario'
   " Plug 'trevordmiller/nova-vim'
   Plug 'tyrannicaltoucan/vim-deep-space'
-  " Plug 'w0ng/vim-hybrid'
-  " Plug 'whatyouhide/vim-gotham'
+  Plug 'w0ng/vim-hybrid'
+  Plug 'whatyouhide/vim-gotham'
   " Plug 'zanglg/nova.vim'
-  " Plug 'ajh17/Spacegray.vim'
+  Plug 'ajh17/Spacegray.vim'
+  Plug 'hzchirs/vim-material'
 " }}} colors "
 
 " ruby {{{ "
@@ -100,7 +102,8 @@ Plug 'wincent/terminus'
 if has('nvim')
   set termguicolors
   set inccommand=nosplit
-  Plug 'benekastah/neomake'
+  set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+  " Plug 'benekastah/neomake'
   Plug 'sbdchd/neoformat'
   Plug 'janko-m/vim-test'
   source ~/.vim/scripts/completions.vim
@@ -108,7 +111,6 @@ if has('nvim')
   let g:python_host_prog  = '/usr/local/bin/python2'
   let g:python3_host_prog = '/usr/local/bin/python3'
 else
-  Plug 'jszakmeister/vim-togglecursor'
   Plug 'tpope/vim-sensible'
 endif
 " }}} mac/nvim "
@@ -128,6 +130,11 @@ Plug 'nelstrom/vim-textobj-rubyblock' | Plug 'kana/vim-textobj-user'
 Plug 'whatyouhide/vim-textobj-erb'    | Plug 'kana/vim-textobj-user'
 " }}} custom vim objects "
 
+" hmmm {{{ "
+" Plug 'osyo-manga/vim-brightest'
+" Plug 'w0rp/ale'
+" }}} hmmm "
+
 call plug#end()
 
 source ~/.vim/scripts/autocommands.vim
@@ -140,7 +147,7 @@ set foldlevelstart=99
 set formatprg="par 79"          " respect the 80 character lines
 set formatoptions+=n            " smart auto-indenting inside numbered lists
 set formatoptions+=c
-set gdefault                    " assume the /g flag on :s substitutions
+" set gdefault                    " assume the /g flag on :s substitutions
 set hidden                      " make unsaved buffers hidden
 set ignorecase
 set lazyredraw                  " enables faster macros
@@ -192,17 +199,33 @@ set wildmode=longest:full,full
 " }}} wildignore "
 
 " coloring {{{ "
-if has('nvim')
-  set highlight+=@:ColorColumn " ~/@ at end of window, 'showbreak'
-  set highlight+=N:DiffText    " make current line number stand out a little
-  set highlight+=c:LineNr      " blend vertical separators with line numbers
-endif
-
 set background=dark
 try
-  let g:deepspace_italics=1
-  colorscheme deep-space
-  let g:airline_theme='deep_space'
+
+  " let g:gruvbox_undercurl         = 1
+  " let g:gruvbox_italic            = 1
+  " let g:gruvbox_bold              = 1
+  " let g:gruvbox_underline         = 1
+  " let g:gruvbox_italicize_strings = 1
+  " let g:gruvbox_improved_strings  = 0
+  " let g:gruvbox_improved_warnings = 1
+  " colorscheme gruvbox
+  " let g:airline_theme='gruvbox'
+
+  " Plug 'morhetz/gruvbox'
+  " " Plug 'nanotech/jellybeans.vim'
+  " Plug 'rakr/vim-one'
+  " Plug 'raphamorim/lucario'
+  " " Plug 'trevordmiller/nova-vim'
+  " Plug 'tyrannicaltoucan/vim-deep-space'
+  " Plug 'w0ng/vim-hybrid'
+  " Plug 'whatyouhide/vim-gotham'
+  " " Plug 'zanglg/nova.vim'
+  " Plug 'ajh17/Spacegray.vim'
+  " Plug 'hzchirs/vim-material'
+
+  colorscheme vim-material
+  let g:airline_theme='material'
 
 catch /:E185:/
   colorscheme default
@@ -220,14 +243,14 @@ if exists('$SUDO_USER')
   set nobackup                        " don't create root-owned files
   set nowritebackup                   " don't create root-owned files
 else
-  set backupdir+=~/.vim/tmp/backup//  " keep backup files out of the way
+  set backupdir=~/.vim/tmp/backup//  " keep backup files out of the way
 endif
 
 if has('persistent_undo')
   if exists('$SUDO_USER')
     set noundofile                    " don't create root-owned files
   else
-    set undodir+=~/.vim/tmp/undo//    " keep undo files out of the way
+    set undodir=~/.vim/tmp/undo//    " keep undo files out of the way
     set undofile                      " actually use undo files
   endif
 endif
@@ -235,7 +258,7 @@ endif
 if exists('$SUDO_USER')
   set noswapfile                      " don't create root-owned files
 else
-  set directory+=~/.vim/tmp/swap//    " keep swap files out of the way
+  set directory=~/.vim/tmp/swap//    " keep swap files out of the way
 endif
 
 if has('viminfo')
@@ -243,9 +266,9 @@ if has('viminfo')
     set viminfo=                      " don't create root-owned files
   else
     if isdirectory('~/local/.vim/tmp')
-      set viminfo+=n~/local/.vim/tmp/viminfo
+      set viminfo=n~/local/.vim/tmp/viminfo
     else
-      set viminfo+=n~/.vim/tmp/viminfo " override ~/.viminfo default
+      set viminfo=n~/.vim/tmp/viminfo " override ~/.viminfo default
     endif
 
     if !empty(glob('~/.vim/tmp/viminfo'))

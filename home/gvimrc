@@ -1,7 +1,7 @@
 " set guifont=Fixedsys\ Excelsior:h22
 " set guifont=M+\ 1mn\ medium:h22
 " set guifont=Operator\ Mono\ Medium:h22
-set guifont=Iosevka\ Medium:h22
+set guifont=Hasklig:h20
 
 set guioptions-=T
 set guioptions-=L

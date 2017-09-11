@@ -21,6 +21,7 @@
     ~/.zshenv: home/zshenv
     ~/.zshrc: home/zshrc
     ~/.zsh: home/zsh/
+    ~/.inputrc: home/inputrc
     ~/bin: home/zsh/bin
 
     ~/.mackup.cfg:
@@ -31,6 +32,8 @@
     ~/.vimrc: home/vimrc
     ~/.vimrc_min: home/vimrc.min
     ~/.config/nvim/init.vim: home/vimrc
+
+    ~/.config/karabiner/karabiner.json: home/karabiner.json
 
     ~/.vim/autoload:
       create: true

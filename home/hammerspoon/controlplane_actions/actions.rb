@@ -9,10 +9,6 @@ def dock_hiding value
   system "defaults write com.apple.dock autohide -boolean #{value} && killall Dock"
 end
 
-def set_password_prompt time
-  system "defaults write com.apple.screensaver askForPasswordDelay -int #{time}"
-end
-
 def set_wallpaper file
   system "osascript -e 'tell application \"Finder\" to set desktop picture to POSIX file \"#{ENV['HOME']}/iCloud/Wallpapers/#{file}\"'"
 end
@@ -36,19 +32,9 @@ def recording_audio
   system "~/.zsh/bin/AudioSwitcher -t input  -s 'BLUE NESSIE USB MIC'"
 end
 
-def usb_audio_676
-  system "~/.zsh/bin/AudioSwitcher -s 'iMic USB audio system'"
-  system "~/.zsh/bin/AudioSwitcher -t system  -s 'iMic USB audio system'"
-end
-
 def internal_audio
   system "~/.zsh/bin/AudioSwitcher -s 'Built-in Output'"
   system "~/.zsh/bin/AudioSwitcher -t system  -s 'Built-in Output'"
-end
-
-def usb_audio
-  system "~/.zsh/bin/AudioSwitcher -s 'C-Media USB Audio Device   '"
-  system "~/.zsh/bin/AudioSwitcher -t system -s 'C-Media USB Audio Device   '"
 end
 
 def omni_perspective perspective
@@ -57,7 +43,7 @@ def omni_perspective perspective
 end
 
 def home_printer
-  system 'lpoptions -d Brother_HL_2170W_series___Oracle'
+  system 'lpoptions -d Brother_HL_L2360D_series'
 end
 
 def rhlccc_printer
