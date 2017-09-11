@@ -8,7 +8,7 @@ path=(
   ${HOME}/bin
   ${HOME}/.composer/vendor/bin
 )
-OS=$(/usr/bin/uname)
+OS=$(uname)
 
 if [[ $OS = 'Linux' ]]; then
   IS_LINUX=1
