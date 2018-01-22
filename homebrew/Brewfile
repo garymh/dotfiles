@@ -9,88 +9,75 @@ tap 'caskroom/cask'
 tap 'ravenac95/sudolikeaboss'
 tap 'homebrew/completions'
 
-# brew 'ansifilter'
-# brew 'apple-gcc42'
-# brew 'autoconf'
-# brew 'gcc'
-# brew 'node'
-# brew 'openssl'
-# brew 'phantomjs'
-brew 'ansible'
 brew 'automake'
 brew 'battery'
 brew 'ccat'
+brew 'choose-gui'
+brew 'chruby'
 brew 'cmake'
 brew 'coreutils', args: ['default-names']
-brew 'cowsay'
 brew 'curl'
 brew 'dockutil'
+brew 'ctags'
+brew 'duti'
 brew 'fasd'
-brew 'fpp'
+brew 'gettext'
 brew 'git-flow'
 brew 'git-hooks'
-brew 'grc'
 brew 'heroku'
 brew 'hr'
 brew 'hub'
 brew 'imagemagick'
+brew 'jq'
+brew 'libtool'
+brew 'libxml2'
 brew 'lua'
 brew 'mackup'
 brew 'macvim', args: ['override-system-vim', 'with-lua', 'with-luajit', 'custom-icons']
 brew 'mas'
-brew 'mysql'
-brew 'openldap', args: ['with-berkeley-db4']
-brew 'postgresql'
+brew 'openssl'
+brew 'phantomjs'
+brew 'pkg-config'
 brew 'python'
 brew 'python3'
-brew 'rbenv'
-brew 'rbenv-binstubs'
-brew 'rbenv-default-gems'
-brew 'rbenv-use'
-brew 'rbenv-whatis'
 brew 'reattach-to-user-namespace'
-brew 'redis'
-brew 'ruby-build'
-brew 'sqlite'
+brew 'ripgrep'
+brew 'ruby-install'
 brew 'ssh-copy-id'
-brew 'terminal-notifier'
-brew 'the_silver_searcher'
-brew 'tmux'
-brew 'webkit2png'
-brew 'zsh'
 brew 'sudolikeaboss'
-brew 'brew-cask-completions'
-brew 'jq'
+brew 'terminal-notifier'
+brew 'tmux'
+brew 'yarn'
+brew 'zsh'
 
 cask 'alfred'
 cask 'appcleaner'
-cask 'battle-net'
+cask 'atom'
+cask 'bartender'
+cask 'blue-jeans'
 cask 'coconutbattery'
 cask 'codekit'
+cask 'cyberduck'
 cask 'daisydisk'
-cask 'docker-beta'
+cask 'docker'
 cask 'fake'
 cask 'firefox'
 cask 'fluid'
-cask 'flux'
 cask 'gitscout'
 cask 'google-chrome'
+cask 'gpgtools'
 cask 'hammerspoon'
-cask 'iexplorer'
 cask 'kaleidoscope'
 cask 'karabiner-elements'
-cask 'keyboard-cleaner'
-cask 'launchrocket'
 cask 'lingon-x'
+cask 'macdown'
 cask 'microsoft-office'
+cask 'muzzle'
 cask 'name-mangler'
-cask 'numi'
-cask 'obs'
 cask 'onyx'
 cask 'pacifist'
 cask 'paw'
-cask 'psequel'
-cask 'seil'
+cask 'postico'
 cask 'sequel-pro'
 cask 'shimo'
 cask 'skype'
@@ -98,7 +85,6 @@ cask 'skype-for-business'
 cask 'slack'
 cask 'sourcetree'
 cask 'spotify'
-cask 'steam'
 cask 'superduper'
 cask 'suspicious-package'
 cask 'vlc'
@@ -110,20 +96,16 @@ cask 'qlstephen'
 cask 'quicklook-csv'
 cask 'quicklook-json'
 
-mas 'Xcode', id: 497799835
-mas 'Keynote', id: 409183694
-mas 'SQLPro for SQLite', id: 586001240
-mas 'Type2Phone', id: 472717129
-mas 'Microsoft Remote Desktop', id: 715768417
-mas '1Password', id: 443987910
-# mas 'Soulver', id: 413965349
-mas 'iFlicks 2', id: 731062389
-mas 'Tweetbot', id: 557168941
-mas 'Pages', id: 409201541
-mas 'Pixelmator', id: 407963104
-mas 'OmniFocus', id: 867299399
-mas 'MDB Explorer', id: 506622388
-mas 'Reeder', id: 880001334
-mas 'Transmit', id: 403388562
-mas 'Numbers', id: 409203825
-mas 'DaisyDisk', id: 411643860
+mas "1Password", id: 443987910
+mas "Keynote", id: 409183694
+mas "MDB Explorer", id: 506622388
+mas "Numbers", id: 409203825
+mas "OmniFocus", id: 867299399
+mas "Pages", id: 409201541
+mas "Pixelmator", id: 407963104
+mas "Reeder", id: 880001334
+mas "Soulver", id: 413965349
+mas "Tweetbot", id: 557168941
+mas "Type2Phone", id: 472717129
+mas "Xcode", id: 497799835
+

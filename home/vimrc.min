@@ -1,4 +1,4 @@
-" call plug#begin()
+call plug#begin()
 
 " standard {{{ "
    " Plug 'tpope/vim-unimpaired'
@@ -6,12 +6,13 @@
    " Plug 'tpope/vim-commentary'
    " Plug 'lifepillar/vim-mucomplete'
    " Plug 'honza/vim-snippets'
-   " Plug 'SirVer/ultisnips'
+   Plug 'janko-m/vim-test'
+  " Plug 'SirVer/ultisnips'
 " }}} standard "
 
 vmap p "_dP
 
-" call plug#end()
+call plug#end()
 
 " set completeopt+=menuone,noinsert,noselect
 " set showmode shortmess+=c

@@ -129,3 +129,28 @@ powerWatcher:start()
 wifiWatcher:start()
 -- usbWatcher:start()
 caffeineWatcher:start()
+
+function hasExternalMonitor()
+   for _, screen in pairs(hs.screen.allScreens()) do
+      if screen:name() == "Thunderbolt Display" then
+         return true
+      end
+   end
+   return false
+end
+
+-- Switch dynamic profile in iTerm2
+function setIterm2Profile(filename)
+   hs.execute("ln -sf $HOME/code/dotfiles/iterm/" .. filename .. " \"$HOME/Library/Application Support/iTerm2/DynamicProfiles/iTerm2_Dynamic.json\"")
+end
+
+function displayWatcherCallback()
+   if hasExternalMonitor() then
+      setIterm2Profile("iTerm2_dynamic_big.json")
+   else
+      setIterm2Profile("iTerm2_dynamic_small.json")
+   end
+end
+
+local monitorWatcher = hs.screen.watcher.new(displayWatcherCallback)
+monitorWatcher:start()

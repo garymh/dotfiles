@@ -1,5 +1,5 @@
 sh     = require('sh')
-require "btt"
+-- require "btt"
 require "moom"
 require "hyper"
 require "caffeine"

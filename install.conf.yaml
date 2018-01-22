@@ -1,9 +1,3 @@
-- defaults:
-    link:
-      relink: true
-
-- clean: ['~', '~/.ssh']
-
 - link:
     ~/.ctags: home/ctags
     ~/.agignore: home/agignore
@@ -25,7 +19,7 @@
     ~/bin: home/zsh/bin
 
     ~/.mackup.cfg:
-      path: ../../iCloud/Mackup/mackup.cfg
+      path: iCloud/Mackup/mackup.cfg
 
     ~/.gvimrc: home/gvimrc
 
@@ -61,15 +55,8 @@
 
     ~/.hammerspoon: home/hammerspoon/
     ~/.git_hooks: home/git_hooks/
-    ~/.gitconfig.local: home/zsh/private/gitconfig.local
-
-    ~/.ssh/config: home/zsh/private/ssh/config
-    ~/.ssh/github_rsa: home/zsh/private/ssh/github_rsa
-    ~/.ssh/github_rsa.pub: home/zsh/private/ssh/github_rsa.pub
-    ~/.ssh/id_rsa: home/zsh/private/ssh/id_rsa
-    ~/.ssh/id_rsa.pub: home/zsh/private/ssh/id_rsa.pub
-
-    /usr/local/opt/rbenv/default-gems: new_machine/gems
+    ~/.gitconfig.local: iCloud/Internal/private/gitconfig.local
 
 - shell:
-  - [git submodule update --init --recursive, Installing submodules]
+    - ["git submodule update --remote", "Updating remote tracking submodules"]
+

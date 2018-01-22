@@ -1,0 +1,51 @@
+# http://duti.org/documentation.html
+# This is a duti config file to set default applications for file types or extensions (UTIs)
+
+# Blank lines and lines beginning with a '#' are ignored
+# If the file doesn't end with a blank line, duti might give a "line too long" error.
+
+# To know the bundle id of a specific app:
+# osascript -e "id of app \"<app_name>\""
+
+# To know the UTI from a specific file:
+# mdls <filepath> | awk '/kMDItemContentType /{print $NF}'
+
+# List of Uniform Type Identifiers in OS X:
+# https://developer.apple.com/library/mac/#documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
+
+# Format:
+# [Bundle ID] [ UTI | ext | MIME type ] [role]
+
+# Valid roles:
+#
+# all     app handles all roles for the given UTI.
+# viewer  app handles reading and displaying documents with given UTI.
+# editor  app can manipulate and save the item. Implies viewer.
+# shell   app can execute the item.
+# none    app cannot open the item, but provides an icon for the given UTI.
+
+org.vim.MacVim com.apple.applescript.text all
+org.vim.MacVim com.netscape.javascript-source all
+org.vim.MacVim com.sun.java-source all
+org.vim.MacVim net.daringfireball.markdown all
+org.vim.MacVim public.c-plus-plus-source all
+org.vim.MacVim public.data all
+org.vim.MacVim public.php-script all
+org.vim.MacVim public.plain-text all
+org.vim.MacVim public.python-script all
+org.vim.MacVim public.ruby-script all
+org.vim.MacVim public.shell-script all
+org.vim.MacVim public.source-code all
+org.vim.MacVim public.unix-executable all
+org.vim.MacVim text/plain all
+org.vim.MacVim .json all
+
+org.videolan.vlc .avi all
+org.videolan.vlc .mkv all
+org.videolan.vlc .mp4 all
+
+# bundle id URL scheme
+com.reederapp.mac feed
+
+# last line must be blank
+

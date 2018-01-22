@@ -10,6 +10,8 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias debug_vimrc="/usr/local/bin/vim -u ~/.vimrc_min ~/.vimrc_min"
   alias debug_nvimrc="nvim -u ~/.vimrc_min ~/.vimrc_min"
 
+  alias vvim="/usr/local/bin/vim"
+
   alias gd='git diff --color | sed -E "s/^([^-+ ]*)[-+ ]/\\1/" | less -r'
 
   alias netwtf='sudo /usr/local/sbin/mtr -n 8.8.8.8'
@@ -28,6 +30,7 @@ if [[ $IS_MAC -eq 1 ]]; then
   alias fix_permissions="sudo /usr/libexec/repair_packages --repair --standard-pkgs --volume / && sudo chown -R $(whoami) /usr/local"
 
   alias oo='open .'
+  # alias rubies='rbenv versions'
 
   alias postoff="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop"
   alias poston="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
@@ -79,7 +82,7 @@ alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | green '=> Public key copied to p
 # alias ref="source ~/.zshrc"
 alias ref="src"
 alias ungit="find . -name '.git' -exec rm -rf {} \;"
-alias update_tags="ctags -R . $(bundle list --paths)"
+# alias update_tags="ctags -R . $(bundle list --paths)"
 
 alias deploy_prod="prod_deploy"
 alias deploy_stage="stage_deploy"
@@ -87,6 +90,7 @@ alias stage_deploy="cap staging deploy"
 alias prod_deploy="cap production deploy"
 
 alias dcup='rm tmp/pids/server.pid ; docker-compose up'
+# alias dcup='rm tmp/pids/server.pid ; docker-sync-stack start'
 
 # typos
 alias gca="gac"
@@ -100,6 +104,7 @@ alias chown='chown -v'
 
 # git alises
 alias co='git checkout'
+alias new_branch="git checkout -b"
 alias branches='git branches'
 
 # zsh global aliases for piping

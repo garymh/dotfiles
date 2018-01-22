@@ -1,0 +1,145 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activemodel (5.1.4)
+      activesupport (= 5.1.4)
+    activerecord (5.1.4)
+      activemodel (= 5.1.4)
+      activesupport (= 5.1.4)
+      arel (~> 8.0)
+    activesupport (5.1.4)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (~> 0.7)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    amatch (0.4.0)
+      mize
+      tins (~> 1.0)
+    annotate (2.7.2)
+      activerecord (>= 3.2, < 6.0)
+      rake (>= 10.4, < 13.0)
+    arel (8.0.0)
+    ast (2.3.0)
+    awesome_print (1.8.0)
+    backticks (1.0.2)
+    chronic (0.10.2)
+    coderay (1.1.2)
+    colorize (0.8.1)
+    concurrent-ruby (1.0.5)
+    coolline (0.5.0)
+      unicode_utils (~> 1.4)
+    daemons (1.2.5)
+    docker-compose (1.1.7)
+      backticks (~> 1.0)
+    docker-sync (0.5.2)
+      daemons (~> 1.2, >= 1.2.3)
+      docker-compose (~> 1.1, >= 1.1.7)
+      dotenv (~> 2.1, >= 2.1.1)
+      gem_update_checker (~> 0.2.0, >= 0.2.0)
+      os
+      terminal-notifier (= 2.0.0)
+      thor (~> 0.19, >= 0.19.0)
+    dotenv (2.2.1)
+    gem-browse (1.0.0)
+    gem-ctags (1.0.8)
+    gem-shut-the-fuck-up (1.0.0)
+    gem_update_checker (0.2.0)
+    ghi (1.2.0)
+      pygments.rb
+    hirb (0.7.3)
+    i18n (0.9.1)
+      concurrent-ruby (~> 1.0)
+    method_source (0.9.0)
+    minitest (5.10.3)
+    mize (0.3.4)
+      protocol
+    msgpack (1.2.0)
+    multi_json (1.12.2)
+    neovim (0.6.2)
+      msgpack (~> 1.1)
+      multi_json (~> 1.0)
+    os (1.0.0)
+    otask (0.2.4)
+      amatch (~> 0.3, >= 0.3.0)
+      chronic (~> 0.10, >= 0.10.2)
+      rb-appscript (~> 0.6, >= 0.6.1)
+    parallel (1.12.1)
+    parser (2.4.0.2)
+      ast (~> 2.3)
+    powerpack (0.1.1)
+    protocol (1.0.1)
+      ruby_parser (~> 3.0)
+    pry (0.11.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-bloodline (0.0.2)
+      colorize (~> 0.7)
+      pry (~> 0.10)
+    pry-coolline (0.2.5)
+      coolline (~> 0.5)
+    pry-doc (0.11.1)
+      pry (~> 0.9)
+      yard (~> 0.9)
+    pry-theme (1.2.0)
+      coderay (~> 1.1)
+    pry-toys (0.0.2)
+      pry
+    pygments.rb (1.2.1)
+      multi_json (>= 1.0.0)
+    rainbow (3.0.0)
+    rake (12.3.0)
+    rb-appscript (0.6.1)
+    rb-readline (0.5.5)
+    rubocop (0.52.0)
+      parallel (~> 1.10)
+      parser (>= 2.4.0.2, < 3.0)
+      powerpack (~> 0.1)
+      rainbow (>= 2.2.2, < 4.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (~> 1.0, >= 1.0.1)
+    ruby-progressbar (1.9.0)
+    ruby_parser (3.10.1)
+      sexp_processor (~> 4.9)
+    sexp_processor (4.10.0)
+    sketches (0.1.1)
+    terminal-notifier (2.0.0)
+    thor (0.20.0)
+    thread_safe (0.3.6)
+    tins (1.16.3)
+    tzinfo (1.2.4)
+      thread_safe (~> 0.1)
+    unicode-display_width (1.3.0)
+    unicode_utils (1.4.0)
+    version (1.1.1)
+    wallpaper (0.0.0)
+      version (~> 1)
+    yard (0.9.12)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  annotate
+  awesome_print
+  docker-sync
+  gem-browse
+  gem-ctags
+  gem-shut-the-fuck-up
+  ghi
+  hirb
+  neovim
+  otask
+  pry
+  pry-bloodline
+  pry-coolline
+  pry-doc
+  pry-theme
+  pry-toys
+  rb-appscript
+  rb-readline
+  rubocop
+  sketches
+  wallpaper
+
+BUNDLED WITH
+   1.16.1

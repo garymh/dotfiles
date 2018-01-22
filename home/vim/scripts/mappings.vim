@@ -6,16 +6,16 @@ let mapleader=","
 let maplocalleader = "\\"
 
 function! ListLeaders()
-     silent! redir @a
-     silent! nmap <LEADER>
-     silent! redir END
-     silent! new
-     silent! put! a
-     silent! g/^s*$/d
-     silent! %s/^.*,//
-     silent! normal ggVg
-     silent! sort
-     silent! let lines = getline(1,"$")
+  silent! redir @a
+  silent! nmap <LEADER>
+  silent! redir END
+  silent! new
+  silent! put! a
+  silent! g/^s*$/d
+  silent! %s/^.*,//
+  silent! normal ggVg
+  silent! sort
+  silent! let lines = getline(1,"$")
 endfunction
 
 vnoremap @ :norm@
@@ -74,7 +74,8 @@ map <silent> <leader>diff :<C-U>Git difftool %<cr>
 map <silent> <F5> :Neoformat<CR>
 map <silent> <leader>p :echo expand('%')<CR>
 map <silent> <leader>w :w<cr>
-map <silent> <leader>gs :Gstatus<CR>:resize 25<CR>
+map <silent> <leader>gs :Gstatus<CR>
+" map <silent> <leader>gs :Magit<CR>
 
 nnoremap c* *Ncgn
 nnoremap c# #NcgN
@@ -83,6 +84,8 @@ function! EditAll()
   e ~/.vim/scripts/plugin_settings.vim
   e ~/.vim/scripts/autocommands.vim
   e ~/.vim/scripts/mappings.vim
+  e ~/.vim/scripts/ideas.vim
+  e ~/.vim/scripts/completions.vim
 endfunction
 
 command! Ruby execute "set syntax=ruby"
@@ -93,7 +96,6 @@ command! Eplugin execute "e ~/.vim/scripts/plugin_settings.vim"
 command! Eideas execute "e ~/.vim/scripts/ideas.vim"
 command! Ecomp execute "e ~/.vim/scripts/completions.vim"
 command! Eall execute "call EditAll()"
-
 
 command! Efunction execute "e ~/.zsh/functions.zsh"
 command! Ealiases execute "e ~/.zsh/aliases.zsh"
@@ -116,11 +118,7 @@ vnoremap < <gv
 vnoremap > >gv
 vnoremap L g_
 
-" quicker close window
 nnoremap <silent>Q :Sayonara<cr>
-" command! -bang Q q<bang>
-" command! -bang QA qa<bang>
-" command! -bang Qa qa<bang>
 
 " @wincent is very smart
 " https://www.youtube.com/watch?v=0aEv1Nj0IPg
@@ -128,12 +126,11 @@ nnoremap <silent> <Leader>r :call mappings#cycle_numbering()<CR>
 function! mappings#cycle_numbering() abort
   if exists('+relativenumber')
     execute {
-          \ '00': 'set relativenumber   | set number',
-          \ '01': 'set norelativenumber | set number',
-          \ '10': 'set norelativenumber | set nonumber',
-          \ '11': 'set norelativenumber | set number' }[&number . &relativenumber]
+    \ '00': 'set relativenumber   | set number',
+    \ '01': 'set norelativenumber | set number',
+    \ '10': 'set norelativenumber | set nonumber',
+    \ '11': 'set norelativenumber | set number' }[&number . &relativenumber]
   else
-    " No relative numbering, just toggle numbers on and off.
     set number!<CR>
   endif
 endfunction

@@ -13,11 +13,11 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/fasd
   zgen oh-my-zsh plugins/github
   zgen oh-my-zsh plugins/rake-fast
-  zgen oh-my-zsh plugins/rbenv
   zgen oh-my-zsh plugins/zsh_reload
-  zgen oh-my-zsh plugins/command-not-found
   zgen oh-my-zsh plugins/docker
   zgen oh-my-zsh plugins/docker-compose
+  zgen oh-my-zsh plugins/yarn
+  zgen oh-my-zsh plugins/chruby
 
   zgen load Tarrasch/zsh-colors
   zgen load djui/alias-tips
@@ -26,7 +26,8 @@ if ! zgen saved; then
   zgen load zsh-users/zsh-completions src
 
   if [[ $(zsh --version | awk '{print $2}') > 5.3.0 ]]; then
-    zgen load dfurnes/purer
+    # zgen load dfurnes/purer
+    zgen load denysdovhan/spaceship-prompt spaceship
   else
     zgen load sindresorhus/pure
   fi
@@ -34,27 +35,46 @@ if ! zgen saved; then
   zgen save
 fi
 
+# source /usr/local/opt/chruby/share/chruby/chruby.sh
+# source /usr/local/opt/chruby/share/chruby/auto.sh
+
+e_header()  { echo -e "\n\033[1m$@\033[0m"; }
+e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
+e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
+
 for f ($HOME/.zsh/*.zsh) {source $f}
 
-  for f in ~/.zsh/private/*.zsh(N); do
-    [ -e "$f" ] && source $f || break
-  done
+for f in ~/.zsh/private/*.zsh(N); do
+  [ -e "$f" ] && source $f || break
+done
 
-  [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
+ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
 
-  if [[ $HAS_IMGCAT -eq 1 ]]; then
-    if [[ -a $HOME/Documents/Public/tiny_rick.jpg ]]; then
-      imgcat $HOME/Documents/Public/tiny_rick.jpg
-    fi
-  elif [[ $HAS_IMG2XTERM -eq 1 ]]; then
-    img2xterm $HOME/.zsh/plugins/meeseeks_iterm.png;
-  elif [[ $HAS_COWSAY -eq 1 ]]; then
-    echo "CAN DO!" | cowsay -f $HOME/.zsh/plugins/cows/meeseeks.cow
-  fi
-  echo "$(uptime | awk -F'[a-z]:' '{ print "Load:"$2 }') $(battery-status)"
+SPACESHIP_PROMPT_ORDER=(
+  time          # Time stampts section
+  user          # Username section
+  dir           # Current directory section
+  host          # Hostname section
+  # git           # Git section (git_branch + git_status)
+  ruby          # Ruby section
+  exec_time     # Execution time
+  line_sep      # Line break
+  battery       # Battery level and status
+  vi_mode       # Vi-mode indicator
+  jobs          # Backgound jobs indicator
+  exit_code     # Exit code section
+  char          # Prompt character
+)
 
-  ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
-  export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES=":q eivm evimrc ezshrc _ gls"
-  export LC_ALL="en_US.UTF-8"
+SPACESHIP_RPROMPT_ORDER=(
+  git           # Git section (git_branch + git_status)
+)
 
-  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export SPACESHIP_CHAR_SYMBOL="➜  "
+export SPACESHIP_RUBY_COLOR="blue"
+export SPACESHIP_RUBY_SYMBOL="🔻 "
+export SPACESHIP_PROMPT_SEPARATE_LINE="true"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

@@ -1,7 +1,9 @@
 gem-shut-the-fuck-up
 awesome_print
 bundler
+annotate
 gem-browse
+docker-sync
 gem-ctags
 ghi
 hirb

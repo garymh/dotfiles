@@ -1,5 +1,19 @@
 " vim:fdm=marker
 
+" hardtime {{{ "
+let g:hardtime_default_on = 1
+" }}} hardtime "
+
+" Tmux {{{ "
+  " let g:tmux_navigator_no_mappings = 1
+
+  " nnoremap <silent> <c-w>h :TmuxNavigateLeft<cr>
+  " nnoremap <silent> <c-w>j :TmuxNavigateDown<cr>
+  " nnoremap <silent> <c-w>k :TmuxNavigateUp<cr>
+  " nnoremap <silent> <c-w>l :TmuxNavigateRight<cr>
+  " nnoremap <silent> <c-w>w :TmuxNavigatePrevious<cr>
+" }}} Tmux "
+
 " vim-slash {{{ "
 noremap <plug>(slash-after) zz
 " }}} vim-slash "
@@ -130,8 +144,13 @@ let g:neomake_verbose = 3
 " }}} ragtag "
 
 " indentLine {{{ "
-  let g:indentLine_showFirstIndentLevel = 1
-  let g:indentLine_faster = 1
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_start_level = 2
+  let g:indent_guides_guide_size = 1
+  " let g:indentLine_showFirstIndentLevel = 1
+  " let g:indentLine_faster = 1
+  " let g:indentLine_fileTypeExclude = ['text', 'help']
+  " let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*', 'FZF']
 " }}} indentLine "
 
 " vim-sayonara {{{ "
@@ -165,8 +184,11 @@ let g:neomake_verbose = 3
           return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
   endfun
 
+  " command! -bang -nargs=? -complete=dir Files
+  "   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('up:40%'), <bang>0)
+
   command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('up:40%'), <bang>0)
+        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
   command! -bang -nargs=* Rg
     \ call fzf#vim#grep(
@@ -205,7 +227,6 @@ let g:neomake_verbose = 3
 " }}} FZF commands "
 
 " Testing {{{ "
-  let g:test#strategy = 'neovim'
   nmap <silent> <leader>t :TestNearest<CR>
   nmap <silent> <leader>T :TestFile<CR>
   nmap <silent> <leader>a :TestSuite<CR>

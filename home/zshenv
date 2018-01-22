@@ -1,14 +1,5 @@
-path=(
-  /usr/local/opt/rbenv/shims
-  /usr/local/bin
-  /usr/bin
-  ${PATH}
-  /bin
-  ${HOME}/code/custom/go/bin
-  ${HOME}/bin
-  ${HOME}/.composer/vendor/bin
-)
-OS=$(uname)
+export PATH=$PATH:~/bin
+OS=$(/usr/bin/uname)
 
 if [[ $OS = 'Linux' ]]; then
   IS_LINUX=1
@@ -24,36 +15,17 @@ fi
 if [[ $OS = 'Darwin' ]]; then
   IS_MAC=1
 
-  if (( $+commands[brew] )) ; then
-    HAS_BREW=1
-    path=(
-    $(brew --prefix)/sbin
-    $(brew --prefix)/share/npm/bin
-    $(brew --cellar)/coreutils
-    $path
-    )
-  fi
-
-  if [ $(command -v grc) ]; then
-    HAS_GRC=1
-    source `brew --prefix`/etc/grc.bashrc
-  fi
-
-  export GOPATH="$HOME/code/custom/go"
   export DOTFILES="$HOME/code/dotfiles"
   export EDITOR='nvim'
   export VISUAL='nvim'
-  export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-  export OCI_DIR=$(brew --prefix)/lib
+  export OCI_DIR=/usr/local/lib
 
 fi
 
-export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
+#   export GOPATH="$HOME/code/custom/go"
+#   export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+# export LC_ALL="en_US.UTF-8"
+# export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
+export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES=":q eivm evimrc ezshrc _ gls"
 export HOME_DIR="$DOTFILES/home"
 export LESS='-F -g -i -M -R -S -w -X -z-4'
-
-if (( $+commands[gls] )) ; then
-  export HAS_GLS=1
-fi
-
-test -e "${HOME}/.iterm2/imgcat" && export HAS_IMGCAT=1
