@@ -89,6 +89,7 @@ alias deploy_stage="stage_deploy"
 alias stage_deploy="cap staging deploy"
 alias prod_deploy="cap production deploy"
 
+alias spaces2underscores='for i in *; do mv -iv "$i" "${i// /_}"; done'
 alias dcup='rm tmp/pids/server.pid ; docker-compose up'
 # alias dcup='rm tmp/pids/server.pid ; docker-sync-stack start'
 

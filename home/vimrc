@@ -35,6 +35,7 @@ call plug#begin()
 " }}} looks "
 
 " colors {{{ "
+  Plug 'cocopon/iceberg.vim'
   Plug 'metalelf0/base16-black-metal-scheme'
   " Plug 'AlessandroYorba/Alduin'
   " Plug 'AlessandroYorba/Monrovia'
@@ -123,16 +124,17 @@ call plug#begin()
 " custom vim objects {{{ "
   Plug 'AndrewRadev/dsf.vim'
   Plug 'coderifous/textobj-word-column.vim'
-  Plug 'Julian/vim-textobj-brace'       | Plug 'kana/vim-textobj-user'
-  Plug 'beloglazov/vim-textobj-quotes'  | Plug 'kana/vim-textobj-user'
-  Plug 'glts/vim-textobj-comment'       | Plug 'kana/vim-textobj-user'
-  Plug 'glts/vim-textobj-indblock'      | Plug 'kana/vim-textobj-user'
-  Plug 'kana/vim-textobj-indent'        | Plug 'kana/vim-textobj-user'
-  Plug 'jceb/vim-textobj-uri'           | Plug 'kana/vim-textobj-user'
-  Plug 'kana/vim-textobj-entire'        | Plug 'kana/vim-textobj-user'
-  Plug 'kana/vim-textobj-line'          | Plug 'kana/vim-textobj-user'
-  Plug 'nelstrom/vim-textobj-rubyblock' | Plug 'kana/vim-textobj-user'
-  Plug 'whatyouhide/vim-textobj-erb'    | Plug 'kana/vim-textobj-user'
+  Plug 'Julian/vim-textobj-brace'            | Plug 'kana/vim-textobj-user'
+  Plug 'beloglazov/vim-textobj-quotes'       | Plug 'kana/vim-textobj-user'
+  Plug 'glts/vim-textobj-comment'            | Plug 'kana/vim-textobj-user'
+  Plug 'glts/vim-textobj-indblock'           | Plug 'kana/vim-textobj-user'
+  Plug 'kana/vim-textobj-indent'             | Plug 'kana/vim-textobj-user'
+  Plug 'jceb/vim-textobj-uri'                | Plug 'kana/vim-textobj-user'
+  Plug 'kana/vim-textobj-entire'             | Plug 'kana/vim-textobj-user'
+  Plug 'kana/vim-textobj-line'               | Plug 'kana/vim-textobj-user'
+  Plug 'nelstrom/vim-textobj-rubyblock'      | Plug 'kana/vim-textobj-user'
+  Plug 'whatyouhide/vim-textobj-erb'         | Plug 'kana/vim-textobj-user'
+  Plug 'Julian/vim-textobj-variable-segment' | Plug 'kana/vim-textobj-user'
 " }}} custom vim objects "
 
 call plug#end()
@@ -143,6 +145,10 @@ source ~/.vim/scripts/plugin_settings.vim
 source ~/.vimrc.local
 
 " settings {{{ "
+  if v:version > 703 || v:version == 703 && has('patch541')
+    set formatoptions+=j
+  endif
+
   set expandtab
   set foldlevelstart=99
   set formatprg="par 79"          " respect the 80 character lines
@@ -202,9 +208,11 @@ source ~/.vimrc.local
   set background=dark
 
   try
-    let g:airline_theme='one'
-    let g:one_allow_italics = 1
-    colorscheme one
+    let g:airline_theme='iceberg'
+    " let g:one_allow_italics = 1
+    colorscheme iceberg
+    highlight Comment gui=italic
+    highlight Comment cterm=italic
   catch /:E185:/
     colorscheme default
   endtry
