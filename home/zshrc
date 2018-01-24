@@ -20,7 +20,7 @@ zplug plugins/rake-fast,  from:oh-my-zsh
 zplug plugins/zsh_reload, from:oh-my-zsh
 
 zplug Tarrasch/zsh-colors
-zplug unixorn/git-extra-commands
+# zplug unixorn/git-extra-commands
 zplug djui/alias-tips
 zplug zsh-users/zsh-completions,        depth:1
 zplug zdharma/fast-syntax-highlighting, defer:2

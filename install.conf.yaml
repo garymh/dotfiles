@@ -2,7 +2,6 @@
     ~/.ctags: home/ctags
     ~/.agignore: home/agignore
     ~/.rgignore: home/agignore
-    ~/.dircolors: submodules/LS_COLORS/LS_COLORS
     ~/.gemrc: home/gemrc
     ~/.gitconfig: home/gitconfig
     ~/.bundle/config: home/bundle_config
@@ -46,9 +45,6 @@
     ~/.config/nvim/ftdetect: home/vim/ftdetect/
     ~/.config/nvim/scripts: home/vim/scripts/
 
-    ~/.tmux/plugins/tpm:
-      path: submodules/tpm
-      create: true
     ~/.tmux/reset.tmux: home/tmux/reset.tmux
     ~/.tmux/gary_theme.conf: home/tmux/gary_theme.conf
     ~/.tmux.conf: home/tmux.conf

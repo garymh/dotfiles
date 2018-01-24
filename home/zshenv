@@ -1,5 +1,5 @@
 export PATH=$PATH:~/bin
-OS=$(/usr/bin/uname)
+OS=$($(which uname))
 
 if [[ $OS = 'Linux' ]]; then
   IS_LINUX=1
