@@ -93,6 +93,13 @@ alias spaces2underscores='for i in *; do mv -iv "$i" "${i// /_}"; done'
 alias dcup='rm tmp/pids/server.pid ; docker-compose up'
 # alias dcup='rm tmp/pids/server.pid ; docker-sync-stack start'
 
+e_header()  { echo -e "\n\033[1m$@\033[0m"; }
+e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
+e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
+
+alias z="j"
+alias ..="cd .."
+
 # typos
 alias gca="gac"
 alias gco="gac"

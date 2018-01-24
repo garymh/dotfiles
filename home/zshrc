@@ -1,46 +1,66 @@
-DISABLE_AUTO_UPDATE="true"
-source $DOTFILES/submodules/zgen/zgen.zsh
+export ZPLUG_HOME=$HOME/.zplug
+local zplug_init=$ZPLUG_HOME/init.zsh
+if [ ! -f "$zplug_init" ] &> /dev/null; then
+    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
+fi
+source $zplug_init
 
-if ! zgen saved; then
-  zgen oh-my-zsh
-
-  if [[ $IS_MAC -eq 1 ]]; then
-    zgen oh-my-zsh plugins/brew
-    zgen oh-my-zsh plugins/heroku
-  fi
-
-  zgen oh-my-zsh plugins/bundler
-  zgen oh-my-zsh plugins/fasd
-  zgen oh-my-zsh plugins/github
-  zgen oh-my-zsh plugins/rake-fast
-  zgen oh-my-zsh plugins/zsh_reload
-  zgen oh-my-zsh plugins/docker
-  zgen oh-my-zsh plugins/docker-compose
-  zgen oh-my-zsh plugins/yarn
-  zgen oh-my-zsh plugins/chruby
-
-  zgen load Tarrasch/zsh-colors
-  zgen load djui/alias-tips
-  zgen load zsh-users/zsh-syntax-highlighting
-  zgen load mafredri/zsh-async
-  zgen load zsh-users/zsh-completions src
-
-  if [[ $(zsh --version | awk '{print $2}') > 5.3.0 ]]; then
-    # zgen load dfurnes/purer
-    zgen load denysdovhan/spaceship-prompt spaceship
-  else
-    zgen load sindresorhus/pure
-  fi
-
-  zgen save
+if [[ $IS_MAC -eq 1 ]]; then
+  zplug plugins/heroku,         from:oh-my-zsh
+  zplug plugins/chruby,         from:oh-my-zsh
+  zplug plugins/docker,         from:oh-my-zsh
+  zplug plugins/docker-compose, from:oh-my-zsh
+  zplug plugins/github,         from:oh-my-zsh
+  zplug plugins/yarn,           from:oh-my-zsh
 fi
 
-# source /usr/local/opt/chruby/share/chruby/chruby.sh
-# source /usr/local/opt/chruby/share/chruby/auto.sh
+zplug plugins/bundler,    from:oh-my-zsh
+zplug plugins/autojump,   from:oh-my-zsh
+zplug plugins/rake-fast,  from:oh-my-zsh
+zplug plugins/zsh_reload, from:oh-my-zsh
 
-e_header()  { echo -e "\n\033[1m$@\033[0m"; }
-e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
-e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
+zplug Tarrasch/zsh-colors
+zplug unixorn/git-extra-commands
+zplug djui/alias-tips
+zplug zsh-users/zsh-completions,        depth:1
+zplug zdharma/fast-syntax-highlighting, defer:2
+zplug hcgraf/zsh-sudo, as:plugin
+zplug ael-code/zsh-colored-man-pages, as:plugin
+zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
+
+zplug "wting/autojump", \
+      use:"bin/autojump", \
+      as:command
+
+zplug "wting/autojump", \
+      use:"bin/autojump.zsh"
+
+if ! zplug check --verbose; then
+  printf "Install? [y/N]: "
+  if read -q; then
+    echo; zplug install
+  fi
+fi
+
+zplug "lib/misc", from:oh-my-zsh
+zplug "lib/key-bindings", from:oh-my-zsh
+zplug "lib/history", from:oh-my-zsh
+zplug "lib/directories", from:oh-my-zsh
+zplug "lib/compfix", from:oh-my-zsh
+zplug "lib/completion", from:oh-my-zsh
+
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+
+zplug load
+
+if [[ ! -d ~/.tmux/plugins/tpm ]]; then
+  git clone https://github.com/tmux-plugins/tpm.git --depth 1 ~/.tmux/plugins/tpm 2> /dev/null
+fi
+
+if [[ ! -f ~/.dircolors ]]; then
+  curl -o ~/.dircolors https://raw.githubusercontent.com/trapd00r/LS_COLORS/master/LS_COLORS
+fi
+eval $(gdircolors -b $HOME/.dircolors)
 
 for f ($HOME/.zsh/*.zsh) {source $f}
 
@@ -48,14 +68,11 @@ for f in ~/.zsh/private/*.zsh(N); do
   [ -e "$f" ] && source $f || break
 done
 
-ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
-
 SPACESHIP_PROMPT_ORDER=(
   time          # Time stampts section
   user          # Username section
   dir           # Current directory section
   host          # Hostname section
-  # git           # Git section (git_branch + git_status)
   ruby          # Ruby section
   exec_time     # Execution time
   line_sep      # Line break
@@ -70,6 +87,7 @@ SPACESHIP_RPROMPT_ORDER=(
   git           # Git section (git_branch + git_status)
 )
 
+export SPACESHIP_VI_MODE_SHOW="false"
 export SPACESHIP_CHAR_SYMBOL="➜  "
 export SPACESHIP_RUBY_COLOR="blue"
 export SPACESHIP_RUBY_SYMBOL="🔻 "
