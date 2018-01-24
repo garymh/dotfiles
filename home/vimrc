@@ -142,7 +142,9 @@ call plug#end()
 source ~/.vim/scripts/autocommands.vim
 source ~/.vim/scripts/mappings.vim
 source ~/.vim/scripts/plugin_settings.vim
-source ~/.vimrc.local
+if filereadable("~/.vimrc.local")
+  source ~/.vimrc.local
+endif
 
 " settings {{{ "
   if v:version > 703 || v:version == 703 && has('patch541')

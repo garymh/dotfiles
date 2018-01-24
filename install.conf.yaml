@@ -54,5 +54,7 @@
     ~/.gitconfig.local: iCloud/Internal/private/gitconfig.local
 
 - shell:
+    - ["touch ~/.hushlogin", "Hushing login"]
+    - ["chsh -s $(which zsh)", "Changing shell to zsh"]
     - ["git submodule update --remote", "Updating remote tracking submodules"]
 

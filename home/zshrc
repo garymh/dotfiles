@@ -1,9 +1,13 @@
 export ZPLUG_HOME=$HOME/.zplug
 local zplug_init=$ZPLUG_HOME/init.zsh
 if [ ! -f "$zplug_init" ] &> /dev/null; then
-    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
+    curl -fsSL https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
 fi
 source $zplug_init
+
+if [[ ! -f ~/.dircolors ]]; then
+  curl -o ~/.dircolors https://raw.githubusercontent.com/trapd00r/LS_COLORS/master/LS_COLORS
+fi
 
 if [[ $IS_MAC -eq 1 ]]; then
   zplug plugins/heroku,         from:oh-my-zsh
@@ -12,6 +16,9 @@ if [[ $IS_MAC -eq 1 ]]; then
   zplug plugins/docker-compose, from:oh-my-zsh
   zplug plugins/github,         from:oh-my-zsh
   zplug plugins/yarn,           from:oh-my-zsh
+  eval $(gdircolors -b $HOME/.dircolors)
+else
+  eval $(dircolors -b $HOME/.dircolors)
 fi
 
 zplug plugins/bundler,    from:oh-my-zsh
@@ -26,7 +33,13 @@ zplug zsh-users/zsh-completions,        depth:1
 zplug zdharma/fast-syntax-highlighting, defer:2
 zplug hcgraf/zsh-sudo, as:plugin
 zplug ael-code/zsh-colored-man-pages, as:plugin
-zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
+
+if [[ $(zsh --version | awk '{print $2}') > 5.0.6 ]]; then
+  zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
+else
+  zplug mafredri/zsh-async, from:github
+  zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
+fi
 
 zplug "wting/autojump", \
       use:"bin/autojump", \
@@ -56,11 +69,6 @@ zplug load
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then
   git clone https://github.com/tmux-plugins/tpm.git --depth 1 ~/.tmux/plugins/tpm 2> /dev/null
 fi
-
-if [[ ! -f ~/.dircolors ]]; then
-  curl -o ~/.dircolors https://raw.githubusercontent.com/trapd00r/LS_COLORS/master/LS_COLORS
-fi
-eval $(gdircolors -b $HOME/.dircolors)
 
 for f ($HOME/.zsh/*.zsh) {source $f}
 
