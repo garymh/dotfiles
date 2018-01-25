@@ -80,7 +80,6 @@ call plug#begin()
   " Plug 'takac/vim-hardtime'
   Plug 'rhysd/devdocs.vim'
   Plug 'christoomey/vim-tmux-navigator'
-  Plug 'jaxbot/github-issues.vim'
   Plug 'AndrewRadev/multichange.vim'
   Plug 'AndrewRadev/sideways.vim'
   Plug 'AndrewRadev/splitjoin.vim'
@@ -112,6 +111,7 @@ call plug#begin()
     Plug 'benekastah/neomake'
     Plug 'sbdchd/neoformat'
     Plug 'machakann/vim-highlightedyank'
+    Plug 'jaxbot/github-issues.vim'
     source ~/.vim/scripts/completions.vim
 
     let g:python_host_prog  = '/usr/local/bin/python2'

@@ -72,8 +72,6 @@
 	recentrepo = /Users/gmh/code/NUDAIS
 [commit]
 	gpgsign = true
-[credential]
-	helper = osxkeychain
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f

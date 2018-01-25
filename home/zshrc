@@ -34,7 +34,7 @@ zplug zdharma/fast-syntax-highlighting, defer:2
 zplug hcgraf/zsh-sudo, as:plugin
 zplug ael-code/zsh-colored-man-pages, as:plugin
 
-if [[ $(zsh --version | awk '{print $2}') > 5.0.6 ]]; then
+if [[ $(zsh --version | awk '{print $2}') > 5.0.7 ]]; then
   zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
 else
   zplug mafredri/zsh-async, from:github
