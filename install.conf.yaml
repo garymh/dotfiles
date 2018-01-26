@@ -17,6 +17,9 @@
     ~/.inputrc: home/inputrc
     ~/bin: home/zsh/bin
 
+    ~/.netrc: iCloud/Internal/private/netrc
+    ~/.vimrc.local: iCloud/Internal/private/vimrc.local
+
     ~/.mackup.cfg:
       path: iCloud/Mackup/mackup.cfg
 
@@ -36,6 +39,18 @@
     ~/.vim/ftdetect: home/vim/ftdetect/
     ~/.vim/UltiSnips: home/vim/UltiSnips/
     ~/.vim/scripts: home/vim/scripts/
+
+    ~/.ssh:
+      create: true
+      path: iCloud/Internal/private/ssh/
+
+    ~/.whereami:
+      create: true
+      path: iCloud/Internal/private/whereami/
+
+    ~/.gnupg:
+      create: true
+      path: iCloud/Internal/private/gnupg/
 
     ~/.config/nvim/UltiSnips:
       create: true
