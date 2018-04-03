@@ -58,6 +58,7 @@ call plug#begin()
   Plug 'tyrannicaltoucan/vim-deep-space'
   Plug 'w0ng/vim-hybrid'
   Plug 'whatyouhide/vim-gotham'
+  Plug 'dracula/vim', { 'as': 'dracula' }
 " }}} colors "
 
 " ruby {{{ "
@@ -66,6 +67,7 @@ call plug#begin()
   Plug 'tpope/vim-rails',   { 'for': ['eruby', 'haml', 'ruby', 'slim', 'yaml'] }
   Plug 'tpope/vim-rake',    { 'for': 'ruby' }
   Plug 'janko-m/vim-test'
+  Plug 'tpope/vim-endwise',  { 'for': 'ruby' }
 " }}} ruby "
 
 " syntax {{{ "
@@ -74,6 +76,9 @@ call plug#begin()
   Plug 'chrisbra/csv.vim'
   Plug 'davejlong/cf-utils.vim',   { 'for': ['cfml', 'coldfusion'] }
   Plug 'sheerun/vim-polyglot'
+  Plug 'prettier/vim-prettier', {
+        \ 'do': 'npm install',
+        \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss'] }
 " }}} syntax "
 
 " misc {{{ "
@@ -91,6 +96,7 @@ call plug#begin()
   Plug 'dyng/ctrlsf.vim',         { 'on': ['<Plug>CtrlSFPrompt' , 'CtrlSF', 'CtrlSFToggle'] }
   Plug 'foosoft/vim-argwrap',     { 'on': 'ArgWrap' }
   Plug 'kana/vim-arpeggio'
+  Plug 'kana/vim-niceblock'
   Plug 'scrooloose/nerdtree'
   Plug 'thirtythreeforty/lessspace.vim'
   Plug 'tpope/vim-abolish'
@@ -101,6 +107,7 @@ call plug#begin()
   Plug 'tpope/vim-rhubarb'
   Plug 'vim-scripts/BufOnly.vim', { 'on': 'Bonly' }
   Plug 'wincent/terminus'
+  Plug 'rstacruz/vim-closer'
 " }}} misc "
 
 " mac/nvim {{{ "
@@ -114,7 +121,7 @@ call plug#begin()
     Plug 'jaxbot/github-issues.vim'
     source ~/.vim/scripts/completions.vim
 
-    let g:python_host_prog  = '/usr/local/bin/python2'
+    let g:python_host_prog  = '/usr/local/bin/python'
     let g:python3_host_prog = '/usr/local/bin/python3'
   else
     Plug 'tpope/vim-sensible'

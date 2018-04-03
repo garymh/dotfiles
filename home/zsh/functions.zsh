@@ -37,10 +37,10 @@ is_in_git_repo() {
 gh() {
   is_in_git_repo || return
   git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph |
-  fzf-tmux --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
+    fzf-tmux --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
     --header 'Press CTRL-S to toggle sort' \
     --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always | head -'$LINES |
-  grep -o "[a-f0-9]\{7,\}"
+    grep -o "[a-f0-9]\{7,\}"
 }
 
 # A helper function to join multi-line output from fzf
@@ -92,22 +92,6 @@ h() { cd ~/$1;  }
 _h() { _files -W ~/ -/; }
 compdef _h h
 
-function vpn() {
-  /usr/bin/env osascript <<-EOF
-  tell application "Shimo"
-  set title to "NU VPN"
-  set status to connected of account title
-  set nu_account to account title
-
-  if status = true then
-    disconnect account nu_account
-  else
-    connect account nu_account
-  end if
-end tell
-return
-EOF
-}
 
 function gac() {
   hub add -A && hub commit -avm "$*"

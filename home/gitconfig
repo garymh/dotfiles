@@ -1,10 +1,8 @@
-[include]
-  path              = ~/.gitconfig.local
 [core]
   excludesfile = ~/.gitignore_global
-  whitespace        = space-before-tab,-indent-with-non-tab,trailing-space
-  pager             = less -RM
-  editor            = vim
+  whitespace   = space-before-tab,-indent-with-non-tab,trailing-space
+  pager        = less -RM
+  editor       = vim
 
   # Make `git rebase` safer on OS X
   # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
@@ -77,8 +75,8 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
-[user]
-	name = Gary Holtz
-	email = garymh@users.noreply.github.com
-[includeIf "gitdir:~/code/xbox_api"]
 
+[include]
+  path = ~/.gitconfig.local
+[includeIf "gitdir:~/code/work/"]
+  path = ~/.gitconfig.work

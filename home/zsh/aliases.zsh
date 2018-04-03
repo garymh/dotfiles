@@ -28,31 +28,19 @@ if [[ $IS_MAC -eq 1 ]]; then
 
   alias check_permissions="sudo /usr/libexec/repair_packages --verify --standard-pkgs / "
   alias fix_permissions="sudo /usr/libexec/repair_packages --repair --standard-pkgs --volume / && sudo chown -R $(whoami) /usr/local"
-
   alias oo='open .'
-  # alias rubies='rbenv versions'
-
-  alias postoff="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop"
-  alias poston="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
-  alias ldap_on="sudo /usr/local/Cellar/openldap/2.4.43/libexec/slapd -d 1"
-  alias vmon="VAGRANT_CWD=~/vagrant vagrant up"
-  alias vmoff="VAGRANT_CWD=~/vagrant vagrant suspend"
-
-  alias clean_dropbox-safe="find . -name \"*conflicted*\" -exec mv {} ~/Dropbox/Internal/conflicts/ \;"
-  alias clean_dropbox="find . -name \"*conflicted*\" -exec rm {} \;"
-
   alias plistbuddy="/usr/libexec/PlistBuddy"
   alias cask="brew cask"
   alias dc="docker-compose run web"
 
+  alias restore_db="pg_restore -h localhost -p 5432 -U postgres -d membership_user -O -c -v"
+
   # typos
-  alias vm="vmon"
   alias eivm="evim"
   alias evimrc="evim"
   alias ezshrc="zshrc"
   alias eenv="ezshenv"
   alias zshenv="ezshenv"
-  alias rvm="rbenv"
 fi
 
 if [[ $IS_LINUX -eq 1 ]]; then
@@ -61,7 +49,10 @@ if [[ $IS_LINUX -eq 1 ]]; then
   alias cf_restart="sudo service coldfusion_10 restart"
   alias prod="RAILS_ENV=production bundle exec"
   alias stage="RAILS_ENV=staging bundle exec"
+
+  alias db_dump="pg_dump $DATABASE_URL -F c -b --no-acl -v -f ~/db_dump"
 fi
+
 
 alias devlog='tail -f log/development.log'
 alias prodlog='tail -f log/production.log'
@@ -79,7 +70,6 @@ alias gs="git status -sb"
 alias killruby='killall -9 ruby'
 alias please='sudo $SHELL -c "$(fc -ln -1)"'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | green '=> Public key copied to pasteboard.'"
-# alias ref="source ~/.zshrc"
 alias ref="src"
 alias ungit="find . -name '.git' -exec rm -rf {} \;"
 # alias update_tags="ctags -R . $(bundle list --paths)"

@@ -67,6 +67,7 @@
     ~/.hammerspoon: home/hammerspoon/
     ~/.git_hooks: home/git_hooks/
     ~/.gitconfig.local: iCloud/Internal/private/gitconfig.local
+    ~/.gitconfig.work: iCloud/Internal/private/gitconfig.work
 
 - shell:
     - ["touch ~/.hushlogin", "Hushing login"]

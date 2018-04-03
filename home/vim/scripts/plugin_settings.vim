@@ -198,6 +198,7 @@ let g:neomake_verbose = 3
     \   <bang>0)
 
   nnoremap <silent> <space>r :History<CR>
+  nnoremap <silent> <space>h :History<CR>
   nnoremap <silent> <space>a :Buffers<CR>
   nnoremap <silent> <space>o :BTags<CR>
   nnoremap <silent> <space>t :Tags<CR>
