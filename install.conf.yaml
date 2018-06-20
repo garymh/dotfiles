@@ -6,6 +6,7 @@
     ~/.gitconfig: home/gitconfig
     ~/.bundle/config: home/bundle_config
     ~/.gitignore_global: home/gitignore_global
+    ~/.gitattributes: home/gitattributes
     ~/.pryrc-helpers.rb: home/pryrc-helpers.rb
     ~/.pryrc: home/pryrc
     ~/.rubocop.yml: home/rubocop.yml
@@ -71,6 +72,6 @@
 
 - shell:
     - ["touch ~/.hushlogin", "Hushing login"]
+    - ["mkdir ~/.vim/tmp", "Creating vim tempdir"]
     - ["chsh -s $(which zsh)", "Changing shell to zsh"]
     - ["git submodule update --remote", "Updating remote tracking submodules"]
-

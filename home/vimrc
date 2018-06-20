@@ -27,29 +27,21 @@ call plug#begin()
 
 " looks {{{ "
   Plug 'Xuyuanp/nerdtree-git-plugin'
-  " Plug 'Yggdroot/indentLine'
   Plug 'nathanaelkane/vim-indent-guides'
   Plug 'lilydjwg/colorizer', { 'for': ['css', 'sass', 'scss', 'less', 'html', 'javascript'] }
   Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-  " Plug 'bagrat/vim-workspace'
 " }}} looks "
 
 " colors {{{ "
+  Plug 'xolox/vim-misc'
+  Plug 'xolox/vim-colorscheme-switcher'
   Plug 'cocopon/iceberg.vim'
-  Plug 'metalelf0/base16-black-metal-scheme'
-  " Plug 'AlessandroYorba/Alduin'
-  " Plug 'AlessandroYorba/Monrovia'
-  " Plug 'AlessandroYorba/Sidonia'
-  " Plug 'Sclarki/neonwave.vim'
-  " Plug 'arakashic/nvim-colors-solarized'
-  " Plug 'chriskempson/base16-vim'
-  " Plug 'ciaranm/inkpot'
-  " Plug 'freeo/vim-kalisi'
-  " Plug 'jacoborus/tender.vim'
-  " Plug 'kabbamine/yowish.vim'
-  " Plug 'nanotech/jellybeans.vim'
-  " Plug 'trevordmiller/nova-vim'
-  " Plug 'zanglg/nova.vim'
+  Plug 'chriskempson/base16-vim'
+  Plug 'freeo/vim-kalisi'
+  Plug 'kabbamine/yowish.vim'
+  Plug 'nanotech/jellybeans.vim'
+  Plug 'trevordmiller/nova-vim'
+  Plug 'zanglg/nova.vim'
   Plug 'ajh17/Spacegray.vim'
   Plug 'hzchirs/vim-material'
   Plug 'morhetz/gruvbox'
@@ -58,7 +50,6 @@ call plug#begin()
   Plug 'tyrannicaltoucan/vim-deep-space'
   Plug 'w0ng/vim-hybrid'
   Plug 'whatyouhide/vim-gotham'
-  Plug 'dracula/vim', { 'as': 'dracula' }
 " }}} colors "
 
 " ruby {{{ "
@@ -67,11 +58,11 @@ call plug#begin()
   Plug 'tpope/vim-rails',   { 'for': ['eruby', 'haml', 'ruby', 'slim', 'yaml'] }
   Plug 'tpope/vim-rake',    { 'for': 'ruby' }
   Plug 'janko-m/vim-test'
+  Plug 'benmills/vimux'
   Plug 'tpope/vim-endwise',  { 'for': 'ruby' }
 " }}} ruby "
 
 " syntax {{{ "
-  " Plug 'sunaku/vim-ruby-minitest', { 'for': 'ruby' }
   Plug 'alcesleo/vim-uppercase-sql'
   Plug 'chrisbra/csv.vim'
   Plug 'davejlong/cf-utils.vim',   { 'for': ['cfml', 'coldfusion'] }
@@ -79,10 +70,12 @@ call plug#begin()
   Plug 'prettier/vim-prettier', {
         \ 'do': 'npm install',
         \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss'] }
+  Plug 'tpope/vim-apathy'
 " }}} syntax "
 
 " misc {{{ "
-  " Plug 'takac/vim-hardtime'
+  Plug 'airblade/vim-gitgutter'
+
   Plug 'rhysd/devdocs.vim'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'AndrewRadev/multichange.vim'
@@ -91,7 +84,6 @@ call plug#begin()
   Plug 'AndrewRadev/switch.vim'
   Plug 'chip/vim-fat-finger'
   Plug 'christoomey/vim-sort-motion'
-  Plug 'christoomey/vim-system-copy'
   Plug 'duggiefresh/vim-easydir'
   Plug 'dyng/ctrlsf.vim',         { 'on': ['<Plug>CtrlSFPrompt' , 'CtrlSF', 'CtrlSFToggle'] }
   Plug 'foosoft/vim-argwrap',     { 'on': 'ArgWrap' }
@@ -217,9 +209,10 @@ endif
   set background=dark
 
   try
-    let g:airline_theme='iceberg'
-    " let g:one_allow_italics = 1
-    colorscheme iceberg
+    " let g:airline_theme='spacegray'
+    let g:one_allow_italics = 1
+    " let g:jellybeans_use_term_italics = 1
+    colorscheme base16-atelier-sulphurpool
     highlight Comment gui=italic
     highlight Comment cterm=italic
   catch /:E185:/
@@ -243,7 +236,7 @@ endif
     if exists('$SUDO_USER')
       set noundofile                    " don't create root-owned files
     else
-      set undodir=~/.vim/tmp/undo//    " keep undo files out of the way
+      set undodir=~/.vim/tmp/undo//     " keep undo files out of the way
       set undofile                      " actually use undo files
     endif
   endif

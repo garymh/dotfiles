@@ -4,3 +4,9 @@ Documentation:
   Enabled: false
 Rails:
   Enabled: true
+AllCops:
+  Exclude:
+    - 'db/migrate/*'
+    - 'db/schema.rb'
+    - 'lib/tasks/one_off/*'
+    - 'config/routes.rb'

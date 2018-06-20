@@ -19,6 +19,7 @@ if [[ $OS = 'Darwin' ]]; then
   export EDITOR='nvim'
   export VISUAL='nvim'
   export OCI_DIR=/usr/local/lib
+  export HOMEBREW_UPGRADE_CLEANUP="true"
 
 fi
 
@@ -27,5 +28,6 @@ fi
 # export LC_ALL="en_US.UTF-8"
 # export NLS_LANG="AMERICAN_AMERICA.WE8MSWIN1252"
 export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES=":q eivm evimrc ezshrc _ gls"
+export DOT_BASE_DIR=$DOTFILES
 export HOME_DIR="$DOTFILES/home"
 export LESS='-F -g -i -M -R -S -w -X -z-4'

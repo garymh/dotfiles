@@ -7,6 +7,25 @@ if [[ -f ~/.fzf.zsh ]]; then
     export FZF_DEFAULT_COMMAND='ag -l -g ""'
   fi
 
+  fzf-down() {
+    fzf --height 50% "$@" --border
+  }
+
+  # fco - checkout git branch/tag
+  branch() {
+    local tags branches target
+    tags=$(git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
+    branches=$(
+    git branch --all | grep -v HEAD             |
+      sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
+      sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
+    target=$(
+    (echo "$tags"; echo "$branches") | sed '/^$/d' |
+      fzf-down --no-hscroll --reverse --ansi +m -d "\t" -n 2 -q "$*") || return
+    git checkout $(echo "$target" | awk '{print $2}')
+  }
+
+  bash_into_docker() { docker exec -it $(docker ps --format "{{.Names}}" | fzf | cat) /bin/bash }
 
   # super cool trick from https://adamheins.com/blog/ctrl-p-in-the-terminal-with-fzf
   # This is the same functionality as fzf's ctrl-t, except that the file or

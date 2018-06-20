@@ -17,12 +17,14 @@
   branches                                = branch -a
   checkout-commit                         = "!sh -c 'git_checkout_commit'"
   checkout-something                      = "!sh -c 'git_checkout_something'"
+  combine-commits                         = "!sh -c 'git rebase -i HEAD$1'"
   delete-local-branch                     = branch -D
   delete-local-reference-to-remote-branch = "!sh -c 'git branch -rd $1/$2' -"
   delete-remote-branch                    = "!sh -c 'git push $1 --delete $2' -"
   discard                                 = checkout --
+  explode                                 = !git reset --hard HEAD && git clean -d -f
   forgot-to-commit                        = difftool HEAD~1 HEAD
-  explode                               = !git reset --hard HEAD && git clean -d -f
+  ksdiff                                  = difftool
   precommit                               = diff --cached --diff-algorithm=minimal -w
   remotes                                 = remote -v
   s                                       = status -s
@@ -32,11 +34,7 @@
   unstage                                 = reset -q HEAD --
   up                                      = merge --ff-only
   update-submodules                       = submodule update --init --recursive
-  ksdiff                                  = difftool
-  combine-commits                         = "!sh -c 'git rebase -i HEAD$1'"
 
-[push]
-  default     = current
 [color]
   branch      = auto
   diff        = auto
@@ -48,35 +46,36 @@
 [help]
   autocorrect = 1
 [difftool]
-	prompt = false
+  prompt = false
 [mergetool "Kaleidoscope"]
-	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-	trustexitcode = true
+  cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+  trustexitcode = true
 [merge]
-	tool = Kaleidoscope
+  tool = Kaleidoscope
 [difftool "Kaleidoscope"]
-	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+  cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [mergetool]
-	prompt = false
+  prompt = false
 [diff]
-	tool = Kaleidoscope
+  tool = Kaleidoscope
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+  cmd = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
+  path =
 [mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[gui]
-	recentrepo = /Users/gmh/code/NUDAIS
+  cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+  trustExitCode = true
 [commit]
-	gpgsign = true
+  gpgsign = true
+  template = ~/.stCommitMsg
 [filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
 
 [include]
   path = ~/.gitconfig.local
 [includeIf "gitdir:~/code/work/"]
   path = ~/.gitconfig.work
+[push]
+  default = current

@@ -18,6 +18,7 @@ if [[ $IS_MAC -eq 1 ]]; then
   zplug "plugins/yarn",           from:oh-my-zsh
   eval $(gdircolors -b $HOME/.dircolors)
 else
+  zplug "plugins/rvm",           from:oh-my-zsh
   eval $(dircolors -b $HOME/.dircolors)
 fi
 
@@ -26,6 +27,7 @@ zplug "plugins/autojump",   from:oh-my-zsh
 zplug "plugins/rake-fast",  from:oh-my-zsh
 zplug "plugins/zsh_reload", from:oh-my-zsh
 
+zplug 'ytet5uy4/fzf-widgets'
 zplug "Tarrasch/zsh-colors",              as:plugin
 zplug "djui/alias-tips"
 zplug "zsh-users/zsh-completions",        depth:1
@@ -40,12 +42,8 @@ else
   zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
 fi
 
-zplug "wting/autojump", \
-      use:"bin/autojump", \
-      as:command
-
-zplug "wting/autojump", \
-      use:"bin/autojump.zsh"
+zplug "wting/autojump", use:"bin/autojump", as:command
+# zplug "wting/autojump", use:"bin/autojump.zsh"
 
 zplug "lib/misc", from:oh-my-zsh
 zplug "lib/key-bindings", from:oh-my-zsh

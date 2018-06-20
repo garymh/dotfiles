@@ -9,21 +9,20 @@ local module = {}
 
 -- hs.ipc.cliInstall()
 
--- reloader
--- function reloadConfig(files)
---   doReload = false
---   for _,file in pairs(files) do
---     if file:sub(-4) == ".lua" then
---       doReload = true
---     end
---   end
---   if doReload then
---     hs.reload()
---   end
--- end
+function reloadConfig(files)
+  doReload = false
+  for _,file in pairs(files) do
+    if file:sub(-4) == ".lua" then
+      doReload = true
+    end
+  end
+  if doReload then
+    hs.reload()
+  end
+end
 
--- hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
--- hs.notify.new({title="Hammerspoon", informativeText="Config reloaded"}):send():release()
+hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
+hs.notify.new({title="Hammerspoon", informativeText="Config reloaded"}):send():release()
 
 -- local mods = {
 --   'wifi',
@@ -57,7 +56,8 @@ function setVPNDisplay(state)
     if state then
       icon = hs.image.imageFromPath("red.png")
       icon:setSize({w=16,h=16})
-      vpn_bar:setTitle("-- VPN ON --")
+      -- vpn_bar:setTitle("🔴️ VPN ON 🔴️")
+      vpn_bar:setTitle("VPN ON  ")
       vpn_bar:setIcon(icon:setSize({w=16,h=16}), false)
     else
       vpn_bar:setTitle("")

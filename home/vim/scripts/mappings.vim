@@ -30,8 +30,6 @@ nnoremap zM zM:echo &foldlevel<cr>
 
 nnoremap Z za
 
-nnoremap gV `[V`]
-
 if has('nvim')
   nnoremap <Leader>e :cd %:h\|execute "term"\|cd -<cr>
 endif
@@ -47,8 +45,6 @@ if has('nvim')
   nnoremap <silent> <c-t> <c-^>i
 endif
 
-" nnoremap ß
-" nnoremap <bs>
 nnoremap <s-tab> <c-w>w
 
 " workaround for using tab as a key
@@ -63,19 +59,19 @@ map <silent> <space>e :silent edit <C-R>=empty(expand('%')) ? '.' : expand('%:p:
 nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
 
 nnoremap <silent> <space><space> :ArgWrap<CR>
-" map <silent> <leader>! :Neomake<cr>
-map <silent> ! :A<cr>
+" map <silent> ! :A<cr>
+map <silent> ! :NextColorScheme<cr>
 map <silent> <leader>b :Bonly<cr>
 map <silent> <leader>. :e ~/.vim/temp.rb<CR>
 map <silent> <leader>= mqHmwgg=G`wzt`qzz
 map <silent> <leader>c :RuboCop -a<cr>q
+map <silent> <space>[ <Plug>unimpairedBPrevious
+map <silent> <space>] <Plug>unimpairedBNext
 vmap p "_dP
 map <silent> <leader>diff :<C-U>Git difftool %<cr>
 map <silent> <F5> :Neoformat<CR>
-map <silent> <leader>p :echo expand('%')<CR>
 map <silent> <leader>w :w<cr>
 map <silent> <leader>gs :Gstatus<CR>
-" map <silent> <leader>gs :Magit<CR>
 
 nnoremap c* *Ncgn
 nnoremap c# #NcgN
@@ -126,10 +122,10 @@ nnoremap <silent> <Leader>r :call mappings#cycle_numbering()<CR>
 function! mappings#cycle_numbering() abort
   if exists('+relativenumber')
     execute {
-    \ '00': 'set relativenumber   | set number',
-    \ '01': 'set norelativenumber | set number',
-    \ '10': 'set norelativenumber | set nonumber',
-    \ '11': 'set norelativenumber | set number' }[&number . &relativenumber]
+          \ '00': 'set relativenumber   | set number',
+          \ '01': 'set norelativenumber | set number',
+          \ '10': 'set norelativenumber | set nonumber',
+          \ '11': 'set norelativenumber | set number' }[&number . &relativenumber]
   else
     set number!<CR>
   endif

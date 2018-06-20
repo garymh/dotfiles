@@ -17,3 +17,15 @@ if (( $+commands[brew] )) ; then
   )
 fi
 
+if zplug check 'ytet5uy4/fzf-widgets'; then
+  bindkey '^w'  fzf-select-widget
+  bindkey '^we' fzf-edit-dotfiles
+  bindkey '^ws' fzf-exec-ssh
+
+  bindkey '^gs' fzf-github-show-issue
+  bindkey '^gx' fzf-github-close-issue
+  bindkey '^ge' fzf-github-edit-issue
+  bindkey '^gc' fzf-github-comment-issue
+  bindkey '^go' fzf-github-open-issue
+  bindkey '^gb' fzf-git-checkout-branch
+fi

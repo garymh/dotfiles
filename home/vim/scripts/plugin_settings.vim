@@ -1,19 +1,5 @@
 " vim:fdm=marker
 
-" hardtime {{{ "
-let g:hardtime_default_on = 1
-" }}} hardtime "
-
-" Tmux {{{ "
-  " let g:tmux_navigator_no_mappings = 1
-
-  " nnoremap <silent> <c-w>h :TmuxNavigateLeft<cr>
-  " nnoremap <silent> <c-w>j :TmuxNavigateDown<cr>
-  " nnoremap <silent> <c-w>k :TmuxNavigateUp<cr>
-  " nnoremap <silent> <c-w>l :TmuxNavigateRight<cr>
-  " nnoremap <silent> <c-w>w :TmuxNavigatePrevious<cr>
-" }}} Tmux "
-
 " vim-slash {{{ "
 noremap <plug>(slash-after) zz
 " }}} vim-slash "
@@ -28,19 +14,10 @@ noremap <plug>(slash-after) zz
   command! PrettyJSON :call <sid>PrettyJSON()
 " }}} vim polygot individual settings "
 
-" Arpeggio {{{ "
-  call arpeggio#map('i', '', 0, 'jk', '<Esc>')
-  call arpeggio#map('i', '', 0, 'fj', '<Esc>')
-" }}} Arpeggio "
-
 " neomake {{{ "
 let g:neomake_list_height = 2
-let g:neomake_open_list = 2
-let g:neomake_verbose = 3
-" let g:neomake_javascript_eslint_exe = './node_modules/.bin/eslint_d'
-" let g:neomake_javascript_enabled_makers = ['eslint']
-" autocmd! BufWritePost *.js silent! Neomake
-" https://www.reddit.com/r/neovim/comments/50678h/switched_to_neovim_asking_tips_about_javascript/
+let g:neomake_open_list   = 2
+let g:neomake_verbose     = 3
 " }}} neomake "
 
 " vim-surround {{{ "
@@ -97,7 +74,6 @@ let g:neomake_verbose = 3
 " }}} vim-surround "
 
 " system copy {{{ "
-  nmap cpp cP
   noremap <Leader>y "*y
   noremap <Leader>p "*p
   noremap <Leader>Y "+y
@@ -123,6 +99,9 @@ let g:neomake_verbose = 3
 	omap ix <Plug>(textobj-comment-i)
 	xmap iX <Plug>(textobj-comment-big-i)
 	omap iX <Plug>(textobj-comment-big-i)
+
+	omap ib <Plug>(textobj-brace-i)
+	omap ab <Plug>(textobj-brace-a)
 " }}} Text objects "
 
 " Airline {{{ "
@@ -145,12 +124,8 @@ let g:neomake_verbose = 3
 
 " indentLine {{{ "
   let g:indent_guides_enable_on_vim_startup = 1
-  let g:indent_guides_start_level = 2
-  let g:indent_guides_guide_size = 1
-  " let g:indentLine_showFirstIndentLevel = 1
-  " let g:indentLine_faster = 1
-  " let g:indentLine_fileTypeExclude = ['text', 'help']
-  " let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*', 'FZF']
+  let g:indent_guides_start_level           = 2
+  let g:indent_guides_guide_size            = 1
 " }}} indentLine "
 
 " vim-sayonara {{{ "
@@ -166,6 +141,8 @@ let g:neomake_verbose = 3
     s/\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\r\3\5
     call histdel("/", -1)
   endfunction
+  nmap sj :SplitjoinSplit<cr>
+  nmap sk :SplitjoinJoin<cr>
   nnoremap <silent> J mzJ`z
   nnoremap <silent> S :call BreakHere()<CR>
 " }}} SplitJoin "
@@ -183,9 +160,6 @@ let g:neomake_verbose = 3
           let path = finddir(".git", expand("%:p:h").";")
           return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
   endfun
-
-  " command! -bang -nargs=? -complete=dir Files
-  "   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('up:40%'), <bang>0)
 
   command! -bang -nargs=? -complete=dir Files
         \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
@@ -233,7 +207,17 @@ let g:neomake_verbose = 3
   nmap <silent> <leader>a :TestSuite<CR>
   nmap <silent> <leader>l :TestLast<CR>
   nmap <silent> <leader>g :TestVisit<CR>
+  let test#strategy = "vimux"
+  let g:VimuxOrientation = "h"
 " }}} Testing "
+
+" git-gutter {{{ "
+  let g:gitgutter_sign_added='┃'
+  let g:gitgutter_sign_modified='┃'
+  let g:gitgutter_sign_removed='┃'
+  let g:gitgutter_sign_removed_first_line='┃'
+  let g:gitgutter_sign_modified_removed='┃'
+" }}} git-gutter "
 
 " EasyAlign {{{ "
   vmap ga <Plug>(EasyAlign)

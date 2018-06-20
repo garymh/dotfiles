@@ -1,10 +1,6 @@
-" Plug 'roxma/nvim-completion-manager'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
-" Plug 'roxma/ncm-rct-complete'
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 Plug 'ervandew/supertab'
 
 set completeopt=longest,menuone,preview
@@ -22,17 +18,6 @@ let g:UltiSnipsExpandTrigger        = "<tab>"
 let g:UltiSnipsJumpForwardTrigger   = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger  = "<s-tab>"
 
-" Plug 'honza/vim-snippets'
-" Plug 'SirVer/ultisnips'
+" Alternatives to check in on:
 " Plug 'lifepillar/vim-mucomplete'
-" set showmode shortmess+=c
-" set completeopt+=menuone,noinsert,noselect
-
-" let g:mucomplete#enable_auto_at_startup = 1
-" let g:mucomplete#chains = {
-"                   \ 'default' : ['ulti', 'path', 'omni', 'incl', 'uspl', 'tags']
-"                   \ }
-
-" let g:UltiSnipsExpandTrigger = "<c-space>"
-" let g:UltiSnipsJumpForwardTrigger = "<tab>"
-" let g:UltiSnipsJumpBackwardTrigger = "<tab>"
+" Plug 'roxma/nvim-completion-manager'
