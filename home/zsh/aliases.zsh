@@ -87,12 +87,13 @@ e_header()  { echo -e "\n\033[1m$@\033[0m"; }
 e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
 e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
 
+alias cov="open tmp/coverage/index.html"
+
 alias z="j"
 alias ..="cd .."
 
 # typos
 alias gca="gac"
-alias gco="gac"
 alias vim="e"
 
 # more verbose fileutils
@@ -101,7 +102,8 @@ alias chmod='chmod -v'
 alias chown='chown -v'
 
 # git alises
-alias co='git checkout'
+alias co='branch'
+alias gco='git checkout'
 alias new_branch="git checkout -b"
 alias branches='git branches'
 

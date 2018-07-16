@@ -10,6 +10,12 @@ function cleanup_key()
     if app:selectMenuItem("Hide Toolbar") == nil then
       app:selectMenuItem("Show Toolbar")
     end
+  elseif name == 'OmniFocus' then
+    if app:selectMenuItem("Hide Sidebar") == nil then
+      app:selectMenuItem("Show Sidebar")
+    else
+      app:selectMenuItem("Hide Sidebar")
+    end
   else
     if app:selectMenuItem("Hide Toolbar") == nil then
       app:selectMenuItem("Show Toolbar")

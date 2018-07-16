@@ -1,14 +1,8 @@
--- local whereami    = sh.command('/usr/local/bin/whereami', 'predict')
 local cachedWifi      = hs.wifi.currentNetwork()
 local cachedPower     = hs.battery.powerSource()
 local cachedEvent     = nil
 
--- local usbWatcher      = nil
--- local wifiWatcher     = nil
--- local powerWatcher    = nil
--- local caffeineWatcher = nil
-
-function readFrom(file)
+function custom_read_from(file)
   lines = {}
   for line in io.lines(file) do
     lines[#lines + 1] = line
@@ -16,7 +10,7 @@ function readFrom(file)
   return lines
 end
 
-function max_key(t)
+function custom_max_key(t)
   max_k, max_v = nil, 0
   for index,value in pairs(t) do
     if value > max_v then
@@ -32,12 +26,12 @@ function predictLocation()
 end
 
 function readLocation()
-  return max_key(json.decode(readLocationData()))
+  return custom_max_key(hs.json.decode(readLocationData()))
 end
 
 function readLocationData()
-  table = readFrom(os.getenv("HOME") .. "/iCloud/Internal/whereami.data")
-  return table[1]
+  location_data = custom_read_from(os.getenv("HOME") .. "/iCloud/Internal/whereami.data")
+  return location_data[1]
 end
 
 function rubyRunner(name, argument)
@@ -64,7 +58,6 @@ scenarios = {
   kitchen_table           = "home_wifi",
   living_room_couch_r     = "home_wifi",
   nu_desk                 = "work",
-  nubic_conf_room         = "nubic",
   ollies_room             = "home_wifi",
   renee_office            = "work"
 }
@@ -102,7 +95,6 @@ function powerChanged()
   local powerSource = hs.battery.powerSource()
   if powerSource ~= cachedPower then
     cachedPower = powerSource
-    print("power changed")
     getLocation()
   end
 end
@@ -128,8 +120,6 @@ function qualityChanged(watcher, message, interface, rssi, rate)
 end
 
 function wifiChanged(watcher, message)
-  print("HELLO I AM WIFI CHANGE " .. message)
-
   if message == "BSSIDChange" then
     print("we changed bssids!")
     getLocation()
@@ -238,7 +228,6 @@ function hasExternalMonitor()
   return false
 end
 
--- Switch dynamic profile in iTerm2
 function setIterm2Profile(filename)
   hs.execute("ln -sf $HOME/code/dotfiles/iterm/" .. filename .. " \"$HOME/Library/Application Support/iTerm2/DynamicProfiles/iTerm2_Dynamic.json\"")
 end
@@ -256,9 +245,6 @@ local caffeineWatcher = hs.caffeinate.watcher.new(caffeineChanged):start()
 local wifiWatcher     = hs.wifi.watcher.new(wifiChanged):watchingFor({
     "BSSIDChange", "SSIDChange",
   }):start()
--- local qualityWatcher     = hs.wifi.watcher.new(qualityChanged):watchingFor({
---     "linkQualityChange",
---   }):start()
 local monitorWatcher  = hs.screen.watcher.new(monitorChanged):start()
 
 getLocation()

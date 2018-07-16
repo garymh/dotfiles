@@ -60,7 +60,6 @@ nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
 
 nnoremap <silent> <space><space> :ArgWrap<CR>
 " map <silent> ! :A<cr>
-map <silent> ! :NextColorScheme<cr>
 map <silent> <leader>b :Bonly<cr>
 map <silent> <leader>. :e ~/.vim/temp.rb<CR>
 map <silent> <leader>= mqHmwgg=G`wzt`qzz
@@ -69,7 +68,7 @@ map <silent> <space>[ <Plug>unimpairedBPrevious
 map <silent> <space>] <Plug>unimpairedBNext
 vmap p "_dP
 map <silent> <leader>diff :<C-U>Git difftool %<cr>
-map <silent> <F5> :Neoformat<CR>
+map <silent> ! :Neoformat<CR>
 map <silent> <leader>w :w<cr>
 map <silent> <leader>gs :Gstatus<CR>
 

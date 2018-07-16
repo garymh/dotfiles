@@ -140,17 +140,6 @@ function make_alias() {
     alias $1
   fi
 }
-function switch_keyboard() {
-  testfile="$HOME/.karabiner.d/configuration/desk_active"
-  if [ -e "$testfile" ]
-  then
-    ruby ~/.hammerspoon/controlplane_actions/switch_keyboard.rb
-    yellow "Switching to internal keyboard"
-  else
-    ruby ~/.hammerspoon/controlplane_actions/switch_keyboard.rb desk
-    yellow "Switching to desk keyboard"
-  fi
-}
 
 function any() {
   emulate -L zsh

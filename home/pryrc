@@ -92,9 +92,19 @@ Pry.commands.alias_command 'ss', 'show-source'
 Pry.commands.alias_command 'fm', 'find-method'
 Pry.commands.alias_command 'q', '!!!'
 
+Pry::Commands.block_command "ref", "reload rails" do
+  Rails.application.reloader.reload!
+  output.puts "Reloading..."
+end
+
+Pry::Commands.block_command "nolog", "silences database logs" do
+  ActiveRecord::Base.logger = nil
+  output.puts "Database logs silenced"
+end
+
 alias :r :require
 alias :l :load
-# alias :ref :reload!
+
 ### Copy to clipboard!
 
 # ==============================

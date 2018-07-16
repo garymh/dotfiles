@@ -13,6 +13,7 @@ pry
 pry-bloodline
 pry-coolline
 pry-doc
+pry-inline
 pry-theme
 pry-toys
 rb-appscript

@@ -15,10 +15,26 @@ noremap <plug>(slash-after) zz
 " }}} vim polygot individual settings "
 
 " neomake {{{ "
-let g:neomake_list_height = 2
-let g:neomake_open_list   = 2
-let g:neomake_verbose     = 3
+  let g:neomake_list_height = 2
+  let g:neomake_open_list   = 2
+  let g:neomake_verbose     = 3
 " }}} neomake "
+
+" Neoformat {{{ "
+  " augroup fmt
+  "   autocmd!
+  "   autocmd BufWritePre * undojoin | Neoformat
+  " augroup END
+  let g:neoformat_basic_format_align = 1
+  let g:neoformat_basic_format_retab = 1
+  let g:neoformat_basic_format_trim = 1
+  let g:neoformat_only_msg_on_error = 1
+" }}} Neoformat "
+
+" Multichange {{{ "
+  let g:multichange_mapping        = 'sm'
+  let g:multichange_motion_mapping = 'm'
+" }}} Multichange "
 
 " vim-surround {{{ "
   nmap s  <Plug>Ysurround
@@ -74,141 +90,141 @@ let g:neomake_verbose     = 3
 " }}} vim-surround "
 
 " system copy {{{ "
-  noremap <Leader>y "*y
-  noremap <Leader>p "*p
-  noremap <Leader>Y "+y
-  noremap <Leader>P "+p
+noremap <Leader>y "*y
+noremap <Leader>p "*p
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
 " }}} system copy "
 
 " Sideways {{{ "
-  nnoremap [<Tab> :SidewaysLeft<cr>
-  nnoremap ]<Tab> :SidewaysRight<cr>
-  omap aa <Plug>SidewaysArgumentTextobjA
-  xmap aa <Plug>SidewaysArgumentTextobjA
-  omap ia <Plug>SidewaysArgumentTextobjI
-  xmap ia <Plug>SidewaysArgumentTextobjI
+nnoremap [<Tab> :SidewaysLeft<cr>
+nnoremap ]<Tab> :SidewaysRight<cr>
+omap aa <Plug>SidewaysArgumentTextobjA
+xmap aa <Plug>SidewaysArgumentTextobjA
+omap ia <Plug>SidewaysArgumentTextobjI
+xmap ia <Plug>SidewaysArgumentTextobjI
 " }}} Sideways "
 
 " Text objects {{{ "
-	let g:textobj_comment_no_default_key_mappings = 1
-	xmap ax <Plug>(textobj-comment-a)
-	omap ax <Plug>(textobj-comment-a)
-	xmap aX <Plug>(textobj-comment-big-a)
-	omap aX <Plug>(textobj-comment-big-a)
-	xmap ix <Plug>(textobj-comment-i)
-	omap ix <Plug>(textobj-comment-i)
-	xmap iX <Plug>(textobj-comment-big-i)
-	omap iX <Plug>(textobj-comment-big-i)
+let g:textobj_comment_no_default_key_mappings = 1
+xmap ax <Plug>(textobj-comment-a)
+omap ax <Plug>(textobj-comment-a)
+xmap aX <Plug>(textobj-comment-big-a)
+omap aX <Plug>(textobj-comment-big-a)
+xmap ix <Plug>(textobj-comment-i)
+omap ix <Plug>(textobj-comment-i)
+xmap iX <Plug>(textobj-comment-big-i)
+omap iX <Plug>(textobj-comment-big-i)
 
-	omap ib <Plug>(textobj-brace-i)
-	omap ab <Plug>(textobj-brace-a)
+omap ib <Plug>(textobj-brace-i)
+omap ab <Plug>(textobj-brace-a)
 " }}} Text objects "
 
 " Airline {{{ "
-  let g:airline#extensions#tabline#enabled = 1
-  if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-  endif
+let g:airline#extensions#tabline#enabled = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
 
-  " unicode symbols
-  let g:airline_left_sep       = ''
-  let g:airline_right_sep      = ''
-  let g:airline_symbols.crypt  = '🔒'
-  let g:airline_section_z      = '%2l/%L:%2v'
-  let g:airline_symbols.branch = 'ᚬ'
+" unicode symbols
+let g:airline_left_sep       = ''
+let g:airline_right_sep      = ''
+let g:airline_symbols.crypt  = '🔒'
+let g:airline_section_z      = '%2l/%L:%2v'
+let g:airline_symbols.branch = 'ᚬ'
 " }}} Airline "
 
 " ragtag {{{ "
-  let g:ragtag_global_maps = 1
+let g:ragtag_global_maps = 1
 " }}} ragtag "
 
 " indentLine {{{ "
-  let g:indent_guides_enable_on_vim_startup = 1
-  let g:indent_guides_start_level           = 2
-  let g:indent_guides_guide_size            = 1
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level           = 2
+let g:indent_guides_guide_size            = 1
 " }}} indentLine "
 
 " vim-sayonara {{{ "
-  let g:sayonara_confirm_quit = 1
+let g:sayonara_confirm_quit = 1
 " }}} vim-sayonara "
 
 " Switch {{{ "
-  nnoremap <silent> - :Switch<CR>
+nnoremap <silent> - :Switch<CR>
 " }}} Switch "
 
 " SplitJoin {{{ "
-  function! BreakHere()
-    s/\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\r\3\5
-    call histdel("/", -1)
-  endfunction
-  nmap sj :SplitjoinSplit<cr>
-  nmap sk :SplitjoinJoin<cr>
-  nnoremap <silent> J mzJ`z
-  nnoremap <silent> S :call BreakHere()<CR>
+function! BreakHere()
+  s/\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\r\3\5
+  call histdel("/", -1)
+endfunction
+nmap sj :SplitjoinSplit<cr>
+nmap sk :SplitjoinJoin<cr>
+nnoremap <silent> J mzJ`z
+nnoremap <silent> S :call BreakHere()<CR>
 " }}} SplitJoin "
 
 " FZF settings {{{ "
-  if has('nvim')
-    let $FZF_DEFAULT_OPTS .= ' --inline-info'
-  endif
-  let g:fzf_layout = { 'window': '-tabnew' }
-  let g:fzf_tags_command = 'ctags -R'
+if has('nvim')
+  let $FZF_DEFAULT_OPTS .= ' --inline-info'
+endif
+let g:fzf_layout = { 'window': '-tabnew' }
+let g:fzf_tags_command = 'ctags -R'
 " }}} FZF settings "
 
 " FZF commands {{{ "
-  fun! s:fzf_root()
-          let path = finddir(".git", expand("%:p:h").";")
-          return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
-  endfun
+fun! s:fzf_root()
+  let path = finddir(".git", expand("%:p:h").";")
+  return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
+endfun
 
-  command! -bang -nargs=? -complete=dir Files
-        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=? -complete=dir Files
+      \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
-  command! -bang -nargs=* Rg
-    \ call fzf#vim#grep(
-    \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-    \   <bang>0 ? fzf#vim#with_preview('up:60%')
-    \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-    \   <bang>0)
+command! -bang -nargs=* Rg
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
 
-  nnoremap <silent> <space>r :History<CR>
-  nnoremap <silent> <space>h :History<CR>
-  nnoremap <silent> <space>a :Buffers<CR>
-  nnoremap <silent> <space>o :BTags<CR>
-  nnoremap <silent> <space>t :Tags<CR>
-  nnoremap <silent> <space>g :GFiles?<CR>
+nnoremap <silent> <space>r :History<CR>
+nnoremap <silent> <space>h :History<CR>
+nnoremap <silent> <space>a :Buffers<CR>
+nnoremap <silent> <space>o :BTags<CR>
+nnoremap <silent> <space>t :Tags<CR>
+nnoremap <silent> <space>g :GFiles?<CR>
 
-  " find file in git repo
-  function! ChooseFile()
-    let dir = expand("%:h")
-    if empty(dir) | let dir = getcwd() | endif
+" find file in git repo
+function! ChooseFile()
+  let dir = expand("%:h")
+  if empty(dir) | let dir = getcwd() | endif
 
-    let root = system("cd " . dir . " && git rev-parse --show-toplevel")
-    if v:shell_error != 0 | echo "Not in a git repo" | return | endif
-    let root = root[0:-2]
+  let root = system("cd " . dir . " && git rev-parse --show-toplevel")
+  if v:shell_error != 0 | echo "Not in a git repo" | return | endif
+  let root = root[0:-2]
 
-    let selection = system("cd " . root . " && git ls-files -co --exclude-standard | choose")
-    if empty(selection) | echo "Canceled" | return | end
+  let selection = system("cd " . root . " && git ls-files -co --exclude-standard | choose")
+  if empty(selection) | echo "Canceled" | return | end
 
-    echo "Finding file..."
-    exec ":e " . root . "/" . selection
-  endfunction
+  echo "Finding file..."
+  exec ":e " . root . "/" . selection
+endfunction
 
-  if has('nvim')
-    nnoremap <silent> <c-p> :exe 'Files ' . <SID>fzf_root()<CR>
-  else
-    nnoremap <silent> <c-p> :call ChooseFile()<cr>
-  endif
+if has('gui')
+  nnoremap <silent> <c-p> :call ChooseFile()<cr>
+else
+  nnoremap <silent> <c-p> :exe 'Files ' . <SID>fzf_root()<CR>
+endif
 " }}} FZF commands "
 
 " Testing {{{ "
-  nmap <silent> <leader>t :TestNearest<CR>
-  nmap <silent> <leader>T :TestFile<CR>
-  nmap <silent> <leader>a :TestSuite<CR>
-  nmap <silent> <leader>l :TestLast<CR>
-  nmap <silent> <leader>g :TestVisit<CR>
-  let test#strategy = "vimux"
-  let g:VimuxOrientation = "h"
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
+let test#strategy = "vimux"
+let g:VimuxOrientation = "h"
 " }}} Testing "
 
 " git-gutter {{{ "
@@ -231,13 +247,18 @@ let g:neomake_verbose     = 3
   vmap F <Plug>CtrlSFVwordExec
   let g:ctrlsf_indent = 1
   let g:ctrlsf_mapping = {
-      \ "next": "n",
-      \ "prev": "N",
-      \ }
+        \ "next": "n",
+        \ "prev": "N",
+        \ }
   function! g:CtrlSFAfterMainWindowInit()
-      setl wrap
-      setl nonumber norelativenumber
+    setl wrap
+    setl nonumber norelativenumber
   endfunction
+
+  let g:ctrlsf_auto_focus = {
+      \ "at" : "done",
+      \ "duration_less_than": 1000
+      \ }
 " }}} ctrlsf "
 
 " NERDtree {{{ "

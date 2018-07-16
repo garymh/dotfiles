@@ -33,23 +33,23 @@ call plug#begin()
 " }}} looks "
 
 " colors {{{ "
-  Plug 'xolox/vim-misc'
-  Plug 'xolox/vim-colorscheme-switcher'
-  Plug 'cocopon/iceberg.vim'
+  " Plug 'xolox/vim-misc'
+  " Plug 'xolox/vim-colorscheme-switcher'
+  " Plug 'cocopon/iceberg.vim'
   Plug 'chriskempson/base16-vim'
-  Plug 'freeo/vim-kalisi'
-  Plug 'kabbamine/yowish.vim'
-  Plug 'nanotech/jellybeans.vim'
-  Plug 'trevordmiller/nova-vim'
-  Plug 'zanglg/nova.vim'
-  Plug 'ajh17/Spacegray.vim'
-  Plug 'hzchirs/vim-material'
-  Plug 'morhetz/gruvbox'
-  Plug 'rakr/vim-one'
-  Plug 'raphamorim/lucario'
-  Plug 'tyrannicaltoucan/vim-deep-space'
-  Plug 'w0ng/vim-hybrid'
-  Plug 'whatyouhide/vim-gotham'
+  " Plug 'freeo/vim-kalisi'
+  " Plug 'kabbamine/yowish.vim'
+  " Plug 'nanotech/jellybeans.vim'
+  " Plug 'trevordmiller/nova-vim'
+  " Plug 'zanglg/nova.vim'
+  " Plug 'ajh17/Spacegray.vim'
+  " Plug 'hzchirs/vim-material'
+  " Plug 'morhetz/gruvbox'
+  " Plug 'rakr/vim-one'
+  " Plug 'raphamorim/lucario'
+  " Plug 'tyrannicaltoucan/vim-deep-space'
+  " Plug 'w0ng/vim-hybrid'
+  " Plug 'whatyouhide/vim-gotham'
 " }}} colors "
 
 " ruby {{{ "
@@ -60,6 +60,7 @@ call plug#begin()
   Plug 'janko-m/vim-test'
   Plug 'benmills/vimux'
   Plug 'tpope/vim-endwise',  { 'for': 'ruby' }
+  " Plug 'ruby-formatter/rufo-vim'
 " }}} ruby "
 
 " syntax {{{ "
@@ -69,52 +70,60 @@ call plug#begin()
   Plug 'sheerun/vim-polyglot'
   Plug 'prettier/vim-prettier', {
         \ 'do': 'npm install',
-        \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss'] }
+        \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] } 
   Plug 'tpope/vim-apathy'
 " }}} syntax "
 
 " misc {{{ "
   Plug 'airblade/vim-gitgutter'
+  Plug 'AndrewRadev/whitespaste.vim'
+  Plug 'sickill/vim-pasta'
 
-  Plug 'rhysd/devdocs.vim'
-  Plug 'christoomey/vim-tmux-navigator'
   Plug 'AndrewRadev/multichange.vim'
   Plug 'AndrewRadev/sideways.vim'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'AndrewRadev/switch.vim'
   Plug 'chip/vim-fat-finger'
   Plug 'christoomey/vim-sort-motion'
+  Plug 'christoomey/vim-tmux-navigator'
   Plug 'duggiefresh/vim-easydir'
   Plug 'dyng/ctrlsf.vim',         { 'on': ['<Plug>CtrlSFPrompt' , 'CtrlSF', 'CtrlSFToggle'] }
   Plug 'foosoft/vim-argwrap',     { 'on': 'ArgWrap' }
-  Plug 'kana/vim-arpeggio'
   Plug 'kana/vim-niceblock'
+  Plug 'rhysd/devdocs.vim'
+  Plug 'rstacruz/vim-closer'
   Plug 'scrooloose/nerdtree'
-  Plug 'thirtythreeforty/lessspace.vim'
+  " Plug 'thirtythreeforty/lessspace.vim'
   Plug 'tpope/vim-abolish'
   Plug 'tpope/vim-eunuch'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-projectionist'
-  Plug 'tpope/vim-rsi'
   Plug 'tpope/vim-rhubarb'
+  Plug 'tpope/vim-rsi'
   Plug 'vim-scripts/BufOnly.vim', { 'on': 'Bonly' }
   Plug 'wincent/terminus'
-  Plug 'rstacruz/vim-closer'
 " }}} misc "
 
 " mac/nvim {{{ "
   if has('nvim')
     set termguicolors
     set inccommand=nosplit
-    set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+    " set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
     Plug 'benekastah/neomake'
     Plug 'sbdchd/neoformat'
     Plug 'machakann/vim-highlightedyank'
-    Plug 'jaxbot/github-issues.vim'
     source ~/.vim/scripts/completions.vim
 
-    let g:python_host_prog  = '/usr/local/bin/python'
-    let g:python3_host_prog = '/usr/local/bin/python3'
+  elseif v:version > 800
+    set termguicolors
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    Plug 'benekastah/neomake'
+    Plug 'sbdchd/neoformat'
+    Plug 'tpope/vim-sensible'
+    Plug 'machakann/vim-highlightedyank'
+
+    source ~/.vim/scripts/completions.vim
   else
     Plug 'tpope/vim-sensible'
   endif
@@ -134,6 +143,7 @@ call plug#begin()
   Plug 'nelstrom/vim-textobj-rubyblock'      | Plug 'kana/vim-textobj-user'
   Plug 'whatyouhide/vim-textobj-erb'         | Plug 'kana/vim-textobj-user'
   Plug 'Julian/vim-textobj-variable-segment' | Plug 'kana/vim-textobj-user'
+  Plug 'kana/vim-textobj-fold'               | Plug 'kana/vim-textobj-user'
 " }}} custom vim objects "
 
 call plug#end()
@@ -210,7 +220,7 @@ endif
 
   try
     " let g:airline_theme='spacegray'
-    let g:one_allow_italics = 1
+    " let g:one_allow_italics = 1
     " let g:jellybeans_use_term_italics = 1
     colorscheme base16-atelier-sulphurpool
     highlight Comment gui=italic
