@@ -1,3 +1,0 @@
-source ~/.zsh/private/private.zsh
-cd ~/Dropbox/Internal/custom/ruby/
-bundle exec ruby $1

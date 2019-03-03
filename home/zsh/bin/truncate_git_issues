@@ -1,8 +1,0 @@
-#!/usr/bin/env ruby -U
-
-# issue = ARGV.join(' ')
-begin
-  puts "##{ARGV[0].gsub(':','')}"
-rescue
-  puts "#"
-end

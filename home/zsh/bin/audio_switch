@@ -3,11 +3,9 @@
 PATH="$PATH:$HOME/bin:/usr/local/bin"
 
 if AudioSwitcher -c | grep 'Display Audio' > /dev/null; then
-  AudioSwitcher -s 'C-Media USB Audio Device   '
-  AudioSwitcher -t system -s 'C-Media USB Audio Device   '
+  AudioSwitcher -s 'GarPods'
   terminal-notifier -message 'Moving to HEADPHONES 🎧️' -title 'Audio Switch' -sender 'com.apple.systempreferences'
 else
   AudioSwitcher -s 'Display Audio'
-  AudioSwitcher -t system -s 'Display Audio'
   terminal-notifier -message 'Moving to DISPLAY AUDIO 🔈️' -title 'Audio Switch' -sender 'com.apple.systempreferences'
 fi

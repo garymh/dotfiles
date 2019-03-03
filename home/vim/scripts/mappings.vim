@@ -1,7 +1,3 @@
-set spelllang=en_us
-set nospell
-nnoremap <silent> <F2> :set spell!<CR> :set spell?<CR>
-
 let mapleader=","
 let maplocalleader = "\\"
 
@@ -18,102 +14,73 @@ function! ListLeaders()
   silent! let lines = getline(1,"$")
 endfunction
 
-vnoremap @ :norm@
-
 nmap <leader>lead :call ListLeaders()<cr>
 
-" folding + show level when you fold something
-nnoremap zr zr:echo &foldlevel<cr>
-nnoremap zm zm:echo &foldlevel<cr>
-nnoremap zR zR:echo &foldlevel<cr>
-nnoremap zM zM:echo &foldlevel<cr>
-
-nnoremap Z za
-
-if has('nvim')
-  nnoremap <Leader>e :cd %:h\|execute "term"\|cd -<cr>
-endif
-
-inoremap jj <esc>
-cnoremap jj <esc>
-
-nmap <leader>dc :t.<CR>k<Plug>CommentaryLinej
+nmap <leader>sp :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 if has('nvim')
   tnoremap jj <C-\><C-n>
   tnoremap kk <C-\><C-n><c-^>
   nnoremap <silent> <c-t> <c-^>i
+  inoremap <M-C-H> <C-w>
+  cnoremap <M-C-H> <C-w>
+  nnoremap <F6> <C-i>
 endif
 
-nnoremap <s-tab> <c-w>w
+" folding {{{ "
+  nnoremap zr zr:echo &foldlevel<cr>
+  nnoremap zm zm:echo &foldlevel<cr>
+  nnoremap zR zR:echo &foldlevel<cr>
+  nnoremap zM zM:echo &foldlevel<cr>
 
-" workaround for using tab as a key
-nnoremap <F6> <C-i>
+  nnoremap Z za
+" }}} folding "
 
-map <leader><leader> <C-^>
-" map <space><space> za
+" mappings (sort me!) {{{ "
+  cnoremap jj <esc>
+  inoremap jj <esc>
+  map // :nohlsearch<cr>
+  map <leader>. :e ~/.vim/temp.rb<CR>
+  map <leader><leader> <C-^>
+  map <leader>= mqHmwgg=G`wzt`qzz
+  map <leader>ev :e $MYVIMRC<cr>
+  map <leader>sv :source $MYVIMRC<cr>
+  map <leader>w :w<cr>
+  xmap <leader>n :NR!<cr>
+  map <space>e :Files <C-r>=expand("%:h")<CR>/<CR>
+  nnoremap <silent> <bs><bs> :NERDTreeFind<cr>
+  map Y y$
+  nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
+  nnoremap <s-tab> <c-w>w
+  nnoremap c# #NcgN
+  nnoremap c* *Ncgn
+  noremap <expr> j (v:count == 0 ? 'gj' : 'j')
+  noremap <expr> k (v:count == 0 ? 'gk' : 'k')
+  nnoremap <Del> :A<cr>
 
-map <silent> // :nohlsearch<cr>
-map <silent> <space>e :silent edit <C-R>=empty(expand('%')) ? '.' : expand('%:p:h')<CR><CR>
+  noremap H ^
+  noremap L $
+  " vmap p "_dP
 
-nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
+  vnoremap < <gv
+  vnoremap > >gv
+  vnoremap @ :norm@
+  vnoremap L g_
+  " map <silent> <space>e :silent edit <C-R>=empty(expand('%')) ? '.' : expand('%:p:h')<CR><CR>
+  " map <space><space> za
+  " workaround for using tab as a key
+" }}} mappings (sort me!) "
 
-nnoremap <silent> <space><space> :ArgWrap<CR>
-" map <silent> ! :A<cr>
-map <silent> <leader>b :Bonly<cr>
-map <silent> <leader>. :e ~/.vim/temp.rb<CR>
-map <silent> <leader>= mqHmwgg=G`wzt`qzz
-map <silent> <leader>c :RuboCop -a<cr>q
-map <silent> <space>[ <Plug>unimpairedBPrevious
-map <silent> <space>] <Plug>unimpairedBNext
-vmap p "_dP
-map <silent> <leader>diff :<C-U>Git difftool %<cr>
-map <silent> ! :Neoformat<CR>
-map <silent> <leader>w :w<cr>
-map <silent> <leader>gs :Gstatus<CR>
-
-nnoremap c* *Ncgn
-nnoremap c# #NcgN
-
-function! EditAll()
-  e ~/.vim/scripts/plugin_settings.vim
-  e ~/.vim/scripts/autocommands.vim
-  e ~/.vim/scripts/mappings.vim
-  e ~/.vim/scripts/ideas.vim
-  e ~/.vim/scripts/completions.vim
-endfunction
-
-command! Ruby execute "set syntax=ruby"
-
-command! Emap execute "e ~/.vim/scripts/mappings.vim"
-command! Eauto execute "e ~/.vim/scripts/autocommands.vim"
-command! Eplugin execute "e ~/.vim/scripts/plugin_settings.vim"
-command! Eideas execute "e ~/.vim/scripts/ideas.vim"
-command! Ecomp execute "e ~/.vim/scripts/completions.vim"
-command! Eall execute "call EditAll()"
-
-command! Efunction execute "e ~/.zsh/functions.zsh"
-command! Ealiases execute "e ~/.zsh/aliases.zsh"
-command! Esho execute "!open ~/Documents/Shorcuts/shortcuts.pages"
-map <leader>sid :source ~/.vim/scripts/ideas.vim<cr>
-
-map <leader>ev :e $MYVIMRC<cr>
-map <leader>sv :source $MYVIMRC<cr>
-
-map <silent> <leader>ins :PlugInstall<cr>
-map <silent> <leader>upd :PlugUpdate<cr>
-
-noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
-noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
-noremap H ^
-noremap L $
-map Y y$
-
-vnoremap < <gv
-vnoremap > >gv
-vnoremap L g_
-
-nnoremap <silent>Q :Sayonara<cr>
+" Edit dotfiles {{{ "
+  command! Emap execute "e ~/.vim/scripts/mappings.vim"
+  command! Eauto execute "e ~/.vim/scripts/autocommands.vim"
+  command! Eplugin execute "e ~/.vim/scripts/plugin_settings.vim"
+  command! Ecomp execute "e ~/.vim/scripts/completions.vim"
+  command! Efunction execute "e ~/.zsh/functions.zsh"
+  command! Ealiases execute "e ~/.zsh/aliases.zsh"
+  command! Edotfiles execute "Files! $DOTFILES"
+  command! Ezsh execute "Files! $DOTFILES/home/zsh"
+" }}} Edit dotfiles "
 
 " @wincent is very smart
 " https://www.youtube.com/watch?v=0aEv1Nj0IPg
@@ -129,3 +96,10 @@ function! mappings#cycle_numbering() abort
     set number!<CR>
   endif
 endfunction
+
+" system copy {{{ "
+  noremap <Leader>y "*y
+  noremap <Leader>p "*p
+  noremap <Leader>Y "+y
+  noremap <Leader>P "+p
+" }}} system copy "

@@ -1,14 +1,12 @@
-gem-shut-the-fuck-up
+annotate
 awesome_print
 bundler
-annotate
+docker-compose
 gem-browse
-docker-sync
 gem-ctags
 ghi
 hirb
 neovim
-otask
 pry
 pry-bloodline
 pry-coolline
@@ -16,8 +14,8 @@ pry-doc
 pry-inline
 pry-theme
 pry-toys
-rb-appscript
 rb-readline
 rubocop
 sketches
 wallpaper
+rb-scpt

@@ -1,17 +1,6 @@
-function build_neovim() {
-  cd ~/code/neovim
-  git pull
-  rm -rf build
-  make clean
-  make CMAKE_BUILD_TYPE=Release
-  make install
-}
-
 function check_ssl_end() {
   openssl s_client -connect $1:443 | openssl x509 -noout -enddate
 }
-
-bindkey ' ' magic-space # do history expansion on space
 
 function fix_key_permissions() {
   # after reinstalling macos
@@ -19,70 +8,51 @@ function fix_key_permissions() {
   sudo chmod 600 ~/.ssh/id_rsa.pub
 }
 
-insert_sudo () { zle beginning-of-line; zle -U "sudo " }
-zle -N insert-sudo insert_sudo
-bindkey "^s" insert-sudo
+peek() { tmux split-window -p 33 "$VISUAL" "$@" || exit; }
 
-# function _git_issue_list {
-#   zle -U $(truncate_git_issues $(list_git_issues $(basename `pwd`) | choose))
-# }
-# zle -N _git_issue_list
-# bindkey '^;' _git_issue_list
-
-# Will return non-zero status if the current directory is not managed by git
-is_in_git_repo() {
-  git rev-parse HEAD > /dev/null 2>&1
+function zsh_stats() {
+  fc -l 1 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n20
 }
 
-gh() {
-  is_in_git_repo || return
-  git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph |
-    fzf-tmux --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
-    --header 'Press CTRL-S to toggle sort' \
-    --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always | head -'$LINES |
-    grep -o "[a-f0-9]\{7,\}"
-}
-
-# A helper function to join multi-line output from fzf
-join-lines() {
-local item
-while read item; do
-  echo -n "${(q)item} "
-done
-}
-
-fzf-gg-widget() LBUFFER+=$(gh | join-lines)
-zle -N fzf-gg-widget
-bindkey '^g^g' fzf-gg-widget
-
-destroy_docker() {
-  docker rm $(docker kill $(docker ps -aq))
-  docker rm $(docker ps -a -q)
-  docker rmi $(docker images -q)
-}
-
-clean_lattice() {
-  rm -rf ~/code/LatticeGrid/public/abstracts
-  rm -rf ~/code/LatticeGrid/public/graphs
-  rm -rf ~/code/LatticeGrid/public/graphviz
-  rm -rf ~/code/LatticeGrid/public/orgs
-  rm -rf ~/code/LatticeGrid/public/mesh
-  rm -rf ~/code/LatticeGrid/public/member_nodes
-  rm -rf ~/code/LatticeGrid/public/orgs.html
-  rm -rf ~/code/LatticeGrid/public/org_nodes
-  rm -rf ~/code/LatticeGrid/public/member_nodes
-}
-
-# Make CTRL-Z background things and unbackground them.
-function fg-bg() {
-  if [[ $#BUFFER -eq 0 ]]; then
-    fg
+export IDEA_FILE="$HOME/Documents/ideas.txt"
+function idea() {
+  if [ -n "$1" ]; then
+    echo "$(date +'[%F %X]') $*" >> $IDEA_FILE
+    tail -n 1 $IDEA_FILE
   else
-    zle push-input
+    cat $IDEA_FILE
   fi
 }
-zle -N fg-bg
-bindkey '^Z' fg-bg
+
+# insert_sudo () { zle beginning-of-line; zle -U "sudo " }
+# zle -N insert-sudo insert_sudo
+# bindkey "^a" insert-sudo
+
+# zsh-sticky-prefix
+local zle_sticked=""
+
+zle-line-init() {
+    BUFFER="$zle_sticked$BUFFER"
+    zle end-of-line
+}
+zle -N zle-line-init
+
+function zle-set-sticky {
+    zle_sticked="$BUFFER"
+    zle -M "Sticky: '$zle_sticked'."
+}
+zle -N zle-set-sticky
+bindkey '^S' zle-set-sticky
+
+function accept-line {
+    if [[ -z "$BUFFER" ]] && [[ -n "$zle_sticked" ]]; then
+        zle_sticked=""
+        echo -n "\nRemoved sticky."
+    fi
+    zle .accept-line
+}
+zle -N accept-line
+# zsh-sticky
 
 c() { cd ~/code/$1;  }
 _c() { _files -W ~/code -/; }
@@ -91,7 +61,6 @@ compdef _c c
 h() { cd ~/$1;  }
 _h() { _files -W ~/ -/; }
 compdef _h h
-
 
 function gac() {
   hub add -A && hub commit -avm "$*"
@@ -102,14 +71,14 @@ function search() {
   sudo find . -iname "*$1*"
 }
 
-if [[ $IS_MAC -eq 1 ]]; then
+if _macos; then
   function gclo() {
     cd ~/code/
     git clone "$*"
   }
 
   function localhost() {
-    open "http://localhost:${1:-3000}"
+    open "http://localhost:${1:-80}"
   }
 
   function port() {
@@ -151,6 +120,18 @@ function any() {
     ps xauwww | grep -i --color=auto "[${1[1]}]${1[2,-1]}"
   fi
 }
+
+fancy-ctrl-z () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="fg"
+    zle accept-line -w
+  else
+    zle push-input -w
+    zle clear-screen -w
+  fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
 
 path() {
   echo $PATH | tr ":" "\n" | \

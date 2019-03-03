@@ -1,0 +1,25 @@
+- link:
+    ~/.mackup.cfg:
+      path: iCloud/Mackup/mackup.cfg
+
+    ~/.gvimrc: home/gvimrc
+    ~/.config/karabiner/karabiner.json: home/karabiner.json
+
+    ~/.ssh:
+      create: true
+      path: home/zsh/private/ssh/
+
+    ~/.whereami:
+      create: true
+      path: home/zsh/private/whereami/
+
+    ~/.gnupg:
+      create: true
+      path: home/zsh/private/gnupg/
+
+    ~/.hammerspoon: home/hammerspoon/
+    ~/.gitconfig.local: home/zsh/private/gitconfig.local
+    ~/.gitconfig.work: home/zsh/private/gitconfig.work
+
+- brewfile:
+    file: homebrew/Brewfile

@@ -88,7 +88,7 @@ Pry.commands.alias_command 'ec', 'edit -c'
 Pry.commands.alias_command 'la', 'ls -ppp'
 Pry.commands.alias_command 'll', 'ls -M'
 Pry.commands.alias_command 'rm', 'reload-method'
-Pry.commands.alias_command 'ss', 'show-source'
+Pry.commands.alias_command 'src', 'show-source'
 Pry.commands.alias_command 'fm', 'find-method'
 Pry.commands.alias_command 'q', '!!!'
 

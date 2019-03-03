@@ -8,5 +8,5 @@ endif
 
 normal gg
 
-au FileType gitcommit inoremap # #<c-x><c-o>
-au FileType gitcommit inoremap @ @<c-x><c-o>
+" au FileType gitcommit inoremap # #<c-x><c-o>
+" au FileType gitcommit inoremap @ @<c-x><c-o>

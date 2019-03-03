@@ -1,61 +1,96 @@
 if [[ -f ~/.fzf.zsh ]]; then
-  if which rg >/dev/null 2>&1; then
-    # export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-    export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-    [ -n "$NVIM_LISTEN_ADDRESS" ] && export FZF_DEFAULT_OPTS='--no-height'
-  else
-    export FZF_DEFAULT_COMMAND='ag -l -g ""'
-  fi
+  export FZF_DEFAULT_COMMAND='fd --type file --color=always --hidden'
+  export FZF_DEFAULT_COMMAND_COLORLESS='fd --type file --hidden'
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_DEFAULT_OPTS="--ansi
+                          --preview '~/.vim/plugged/fzf.vim/bin/preview.rb {} | head -200'
+                          --bind ctrl-f:page-down,ctrl-b:page-up,'ctrl-o:execute($VISUAL {})+abort'"
+  export FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS --select-1 --exit-0"
+  export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:wrap 
+                          --bind '?:toggle-preview' 
+                          --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort' 
+                          --header 'Press CTRL-Y to copy command into clipboard' --border"
+  export FZF_ALT_C_COMMAND='fd --type d . --color=never'
+  export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -100'"
 
-  fzf-down() {
-    fzf --height 50% "$@" --border
+  # Use ~~ as the trigger sequence instead of the default **
+  # export FZF_COMPLETION_TRIGGER='~~'
+
+  # Options to fzf command
+  # export FZF_COMPLETION_OPTS='+c -x'
+
+  rake_fzf() {
+    local inst=$(rake -T | fzf -m --preview '' | cut -d ' ' -f 2 | perl -pe 'if(!eof){s/\n/ /}')
+
+    if [[ $inst ]]; then
+      rake $inst
+    fi
   }
 
-  # fco - checkout git branch/tag
-  branch() {
-    local tags branches target
-    tags=$(git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
-    branches=$(
-    git branch --all | grep -v HEAD             |
-      sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
-      sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
-    target=$(
-    (echo "$tags"; echo "$branches") | sed '/^$/d' |
-      fzf-down --no-hscroll --reverse --ansi +m -d "\t" -n 2 -q "$*") || return
-    git checkout $(echo "$target" | awk '{print $2}')
+  _fzf_compgen_path() {
+    fd --hidden . "$1"
   }
 
-  bash_into_docker() { docker exec -it $(docker ps --format "{{.Names}}" | fzf | cat) /bin/bash }
-
-  # super cool trick from https://adamheins.com/blog/ctrl-p-in-the-terminal-with-fzf
-  # This is the same functionality as fzf's ctrl-t, except that the file or
-  # directory selected is now automatically cd'ed or opened, respectively.
-  fzf-open-file-or-dir() {
-  local cmd="command find -L . \
-    \\( -path '*/\\.*' -o -fstype 'dev' -o -fstype 'proc' \\) -prune \
-    -o -type f -print \
-    -o -type d -print \
-    -o -type l -print 2> /dev/null | sed 1d | cut -b3-"
-  local out=$(eval $cmd | fzf-tmux --exit-0)
-
-  if [ -f "$out" ]; then
-    $EDITOR "$out" < /dev/tty
-  elif [ -d "$out" ]; then
-    cd "$out"
-    zle reset-prompt
-  fi
+  _fzf_compgen_dir() {
+    fd --type d --hidden . "$1"
   }
-  zle     -N   fzf-open-file-or-dir
-  bindkey '^P' fzf-open-file-or-dir
 
-  if [ -x ~/.vim/plugged/fzf.vim/bin/preview.rb ]; then
-    export FZF_CTRL_T_OPTS="--preview '~/.vim/plugged/fzf.vim/bin/preview.rb {} | head -200'"
-  fi
+  bash_into_docker() {
+    docker exec -it $(docker ps --format "{{.Names}}" | fzf --no-preview | cat) /bin/bash
+  }
 
-  export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort' --header 'Press CTRL-Y to copy command into clipboard' --border"
+  brewfzf() {
+    local inst=$(brew search | eval "fzf --inline-info -m --no-preview --header='[brew:$1]'")
 
-  command -v blsd > /dev/null && export FZF_ALT_C_COMMAND='blsd $dir'
-  command -v tree > /dev/null && export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+    if [[ $inst ]]; then
+      for prog in $(echo $inst)
+      do brew $1 $prog
+      done
+    fi
+  }
+
+  bip() { brewfzf install }
+  bhome() { brewfzf home }
+
+  fp() {
+    local loc=$(echo $PATH | sed -e $'s/:/\\\n/g' | eval "fzf --header='[find:path]'")
+
+    if [[ -d $loc ]]; then
+      echo "$(rg --files $loc | rev | cut -d"/" -f1 | rev)" | eval "fzf --header='[find:exe] => ${loc}' >/dev/null"
+      fp
+    fi
+  }
+
+  fzf-dotf() {
+    local working_dir=$(pwd)
+    cd $DOTFILES
+    local out=$(eval fd --color=always --hidden . | fzf)
+
+    if [ -f "$out" ]; then
+      $VISUAL "$out" < /dev/tty
+    elif [ -d "$out" ]; then
+      open "$out"
+      zle reset-prompt
+    fi
+    cd $working_dir
+  }
+
+  zle     -N   fzf-dotf
+  bindkey '^F' fzf-dotf
+
+  fzf-ctrlp() {
+    local out=$(eval $FZF_DEFAULT_COMMAND | fzf)
+
+    if [ -f "$out" ]; then
+      $VISUAL "$out" < /dev/tty
+    elif [ -d "$out" ]; then
+      cd "$out"
+      zle reset-prompt
+    fi
+  }
+
+  zle     -N   fzf-ctrlp
+  bindkey '^P' fzf-ctrlp
 
   source ~/.fzf.zsh
 fi

@@ -26,99 +26,103 @@ call plug#begin()
 " }}} almost standard "
 
 " looks {{{ "
-  Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'nathanaelkane/vim-indent-guides'
-  Plug 'lilydjwg/colorizer', { 'for': ['css', 'sass', 'scss', 'less', 'html', 'javascript'] }
+  Plug 'lilydjwg/colorizer', { 'for': ['css', 'sass', 'scss', 'less', 'html', 'tmux'] }
   Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+  Plug 'junegunn/goyo.vim'
+  Plug 'junegunn/rainbow_parentheses.vim'
 " }}} looks "
 
 " colors {{{ "
-  " Plug 'xolox/vim-misc'
-  " Plug 'xolox/vim-colorscheme-switcher'
-  " Plug 'cocopon/iceberg.vim'
-  Plug 'chriskempson/base16-vim'
-  " Plug 'freeo/vim-kalisi'
-  " Plug 'kabbamine/yowish.vim'
-  " Plug 'nanotech/jellybeans.vim'
-  " Plug 'trevordmiller/nova-vim'
-  " Plug 'zanglg/nova.vim'
-  " Plug 'ajh17/Spacegray.vim'
-  " Plug 'hzchirs/vim-material'
-  " Plug 'morhetz/gruvbox'
-  " Plug 'rakr/vim-one'
-  " Plug 'raphamorim/lucario'
-  " Plug 'tyrannicaltoucan/vim-deep-space'
-  " Plug 'w0ng/vim-hybrid'
-  " Plug 'whatyouhide/vim-gotham'
+  Plug 'nanotech/jellybeans.vim'
+  Plug 'rakr/vim-one'
+  Plug 'drewtempelmeyer/palenight.vim'
+  Plug 'ayu-theme/ayu-vim'
+  Plug 'jacoborus/tender.vim'
+  Plug 'rakr/vim-two-firewatch'
+  Plug 'cocopon/iceberg.vim'
+  Plug 'fenetikm/falcon'
 " }}} colors "
 
 " ruby {{{ "
-  Plug 'ngmy/vim-rubocop',  { 'for': 'ruby' }
-  Plug 'tpope/vim-bundler', { 'for': ['eruby', 'haml', 'ruby', 'slim'] }
-  Plug 'tpope/vim-rails',   { 'for': ['eruby', 'haml', 'ruby', 'slim', 'yaml'] }
-  Plug 'tpope/vim-rake',    { 'for': 'ruby' }
   Plug 'janko-m/vim-test'
   Plug 'benmills/vimux'
-  Plug 'tpope/vim-endwise',  { 'for': 'ruby' }
-  " Plug 'ruby-formatter/rufo-vim'
+  Plug 'ngmy/vim-rubocop',  { 'for': 'ruby' }
+  Plug 'tpope/vim-bundler', { 'for': ['eruby', 'haml', 'ruby', 'slim'] }
+  Plug 'tpope/vim-endwise', { 'for': ['ruby', 'bash', 'zsh', 'lua', 'sh', 'vim'] }
+  Plug 'tpope/vim-rails',   { 'for': ['eruby', 'haml', 'ruby', 'slim', 'yaml'] }
+  Plug 'tpope/vim-rake',    { 'for': 'ruby' }
 " }}} ruby "
 
 " syntax {{{ "
   Plug 'alcesleo/vim-uppercase-sql'
-  Plug 'chrisbra/csv.vim'
-  Plug 'davejlong/cf-utils.vim',   { 'for': ['cfml', 'coldfusion'] }
+  Plug 'chrisbra/csv.vim',       { 'for': 'csv' }
+  Plug 'davejlong/cf-utils.vim', { 'for': ['cfml', 'coldfusion'] }
   Plug 'sheerun/vim-polyglot'
-  Plug 'prettier/vim-prettier', {
-        \ 'do': 'npm install',
-        \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] } 
+  Plug 'vim-ruby/vim-ruby'
   Plug 'tpope/vim-apathy'
 " }}} syntax "
 
 " misc {{{ "
-  Plug 'airblade/vim-gitgutter'
+  " Plug 'rhysd/github-complete.vim'
+  " Plug 'tpope/vim-rhubarb'
   Plug 'AndrewRadev/whitespaste.vim'
   Plug 'sickill/vim-pasta'
 
-  Plug 'AndrewRadev/multichange.vim'
+  " Plug 'svermeulen/vim-subversive'
+  " Plug 'chrisbra/NrrwRgn'
+  Plug 'rstacruz/vim-closer'
+  Plug 'wincent/terminus'
   Plug 'AndrewRadev/sideways.vim'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'AndrewRadev/switch.vim'
-  Plug 'chip/vim-fat-finger'
+  Plug 'airblade/vim-gitgutter'
   Plug 'christoomey/vim-sort-motion'
   Plug 'christoomey/vim-tmux-navigator'
+  Plug 'dhruvasagar/vim-table-mode', { 'on': ['TableModeToggle'] }
   Plug 'duggiefresh/vim-easydir'
-  Plug 'dyng/ctrlsf.vim',         { 'on': ['<Plug>CtrlSFPrompt' , 'CtrlSF', 'CtrlSFToggle'] }
-  Plug 'foosoft/vim-argwrap',     { 'on': 'ArgWrap' }
+  Plug 'dyng/ctrlsf.vim',            { 'on': ['<Plug>CtrlSFPrompt' , 'CtrlSF', 'CtrlSFToggle'] }
+  Plug 'foosoft/vim-argwrap',        { 'on': 'ArgWrap' }
+  Plug 'justinmk/vim-gtfo'
   Plug 'kana/vim-niceblock'
-  Plug 'rhysd/devdocs.vim'
-  Plug 'rstacruz/vim-closer'
   Plug 'scrooloose/nerdtree'
-  " Plug 'thirtythreeforty/lessspace.vim'
+  Plug 'ntpeters/vim-better-whitespace'
   Plug 'tpope/vim-abolish'
   Plug 'tpope/vim-eunuch'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-projectionist'
-  Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-rsi'
-  Plug 'vim-scripts/BufOnly.vim', { 'on': 'Bonly' }
-  Plug 'wincent/terminus'
+  Plug 'vim-scripts/BufOnly.vim',    { 'on': 'Bonly' }
 " }}} misc "
 
 " mac/nvim {{{ "
   if has('nvim')
+    let g:clipboard = {
+          \ 'name': 'pbcopy',
+          \ 'copy': {
+          \    '+': 'pbcopy',
+          \    '*': 'pbcopy',
+          \  },
+          \ 'paste': {
+          \    '+': 'pbpaste',
+          \    '*': 'pbpaste',
+          \ },
+          \ 'cache_enabled': 0,
+          \ }
+
     set termguicolors
-    set inccommand=nosplit
-    " set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
-    Plug 'benekastah/neomake'
+    let g:python3_host_prog = '/usr/local/bin/python3'
+    let g:loaded_python_provider = 1
     Plug 'sbdchd/neoformat'
     Plug 'machakann/vim-highlightedyank'
+
     source ~/.vim/scripts/completions.vim
+
+    set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
 
   elseif v:version > 800
     set termguicolors
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-    Plug 'benekastah/neomake'
+    Plug 'neomake/neomake'
     Plug 'sbdchd/neoformat'
     Plug 'tpope/vim-sensible'
     Plug 'machakann/vim-highlightedyank'
@@ -126,6 +130,7 @@ call plug#begin()
     source ~/.vim/scripts/completions.vim
   else
     Plug 'tpope/vim-sensible'
+    set ttimeoutlen=50 " vim-sensible's is kinda slow
   endif
 " }}} mac/nvim "
 
@@ -151,6 +156,7 @@ call plug#end()
 source ~/.vim/scripts/autocommands.vim
 source ~/.vim/scripts/mappings.vim
 source ~/.vim/scripts/plugin_settings.vim
+
 if filereadable("~/.vimrc.local")
   source ~/.vimrc.local
 endif
@@ -160,35 +166,47 @@ endif
     set formatoptions+=j
   endif
 
+  set autowrite             " Automatically write a file when leaving a modified buffer
   set expandtab
   set foldlevelstart=99
-  set formatprg="par 79"          " respect the 80 character lines
-  set formatoptions+=n            " smart auto-indenting inside numbered lists
-  set formatoptions+=c
-  set hidden                      " make unsaved buffers hidden
+  set formatoptions+=n      " smart auto-indenting inside numbered lists
+  set formatprg="par 79"    " respect the 80 character lines
+  set hidden                " make unsaved buffers hidden
   set ignorecase
-  set lazyredraw                  " enables faster macros
+  set lazyredraw            " enables faster macros
+  set linespace=0           " No extra spaces between rows
   set list
-  set listchars=nbsp:⦸            " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
-  set listchars+=tab:├─           " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
-                                  " + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
-  set listchars+=extends:»        " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
-  set listchars+=precedes:«       " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
-  set listchars+=trail:•          " BULLET (U+2022, UTF-8: E2 80 A2)
-  set nojoinspaces                " don't autoinsert two spaces after '.', '?', '!' for join command
-  set noshowmatch                 " don't jump between matching brackets
+  set listchars+=extends:»  " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
+  set listchars+=precedes:« " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
+  set listchars+=tab:├─     " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
+  set listchars+=trail:•    " BULLET (U+2022, UTF-8: E2 80 A2)
+  set listchars=nbsp:⦸      " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
+  set matchtime=5           " Show matching time
+  set mouse=a
+  set mousehide             " Hide the mouse cursor while typing
+  set nojoinspaces          " don't autoinsert two spaces after '.', '?', '!' for join command
+  set noshowmatch           " don't jump between matching brackets
   set nowrap
-  set scrolloff=3                 " start scrolling 3 lines before edge of viewport
-  set spellcapcheck=              " smartcase for custom dictionary
-  set shiftround                  " indenting to nearest tabstop
-  set smartcase                   " smartcase for searching
-  set smarttab                    " <tab>/<BS> indent/dedent in leading whitespace
-  set splitbelow                  " default split behavior
-  set splitright                  " default split behavior
-  set synmaxcol=180               " does this make stuff faster?
-  set ttimeoutlen=50              " vim-sensible's is kinda slow
-  set virtualedit=block           " allow selection in visual mode
-  syntax sync minlines=256        " start highlighting from 256 lines backwards
+  set pumheight=20          " Avoid the pop up menu occupying the whole screen
+  set report=0              " Always report changed lines
+  set scrolljump=5          " Line to scroll when cursor leaves screen
+  set scrolloff=3           " start scrolling 3 lines before edge of viewport
+  set shiftround            " indenting to nearest tabstop
+  set shiftwidth=2          " Use indents of 4 spaces
+  set showmatch             " Show matching brackets/parentthesis
+  set showmode              " Show current mode in command-line
+  set smartcase             " smartcase for searching
+  set softtabstop=2         " Let backspace delete indent
+  set spelllang=en_us
+  set spellcapcheck=        " smartcase for custom dictionary
+  set splitbelow            " default split behavior
+  set splitright            " default split behavior
+  set synmaxcol=180         " does this make stuff faster?
+  set t_Co=256              " Use 256 colors
+  set tabstop=2             " An indentation every four columns
+  set virtualedit=block     " allow selection in visual mode
+  syntax sync minlines=256  " start highlighting from 256 lines backwards
+  set formatoptions-=cro
 
   if has('linebreak')
     let &showbreak='⤷ '           " ARROW POINTING DOWNWARDS THEN CURVING RIGHTWARDS (U+2937, UTF-8: E2 A4 B7)
@@ -204,8 +222,6 @@ endif
   set shortmess+=O                " file-read message overwrites previous
   set shortmess+=T                " truncate non-file messages in middle
   set shortmess+=o                " overwrite file-written messages
-
-  set tabstop=2 sts=2 sw=2
 " }}} settings "
 
 " wildignore {{{ "
@@ -219,15 +235,15 @@ endif
   set background=dark
 
   try
-    " let g:airline_theme='spacegray'
-    " let g:one_allow_italics = 1
-    " let g:jellybeans_use_term_italics = 1
-    colorscheme base16-atelier-sulphurpool
-    highlight Comment gui=italic
-    highlight Comment cterm=italic
+    let g:falcon_inactive = 1
+    let g:falcon_airline = 1
+    let g:airline_theme = 'falcon'
+    colorscheme falcon
   catch /:E185:/
     colorscheme default
   endtry
+
+  highlight Comment gui=italic
 " }}} coloring "
 
 " @wincent smart undo/backup settings {{{
@@ -236,30 +252,30 @@ endif
   silent !mkdir ~/.vim/tmp/swap > /dev/null 2>&1
 
   if exists('$SUDO_USER')
-    set nobackup                        " don't create root-owned files
-    set nowritebackup                   " don't create root-owned files
+    set nobackup                         " don't create root-owned files
+    set nowritebackup                    " don't create root-owned files
   else
-    set backupdir=~/.vim/tmp/backup//  " keep backup files out of the way
+    set backupdir=~/.vim/tmp/backup//    " keep backup files out of the way
   endif
 
   if has('persistent_undo')
     if exists('$SUDO_USER')
-      set noundofile                    " don't create root-owned files
+      set noundofile                     " don't create root-owned files
     else
-      set undodir=~/.vim/tmp/undo//     " keep undo files out of the way
-      set undofile                      " actually use undo files
+      set undodir=~/.vim/tmp/undo//      " keep undo files out of the way
+      set undofile                       " actually use undo files
     endif
   endif
 
   if exists('$SUDO_USER')
-    set noswapfile                      " don't create root-owned files
+    set noswapfile                       " don't create root-owned files
   else
-    set directory=~/.vim/tmp/swap//    " keep swap files out of the way
+    set directory=~/.vim/tmp/swap//      " keep swap files out of the way
   endif
 
   if has('viminfo')
     if exists('$SUDO_USER')
-      set viminfo=                      " don't create root-owned files
+      set viminfo=                       " don't create root-owned files
     else
       if isdirectory('~/local/.vim/tmp')
         set viminfo+=n~/local/.vim/tmp/viminfo

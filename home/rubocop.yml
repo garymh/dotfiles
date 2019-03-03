@@ -10,3 +10,22 @@ AllCops:
     - 'db/schema.rb'
     - 'lib/tasks/one_off/*'
     - 'config/routes.rb'
+Layout:
+  FirstArrayElementLineBreak:
+    Enabled: true
+  FirstHashElementLineBreak:
+    Enabled: true
+  FirstMethodArgumentLineBreak:
+    Enabled: true
+  FirstMethodParameterLineBreak:
+    Enabled: true
+Performance:
+  enabled: true
+Style:
+  StringMethods:
+    Enabled: true
+  CollectionMethod:
+    Enabled: true
+Metrics:
+  LineLength:
+    Enabled: false

@@ -28,6 +28,120 @@
                                     }
                                 ],
                                 "from": {
+                                    "key_code": "keypad_num_lock",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "m",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1578
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "keypad_slash",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "o",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1578
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "keypad_asterisk",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "k",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1578
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "delete_or_backspace",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "comma",
+                                        "modifiers": []
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1578
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
                                     "key_code": "keypad_hyphen",
                                     "modifiers": {
                                         "optional": [
@@ -37,10 +151,8 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "z",
-                                        "modifiers": [
-                                            "right_command"
-                                        ]
+                                        "key_code": "p",
+                                        "modifiers": []
                                     }
                                 ],
                                 "type": "basic"
@@ -67,9 +179,7 @@
                                 "to": [
                                     {
                                         "key_code": "f",
-                                        "modifiers": [
-                                            "right_command"
-                                        ]
+                                        "modifiers": []
                                     }
                                 ],
                                 "type": "basic"
@@ -97,8 +207,35 @@
                                     {
                                         "key_code": "g",
                                         "modifiers": [
-                                            "right_command"
+                                            "left_command"
                                         ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1578
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "keypad_4",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "r",
+                                        "modifiers": []
                                     }
                                 ],
                                 "type": "basic"
@@ -124,9 +261,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "z",
+                                        "key_code": "m",
                                         "modifiers": [
-                                            "left_shift"
+                                            "left_command",
+                                            "shift"
                                         ]
                                     }
                                 ],
@@ -153,9 +291,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "c",
+                                        "key_code": "o",
                                         "modifiers": [
-                                            "right_command"
+                                            "left_command",
+                                            "shift"
                                         ]
                                     }
                                 ],
@@ -182,9 +321,95 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "v",
+                                        "key_code": "k",
                                         "modifiers": [
-                                            "right_command"
+                                            "left_command",
+                                            "shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1578
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "keypad_0",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "q",
+                                        "modifiers": []
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1578
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "keypad_enter",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "s",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1578
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "keypad_plus",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "z",
+                                        "modifiers": [
+                                            "left_command"
                                         ]
                                     }
                                 ],
@@ -310,6 +535,40 @@
                                 "to": [
                                     {
                                         "key_code": "escape"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "1p to iTerm",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "backslash",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "option",
+                                            "command"
+                                        ]
+                                    }
+                                },
+                                "conditions": [
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.googlecode\\.iterm2$"
+                                        ]
+                                    }
+                                ],
+                                "to": [
+                                    {
+                                        "key_code": "f",
+                                        "modifiers": [
+                                            "option",
+                                            "command"
+                                        ]
                                     }
                                 ],
                                 "type": "basic"
@@ -548,22 +807,6 @@
                     "simple_modifications": [
                         {
                             "from": {
-                                "key_code": "delete_or_backspace"
-                            },
-                            "to": {
-                                "key_code": "comma"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "keypad_0"
-                            },
-                            "to": {
-                                "key_code": "q"
-                            }
-                        },
-                        {
-                            "from": {
                                 "key_code": "keypad_1"
                             },
                             "to": {
@@ -588,42 +831,10 @@
                         },
                         {
                             "from": {
-                                "key_code": "keypad_asterisk"
+                                "key_code": "keypad_period"
                             },
                             "to": {
-                                "key_code": "k"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "keypad_enter"
-                            },
-                            "to": {
-                                "key_code": "s"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "keypad_num_lock"
-                            },
-                            "to": {
-                                "key_code": "m"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "keypad_plus"
-                            },
-                            "to": {
-                                "key_code": "delete_forward"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "keypad_slash"
-                            },
-                            "to": {
-                                "key_code": "o"
+                                "key_code": "f13"
                             }
                         }
                     ]
@@ -685,6 +896,19 @@
                     },
                     "ignore": false,
                     "manipulate_caps_lock_led": false,
+                    "simple_modifications": []
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "fn_function_keys": [],
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 34304,
+                        "vendor_id": 1452
+                    },
+                    "ignore": true,
+                    "manipulate_caps_lock_led": true,
                     "simple_modifications": []
                 }
             ],

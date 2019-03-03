@@ -8,6 +8,7 @@ augroup random
   autocmd!
   " autocmd VimResized * execute "normal! \<c-w>="
 
+  autocmd BufNewFile,BufRead * setlocal formatoptions-=cro
   autocmd BufReadPost *
         \ if line("'\"") >= 1 && line("'\"") <= line("$") |
         \   exe "normal! g`\"" |

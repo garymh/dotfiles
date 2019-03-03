@@ -1,7 +1,7 @@
 [core]
   excludesfile = ~/.gitignore_global
   whitespace   = space-before-tab,-indent-with-non-tab,trailing-space
-  pager        = less -RM
+  pager        = diff-so-fancy | less --tabs=4 -RFX
   editor       = vim
 
   # Make `git rebase` safer on OS X
@@ -13,27 +13,34 @@
   precomposeunicode = false
 
 [alias]
-  amend                                   = commit --amend
+  amend                                   = commit -a --amend
+  bclean                                  = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs git branch -d; }; f"
+  bdone                                   = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
   branches                                = branch -a
-  checkout-commit                         = "!sh -c 'git_checkout_commit'"
-  checkout-something                      = "!sh -c 'git_checkout_something'"
+  cm                                      = !git add -A && git commit -m
+  co                                      = checkout
+  cob                                     = checkout -b
   combine-commits                         = "!sh -c 'git rebase -i HEAD$1'"
   delete-local-branch                     = branch -D
   delete-local-reference-to-remote-branch = "!sh -c 'git branch -rd $1/$2' -"
   delete-remote-branch                    = "!sh -c 'git push $1 --delete $2' -"
   discard                                 = checkout --
+  ec                                      = config --global -e
   explode                                 = !git reset --hard HEAD && git clean -d -f
   forgot-to-commit                        = difftool HEAD~1 HEAD
   ksdiff                                  = difftool
-  precommit                               = diff --cached --diff-algorithm=minimal -w
   remotes                                 = remote -v
   s                                       = status -s
+  save                                    = !git add -A && git commit -m 'SAVEPOINT'
   stashes                                 = stash list
   tags                                    = tag -l
   uncommit                                = reset --mixed HEAD~
-  unstage                                 = reset -q HEAD --
-  up                                      = merge --ff-only
+  undo                                    = reset HEAD~1 --mixed
+  up                                      = !git pull --rebase --prune $@ && git submodule update --init --recursive
   update-submodules                       = submodule update --init --recursive
+  wip                                     = !git add -u && git commit -m "WIP"
+  wipe                                    = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+  ignore                                  = !([ ! -e .gitignore ] && touch .gitignore) | echo `\n$2` >> .gitignore
 
 [color]
   branch      = auto
@@ -44,38 +51,54 @@
 [web]
   browser     = open
 [help]
-  autocorrect = 1
+  autocorrect   = 1
 [difftool]
-  prompt = false
+  prompt        = false
 [mergetool "Kaleidoscope"]
-  cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	cmd     = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
   trustexitcode = true
 [merge]
-  tool = Kaleidoscope
+	tool    = Kaleidoscope
 [difftool "Kaleidoscope"]
-  cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+  cmd           = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [mergetool]
-  prompt = false
+  prompt        = false
+	keepBackup = false
 [diff]
-  tool = Kaleidoscope
+  tool          = Kaleidoscope
 [difftool "sourcetree"]
-  cmd = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
-  path =
+  cmd           = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
+  path          =
 [mergetool "sourcetree"]
-  cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+  cmd           = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
   trustExitCode = true
 [commit]
-  gpgsign = true
-  template = ~/.stCommitMsg
+  gpgsign      = true
+  template     = ~/.stCommitMsg
 [filter "lfs"]
-  required = true
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
-  process = git-lfs filter-process
-
+  required     = true
+  clean        = git-lfs clean -- %f
+  smudge       = git-lfs smudge -- %f
+  process      = git-lfs filter-process
 [include]
-  path = ~/.gitconfig.local
+  path         = ~/.gitconfig.local
 [includeIf "gitdir:~/code/work/"]
-  path = ~/.gitconfig.work
+  path         = ~/.gitconfig.work
+; [push]
+;   default      = current
+[color "diff-highlight"]
+  oldNormal    = red bold
+  oldHighlight = red bold 52
+  newNormal    = green bold
+  newHighlight = green bold 22
+[color "diff"]
+  meta         = yellow
+  frag         = magenta bold
+  commit       = yellow bold
+  old          = red bold
+  new          = green bold
+  whitespace   = red reverse
+[branch]
+	autoSetupMerge = false
 [push]
-  default = current
+	default = current

@@ -1,102 +1,55 @@
 call plug#begin()
 
 " standard {{{ "
-   " Plug 'tpope/vim-unimpaired'
-   " Plug 'tpope/vim-surround'
-   " Plug 'tpope/vim-commentary'
-   " Plug 'lifepillar/vim-mucomplete'
-   " Plug 'honza/vim-snippets'
-   Plug 'janko-m/vim-test'
-  " Plug 'SirVer/ultisnips'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-unimpaired'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'junegunn/fzf.vim'
+Plug 'AndrewRadev/whitespaste.vim'
+Plug 'sickill/vim-pasta'
 " }}} standard "
-
-vmap p "_dP
 
 call plug#end()
 
-" set completeopt+=menuone,noinsert,noselect
-" set showmode shortmess+=c
+  set autowrite             " Automatically write a file when leaving a modified buffer
+  set expandtab
+  set foldlevelstart=99
+  set formatoptions+=c
+  set formatoptions+=n      " smart auto-indenting inside numbered lists
+  set formatprg="par 79"    " respect the 80 character lines
+  set hidden                " make unsaved buffers hidden
+  set ignorecase
+  set lazyredraw            " enables faster macros
+  set linespace=0           " No extra spaces between rows
+  set list
+  set listchars+=extends:»  " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
+  set listchars+=precedes:« " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
+  set listchars+=tab:├─     " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
+  set listchars+=trail:•    " BULLET (U+2022, UTF-8: E2 80 A2)
+  set listchars=nbsp:⦸      " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
+  set matchtime=5           " Show matching time
+  set mouse=a
+  set mousehide             " Hide the mouse cursor while typing
+  set nojoinspaces          " don't autoinsert two spaces after '.', '?', '!' for join command
+  set noshowmatch           " don't jump between matching brackets
+  set nowrap
+  set pumheight=20          " Avoid the pop up menu occupying the whole screen
+  set report=0              " Always report changed lines
+  set scrolljump=5          " Line to scroll when cursor leaves screen
+  set scrolloff=3           " start scrolling 3 lines before edge of viewport
+  set shiftround            " indenting to nearest tabstop
+  set shiftwidth=2          " Use indents of 4 spaces
+  set showmatch             " Show matching brackets/parentthesis
+  set showmode              " Show current mode in command-line
+  set smartcase             " smartcase for searching
+  set softtabstop=2         " Let backspace delete indent
+  set spelllang=en_us
+  set spellcapcheck=        " smartcase for custom dictionary
+  set splitbelow            " default split behavior
+  set splitright            " default split behavior
+  set synmaxcol=180         " does this make stuff faster?
+  set t_Co=256              " Use 256 colors
+  set tabstop=2             " An indentation every four columns
+  set virtualedit=block     " allow selection in visual mode
+  syntax sync minlines=256  " start highlighting from 256 lines backwards
 
-" " 	   menu	    Use a popup menu to show the possible completions.  The
-" " 		    menu is only shown when there is more than one match and
-" " 		    sufficient colors are available.  |ins-completion-menu|
-
-" " 	   menuone  Use the popup menu also when there is only one match.
-" " 		    Useful when there is additional information about the
-" " 		    match, e.g., what file it comes from.
-
-" " 	   longest  Only insert the longest common text of the matches.  If
-" " 		    the menu is displayed you can use CTRL-L to add more
-" " 		    characters.  Whether case is ignored depends on the kind
-" " 		    of completion.  For buffer text the 'ignorecase' option is
-" " 		    used.
-
-" " 	   preview  Show extra information about the currently selected
-" " 		    completion in the preview window.  Only works in
-" " 		    combination with "menu" or "menuone".
-
-" " 	  noinsert  Do not insert any text for a match until the user selects
-" " 		    a match from the menu. Only works in combination with
-" " 		    "menu" or "menuone". No effect if "longest" is present.
-
-" " 	  noselect  Do not select a match in the menu, force the user to
-" " 		    select one from the menu. Only works in combination with
-" " 		    "menu" or "menuone".
-
-
-" let g:mucomplete#enable_auto_at_startup = 1
-" " let g:mucomplete_chains = {
-" "       \ 'default' : ['ulti' ,'file', 'keyn', 'dict', 'tags']
-" "       \ }
-
-" " `'c-n'` : keywords in |'complete'| (search forwards);
-" " `'c-p'` : keywords in |'complete'| (search backwards);
-" " `'cmd'` : Vim command line;
-" " `'defs'`: definitions or macros;
-" " `'dict'`: keywords in |'dictionary'|;
-" " `'file'`: file names;
-" " `'incl'`: keywords in the current and included files;
-" " `'keyn'`: keywords in the current file (search forwards);
-" " `'keyp'`: keywords in the current file (search backwards);
-" " `'line'`: whole lines;
-" " `'omni'`: omni completion (|'omnifunc'|);
-" " `'spel'`: spelling suggestions;
-" " `'tags'`: tags;
-" " `'thes'`: keywords in |'thesaurus'|;
-" " `'user'`: user defined completion (|'completefunc'|).
-
-" " Besides, µcomplete implements its own alternative file completion
-" " and spelling suggestions:
-
-" " `'path'`: file names (µcomplete's implementation).
-" " `'uspl'`: spelling suggestions (µcomplete's implementation).
-
-" " If you have installed UltiSnips, there is also a method to get
-" " suggestions for snippets (if you use SnipMate, see
-" " |mucomplete-tips|):
-
-" " `'ulti'`: UltiSnips snippets.
-
-" let g:mucomplete#chains = {
-" 			\ 'default' : ['path', 'omni', 'incl', 'uspl', 'ulti', 'tags']
-" 			\ }
-
-" " let g:mucomplete#chains = {
-" "       \ 'default' : ['path', 'omni', 'incl', 'uspl', 'ulti'],
-" "       \ 'vim'     : ['path', 'cmd', 'incl', 'ulti'],
-" "       \ 'ruby'    : ['path', 'tags', 'incl', 'ulti']
-" "       \ }
-
-" let g:UltiSnipsExpandTrigger = "<D-!>"
-" let g:UltiSnipsJumpForwardTrigger = "<tab>"
-" let g:UltiSnipsJumpBackwardTrigger = "<tab>"
-
- inoremap <M-Space> :echo test1
- inoremap <C-S-Space> :echo test2
- inoremap <S-Space> :echo test3
- inoremap <C-Space> :echo test4
- inoremap <D-Space> :echo test5
- inoremap <S-Enter> :echo test6
- inoremap <C-Enter> :echo test7
- inoremap <d-enter> :echo test3
- inoremap <s-enter> :echo test4

@@ -1,56 +1,44 @@
-export ZPLUG_HOME=$HOME/.zplug
-local zplug_init=$ZPLUG_HOME/init.zsh
-if [ ! -f "$zplug_init" ] &> /dev/null; then
-    curl -fsSL https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
-fi
-source $zplug_init
-
-if [[ ! -f ~/.dircolors ]]; then
-  curl -o ~/.dircolors https://raw.githubusercontent.com/trapd00r/LS_COLORS/master/LS_COLORS
-fi
-
-if [[ $IS_MAC -eq 1 ]]; then
+if _macos; then
   zplug "plugins/heroku",         from:oh-my-zsh
   zplug "plugins/chruby",         from:oh-my-zsh
   zplug "plugins/docker",         from:oh-my-zsh
   zplug "plugins/docker-compose", from:oh-my-zsh
   zplug "plugins/github",         from:oh-my-zsh
   zplug "plugins/yarn",           from:oh-my-zsh
-  eval $(gdircolors -b $HOME/.dircolors)
+  zplug "plugins/tmux",           from:oh-my-zsh
+  export ZSH_TMUX_AUTOSTART="true"
+  export ZSH_TMUX_FIXTERM="false"
+  export ZSH_TMUX_FIXTERM_WITH_256COLOR="tmux-256color"
 else
-  zplug "plugins/rvm",           from:oh-my-zsh
-  eval $(dircolors -b $HOME/.dircolors)
+  zplug "plugins/rvm",            from:oh-my-zsh
 fi
 
-zplug "plugins/bundler",    from:oh-my-zsh
-zplug "plugins/autojump",   from:oh-my-zsh
-zplug "plugins/rake-fast",  from:oh-my-zsh
-zplug "plugins/zsh_reload", from:oh-my-zsh
-
+zplug "plugins/bundler",                  from:oh-my-zsh
+zplug "plugins/zsh_reload",               from:oh-my-zsh
 zplug 'ytet5uy4/fzf-widgets'
 zplug "Tarrasch/zsh-colors",              as:plugin
-zplug "djui/alias-tips"
+zplug "MichaelAquilina/zsh-you-should-use"
 zplug "zsh-users/zsh-completions",        depth:1
 zplug "zdharma/fast-syntax-highlighting", defer:2
-zplug "hcgraf/zsh-sudo",                  as:plugin
 zplug "ael-code/zsh-colored-man-pages",   as:plugin
+zplug "zsh-users/zsh-autosuggestions",    as:plugin
+export ZSH_AUTOSUGGEST_USE_ASYNC="true"
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
+zplug "unixorn/git-extra-commands",       from:github
+zplug "lib/misc",                         from:oh-my-zsh
+zplug "lib/key-bindings",                 from:oh-my-zsh
+zplug "lib/history",                      from:oh-my-zsh
+zplug "lib/directories",                  from:oh-my-zsh
+zplug "lib/compfix",                      from:oh-my-zsh
+zplug "lib/completion",                   from:oh-my-zsh
 
 if [[ $(zsh --version | awk '{print $2}') > 5.0.7 ]]; then
   zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+  zplug "hlissner/zsh-autopair",        defer:2
 else
-  zplug "mafredri/zsh-async", from:github
-  zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+  zplug "mafredri/zsh-async",           from:github
+  zplug "sindresorhus/pure",            use:pure.zsh, from:github, as:theme
 fi
-
-zplug "wting/autojump", use:"bin/autojump", as:command
-zplug "wting/autojump", use:"bin/autojump.zsh"
-
-zplug "lib/misc", from:oh-my-zsh
-zplug "lib/key-bindings", from:oh-my-zsh
-zplug "lib/history", from:oh-my-zsh
-zplug "lib/directories", from:oh-my-zsh
-zplug "lib/compfix", from:oh-my-zsh
-zplug "lib/completion", from:oh-my-zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
@@ -67,57 +55,14 @@ if [[ ! -d ~/.tmux/plugins/tpm ]]; then
   git clone https://github.com/tmux-plugins/tpm.git --depth 1 ~/.tmux/plugins/tpm 2> /dev/null
 fi
 
-for f ($HOME/.zsh/*.zsh) {source $f}
+for f ($HOME/.zsh/*.zsh) { source $f }
 
 for f in ~/.zsh/private/*.zsh(N); do
   [ -e "$f" ] && source $f || break
 done
 
-SPACESHIP_PROMPT_ORDER=(
-  time          # Time stampts section
-  user          # Username section
-  dir           # Current directory section
-  host          # Hostname section
-  # git           # Git section (git_branch + git_status)
-  hg            # Mercurial section (hg_branch  + hg_status)
-  # package       # Package version
-  # node          # Node.js section
-  ruby          # Ruby section
-  elixir        # Elixir section
-  xcode         # Xcode section
-  swift         # Swift section
-  golang        # Go section
-  php           # PHP section
-  rust          # Rust section
-  haskell       # Haskell Stack section
-  julia         # Julia section
-  # docker        # Docker section
-  aws           # Amazon Web Services section
-  venv          # virtualenv section
-  conda         # conda virtualenv section
-  pyenv         # Pyenv section
-  dotnet        # .NET section
-  ember         # Ember.js section
-  kubecontext   # Kubectl context section
-  exec_time     # Execution time
-  line_sep      # Line break
-  battery       # Battery level and status
-  vi_mode       # Vi-mode indicator
-  jobs          # Background jobs indicator
-  exit_code     # Exit code section
-  char          # Prompt character char
-)
-
-SPACESHIP_RPROMPT_ORDER=(
-  git           # Git section (git_branch + git_status)
-)
-
-export SPACESHIP_VI_MODE_SHOW="false"
-export SPACESHIP_CHAR_SYMBOL="➜  "
-export SPACESHIP_RUBY_COLOR="blue"
-export SPACESHIP_RUBY_SYMBOL="🔻 "
-export SPACESHIP_PROMPT_SEPARATE_LINE="true"
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+set -o monitor

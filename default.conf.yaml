@@ -1,0 +1,58 @@
+- clean: ['~', '~/.config']
+
+- link:
+    ~/.ctags: home/ctags
+    ~/.agignore: home/agignore
+    ~/.rgignore: home/agignore
+    ~/.fdignore: home/agignore
+    ~/.batconfig: home/batconfig
+    ~/.ignore: home/agignore
+    ~/.gemrc: home/gemrc
+    ~/.gitconfig: home/gitconfig
+    ~/.bundle/config: home/bundle_config
+    ~/.gitignore_global: home/gitignore_global
+    ~/.gitattributes: home/gitattributes
+    ~/.pryrc-helpers.rb: home/pryrc-helpers.rb
+    ~/.pryrc: home/pryrc
+    ~/.rubocop.yml: home/rubocop.yml
+    ~/.prettierrc: home/prettierrc
+    ~/.tidyrc: home/tidyrc
+    ~/.xvimrc: home/xvimrc
+    ~/.zshenv: home/zshenv
+    ~/.zshrc: home/zshrc
+    ~/.zsh: home/zsh/
+    ~/.inputrc: home/inputrc
+    ~/bin: home/zsh/bin
+
+    ~/.netrc: home/zsh/private/netrc
+    ~/.vimrc.local: home/zsh/private/vimrc.local
+
+    ~/.gvimrc: home/gvimrc
+
+    ~/.vimrc: home/vimrc
+    ~/.vimrc_min: home/vimrc.min
+    ~/.config/nvim/init.vim: home/vimrc
+
+    ~/.vim/autoload:
+      create: true
+      path: home/vim/autoload/
+    ~/.vim/after: home/vim/after/
+    ~/.vim/ftplugin: home/vim/ftplugin/
+    ~/.vim/ftdetect: home/vim/ftdetect/
+    ~/.vim/UltiSnips: home/vim/UltiSnips/
+    ~/.vim/scripts: home/vim/scripts/
+
+    ~/.config/nvim/UltiSnips:
+      create: true
+      path: home/vim/UltiSnips/
+    ~/.config/nvim/after: home/vim/after/
+    ~/.config/nvim/autoload: home/vim/autoload/
+    ~/.config/nvim/ftdetect: home/vim/ftdetect/
+    ~/.config/nvim/scripts: home/vim/scripts/
+    ~/.tmux.conf: home/tmux.conf
+
+- shell:
+    - ["touch ~/.hushlogin", "Hushing login"]
+    - ["if [ -n \"$BASH_VERSION\" ]; then chsh -s $(which zsh); fi", "Changing shell to zsh if needed"]
+    - ["[ -d ~/.vim/tmp ] || mkdir ~/.vim/tmp", "Creating vim temp dir if needed"]
+    - ["git submodule update --remote", "Updating remote tracking submodules"]

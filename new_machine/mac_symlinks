@@ -1,9 +1,0 @@
-#!/bin/bash
-
-ln -s /Applications ~/Applications
-
-FILES="$HOME/Dropbox/Storage/Oracle/*.zip"
-for f in $FILES
-do
-  cp $f ~/Library/Caches/Homebrew
-done

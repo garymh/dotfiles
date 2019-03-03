@@ -7,6 +7,8 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
+Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+Plug 'SevereOverfl0w/deoplete-github'
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
 Plug 'ervandew/supertab'

@@ -5,6 +5,8 @@ require "btt"
 
 local module = {}
 
+-- hs.ipc.cliInstall()
+
 function reloadConfig(files)
   doReload = false
   for _,file in pairs(files) do
@@ -19,11 +21,39 @@ end
 
 hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 
+-- local mods = {
+--   'wifi',
+-- }
+
+-- modules = {}
+
+-- for key, mod in ipairs(mods) do
+--   modules[mod] = require('mods/' .. mod)
+--   modules[mod].start()
+--   hs.printf('Started module ' .. mod)
+-- end
+
+
+-- mash = {"cmd", "alt", "ctrl", "shift"}
+-- -- Ensure everything is loaded before hiding the icon :)
+-- -- Show/Hide menu icon
+-- hs.hotkey.bind(mash, "7", function()
+--   hs.menuIcon(not hs.menuIcon())
+--   local wifiName = hs.wifi.currentNetwork()
+--   local security = hs.wifi.interfaceDetails().security
+--   local interface = hs.wifi.interfaceDetails()
+
+--   hs.inspect("wifi name:" .. wifiName)
+--   hs.inspect("security" .. security)
+--   hs.inspect("interface" .. interface)
+-- end)
+
 vpn_bar = hs.menubar.new()
 function setVPNDisplay(state)
     if state then
       icon = hs.image.imageFromPath("red.png")
       icon:setSize({w=16,h=16})
+      -- vpn_bar:setTitle("🔴️ VPN ON 🔴️")
       vpn_bar:setTitle("VPN ON  ")
       vpn_bar:setIcon(icon:setSize({w=16,h=16}), false)
     else

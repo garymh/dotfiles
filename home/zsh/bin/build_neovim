@@ -1,0 +1,7 @@
+cd ~/code/neovim
+git pull
+make clean
+rm -r build/  # clear the CMake cache
+export MACOSX_DEPLOYMENT_TARGET=10.14
+make CMAKE_BUILD_TYPE=Release
+make install

@@ -20,7 +20,7 @@ function action_key()
     hs.eventtap.keyStroke({'shift', 'cmd'}, 'b')
   elseif name == 'Tweetbot' then
     hs.eventtap.keyStroke({'shift', 'cmd'}, 'l')
-  elseif name == 'Firefox' then
+  elseif name == 'Firefox Developer Edition' then
     hs.eventtap.keyStroke({'alt', 'cmd'}, 'c')
   elseif name == 'Slack' then
     hs.eventtap.keyStroke({'cmd'}, '.')

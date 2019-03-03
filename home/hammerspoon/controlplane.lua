@@ -228,23 +228,23 @@ function hasExternalMonitor()
   return false
 end
 
-function setIterm2Profile(filename)
-  hs.execute("ln -sf $HOME/code/dotfiles/iterm/" .. filename .. " \"$HOME/Library/Application Support/iTerm2/DynamicProfiles/iTerm2_Dynamic.json\"")
-end
+-- function setIterm2Profile(filename)
+--   hs.execute("ln -sf $HOME/code/dotfiles/iterm/" .. filename .. " \"$HOME/Library/Application Support/iTerm2/DynamicProfiles/iTerm2_Dynamic.json\"")
+-- end
 
-function monitorChanged()
-  if hasExternalMonitor() then
-    setIterm2Profile("iTerm2_dynamic_big.json")
-  else
-    setIterm2Profile("iTerm2_dynamic_small.json")
-  end
-end
+-- function monitorChanged()
+--   if hasExternalMonitor() then
+--     setIterm2Profile("iTerm2_dynamic_big.json")
+--   else
+--     setIterm2Profile("iTerm2_dynamic_small.json")
+--   end
+-- end
 
 local powerWatcher    = hs.battery.watcher.new(powerChanged):start()
 local caffeineWatcher = hs.caffeinate.watcher.new(caffeineChanged):start()
 local wifiWatcher     = hs.wifi.watcher.new(wifiChanged):watchingFor({
     "BSSIDChange", "SSIDChange",
   }):start()
-local monitorWatcher  = hs.screen.watcher.new(monitorChanged):start()
+-- local monitorWatcher  = hs.screen.watcher.new(monitorChanged):start()
 
 getLocation()
