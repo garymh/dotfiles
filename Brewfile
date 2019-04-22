@@ -1,3 +1,4 @@
+tap "cjbassi/gotop"
 tap "goles/battery"
 tap "heroku/brew"
 tap "homebrew/bundle"
@@ -6,121 +7,221 @@ tap "homebrew/cask-fonts"
 tap "homebrew/command-not-found"
 tap "homebrew/core"
 tap "instantclienttap/instantclient"
-cask "xquartz"
+
 brew "openssl"
 brew "readline"
 brew 'mas'
 
-brew 'automake'
-brew 'bat'
-brew 'battery'
-brew 'choose-gui'
-brew 'chromedriver'
-brew 'chruby'
-brew 'cmake'
-brew 'cmatrix'
-brew 'coreutils', args: ['default-names']
-brew 'ctags'
-brew 'curl'
-brew 'diff-so-fancy'
-brew 'dockutil'
-brew 'duti'
-brew 'fasd'
-brew 'fd'
-brew 'gettext'
-brew 'ghi'
-brew 'git-flow'
-brew 'git-hooks'
-brew 'go'
-brew 'heroku'
-brew 'hr'
-brew 'hub'
-brew 'imagemagick'
-brew 'jq'
-brew 'libtool'
-brew 'libxml2'
-brew 'lua'
-brew 'mackup'
-brew 'macvim', args: ['with-override-system-vim', 'with-lua', 'with-luajit', 'HEAD']
-brew 'ncdu'
-brew 'noti'
-brew 'pdfcrack'
-brew 'pkg-config'
-brew 'python'
-brew 'reattach-to-user-namespace'
-brew 'ripgrep'
-brew 'ruby-install'
-brew 'ssh-copy-id'
-brew 'tmux'
-brew 'trash-cli'
-brew 'wifi-password'
-brew 'yarn'
-brew 'zsh'
+brew "aircrack-ng"
+brew "automake"
+brew "bash"
+brew "bat"
+brew "bison"
+brew "gettext"
+brew "gdbm"
+brew "libffi"
+brew "python"
+brew "ccat"
+brew "choose-gui"
+brew "chruby"
+brew "clipper"
+brew "cmake"
+brew "cmatrix"
+brew "coreutils"
+brew "ctags"
+brew "curl"
+brew "diff-so-fancy"
+brew "dockutil"
+brew "duti"
+brew "exa"
+brew "fasd"
+brew "fd"
+brew "sdl2"
+brew "ffmpeg"
+brew "ghi"
+brew "ghostscript"
+brew "git-flow"
+brew "git-hooks"
+brew "go"
+brew "hashcat"
+brew "hidapi"
+brew "lua"
+brew "highlight"
+brew "hr"
+brew "htop"
+brew "hub"
+brew "ical-buddy"
+brew "ifstat"
+brew "libtool"
+brew "imagemagick"
+brew "john"
+brew "jq"
+brew "libnanovg", args: ["HEAD"]
+brew "libressl"
+brew "libsodium"
+brew "libtermkey"
+brew "libusb"
+brew "libyaml"
+brew "lnav"
+brew "luajit"
+brew "m-cli"
+brew "protobuf"
+brew "mosh", args: ["HEAD"]
+brew "mysql"
+brew "ncdu"
+brew "ninja"
+brew "noti"
+brew "pandoc"
+brew "pdfcrack"
+brew "pkg-config"
+brew "portaudio"
+brew "postgresql"
+brew "qt"
+brew "ripgrep"
+brew "ruby-install"
+brew "rust"
+brew "sassc"
+brew "spotctl"
+brew "ssh-copy-id"
+brew "streamlink"
+brew "sudolikeaboss"
+brew "telnet"
+brew "terminal-notifier"
+brew "the_silver_searcher"
+brew "tig"
+brew "tmux"
+brew "topgrade"
+brew "trash-cli"
+brew "tree"
+brew "wget"
+brew "wifi-password"
+brew "yarn"
+brew "youtube-dl"
+brew "zsh"
+brew "cjbassi/gotop/gotop"
+brew "goles/battery/battery"
+brew "heroku/brew/heroku"
 
-cask '1password'
-cask 'alfred'
-cask 'appcleaner'
-cask 'atom'
-cask 'bartender'
-cask 'blue-jeans'
-cask 'coconutbattery'
-cask 'codekit'
-cask 'cyberduck'
-cask 'daisydisk'
-cask 'docker'
-cask 'fake'
-cask 'firefox'
-cask 'firefox-developer-edition'
-cask 'fluid'
-cask 'google-chrome'
-cask 'gpg-suite'
-cask 'hammerspoon'
-cask 'kaleidoscope'
-cask 'karabiner-elements'
-cask 'lingon-x'
-cask 'macdown'
-cask 'microsoft-office'
-cask 'muzzle'
-cask 'name-mangler'
-cask 'onyx'
-cask 'opera'
-cask 'pacifist'
-cask 'paw'
-cask 'postico'
-cask 'selfcontrol'
-cask 'sequel-pro'
-cask 'skype'
-cask 'skype-for-business'
-cask 'slack'
-cask 'sourcetree'
-cask 'spotify'
-cask 'superduper'
-cask 'suspicious-package'
-cask 'vlc'
+cask "1password-cli"
+cask "alfred"
+cask "appcleaner"
+cask "atom"
+cask "bartender"
+cask "battle-net"
+cask "bettertouchtool"
+cask "blue-jeans"
+cask "calibre"
+cask "coconutbattery"
+cask "colorpicker-developer"
+cask "cyberduck"
+cask "daisydisk"
+cask "discord"
+cask "docker"
+cask "fake"
+cask "fantastical"
+cask "firefox-developer-edition"
+cask "fluid"
+cask "font-3270-nerd-font-mono"
+cask "font-anonymouspro-nerd-font-mono"
+cask "font-arimo-nerd-font-mono"
+cask "font-aurulentsansmono-nerd-font-mono"
+cask "font-bitstreamverasansmono-nerd-font-mono"
+cask "font-codenewroman-nerd-font-mono"
+cask "font-cousine-nerd-font-mono"
+cask "font-dejavusansmono-nerd-font-mono"
+cask "font-droidsansmono-nerd-font-mono"
+cask "font-fantasquesansmono-nerd-font-mono"
+cask "font-firacode-nerd-font-mono"
+cask "font-firamono-nerd-font-mono"
+cask "font-go-mono-nerd-font-mono"
+cask "font-gohu-nerd-font-mono"
+cask "font-hack-nerd-font"
+cask "font-hack-nerd-font-mono"
+cask "font-hasklig-nerd-font-mono"
+cask "font-heavydata-nerd-font-mono"
+cask "font-hermit-nerd-font-mono"
+cask "font-inconsolata-nerd-font-mono"
+cask "font-inconsolatago-nerd-font-mono"
+cask "font-inconsolatalgc-nerd-font-mono"
+cask "font-iosevka"
+cask "font-iosevka-nerd-font-mono"
+cask "font-liberationmono-nerd-font-mono"
+cask "font-meslo-nerd-font-mono"
+cask "font-monoid-nerd-font"
+cask "font-monoid-nerd-font-mono"
+cask "font-mononoki-nerd-font"
+cask "font-mononoki-nerd-font-mono"
+cask "font-mplus-nerd-font-mono"
+cask "font-spacemono-nerd-font-mono"
+cask "font-terminus-nerd-font-mono"
+cask "font-tinos-nerd-font-mono"
+cask "font-ubuntu-nerd-font-mono"
+cask "font-ubuntumono-nerd-font-mono"
+cask "gpg-suite"
+cask "hammerspoon"
+cask "iina"
+cask "iterm2"
+cask "kaleidoscope"
+cask "karabiner-elements"
+cask "keyboard-cleaner"
+cask "latest"
+cask "lingon-x"
+cask "linkliar"
+cask "macdown"
+cask "macvim"
+cask "microsoft-office"
+cask "muzzle"
+cask "name-mangler"
+cask "obs"
+cask "oni"
+cask "opera"
+cask "pacifist"
+cask "paw"
+cask "postico"
+cask "prey"
+cask "qlcolorcode"
+cask "qlimagesize"
+cask "qlmarkdown"
+cask "qlstephen"
+cask "qlvideo"
+cask "quicklook-csv"
+cask "quicklook-json"
+cask "quicklookase"
+cask "safari-technology-preview"
+cask "selfcontrol"
+cask "sequel-pro"
+cask "skype"
+cask "skype-for-business"
+cask "slack"
+cask "sloth"
+cask "sourcetree"
+cask "spotify"
+cask "steam"
+cask "sublime-text"
+cask "superduper"
+cask "suspicious-package"
+cask "the-unarchiver"
+cask "virtualbox"
+cask "vlc"
+cask "webpquicklook"
+cask "xquartz"
 
-cask 'qlimagesize'
-cask 'qlcolorcode'
-cask 'qlmarkdown'
-cask 'qlstephen'
-cask 'quicklook-csv'
-cask 'quicklook-json'
-
-mas "Airmail 3", id: 918858936
-mas "Blackmagic Disk Speed Test", id: 425264550
-mas "iFlicks 2", id: 731062389
-mas "Install macOS Mojave Beta", id: 0
-mas "Keynote", id: 409183694
-mas "MDB Explorer", id: 506622388
-mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
-mas "Piggy", id: 1326531921
-mas "Pixelmator Pro", id: 1289583905
-mas "Reeder", id: 880001334
-mas "SmileAllDay", id: 1180442868
-mas "Soulver", id: 413965349
-mas "SQLPro for SQLite", id: 586001240
-mas "StopTheMadness", id: 1376402589
-mas "Tweetbot", id: 1384080005
-mas "Type2Phone", id: 472717129
-mas "Xcode", id: 497799835
-
+mas "", id: 1081413713
+mas "", id: 1278508951
+mas "", id: 497799835
+mas "", id: 409183694
+mas "", id: 472717129
+mas "", id: 1180442868
+mas "", id: 413965349
+mas "", id: 1376402589
+mas "", id: 1191449274
+mas "", id: 1384080005
+mas "", id: 1438243180
+mas "", id: 409201541
+mas "", id: 425264550
+mas "", id: 731062389
+mas "", id: 506622388
+mas "", id: 937984704
+mas "", id: 409203825
+mas "", id: 1421915518
+mas "", id: 1289583905

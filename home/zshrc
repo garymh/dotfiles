@@ -34,6 +34,7 @@ zplug "lib/completion",                   from:oh-my-zsh
 
 if [[ $(zsh --version | awk '{print $2}') > 5.0.7 ]]; then
   zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+  # zplug romkatv/powerlevel10k, use:powerlevel10k.zsh-theme
   zplug "hlissner/zsh-autopair",        defer:2
 else
   zplug "mafredri/zsh-async",           from:github

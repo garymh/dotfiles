@@ -19,10 +19,6 @@
   map <leader>diff :<C-U>Git difftool %<cr>
 " }}} fugitive "
 
-" rubocop {{{ "
-  map <leader>c :RuboCop -a<cr>q
-" }}} rubocop "
-
 " commentary {{{ "
   nmap <leader>dc :t.<CR>k<Plug>CommentaryLinej
 " }}} commentary "
@@ -43,6 +39,13 @@
   noremap <plug>(slash-after) zz
 " }}} vim-slash "
 
+" better whitespace {{{ "
+  let g:better_whitespace_enabled=1
+  let g:strip_whitespace_on_save=1
+  let g:strip_whitespace_confirm=0
+  let g:better_whitespace_filetypes_blacklist = ['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown', 'vim-plug']
+" }}} better whitespace "
+
 " ruby {{{ "
   let g:polyglot_disabled = ['ruby']
   let ruby_operators = 1
@@ -53,36 +56,21 @@
 " }}} vim polygot individual settings "
 
 " Neoformat {{{ "
-  " augroup fmt
-  "   autocmd!
-  "   autocmd BufWritePre * undojoin | Neoformat
-  " augroup END
   let g:neoformat_basic_format_align = 1
   let g:neoformat_basic_format_retab = 1
   let g:neoformat_basic_format_trim = 1
-  " let g:neoformat_only_msg_on_error = 1
   map <silent> ! :Neoformat<CR>
 " }}} Neoformat "
 
 " Multichange {{{ "
-  " let g:multichange_mapping        = 'sm'
-  " let g:multichange_motion_mapping = 'm'
-
-nmap s <plug>(SubversiveSubstitute)
-nmap ss <plug>(SubversiveSubstituteLine)
-nmap S <plug>(SubversiveSubstituteToEndOfLine)
-nmap <leader>s <plug>(SubversiveSubvertRange)
-xmap <leader>s <plug>(SubversiveSubvertRange)
-nmap <leader>ss <plug>(SubversiveSubvertWordRange)
-" nmap <leader><leader>ss <plug>(SubversiveSubvertWordRange)
-
-
+  nmap s <plug>(SubversiveSubstitute)
+  nmap ss <plug>(SubversiveSubstituteLine)
+  nmap <leader>s <plug>(SubversiveSubvertRange)
+  xmap <leader>s <plug>(SubversiveSubvertRange)
+  nmap <leader>ss <plug>(SubversiveSubvertWordRange)
 " }}} Multichange "
 
 " vim-surround {{{ "
-  " nmap s  <Plug>Ysurround
-  " xmap s  <Plug>VSurround
-  " xmap S   <Plug>VgSurround
   let g:surround_{char2nr("d")} = "<div\1class: \r..*\r class=\"&\"\1>\r</div>"
 " }}} vim-surround "
 
@@ -97,21 +85,18 @@ nmap <leader>ss <plug>(SubversiveSubvertWordRange)
 
 " Text objects {{{ "
   let g:textobj_comment_no_default_key_mappings = 1
-  xmap ax <Plug>(textobj-comment-a)
-  omap ax <Plug>(textobj-comment-a)
-  xmap aX <Plug>(textobj-comment-big-a)
-  omap aX <Plug>(textobj-comment-big-a)
-  xmap ix <Plug>(textobj-comment-i)
-  omap ix <Plug>(textobj-comment-i)
-  xmap iX <Plug>(textobj-comment-big-i)
-  omap iX <Plug>(textobj-comment-big-i)
-
   omap ib <Plug>(textobj-brace-i)
   omap ab <Plug>(textobj-brace-a)
 " }}} Text objects "
 
 " Airline {{{ "
   let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#fnamemod = ':t'
+  let g:airline#extensions#tabline#fnametruncate = 10
+  let g:airline#extensions#neomake#enabled = 1
+  let g:airline#extensions#nrrwrgn#enabled = 1
+  let g:airline#extensions#csv#enabled = 1
+
   if !exists('g:airline_symbols')
     let g:airline_symbols = {}
   endif
@@ -132,8 +117,12 @@ nmap <leader>ss <plug>(SubversiveSubvertWordRange)
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_start_level           = 1
   let g:indent_guides_guide_size            = 1
-  let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'fzf']
+  let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'netrw', 'fzf']
 " }}} indentLine "
+
+" vim-pasta {{{ "
+  let g:pasta_disabled_filetypes = ['netrw', 'dirvish']
+" }}} vim-pasta "
 
 " vim-sayonara {{{ "
   let g:sayonara_confirm_quit = 1
@@ -148,8 +137,8 @@ nmap <leader>ss <plug>(SubversiveSubvertWordRange)
 " }}} Switch "
 
 " SplitJoin {{{ "
-  nmap sj :SplitjoinSplit<cr>
-  nmap sk :SplitjoinJoin<cr>
+  nmap gj :SplitjoinSplit<cr>
+  nmap gk :SplitjoinJoin<cr>
   let g:splitjoin_align = 1
 
   function! BreakHere()
@@ -161,37 +150,11 @@ nmap <leader>ss <plug>(SubversiveSubvertWordRange)
 " }}} SplitJoin "
 
 " FZF settings {{{ "
-  " if has('nvim')
-  "   let $FZF_DEFAULT_OPTS .= ' --inline-info'
-  " endif
-  " let g:fzf_layout = { 'window': '-tabnew' }
-  " let g:fzf_tags_command = 'ctags -R'
-  " }}} FZF settings "
-
   " FZF commands {{{ "
-  fun! s:fzf_root()
-    let path = finddir(".git", expand("%:p:h").";")
-    return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
-  endfun
-
-  let g:fzf_colors =
-  \ { 'fg':      ['fg', 'Normal'],
-    \ 'bg':      ['bg', 'Clear'],
-    \ 'hl':      ['fg', 'String'],
-    \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-    \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-    \ 'hl+':     ['fg', 'Statement'],
-    \ 'info':    ['fg', 'PreProc'],
-    \ 'prompt':  ['fg', 'Conditional'],
-    \ 'pointer': ['fg', 'Exception'],
-    \ 'marker':  ['fg', 'Keyword'],
-    \ 'spinner': ['fg', 'Label'],
-    \ 'header':  ['fg', 'Comment'] }
-
-  " does this work?
-" :Ag foo
-" :cdo %s/bar/baz/g | update 
-" :cfdo :bd
+    fun! s:fzf_root()
+      let path = finddir(".git", expand("%:p:h").";")
+      return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
+    endfun
 
     function! s:build_quickfix_list(lines)
       call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
@@ -205,33 +168,31 @@ nmap <leader>ss <plug>(SubversiveSubvertWordRange)
       \ 'ctrl-x': 'split',
       \ 'ctrl-v': 'vsplit' }
 
-  command! -bang -nargs=? -complete=dir Files
-        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+    command! -bang -nargs=? -complete=dir Files
+          \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
-  command! -bang -nargs=* Rg
-        \ call fzf#vim#grep(
-        \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-        \   <bang>0 ? fzf#vim#with_preview('up:60%')
-        \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-        \   <bang>0)
+    command! -bang -nargs=* Rg
+          \ call fzf#vim#grep(
+          \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+          \   <bang>0 ? fzf#vim#with_preview('up:60%')
+          \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+          \   <bang>0)
 
-  " nnoremap <silent> <space>f :Rg!<CR>
-  nnoremap <silent> <space>r :History<CR>
+    nnoremap <silent> <space>r :History<CR>
 
-  command! -bang -nargs=? -complete=dir Buffers
-        \ call fzf#vim#buffers(<q-args>, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+    command! -bang -nargs=? -complete=dir Buffers
+          \ call fzf#vim#buffers(<q-args>, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
-nnoremap <silent> <space>a :Buffers<CR>
-
-  nnoremap <silent> <space>g :GFiles?<CR>
-  nnoremap <silent> <space>c :Commands<CR>
-  nnoremap <silent> <space>h :Helptags<CR>
-
-  noremap <silent> <space>1 :Files! app/controllers<CR>
-  noremap <silent> <space>2 :Files! app/models<CR>
-  noremap <silent> <space>3 :Files! app/views<CR>
-  nnoremap <silent> <c-p> :exe 'Files! ' . <SID>fzf_root()<CR>
-" }}} FZF commands "
+    nnoremap <silent> <space>a :Buffers<CR>
+    nnoremap <silent> <space>g :GFiles?<CR>
+    nnoremap <silent> <space>c :Commands<CR>
+    nnoremap <silent> <space>h :Helptags<CR>
+    nnoremap <silent> <c-p> :exe 'Files! ' . <SID>fzf_root()<CR>
+    noremap <silent> <space>1 :Files! app/controllers<CR>
+    noremap <silent> <space>2 :Files! app/models<CR>
+    noremap <silent> <space>3 :Files! app/views<CR>
+  " }}} FZF commands "
+" }}} FZF settings "
 
 " Testing {{{ "
   nmap <silent> <leader>t :TestNearest<CR>
@@ -245,11 +206,11 @@ nnoremap <silent> <space>a :Buffers<CR>
 
 " git-gutter {{{ "
   nmap <Leader>gu <Plug>GitGutterUndoHunk
-  let g:gitgutter_sign_added= '■'
-  let g:gitgutter_sign_modified= '■'
-  let g:gitgutter_sign_removed= '■'
-  let g:gitgutter_sign_removed_first_line= '■'
-  let g:gitgutter_sign_modified_removed= '■'
+  let g:gitgutter_sign_added= '█'
+  let g:gitgutter_sign_modified= '█'
+  let g:gitgutter_sign_removed= '█'
+  let g:gitgutter_sign_removed_first_line= '█'
+  let g:gitgutter_sign_modified_removed= '█'
 " }}} git-gutter "
 
 " EasyAlign {{{ "
@@ -264,6 +225,7 @@ nnoremap <silent> <space>a :Buffers<CR>
 
 " ctrlsf {{{ "
   let g:ctrlsf_ackprg = '/usr/local/bin/rg'
+  let g:ctrlsf_search_mode = 'async'
   nmap <space>f <Plug>CtrlSFPrompt
   vmap F <Plug>CtrlSFVwordExec
   let g:ctrlsf_indent = 1
@@ -272,7 +234,7 @@ nnoremap <silent> <space>a :Buffers<CR>
         \ "prev": "N",
         \ }
   function! g:CtrlSFAfterMainWindowInit()
-    setl wrap
+    " setl wrap
     setl nonumber norelativenumber
   endfunction
 
@@ -282,13 +244,9 @@ nnoremap <silent> <space>a :Buffers<CR>
       \ }
 " }}} ctrlsf "
 
-" NERDtree {{{ "
-  nnoremap <silent> <f1> :NERDTreeToggle<cr>
-nnoremap <silent> <C-_> :NERDTreeFind<cr>
-  let g:NERDTreeQuitOnOpen        = 1
-  let g:NERDTreeShowHidden        = 1
-  let g:NERDTreeRespectWildIgnore = 1
-  let g:NERDTreeDirArrows         = 0
-  let g:NERDTreeMinimalUI         = 1
-  let g:NERDTreeShowBookmarks     = 1
-" }}} NERDtree "
+" Dirvish {{{ "
+  let g:loaded_netrwPlugin = 1
+  command! -nargs=? -complete=dir Explore Dirvish <args>
+  command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
+  command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
+" }}} Dirvish "

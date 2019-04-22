@@ -11,10 +11,12 @@ else
   eval $(dircolors -b $HOME/.dircolors)
 fi
 
-alias ll="exa -l"
-alias lh="exa -d .*"
-alias la="exa -aF"
-alias ls="exa"
+if (( $+commands[exa] )) ; then
+  alias ll="exa -l"
+  alias lh="exa -d .*"
+  alias la="exa -aF"
+  alias ls="exa"
+fi
 
 if (( $+commands[brew] )) ; then
   HAS_BREW=1

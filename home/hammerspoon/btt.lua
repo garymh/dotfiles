@@ -11,7 +11,7 @@ function action_key()
   elseif name == 'Reeder' then
     hs.eventtap.keyStroke({'ctrl', 'cmd'}, 'l')
   elseif name == 'Messages' then
-    hs.eventtap.keyStroke({'cmd'}, '0')
+    hs.eventtap.keyStroke({'shift', 'alt', 'ctrl', 'cmd'}, '7')
   -- elseif name == 'MorphVOX' then
   --   hs.eventtap.keyStroke({'cmd'}, '0')
   elseif name == 'Opera' then
@@ -24,7 +24,7 @@ function action_key()
     hs.eventtap.keyStroke({'alt', 'cmd'}, 'c')
   elseif name == 'Slack' then
     hs.eventtap.keyStroke({'cmd'}, '.')
-  elseif name == 'iTerm2' or name == 'MacVim' or name == 'Alfred 3' then
+  elseif name == 'iTerm2' or name == "Oni" or name == 'MacVim' or name == 'Alfred 3' then
     hs.eventtap.keyStroke({}, 'escape')
   else
     hs.alert("Unknown application")

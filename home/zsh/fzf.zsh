@@ -6,9 +6,10 @@ if [[ -f ~/.fzf.zsh ]]; then
                           --preview '~/.vim/plugged/fzf.vim/bin/preview.rb {} | head -200'
                           --bind ctrl-f:page-down,ctrl-b:page-up,'ctrl-o:execute($VISUAL {})+abort'"
   export FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS --select-1 --exit-0"
-  export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:wrap 
-                          --bind '?:toggle-preview' 
-                          --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort' 
+  export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:wrap
+                          --no-preview
+                          --bind '?:toggle-preview'
+                          --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
                           --header 'Press CTRL-Y to copy command into clipboard' --border"
   export FZF_ALT_C_COMMAND='fd --type d . --color=never'
   export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -100'"

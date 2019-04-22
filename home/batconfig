@@ -1,4 +1,4 @@
---theme="Boron"
+--theme="1337"
 --italic-text=always
 --pager="less -FR"
 --map-syntax .ignore:.gitignore
