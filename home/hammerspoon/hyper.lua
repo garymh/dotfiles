@@ -1,5 +1,3 @@
-local hyper = { "cmd", "alt", "ctrl", "shift" }
-
 function cleanup_key()
   local app = hs.application.frontmostApplication()
   local name = app:name()

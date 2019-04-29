@@ -1,25 +1,34 @@
-- link:
-    ~/.mackup.cfg:
-      path: iCloud/Mackup/mackup.cfg
+- defaults:
+    link:
+        create: true
+        relink: true
 
+- link:
+    ~/iCloud: "~/Library/Mobile Documents/com~apple~CloudDocs"
+    ~/.mackup.cfg: ~/iCloud/Mackup/mackup.cfg
     ~/.gvimrc: home/gvimrc
     ~/.config/karabiner/karabiner.json: home/karabiner.json
-
-    ~/.ssh:
-      create: true
-      path: home/zsh/private/ssh/
-
-    ~/.whereami:
-      create: true
-      path: home/zsh/private/whereami/
-
-    ~/.gnupg:
-      create: true
-      path: home/zsh/private/gnupg/
-
+    ~/.ssh: home/zsh/private/ssh/
+    ~/.whereami: home/zsh/private/whereami/
+    ~/.gnupg: home/zsh/private/gnupg/
     ~/.hammerspoon: home/hammerspoon/
     ~/.gitconfig.local: home/zsh/private/gitconfig.local
     ~/.gitconfig.work: home/zsh/private/gitconfig.work
 
+- shell:
+    - ["/usr/bin/ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"", "Installing homebrew"]
+
 - brewfile:
-    file: homebrew/Brewfile
+    - Brewfile
+
+- shell:
+    - ["duti -v handlers.txt", "Setting file defaults"]
+    - ["./npm_modules.sh", "Installing npm modules"]
+    - ["ruby-install --latest ruby", "Installing latest ruby"]
+    - ["xcode-select --install", "Installing Xcode command tools"]
+    - ["./dockutil_init.sh", "Fixing up Dock"]
+
+- pip:
+    file: requirements.txt
+    binary: /usr/local/bin/pip3
+    user: true

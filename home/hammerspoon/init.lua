@@ -4,6 +4,32 @@ require "controlplane"
 require "btt"
 
 local module = {}
+local hyper = { "cmd", "alt", "ctrl", "shift" }
+
+hs.loadSpoon("SpoonInstall")
+Install=spoon.SpoonInstall
+Install:andUse("TimeMachineProgress",
+  {
+    start = true
+  }
+  )
+Install:andUse("SendToOmniFocus",
+  {
+    config = {
+      quickentrydialog = true,
+      notifications = true
+    },
+    hotkeys = {
+      send_to_omnifocus = { hyper, "o" }
+    },
+    -- fn = function(s)
+    --   s:registerApplication("Swisscom Collab", { apptype = "chromeapp", itemname = "tab" })
+    --   s:registerApplication("Swisscom Wiki", { apptype = "chromeapp", itemname = "wiki page" })
+    --   s:registerApplication("Swisscom Jira", { apptype = "chromeapp", itemname = "issue" })
+    --   s:registerApplication("Brave Browser Dev", { apptype = "chromeapp", itemname = "page" })
+    -- end
+  }
+  )
 
 -- hs.ipc.cliInstall()
 

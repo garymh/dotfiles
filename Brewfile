@@ -56,7 +56,6 @@ brew "libtool"
 brew "imagemagick"
 brew "john"
 brew "jq"
-brew "libnanovg", args: ["HEAD"]
 brew "libressl"
 brew "libsodium"
 brew "libtermkey"
@@ -81,10 +80,8 @@ brew "ripgrep"
 brew "ruby-install"
 brew "rust"
 brew "sassc"
-brew "spotctl"
 brew "ssh-copy-id"
 brew "streamlink"
-brew "sudolikeaboss"
 brew "telnet"
 brew "terminal-notifier"
 brew "the_silver_searcher"
@@ -107,7 +104,6 @@ cask "alfred"
 cask "appcleaner"
 cask "atom"
 cask "bartender"
-cask "battle-net"
 cask "bettertouchtool"
 cask "blue-jeans"
 cask "calibre"
@@ -173,11 +169,9 @@ cask "microsoft-office"
 cask "muzzle"
 cask "name-mangler"
 cask "obs"
-cask "oni"
 cask "opera"
 cask "pacifist"
 cask "paw"
-cask "postico"
 cask "prey"
 cask "qlcolorcode"
 cask "qlimagesize"
@@ -187,9 +181,7 @@ cask "qlvideo"
 cask "quicklook-csv"
 cask "quicklook-json"
 cask "quicklookase"
-cask "safari-technology-preview"
 cask "selfcontrol"
-cask "sequel-pro"
 cask "skype"
 cask "skype-for-business"
 cask "slack"
@@ -197,31 +189,30 @@ cask "sloth"
 cask "sourcetree"
 cask "spotify"
 cask "steam"
-cask "sublime-text"
 cask "superduper"
 cask "suspicious-package"
+cask "tableplus"
 cask "the-unarchiver"
-cask "virtualbox"
 cask "vlc"
 cask "webpquicklook"
-cask "xquartz"
 
-mas "", id: 1081413713
-mas "", id: 1278508951
-mas "", id: 497799835
-mas "", id: 409183694
-mas "", id: 472717129
-mas "", id: 1180442868
-mas "", id: 413965349
-mas "", id: 1376402589
-mas "", id: 1191449274
-mas "", id: 1384080005
-mas "", id: 1438243180
-mas "", id: 409201541
-mas "", id: 425264550
-mas "", id: 731062389
-mas "", id: 506622388
-mas "", id: 937984704
-mas "", id: 409203825
-mas "", id: 1421915518
-mas "", id: 1289583905
+mas "com.acqualia.soulver", id: 413965349
+mas "com.amarcus.PiPer", id: 1421915518
+mas "com.apple.dt.Xcode", id: 497799835
+mas "com.apple.iWork.Keynote", id: 409183694
+mas "com.apple.iWork.Numbers", id: 409203825
+mas "com.apple.iWork.Pages", id: 409201541
+mas "com.atlassian.trello", id: 1278508951
+mas "com.blackmagic-design.DiskSpeedTest", id: 425264550
+mas "com.grandsoft.MDB-Explorer", id: 506622388
+mas "com.helloresolven.GIF-Brewery-3", id: 1081413713
+mas "com.houdah.MagicKeyboard", id: 472717129
+mas "com.if.Amphetamine", id: 937984704
+mas "com.iflicksapp.iFlicks2", id: 731062389
+mas "com.pixelmatorteam.pixelmator.x", id: 1289583905
+mas "com.reederapp.macOS", id: 1449412482
+mas "com.robinlu.mac.Tooth-Fairy", id: 1191449274
+mas "com.tapbots.Tweetbot3Mac", id: 1384080005
+mas "com.underpassapp.StopTheMadness", id: 1376402589
+mas "net.evanm.SmileAllDay", id: 1180442868
+mas "org.darkreader.DarkReaderSafari", id: 1438243180

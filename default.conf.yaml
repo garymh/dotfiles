@@ -1,3 +1,10 @@
+- defaults:
+    clean:
+        force: true
+    link:
+        create: true
+        relink: true
+
 - clean: ['~', '~/.config']
 
 - link:
@@ -33,18 +40,14 @@
     ~/.vimrc_min: home/vimrc.min
     ~/.config/nvim/init.vim: home/vimrc
 
-    ~/.vim/autoload:
-      create: true
-      path: home/vim/autoload/
+    ~/.vim/autoload: home/vim/autoload
     ~/.vim/after: home/vim/after/
     ~/.vim/ftplugin: home/vim/ftplugin/
     ~/.vim/ftdetect: home/vim/ftdetect/
     ~/.vim/UltiSnips: home/vim/UltiSnips/
     ~/.vim/scripts: home/vim/scripts/
 
-    ~/.config/nvim/UltiSnips:
-      create: true
-      path: home/vim/UltiSnips/
+    ~/.config/nvim/UltiSnips: home/vim/UltiSnips
     ~/.config/nvim/after: home/vim/after/
     ~/.config/nvim/autoload: home/vim/autoload/
     ~/.config/nvim/ftdetect: home/vim/ftdetect/
@@ -56,3 +59,7 @@
     - ["if [ -n \"$BASH_VERSION\" ]; then chsh -s $(which zsh); fi", "Changing shell to zsh if needed"]
     - ["[ -d ~/.vim/tmp ] || mkdir ~/.vim/tmp", "Creating vim temp dir if needed"]
     - ["git submodule update --remote", "Updating remote tracking submodules"]
+    - ["tic home/terms/tmux.terminfo", "Installing tmux color profile"]
+    - ["tic home/terms/tmux-256color.terminfo", "Installing tmux-256 color profile"]
+    - ["tic home/terms/xterm-256color.terminfo", "Installing xterm color profile"]
+    - ["tic home/terms/xterm-256color-italic.terminfo", "Installing xterm italic color profile"]

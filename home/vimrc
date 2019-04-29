@@ -108,6 +108,11 @@ call plug#begin()
 " mac/nvim {{{ "
   if has('nvim')
     Plug 'sbdchd/neoformat'
+
+    if has('nvim-0.3.2')
+      Plug 'meain/vim-package-info', { 'do': 'npm install' }
+    endif
+
     " Plug 'machakann/vim-highlightedyank'
     let g:python3_host_prog = '/usr/local/bin/python3'
     let g:loaded_python_provider = 1

@@ -28,11 +28,13 @@
 " }}} DidYouMean "
 
 " Rainbow Parens {{{ "
-  let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
-  augroup rainbow_lisp
-    autocmd!
-    autocmd FileType * RainbowParentheses
-  augroup END
+  if exists(':RainbowParentheses')
+    let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
+    augroup rainbow_lisp
+      autocmd!
+      autocmd FileType * RainbowParentheses
+    augroup END
+  endif
 " }}} Rainbow Parens "
 
 " vim-slash {{{ "
