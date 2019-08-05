@@ -28,9 +28,9 @@ if _macos; then
   alias cpu="gotop -c monokai -f"
   alias restore_db="pg_restore -h localhost -p 5432 -U postgres -d membership_user -O -c -v"
 
-  alias renee_notes="$VISUAL +Goyo ~/Documents/Work/NU/renee-meeting"
-  alias work_todos="$VISUAL +Goyo ~/Documents/Work/NU/work_todos"
-  alias dnd_notes="$VISUAL +Goyo ~/Documents/Fun/D\&D/dndnotes"
+  alias renee_notes="$VISUAL ~/Documents/Work/NU/renee-meeting"
+  alias work_todos="$VISUAL ~/Documents/Work/NU/work_todos"
+  alias dnd_notes="$VISUAL ~/Documents/Fun/D\&D/dndnotes"
 
   # typos
   alias eivm="evim"

@@ -2,7 +2,7 @@ cd $HOME/code/neovim
 git pull
 make clean
 rm -r build/  # clear the CMake cache
-# export MACOSX_DEPLOYMENT_TARGET=10.14
-# export CMAKE_INSTALL_PREFIX=/usr/local
+export MACOSX_DEPLOYMENT_TARGET=10.14
+export CMAKE_INSTALL_PREFIX=/usr/local
 make CMAKE_BUILD_TYPE=Release
 make install

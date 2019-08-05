@@ -1,7 +1,7 @@
-" call plug#begin()
+call plug#begin()
 
 " " standard {{{ "
-"   Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-unimpaired'
 "   Plug 'tpope/vim-surround'
 "   Plug 'EinfachToll/DidYouMean'
 "   Plug 'tpope/vim-sleuth'
@@ -14,58 +14,28 @@
 "   Plug 'junegunn/vim-slash'
 "   Plug 'mhinz/vim-sayonara',      { 'on': 'Sayonara' }
 "   Plug 'takac/vim-commandcaps'
-"   Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-commentary'
 "   Plug 'tpope/vim-ragtag'
 "   Plug 'tpope/vim-repeat'
 "   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " " }}} almost standard "
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
-" call plug#end()
 
-" source ~/.vim/scripts/mappings.vim
-" " source ~/.vim/scripts/completions.vim
-" set completeopt=longest,menuone,preview
-" let g:deoplete#enable_at_startup = 1
+call plug#end()
 
-"   set autowrite             " Automatically write a file when leaving a modified buffer
-"   set expandtab
-"   set foldlevelstart=99
-"   set formatoptions+=c
-"   set formatoptions+=n      " smart auto-indenting inside numbered lists
-"   set formatprg="par 79"    " respect the 80 character lines
-"   set hidden                " make unsaved buffers hidden
-"   set ignorecase
-"   set lazyredraw            " enables faster macros
-"   set linespace=0           " No extra spaces between rows
-"   set list
-"   set listchars+=extends:»  " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
-"   set listchars+=precedes:« " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
-"   set listchars+=tab:├─     " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
-"   set listchars+=trail:•    " BULLET (U+2022, UTF-8: E2 80 A2)
-"   set listchars=nbsp:⦸      " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
-"   set matchtime=5           " Show matching time
-"   set mouse=a
-"   set mousehide             " Hide the mouse cursor while typing
-"   set nojoinspaces          " don't autoinsert two spaces after '.', '?', '!' for join command
-"   set noshowmatch           " don't jump between matching brackets
-"   set nowrap
-"   set pumheight=20          " Avoid the pop up menu occupying the whole screen
-"   set report=0              " Always report changed lines
-"   set scrolljump=5          " Line to scroll when cursor leaves screen
-"   set scrolloff=3           " start scrolling 3 lines before edge of viewport
-"   set shiftround            " indenting to nearest tabstop
-"   set shiftwidth=2          " Use indents of 4 spaces
-"   set showmatch             " Show matching brackets/parentthesis
-"   set showmode              " Show current mode in command-line
-"   set smartcase             " smartcase for searching
-"   set softtabstop=2         " Let backspace delete indent
-"   set spelllang=en_us
-"   set spellcapcheck=        " smartcase for custom dictionary
-"   set splitbelow            " default split behavior
-"   set splitright            " default split behavior
-"   set synmaxcol=180         " does this make stuff faster?
-"   set t_Co=256              " Use 256 colors
-"   set tabstop=2             " An indentation every four columns
-"   set virtualedit=block     " allow selection in visual mode
-"   syntax sync minlines=256  " start highlighting from 256 lines backwards
+let g:LanguageClient_serverCommands = {
+    \ 'javascript': ["/usr/local/bin/javascript-typescript-stdio"],
+    \ 'ruby': ["$GEM_HOME/bin/solargraph", "stdio"],
+    \ 'vim': ["/usr/local/bin/vim-language-server", "--stdio"],
+    \ }
+
+" nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" " Or map each action separately
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <leader>r :call LanguageClient#textDocument_rename()<CR>
 

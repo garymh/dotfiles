@@ -66,7 +66,6 @@ brew "luajit"
 brew "m-cli"
 brew "protobuf"
 brew "mosh", args: ["HEAD"]
-brew "mysql"
 brew "ncdu"
 brew "ninja"
 brew "noti"
@@ -113,10 +112,10 @@ cask "cyberduck"
 cask "daisydisk"
 cask "discord"
 cask "docker"
-cask "fake"
+# cask "fake"
 cask "fantastical"
 cask "firefox-developer-edition"
-cask "fluid"
+# cask "fluid"
 cask "font-3270-nerd-font-mono"
 cask "font-anonymouspro-nerd-font-mono"
 cask "font-arimo-nerd-font-mono"
@@ -168,11 +167,9 @@ cask "macvim"
 cask "microsoft-office"
 cask "muzzle"
 cask "name-mangler"
-cask "obs"
 cask "opera"
 cask "pacifist"
 cask "paw"
-cask "prey"
 cask "qlcolorcode"
 cask "qlimagesize"
 cask "qlmarkdown"
@@ -204,7 +201,7 @@ mas "com.apple.iWork.Numbers", id: 409203825
 mas "com.apple.iWork.Pages", id: 409201541
 mas "com.atlassian.trello", id: 1278508951
 mas "com.blackmagic-design.DiskSpeedTest", id: 425264550
-mas "com.grandsoft.MDB-Explorer", id: 506622388
+# mas "com.grandsoft.MDB-Explorer", id: 506622388
 mas "com.helloresolven.GIF-Brewery-3", id: 1081413713
 mas "com.houdah.MagicKeyboard", id: 472717129
 mas "com.if.Amphetamine", id: 937984704

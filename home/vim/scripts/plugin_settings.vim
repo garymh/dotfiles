@@ -14,6 +14,10 @@
   map <leader>b :Bonly<cr>
 " }}} buf-only "
 
+" tagbar {{{ "
+let g:tagbar_compact = 1
+" }}} tagbar "
+
 " fugitive {{{ "
   map <silent> <leader>gs :Gstatus<CR>
   map <leader>diff :<C-U>Git difftool %<cr>
@@ -136,6 +140,10 @@
 
 " Switch {{{ "
   nnoremap <silent> - :Switch<CR>
+  let g:switch_custom_definitions =
+    \ [
+    \   ['assert_', 'refute_']
+    \ ]
 " }}} Switch "
 
 " SplitJoin {{{ "
@@ -230,7 +238,7 @@
   let g:ctrlsf_search_mode = 'async'
   nmap <space>f <Plug>CtrlSFPrompt
   vmap F <Plug>CtrlSFVwordExec
-  let g:ctrlsf_indent = 1
+  let g:ctrlsf_indent = 2
   let g:ctrlsf_mapping = {
         \ "next": "n",
         \ "prev": "N",

@@ -67,6 +67,3 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 set -o monitor
-export PATH="/usr/local/opt/qt/bin:$PATH"
-export PATH="/usr/local/opt/qt/bin:$PATH"
-export PATH="/usr/local/opt/qt/bin:$PATH"

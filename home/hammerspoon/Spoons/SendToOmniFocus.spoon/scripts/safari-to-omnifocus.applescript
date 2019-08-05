@@ -19,10 +19,7 @@ on run argv
 			-- 	open
 			-- end tell
 			if argv is {"nodialog"} then
-				set emailTag to first flattened tag where its name is "email"
-				set my_title to "Email: " & my_subject
-				set the_task to make new inbox task with properties {name:my_title, note:message_url}
-				add emailTag to tags of the_task
+				make new inbox task with properties {name:my_subject, note:message_url}
 			else
 				tell quick entry
 					make new inbox task with properties {name:my_subject, note:message_url}

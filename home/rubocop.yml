@@ -19,8 +19,6 @@ Layout:
     Enabled: true
   FirstMethodParameterLineBreak:
     Enabled: true
-Performance:
-  enabled: true
 Style:
   StringMethods:
     Enabled: true

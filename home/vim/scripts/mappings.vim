@@ -50,10 +50,18 @@ xnoremap <leader>g "zy:!open "http://www.google.com/search?q=<c-r>=substitute(@z
   map <silent> <leader>w :w<cr>
   xmap <leader>n :NR!<cr>
   map <space>e :Files <C-r>=expand("%:h")<CR>/<CR>
+
+  nnoremap <space>j :m+<cr>==
+  nnoremap <space>k :m-2<cr>==
+  xnoremap <space>k :m-2<cr>gv=gv
+  xnoremap <space>j :m'>+<cr>gv=gv
+  "hmm
+
   " nnoremap <silent> <bs><bs> :Explore<cr>
   map Y y$
   nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
-  nnoremap <silent> <LocalLeader>g :Goyo<CR>
+  nnoremap <silent><LocalLeader><LocalLeader> :TagbarToggle<CR>
+  nnoremap <silent><LocalLeader>g :Goyo<CR>
   nnoremap <s-tab> <c-w>w
   nnoremap c# #NcgN
   nnoremap c* *Ncgn

@@ -31,6 +31,7 @@
   ksdiff                                  = difftool
   remotes                                 = remote -v
   s                                       = status -s
+  set-upstream                            = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
   save                                    = !git add -A && git commit -m 'SAVEPOINT'
   stashes                                 = stash list
   tags                                    = tag -l
@@ -58,7 +59,7 @@
 	cmd     = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
   trustexitcode = true
 [merge]
-	tool    = Kaleidoscope
+	tool    = ksdiff
 [difftool "Kaleidoscope"]
   cmd           = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [mergetool]

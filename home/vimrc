@@ -28,7 +28,6 @@ call plug#begin()
 " }}} almost standard "
 
 " looks {{{ "
-  Plug 'junegunn/goyo.vim',  { 'for': ['markdown', 'text'] }
   Plug 'junegunn/rainbow_parentheses.vim'
   Plug 'lilydjwg/colorizer', { 'for': ['css', 'sass', 'scss', 'less', 'html', 'tmux'] }
   Plug 'nathanaelkane/vim-indent-guides'
@@ -37,15 +36,21 @@ call plug#begin()
 " }}} looks "
 
 " colors {{{ "
-  Plug 'ayu-theme/ayu-vim'
-  Plug 'cocopon/iceberg.vim'
-  Plug 'drewtempelmeyer/palenight.vim'
-  Plug 'fenetikm/falcon'
-  Plug 'jacoborus/tender.vim'
+  " Plug 'ayu-theme/ayu-vim'
+  " Plug 'cocopon/iceberg.vim'
+  " Plug 'drewtempelmeyer/palenight.vim'
+  " Plug 'fenetikm/falcon'
+  " Plug 'jacoborus/tender.vim'
   Plug 'nanotech/jellybeans.vim'
-  Plug 'nightsense/cosmic_latte'
-  Plug 'rakr/vim-one'
-  Plug 'rakr/vim-two-firewatch'
+  " Plug 'nightsense/cosmic_latte'
+  " Plug 'rakr/vim-one'
+  " Plug 'rakr/vim-two-firewatch'
+
+  " Plug 'dracula/vim', { 'as': 'dracula' }
+  " Plug 'fatih/molokai'
+  " Plug 'fcpg/vim-orbital'
+  " Plug 'carakan/new-railscasts-theme'
+
 " }}} colors "
 
 " ruby {{{ "
@@ -69,6 +74,7 @@ call plug#begin()
 " }}} syntax "
 
 " misc {{{ "
+  Plug 'ludovicchabant/vim-gutentags'
   Plug 'AndrewRadev/sideways.vim'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'AndrewRadev/switch.vim'
@@ -92,17 +98,20 @@ call plug#begin()
 " }}} misc "
 
 " the lab {{{ "
+  Plug 'Lenovsky/nuake'
+  Plug 'majutsushi/tagbar'
   Plug 'svermeulen/vim-subversive'
   Plug 'airblade/vim-gitgutter'
   " Plug 'tpope/vim-vinegar'
-  Plug 'chrisbra/NrrwRgn'
+  " Plug 'chrisbra/NrrwRgn'
   " Plug 'cohama/lexima.vim'
   " Plug 'dhruvasagar/vim-table-mode', { 'on': ['TableModeToggle'] }
   " Plug 'scrooloose/nerdtree'
   " Plug 'tpope/vim-rhubarb'
   Plug 'justinmk/vim-dirvish'
   Plug 'kristijanhusak/vim-dirvish-git'
-  Plug 'fsharpasharp/vim-dirvinist'
+  Plug 'jpalardy/vim-slime'
+  " needs config ^^
 " }}} the lab "
 
 " mac/nvim {{{ "
@@ -120,12 +129,13 @@ call plug#begin()
     set inccommand="split"
     if has('nvim-0.4')
       set wildoptions=pum
-      set pumblend=15
+      set pumblend=10
+      set winblend=10
       set signcolumn="yes:1"
     endif
   else
     if v:version > 800
-      set termguicolors
+      " set termguicolors
       Plug 'sbdchd/neoformat'
       Plug 'machakann/vim-highlightedyank'
     endif
@@ -239,10 +249,11 @@ endif
   set background=dark
 
   try
-    let g:falcon_inactive = 1
-    let g:falcon_airline = 1
-    let g:airline_theme = 'falcon'
-    colorscheme falcon
+    " let g:falcon_inactive = 1
+    " let g:falcon_airline = 1
+    " let g:airline_theme = 'falcon'
+    " colorscheme falcon
+    colorscheme jellybeans
   catch /:E185:/
     colorscheme default
   endtry

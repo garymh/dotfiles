@@ -101,3 +101,6 @@ export LESS='-F -g -i -M -R -S -w -X -z-4'
 export PATH=$PATH:~/bin
 export PATH=/usr/local/opt/python/libexec/bin:$PATH
 
+if _exists go; then
+  export PATH=$PATH:$HOME/code/go/bin
+fi

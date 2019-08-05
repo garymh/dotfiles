@@ -7,6 +7,10 @@ augroup random
   " autocmd filetype gitcommit wincmd o
 
   autocmd BufReadPost fugitive://* set bufhidden=delete
+
+  " autocmd BufNewFile,BufReadPost vim,eruby let b:tagbar_ignore = 1
+  " autocmd VimEnter * nested :call tagbar#autoopen(1)
+  " autocmd FileType * nested :call tagbar#autoopen(0)
 augroup END
 
 augroup vimrc_help

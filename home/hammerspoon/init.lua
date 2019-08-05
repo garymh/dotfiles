@@ -6,6 +6,16 @@ require "btt"
 local module = {}
 local hyper = { "cmd", "alt", "ctrl", "shift" }
 
+local function _script_path(n)
+   if n == nil then n = 2 end
+   local str = debug.getinfo(n, "S").source:sub(2)
+   return str:match("(.*/)")
+end
+
+local function _resource_path(partial)
+   return(_script_path(3) .. partial)
+ end
+
 hs.loadSpoon("SpoonInstall")
 Install=spoon.SpoonInstall
 Install:andUse("TimeMachineProgress",
@@ -16,76 +26,59 @@ Install:andUse("TimeMachineProgress",
 Install:andUse("SendToOmniFocus",
   {
     config = {
-      quickentrydialog = true,
-      notifications = true
+      quickentrydialog = false,
+      notifications = false
     },
     hotkeys = {
       send_to_omnifocus = { hyper, "o" }
     },
-    -- fn = function(s)
-    --   s:registerApplication("Swisscom Collab", { apptype = "chromeapp", itemname = "tab" })
-    --   s:registerApplication("Swisscom Wiki", { apptype = "chromeapp", itemname = "wiki page" })
-    --   s:registerApplication("Swisscom Jira", { apptype = "chromeapp", itemname = "issue" })
-    --   s:registerApplication("Brave Browser Dev", { apptype = "chromeapp", itemname = "page" })
-    -- end
+    actions =   {
+      -- ["Microsoft Outlook"] = {
+      --   as_scriptfile = spoon.SendToOmniFocus._resource_path("scripts/outlook-to-omnifocus.applescript"),
+      --   itemname = "message"
+      -- },
+      -- Evernote = {
+      --   as_scriptfile = spoon.SendToOmniFocus._resource_path("scripts/evernote-to-omnifocus.applescript"),
+      --   itemname = "note"
+      -- },
+      ["Google Chrome"] = {
+        apptype = "chromeapp",
+        itemname = "tab"
+      },
+      Safari = {
+        as_scriptfile = _resource_path("scripts/safari-to-omnifocus.applescript"),
+        itemname = "message"
+      }
+    }
   }
-  )
-
--- hs.ipc.cliInstall()
-
-function reloadConfig(files)
-  doReload = false
-  for _,file in pairs(files) do
-    if file:sub(-4) == ".lua" then
-      doReload = true
-    end
-  end
-  if doReload then
-    hs.reload()
-  end
-end
-
-hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
-
--- local mods = {
---   'wifi',
--- }
-
--- modules = {}
-
--- for key, mod in ipairs(mods) do
---   modules[mod] = require('mods/' .. mod)
---   modules[mod].start()
---   hs.printf('Started module ' .. mod)
--- end
-
-
--- mash = {"cmd", "alt", "ctrl", "shift"}
--- -- Ensure everything is loaded before hiding the icon :)
--- -- Show/Hide menu icon
--- hs.hotkey.bind(mash, "7", function()
---   hs.menuIcon(not hs.menuIcon())
---   local wifiName = hs.wifi.currentNetwork()
---   local security = hs.wifi.interfaceDetails().security
---   local interface = hs.wifi.interfaceDetails()
-
---   hs.inspect("wifi name:" .. wifiName)
---   hs.inspect("security" .. security)
---   hs.inspect("interface" .. interface)
--- end)
+)
+Install:andUse("Hammer",
+               {
+                 repo = 'zzspoons',
+                 config = {
+                  auto_reload_config = true,
+                  install_cli = true
+                 },
+                 hotkeys = {
+                   -- config_reload = {hyper, "r"},
+                   toggle_console = {hyper, "y"}
+                 },
+                 start = true
+               }
+)
 
 vpn_bar = hs.menubar.new()
 function setVPNDisplay(state)
-    if state then
-      icon = hs.image.imageFromPath("red.png")
-      icon:setSize({w=16,h=16})
-      -- vpn_bar:setTitle("🔴️ VPN ON 🔴️")
-      vpn_bar:setTitle("VPN ON  ")
-      vpn_bar:setIcon(icon:setSize({w=16,h=16}), false)
-    else
-      vpn_bar:setTitle("")
-      vpn_bar:setIcon(nil)
-    end
+  if state then
+    icon = hs.image.imageFromPath("red.png")
+    icon:setSize({w=16,h=16})
+    -- vpn_bar:setTitle("🔴️ VPN ON 🔴️")
+    vpn_bar:setTitle("VPN ON  ")
+    vpn_bar:setIcon(icon:setSize({w=16,h=16}), false)
+  else
+    vpn_bar:setTitle("")
+    vpn_bar:setIcon(nil)
+  end
 end
 
 vpn_status = false
@@ -110,9 +103,18 @@ local isVPNup = function()
   setVPNDisplay(status)
 end
 module.vpnWatcher = hs.network.configuration.open():setCallback(isVPNup)
-                                        :monitorKeys(vpnQueryKey, true)
-                                        :start()
+:monitorKeys(vpnQueryKey, true)
+:start()
 
 isVPNup()
 
 hs.menuIcon(false)
+
+Install:andUse("FadeLogo",
+               {
+                 config = {
+                   default_run = 1.0,
+                 },
+                 start = true
+               }
+               )
