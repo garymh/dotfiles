@@ -41,14 +41,12 @@
     ~/.config/nvim/init.vim: home/vimrc
 
     ~/.vim/autoload: home/vim/autoload
-    ~/.vim/after: home/vim/after/
     ~/.vim/ftplugin: home/vim/ftplugin/
     ~/.vim/ftdetect: home/vim/ftdetect/
     ~/.vim/UltiSnips: home/vim/UltiSnips/
     ~/.vim/scripts: home/vim/scripts/
 
     ~/.config/nvim/UltiSnips: home/vim/UltiSnips
-    ~/.config/nvim/after: home/vim/after/
     ~/.config/nvim/autoload: home/vim/autoload/
     ~/.config/nvim/ftdetect: home/vim/ftdetect/
     ~/.config/nvim/scripts: home/vim/scripts/

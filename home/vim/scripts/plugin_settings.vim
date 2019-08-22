@@ -1,31 +1,18 @@
 " vim:fdm=marker
 
-" Vim-plug {{{ "
-  map <silent> <leader>ins :PlugInstall<cr>
-  map <silent> <leader>upd :PlugUpdate<cr>
-" }}} Vim-plug "
-
-" unimpaired {{{ "
-  map <space>[ <Plug>unimpairedBPrevious
-  map <space>] <Plug>unimpairedBNext
-" }}} unimpaired "
-
-" buf-only {{{ "
-  map <leader>b :Bonly<cr>
-" }}} buf-only "
+" hexokinase {{{ "
+  let g:Hexokinase_optInPatterns = ['full_hex', 'triple_hex', 'rgb', 'rgba', 'colour_names']
+  let g:Hexokinase_ftAutoload = ['*']
+" }}} hexokinase "
 
 " tagbar {{{ "
-let g:tagbar_compact = 1
+  let g:tagbar_compact = 1
 " }}} tagbar "
 
-" fugitive {{{ "
-  map <silent> <leader>gs :Gstatus<CR>
-  map <leader>diff :<C-U>Git difftool %<cr>
-" }}} fugitive "
-
-" commentary {{{ "
-  nmap <leader>dc :t.<CR>k<Plug>CommentaryLinej
-" }}} commentary "
+" vim-slime {{{ "
+  let g:slime_target = "tmux"
+  let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
+" }}} vim-slime "
 
 " DidYouMean {{{ "
   let g:dym_use_fzf = 1
@@ -49,13 +36,8 @@ let g:tagbar_compact = 1
   let g:better_whitespace_enabled=1
   let g:strip_whitespace_on_save=1
   let g:strip_whitespace_confirm=0
-  let g:better_whitespace_filetypes_blacklist = ['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown', 'vim-plug']
+  let g:better_whitespace_filetypes_blacklist = ['diff', 'gitcommit', 'qf', 'help', 'markdown', 'vim-plug']
 " }}} better whitespace "
-
-" ruby {{{ "
-  let g:polyglot_disabled = ['ruby']
-  let ruby_operators = 1
-" }}} ruby "
 
 " vim polygot individual settings {{{ "
   let g:vim_json_syntax_conceal = 0
@@ -65,24 +47,26 @@ let g:tagbar_compact = 1
   let g:neoformat_basic_format_align = 1
   let g:neoformat_basic_format_retab = 1
   let g:neoformat_basic_format_trim = 1
-  map <silent> ! :Neoformat<CR>
+  let g:neoformat_enabled_ruby = ['rubocop']
+  let g:neoformat_enabled_scss = ['csscomb']
 " }}} Neoformat "
-
-" Multichange {{{ "
-  nmap s <plug>(SubversiveSubstitute)
-  nmap ss <plug>(SubversiveSubstituteLine)
-  nmap <leader>s <plug>(SubversiveSubvertRange)
-  xmap <leader>s <plug>(SubversiveSubvertRange)
-  nmap <leader>ss <plug>(SubversiveSubvertWordRange)
-" }}} Multichange "
 
 " vim-surround {{{ "
   let g:surround_{char2nr("d")} = "<div\1class: \r..*\r class=\"&\"\1>\r</div>"
+  if !exists('b:erb_loaded')
+    let b:surround_{char2nr('i')} = "if \1if: \1 \r end"
+    let b:surround_{char2nr('u')} = "unless \1unless: \1 \r end"
+    let b:surround_{char2nr('w')} = "while \1while: \1 do \r end"
+    let b:surround_{char2nr('e')} = "\1collection: \1.each do |\2item: \2| \r end"
+    let b:surround_{char2nr('m')} = "module \r end"
+    let b:surround_{char2nr('d')} = "do\n \r end"
+  endif
+
+  let b:surround_{char2nr('#')} = "#{\r}"
+  let b:surround_indent = 1
 " }}} vim-surround "
 
 " Sideways {{{ "
-  nnoremap [<Tab> :SidewaysLeft<cr>
-  nnoremap ]<Tab> :SidewaysRight<cr>
   omap aa <Plug>SidewaysArgumentTextobjA
   xmap aa <Plug>SidewaysArgumentTextobjA
   omap ia <Plug>SidewaysArgumentTextobjI
@@ -93,6 +77,11 @@ let g:tagbar_compact = 1
   let g:textobj_comment_no_default_key_mappings = 1
   omap ib <Plug>(textobj-brace-i)
   omap ab <Plug>(textobj-brace-a)
+  " Define a text object for block arguments (do |...|)  thx @AndrewRadev
+  onoremap <buffer> i\| :<c-u>normal! T\|vt\|<cr>
+  xnoremap <buffer> i\| :<c-u>normal! T\|vt\|<cr>
+  onoremap <buffer> a\| :<c-u>normal! F\|vf\|<cr>
+  xnoremap <buffer> a\| :<c-u>normal! F\|vf\|<cr>
 " }}} Text objects "
 
 " Airline {{{ "
@@ -123,7 +112,7 @@ let g:tagbar_compact = 1
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_start_level           = 1
   let g:indent_guides_guide_size            = 1
-  let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'netrw', 'fzf']
+  let g:indent_guides_exclude_filetypes = ['help', 'netrw', 'fzf']
 " }}} indentLine "
 
 " vim-pasta {{{ "
@@ -132,36 +121,27 @@ let g:tagbar_compact = 1
 
 " vim-sayonara {{{ "
   let g:sayonara_confirm_quit = 1
-  nnoremap <silent>Q :Sayonara<cr>
-    let g:sayonara_filetypes = {
-        \ 'nerdtree': 'NERDTreeClose',
-        \ }
 " }}} vim-sayonara "
 
 " Switch {{{ "
-  nnoremap <silent> - :Switch<CR>
   let g:switch_custom_definitions =
     \ [
-    \   ['assert_', 'refute_']
+    \   ['assert', 'refute']
     \ ]
 " }}} Switch "
 
 " SplitJoin {{{ "
-  nmap gj :SplitjoinSplit<cr>
-  nmap gk :SplitjoinJoin<cr>
   let g:splitjoin_align = 1
 
   function! BreakHere()
     s/\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\r\3\5
     call histdel("/", -1)
   endfunction
-  nnoremap <silent> J mzJ`z
-  nnoremap <silent> S :call BreakHere()<CR>
 " }}} SplitJoin "
 
 " FZF settings {{{ "
   " FZF commands {{{ "
-    fun! s:fzf_root()
+    function! s:fzf_root()
       let path = finddir(".git", expand("%:p:h").";")
       return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
     endfun
@@ -171,6 +151,7 @@ let g:tagbar_compact = 1
       copen
       cc
     endfunction
+    nmap <silent> <c-p> :exe 'Files! ' . <SID>fzf_root()<CR>
 
     let g:fzf_action = {
       \ 'ctrl-q': function('s:build_quickfix_list'),
@@ -188,34 +169,18 @@ let g:tagbar_compact = 1
           \           : fzf#vim#with_preview('right:50%:hidden', '?'),
           \   <bang>0)
 
-    nnoremap <silent> <space>r :History<CR>
-
     command! -bang -nargs=? -complete=dir Buffers
           \ call fzf#vim#buffers(<q-args>, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
-    nnoremap <silent> <space>a :Buffers<CR>
-    nnoremap <silent> <space>g :GFiles?<CR>
-    nnoremap <silent> <space>c :Commands<CR>
-    nnoremap <silent> <space>h :Helptags<CR>
-    nnoremap <silent> <c-p> :exe 'Files! ' . <SID>fzf_root()<CR>
-    noremap <silent> <space>1 :Files! app/controllers<CR>
-    noremap <silent> <space>2 :Files! app/models<CR>
-    noremap <silent> <space>3 :Files! app/views<CR>
   " }}} FZF commands "
 " }}} FZF settings "
 
 " Testing {{{ "
-  nmap <silent> <leader>t :TestNearest<CR>
-  nmap <silent> <leader>T :TestFile<CR>
-  nmap <silent> <leader>a :TestSuite<CR>
-  nmap <silent> <leader>l :TestLast<CR>
-  nmap <silent> <leader>g :TestVisit<CR>
   let test#strategy = "vimux"
   let g:VimuxOrientation = "v"
 " }}} Testing "
 
 " git-gutter {{{ "
-  nmap <Leader>gu <Plug>GitGutterUndoHunk
   let g:gitgutter_sign_added= '█'
   let g:gitgutter_sign_modified= '█'
   let g:gitgutter_sign_removed= '█'
@@ -223,28 +188,15 @@ let g:tagbar_compact = 1
   let g:gitgutter_sign_modified_removed= '█'
 " }}} git-gutter "
 
-" EasyAlign {{{ "
-  vmap ga <Plug>(EasyAlign)
-  nmap ga <Plug>(EasyAlign)
-  vmap <cr> <Plug>(EasyAlign)
-" }}} EasyAlign "
-
-" ArgWrap {{{ "
-  nnoremap <silent> <space><space> :ArgWrap<CR>
-" }}} ArgWrap "
-
 " ctrlsf {{{ "
   let g:ctrlsf_ackprg = '/usr/local/bin/rg'
   let g:ctrlsf_search_mode = 'async'
-  nmap <space>f <Plug>CtrlSFPrompt
-  vmap F <Plug>CtrlSFVwordExec
   let g:ctrlsf_indent = 2
   let g:ctrlsf_mapping = {
         \ "next": "n",
         \ "prev": "N",
         \ }
   function! g:CtrlSFAfterMainWindowInit()
-    " setl wrap
     setl nonumber norelativenumber
   endfunction
 

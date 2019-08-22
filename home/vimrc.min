@@ -6,19 +6,9 @@ Plug 'tpope/vim-unimpaired'
 "   Plug 'EinfachToll/DidYouMean'
 "   Plug 'tpope/vim-sleuth'
 " " }}} standard "
-
-" " almost standard {{{ "
-"   Plug 'junegunn/fzf',            { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-"   Plug 'junegunn/fzf.vim'
-"   Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-"   Plug 'junegunn/vim-slash'
-"   Plug 'mhinz/vim-sayonara',      { 'on': 'Sayonara' }
-"   Plug 'takac/vim-commandcaps'
-Plug 'tpope/vim-commentary'
-"   Plug 'tpope/vim-ragtag'
-"   Plug 'tpope/vim-repeat'
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" " }}} almost standard "
+Plug 'lifepillar/vim-mucomplete'
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
@@ -26,16 +16,4 @@ Plug 'autozimu/LanguageClient-neovim', {
 
 
 call plug#end()
-
-let g:LanguageClient_serverCommands = {
-    \ 'javascript': ["/usr/local/bin/javascript-typescript-stdio"],
-    \ 'ruby': ["$GEM_HOME/bin/solargraph", "stdio"],
-    \ 'vim': ["/usr/local/bin/vim-language-server", "--stdio"],
-    \ }
-
-" nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-" " Or map each action separately
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <leader>r :call LanguageClient#textDocument_rename()<CR>
-
+source ~/.vim/scripts/completions.vim

@@ -14,9 +14,91 @@ function! ListLeaders()
   silent! let lines = getline(1,"$")
 endfunction
 
-nmap <leader>lead :call ListLeaders()<cr>
+function! GoogleSearch()
+     let searchterm = getreg("g")
+     silent! exec "silent! !open \"http://google.com/search?q=" . searchterm . "\" &"
+endfunction
 
-" nmap <leader>sp :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+function! LuckySearch()
+     let searchterm = getreg("g")
+     silent! exec "silent! !open \"http://google.com/search?q=" . searchterm . "&btnI\" &"
+endfunction
+
+" @wincent is very smart
+" https://www.youtube.com/watch?v=0aEv1Nj0IPg
+function! mappings#cycle_numbering() abort
+  if exists('+relativenumber')
+    execute {
+          \ '00': 'set relativenumber   | set number',
+          \ '01': 'set norelativenumber | set number',
+          \ '10': 'set norelativenumber | set nonumber',
+          \ '11': 'set norelativenumber | set number' }[&number . &relativenumber]
+  else
+    set number!<CR>
+  endif
+endfunction
+
+" mappings {{{ "
+  cabbr <expr> %% expand('%:p:h')
+
+  nmap <silent> <LocalLeader><LocalLeader> :TagbarToggle<CR>
+  nmap <silent> <LocalLeader>t :TestVisit<CR>
+  nnoremap <LocalLeader>e :e <C-R>=expand('%:p:h') . '/'<CR>
+
+  map <silent> <leader>. :e ~/.vim/temp.rb<CR>
+  map <silent> <leader><leader> <C-^>
+  map <silent> <leader>= mqHmwgg=G`wzt`qzz
+  map <silent> <leader>b :Bonly<cr>
+  map <silent> <leader>ev :e $MYVIMRC<cr>
+  map <silent> <leader>gd :<C-U>Git difftool %<cr>
+  map <silent> <leader>gs :Gstatus<CR>
+  map <silent> <leader>ins :PlugInstall<cr>
+  map <silent> <leader>sv :source $MYVIMRC<cr>
+  map <silent> <leader>upd :PlugUpdate<cr>
+  map <silent> <leader>w :w<cr>
+  nmap <silent> <leader>T :TestFile<CR>
+  nmap <silent> <leader>a :TestSuite<CR>
+  nmap <silent> <leader>dc :t.<CR>k<Plug>CommentaryLinej
+  nmap <silent> <leader>gu <Plug>GitGutterUndoHunk
+  nmap <silent> <leader>l :TestLast<CR>
+  nmap <silent> <leader>t :TestNearest<CR>
+  inoremap <C-_> <C-R>=GetCloseTag()<CR>
+
+
+  inoremap ;1 <c-o>ma
+  nmap <silent> <space>1 :Files! app/controllers<CR>
+  nmap <silent> <space>2 :Files! app/models<CR>
+  nmap <silent> <space>3 :Files! app/views<CR>
+  nmap <silent> <space><space> :ArgWrap<CR>
+  nmap <silent> <space>[ <Plug>unimpairedBPrevious
+  nmap <silent> <space>] <Plug>unimpairedBNext
+  nmap <silent> <space>a :Buffers<CR>
+  nmap <silent> <space>c :Commands<CR>
+  nmap <silent> <space>3 :Files! app/views<CR>
+  nmap <silent> <space>g :GFiles?<CR>
+  nmap <silent> <space>h :Helptags<CR>
+  nmap <silent> <space>r :History<CR>
+  nmap <space>e :Files <C-r>=expand("%:h")<CR>/<CR>
+  nmap <space>f <Plug>CtrlSFPrompt
+
+  nmap <silent> <s-tab> <c-w>w
+  nmap <silent> ! :Neoformat<CR>
+  nmap [<Tab> :SidewaysLeft<cr>
+  nmap ]<Tab> :SidewaysRight<cr>
+  nmap <silent> [n :call mappings#cycle_numbering()<CR>
+  nnoremap <silent> - :Switch<CR>
+  " nmap <silent> J mzJ`z
+  nmap <silent> Q :Sayonara<cr>
+  nmap <silent> S :call BreakHere()<CR>
+  nmap <silent> ga <Plug>(EasyAlign)
+  nmap <silent><Del> :A<cr>
+
+  vnoremap <silent> ?? "gy<Esc>:call GoogleSearch()<CR>
+  vnoremap <silent> ?! "gy<Esc>:call LuckySearch()<CR>
+  vmap <cr> <Plug>(EasyAlign)
+  vmap F <Plug>CtrlSFVwordExec<CR>
+  vmap ga <Plug>(EasyAlign)
+" }}} mappings "
 
 if has('nvim')
   tnoremap jj <C-\><C-n>
@@ -27,8 +109,6 @@ if has('nvim')
   nnoremap <F6> <C-i>
 endif
 
-xnoremap <leader>g "zy:!open "http://www.google.com/search?q=<c-r>=substitute(@z,' ','%20','g')<cr>"<return>gv
-
 " folding {{{ "
   nnoremap zr zr:echo &foldlevel<cr>
   nnoremap zm zm:echo &foldlevel<cr>
@@ -38,51 +118,27 @@ xnoremap <leader>g "zy:!open "http://www.google.com/search?q=<c-r>=substitute(@z
   nnoremap Z za
 " }}} folding "
 
-" mappings (sort me!) {{{ "
-  " cnoremap jj <esc>
-  " inoremap jj <esc>
-  map // :nohlsearch<cr>
-  map <leader>. :e ~/.vim/temp.rb<CR>
-  map <leader><leader> <C-^>
-  map <silent> <leader>= mqHmwgg=G`wzt`qzz
-  map <silent> <leader>ev :e $MYVIMRC<cr>
-  map <silent> <leader>sv :source $MYVIMRC<cr>
-  map <silent> <leader>w :w<cr>
-  xmap <leader>n :NR!<cr>
-  map <space>e :Files <C-r>=expand("%:h")<CR>/<CR>
-
+" vim should-be-defaults {{{ "
   nnoremap <space>j :m+<cr>==
   nnoremap <space>k :m-2<cr>==
   xnoremap <space>k :m-2<cr>gv=gv
   xnoremap <space>j :m'>+<cr>gv=gv
-  "hmm
-
-  " nnoremap <silent> <bs><bs> :Explore<cr>
+  nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
+  nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
+  map <silent> // :nohlsearch<cr>
   map Y y$
-  nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
-  nnoremap <silent><LocalLeader><LocalLeader> :TagbarToggle<CR>
-  nnoremap <silent><LocalLeader>g :Goyo<CR>
-  nnoremap <s-tab> <c-w>w
-  nnoremap c# #NcgN
-  nnoremap c* *Ncgn
-  noremap <expr> j (v:count == 0 ? 'gj' : 'j')
-  noremap <expr> k (v:count == 0 ? 'gk' : 'k')
-  nnoremap <Del> :A<cr>
-
   noremap H ^
   noremap L $
-  " vmap p "_dP
-
   vnoremap < <gv
   vnoremap > >gv
   vnoremap @ :norm@
   vnoremap L g_
-  " map <silent> <space>e :silent edit <C-R>=empty(expand('%')) ? '.' : expand('%:p:h')<CR><CR>
-  " map <space><space> za
-  " workaround for using tab as a key
-" }}} mappings (sort me!) "
+" }}} should-be-defaults  "
 
-command! ReneeNotes execute "e ~/Documents/Work/NU/renee-meeting"
+" commands {{{ "
+  command! ReneeNotes execute "e ~/Documents/Work/NU/renee-meeting"
+  command! Leaders call ListLeaders()
+" }}} commands "
 
 " Edit dotfiles {{{ "
   command! Emap execute "e ~/.vim/scripts/mappings.vim"
@@ -95,21 +151,6 @@ command! ReneeNotes execute "e ~/Documents/Work/NU/renee-meeting"
   command! Ezsh execute "Files! $DOTFILES/home/zsh"
   command! Esnip execute "Files! $DOTFILES/home/vim/UltiSnips"
 " }}} Edit dotfiles "
-
-" @wincent is very smart
-" https://www.youtube.com/watch?v=0aEv1Nj0IPg
-nnoremap <silent> <Leader>num :call mappings#cycle_numbering()<CR>
-function! mappings#cycle_numbering() abort
-  if exists('+relativenumber')
-    execute {
-          \ '00': 'set relativenumber   | set number',
-          \ '01': 'set norelativenumber | set number',
-          \ '10': 'set norelativenumber | set nonumber',
-          \ '11': 'set norelativenumber | set number' }[&number . &relativenumber]
-  else
-    set number!<CR>
-  endif
-endfunction
 
 " system copy {{{ "
   noremap <Leader>y "*y

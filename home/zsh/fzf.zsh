@@ -3,9 +3,8 @@ if [[ -f ~/.fzf.zsh ]]; then
   export FZF_DEFAULT_COMMAND_COLORLESS='fd --type file --hidden'
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
   export FZF_DEFAULT_OPTS="--ansi
-                          --preview '~/.vim/plugged/fzf.vim/bin/preview.rb {} | head -200'
                           --bind ctrl-f:page-down,ctrl-b:page-up,'ctrl-o:execute($VISUAL {})+abort'"
-  export FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS --select-1 --exit-0"
+  export FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS --preview '~/.vim/plugged/fzf.vim/bin/preview.rb {} | head -200' --select-1 --exit-0"
   export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:wrap
                           --no-preview
                           --bind '?:toggle-preview'
@@ -79,19 +78,22 @@ if [[ -f ~/.fzf.zsh ]]; then
   zle     -N   fzf-dotf
   bindkey '^F' fzf-dotf
 
-  fzf-ctrlp() {
-    local out=$(eval $FZF_DEFAULT_COMMAND | fzf)
+  # fzf-ctrlp() {
+  #   local out=$(eval $FZF_CTRL_T_COMMAND | fzf)
 
-    if [ -f "$out" ]; then
-      $VISUAL "$out" < /dev/tty
-    elif [ -d "$out" ]; then
-      cd "$out"
-      zle reset-prompt
-    fi
-  }
+  #   if [ -f "$out" ]; then
+  #     $VISUAL "$out" < /dev/tty
+  #   elif [ -d "$out" ]; then
+  #     cd "$out"
+  #     zle reset-prompt
+  #   fi
+  # }
 
-  zle     -N   fzf-ctrlp
-  bindkey '^P' fzf-ctrlp
+  # zle     -N   fzf-ctrlp
+  # bindkey '^P' fzf-ctrlp
+
+  zle     -N   fzf-file-widget
+  bindkey '^P' fzf-file-widget
 
   source ~/.fzf.zsh
 fi

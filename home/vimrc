@@ -3,9 +3,11 @@
 " thanks to the brilliant @tpope, @skwp, @nelstrom, @bling, @mhinz
 " @r00k, @spf13, @AndrewRadev, @junegunn, @wincent, and @sjl for unknowingly
 " allowing me to borrow from their dotfiles.
+
 let g:plug_shallow = 0
 let g:plug_window  = 'enew'
 let g:plug_pwindow = 'vertical rightbelow new'
+
 call plug#begin()
 
 " standard {{{ "
@@ -21,36 +23,23 @@ call plug#begin()
   Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
   Plug 'junegunn/vim-slash'
   Plug 'mhinz/vim-sayonara',      { 'on': 'Sayonara' }
-  Plug 'takac/vim-commandcaps'
   Plug 'tpope/vim-commentary'
-  Plug 'tpope/vim-ragtag'
+  " Plug 'tpope/vim-ragtag'
   Plug 'tpope/vim-repeat'
+  Plug 'takac/vim-commandcaps'
 " }}} almost standard "
 
 " looks {{{ "
   Plug 'junegunn/rainbow_parentheses.vim'
-  Plug 'lilydjwg/colorizer', { 'for': ['css', 'sass', 'scss', 'less', 'html', 'tmux'] }
+  Plug 'RRethy/vim-hexokinase', { 'for': ['eruby', 'haml', 'html', 'css', 'scss', 'less', 'tmux'] }
+  Plug 'airblade/vim-gitgutter'
   Plug 'nathanaelkane/vim-indent-guides'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
 " }}} looks "
 
 " colors {{{ "
-  " Plug 'ayu-theme/ayu-vim'
-  " Plug 'cocopon/iceberg.vim'
-  " Plug 'drewtempelmeyer/palenight.vim'
-  " Plug 'fenetikm/falcon'
-  " Plug 'jacoborus/tender.vim'
   Plug 'nanotech/jellybeans.vim'
-  " Plug 'nightsense/cosmic_latte'
-  " Plug 'rakr/vim-one'
-  " Plug 'rakr/vim-two-firewatch'
-
-  " Plug 'dracula/vim', { 'as': 'dracula' }
-  " Plug 'fatih/molokai'
-  " Plug 'fcpg/vim-orbital'
-  " Plug 'carakan/new-railscasts-theme'
-
 " }}} colors "
 
 " ruby {{{ "
@@ -58,14 +47,13 @@ call plug#begin()
   Plug 'janko-m/vim-test'
   Plug 'ngmy/vim-rubocop',  { 'for': 'ruby' }
   Plug 'tpope/vim-bundler', { 'for': ['eruby', 'haml', 'ruby', 'slim'] }
-  Plug 'tpope/vim-endwise', { 'for': ['ruby', 'bash', 'zsh', 'lua', 'sh', 'vim'] }
+  Plug 'tpope/vim-endwise', { 'for': ['ruby', 'zsh', 'bash', 'zsh', 'lua', 'sh', 'vim'] }
   Plug 'tpope/vim-rails',   { 'for': ['eruby', 'haml', 'ruby', 'slim', 'yaml'] }
   Plug 'tpope/vim-rake',    { 'for': 'ruby' }
 " }}} ruby "
 
 " syntax {{{ "
   Plug 'chrisbra/csv.vim',       { 'for': 'csv' }
-  Plug 'csscomb/vim-csscomb'
   Plug 'davejlong/cf-utils.vim', { 'for': ['cfml', 'coldfusion'] }
   Plug 'ryanoasis/vim-devicons'
   Plug 'sheerun/vim-polyglot'
@@ -79,11 +67,14 @@ call plug#begin()
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'AndrewRadev/switch.vim'
   Plug 'AndrewRadev/whitespaste.vim'
+  Plug 'AndrewRadev/deleft.vim'
+  " Plug 'AndrewRadev/rimplement.vim'
+  " ^^ check in on this
   Plug 'christoomey/vim-sort-motion'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'duggiefresh/vim-easydir'
-  Plug 'dyng/ctrlsf.vim',            { 'on': ['<Plug>CtrlSFPrompt' , 'CtrlSF', 'CtrlSFToggle'] }
-  Plug 'foosoft/vim-argwrap',        { 'on': 'ArgWrap' }
+  Plug 'dyng/ctrlsf.vim',         { 'on': ['<Plug>CtrlSFPrompt' , 'CtrlSF', 'CtrlSFToggle'] }
+  Plug 'foosoft/vim-argwrap',     { 'on': 'ArgWrap' }
   Plug 'justinmk/vim-gtfo'
   Plug 'kana/vim-niceblock'
   Plug 'ntpeters/vim-better-whitespace'
@@ -93,42 +84,42 @@ call plug#begin()
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-projectionist'
   Plug 'tpope/vim-rsi'
-  Plug 'vim-scripts/BufOnly.vim',    { 'on': 'Bonly' }
+  Plug 'vim-scripts/BufOnly.vim', { 'on': 'Bonly' }
   Plug 'wincent/terminus'
+  Plug 'majutsushi/tagbar',       { 'on': 'TagbarToggle' }
 " }}} misc "
 
 " the lab {{{ "
-  Plug 'Lenovsky/nuake'
-  Plug 'majutsushi/tagbar'
+Plug 'vim-scripts/genutils'
+Plug 'vim-scripts/foldutil.vim'
+Plug 'docunext/closetag.vim'
   Plug 'svermeulen/vim-subversive'
-  Plug 'airblade/vim-gitgutter'
-  " Plug 'tpope/vim-vinegar'
-  " Plug 'chrisbra/NrrwRgn'
-  " Plug 'cohama/lexima.vim'
-  " Plug 'dhruvasagar/vim-table-mode', { 'on': ['TableModeToggle'] }
-  " Plug 'scrooloose/nerdtree'
-  " Plug 'tpope/vim-rhubarb'
   Plug 'justinmk/vim-dirvish'
   Plug 'kristijanhusak/vim-dirvish-git'
-  Plug 'jpalardy/vim-slime'
-  " needs config ^^
+  Plug 'jpalardy/vim-slime', { 'on': ['<Plug>SlimeParagraphSend', '<Plug>SlimeSendCurrentLine'] }
 " }}} the lab "
+
+" dependencies {{{ "
+  Plug 'godlygeek/tabular/'
+" }}} dependencies "
 
 " mac/nvim {{{ "
   if has('nvim')
-    Plug 'sbdchd/neoformat'
+    Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
 
-    if has('nvim-0.3.2')
-      Plug 'meain/vim-package-info', { 'do': 'npm install' }
-    endif
-
-    " Plug 'machakann/vim-highlightedyank'
     let g:python3_host_prog = '/usr/local/bin/python3'
     let g:loaded_python_provider = 1
     set termguicolors
-    set inccommand="split"
+    set inccommand=split
+
+    if has('nvim-0.3.2')
+      Plug 'meain/vim-package-info', { 'do': 'npm install', 'for': ['json'] }
+      set fillchars+=eob:\
+      " suppress ~ at EndOfBuffer
+    endif
+
     if has('nvim-0.4')
-      set wildoptions=pum
+      set wildoptions=pum,tagfile
       set pumblend=10
       set winblend=10
       set signcolumn="yes:1"
@@ -137,7 +128,6 @@ call plug#begin()
     if v:version > 800
       " set termguicolors
       Plug 'sbdchd/neoformat'
-      Plug 'machakann/vim-highlightedyank'
     endif
 
     Plug 'tpope/vim-sensible'
@@ -166,15 +156,17 @@ call plug#begin()
 
   " Completions
   if has('python3')
-    source ~/.vim/scripts/completions.vim
+    source ~/.vim/scripts/completion_plugins.vim
   endif
 " }}} custom vim objects "
 
 call plug#end()
 
+source ~/.vim/scripts/completions.vim
 source ~/.vim/scripts/autocommands.vim
 source ~/.vim/scripts/mappings.vim
 source ~/.vim/scripts/plugin_settings.vim
+source ~/.vim/scripts/refactor.vim
 
 if filereadable("~/.vimrc.local")
   source ~/.vimrc.local
@@ -191,16 +183,19 @@ endif
   set autowrite             " Automatically write a file when leaving a modified buffer
   set expandtab
   set foldlevelstart=99
+  set cursorline
   set formatprg="par 79"    " respect the 80 character lines
   set hidden                " make unsaved buffers hidden
   set ignorecase
   set lazyredraw            " enables faster macros
+  set laststatus=2          " always show status line
   set list                  " show extra characters
   set listchars=nbsp:⦸,trail:•,tab:├─,precedes:«,extends:»
   set matchtime=5           " Show matching time
   set mouse=a
   set mousehide             " Hide the mouse cursor while typing
   set nojoinspaces          " don't autoinsert two spaces after '.', '?', '!' for join command
+  set noshowcmd           " don't jump between matching brackets
   set noshowmatch           " don't jump between matching brackets
   set nowrap
   set pumheight=20          " Avoid the pop up menu occupying the whole screen
@@ -221,6 +216,11 @@ endif
   set tabstop=2             " An indentation every four columns
   set virtualedit=block     " allow selection in visual mode
   syntax sync minlines=256  " start highlighting from 256 lines backwards
+
+  if exists('+colorcolumn')
+    let &l:colorcolumn='+' . join(range(0, 254), ',+')
+  endif
+
 
   if has('linebreak')
     let &showbreak='⤷ '           " ARROW POINTING DOWNWARDS THEN CURVING RIGHTWARDS (U+2937, UTF-8: E2 A4 B7)
@@ -249,10 +249,6 @@ endif
   set background=dark
 
   try
-    " let g:falcon_inactive = 1
-    " let g:falcon_airline = 1
-    " let g:airline_theme = 'falcon'
-    " colorscheme falcon
     colorscheme jellybeans
   catch /:E185:/
     colorscheme default
@@ -260,6 +256,18 @@ endif
 
   highlight Comment gui=italic
 " }}} coloring "
+
+" Folding {{{ "
+  function! CustomFold()
+    let line = getline(v:foldstart)
+    let folded_line_num = v:foldend - v:foldstart
+    let line_text = substitute(line, '^"{\+', '', 'g')
+    let fillcharcount = &textwidth - len(line_text) - len(folded_line_num)
+    return '+'. repeat('-', 4) . line_text . repeat('.', fillcharcount) . ' (' . folded_line_num . ' L)'
+  endfunction
+
+  set foldtext=CustomFold()
+" }}} Folding "
 
 " @wincent smart undo/backup settings {{{
   if exists('$SUDO_USER')

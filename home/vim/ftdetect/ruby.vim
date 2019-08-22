@@ -1,1 +1,1 @@
-autocmd BufRead,BufNewFile *.axlsx,Rakefile,Capfile,Gemfile,*pryrc*,Brewfile set ft=ruby
+autocmd BufRead,BufNewFile *.axlsx,Capfile,Gemfile,*pryrc*,Brewfile set ft=ruby
