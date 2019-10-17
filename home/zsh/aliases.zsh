@@ -20,6 +20,7 @@ if _macos; then
   alias evim="$VISUAL $HOME_DIR/vimrc"
   alias egit="$VISUAL $HOME_DIR/gitconfig"
   alias zshrc="$VISUAL $HOME_DIR/zshrc"
+  alias g="git"
 
   alias netwtf='sudo /usr/local/sbin/mtr -n 8.8.8.8'
   alias oo='open .'
@@ -38,6 +39,19 @@ if _macos; then
   alias ezshrc="zshrc"
   alias eenv="ezshenv"
   alias zshenv="ezshenv"
+
+  # git things
+  alias gcb="git create-branch -r"
+  alias gd="git ksdiff"
+
+  # ruby aliases
+  alias gin="gem install"
+  alias gun="gem uninstall"
+  alias gli="gem list"
+  alias rdm="rake db:migrate"
+  alias rdc="rake db:create"
+  alias rdd="rake db:drop"
+  alias rr="rake routes"
 fi
 
 if _linux; then
@@ -93,9 +107,9 @@ alias gca="gac"
 alias vim="$VISUAL"
 
 # more verbose fileutils
-alias rmdir='rmdir -v'
-alias chmod='chmod -v'
-alias chown='chown -v'
+for c in cp chmod chown rename; do
+  alias $c="$c -v"
+done
 
 # zsh global aliases for piping
 alias -g .....='../../../..'

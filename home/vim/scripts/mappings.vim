@@ -43,6 +43,8 @@ endfunction
 
   nmap <silent> <LocalLeader><LocalLeader> :TagbarToggle<CR>
   nmap <silent> <LocalLeader>t :TestVisit<CR>
+  nmap <silent> <LocalLeader>r :ReneeNotes<CR>
+  nmap <silent> <LocalLeader><space> :WorkTodos<CR>
   nnoremap <LocalLeader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 
   map <silent> <leader>. :e ~/.vim/temp.rb<CR>
@@ -50,7 +52,7 @@ endfunction
   map <silent> <leader>= mqHmwgg=G`wzt`qzz
   map <silent> <leader>b :Bonly<cr>
   map <silent> <leader>ev :e $MYVIMRC<cr>
-  map <silent> <leader>gd :<C-U>Git difftool %<cr>
+  map <silent> <leader>gd :Gdiffsplit<cr>
   map <silent> <leader>gs :Gstatus<CR>
   map <silent> <leader>ins :PlugInstall<cr>
   map <silent> <leader>sv :source $MYVIMRC<cr>
@@ -63,7 +65,9 @@ endfunction
   nmap <silent> <leader>l :TestLast<CR>
   nmap <silent> <leader>t :TestNearest<CR>
   inoremap <C-_> <C-R>=GetCloseTag()<CR>
-
+  xmap <c-c><c-c> <Plug>SlimeRegionSend
+  nmap <c-c><c-c> <Plug>SlimeParagraphSend
+  nmap <c-c>v     <Plug>SlimeConfig
 
   inoremap ;1 <c-o>ma
   nmap <silent> <space>1 :Files! app/controllers<CR>
@@ -72,7 +76,7 @@ endfunction
   nmap <silent> <space><space> :ArgWrap<CR>
   nmap <silent> <space>[ <Plug>unimpairedBPrevious
   nmap <silent> <space>] <Plug>unimpairedBNext
-  nmap <silent> <space>a :Buffers<CR>
+  nmap <silent> ; :Buffers<CR>
   nmap <silent> <space>c :Commands<CR>
   nmap <silent> <space>3 :Files! app/views<CR>
   nmap <silent> <space>g :GFiles?<CR>
@@ -136,7 +140,8 @@ endif
 " }}} should-be-defaults  "
 
 " commands {{{ "
-  command! ReneeNotes execute "e ~/Documents/Work/NU/renee-meeting"
+  command! ReneeNotes execute "e ~/Documents/Work/renee-meeting"
+  command! WorkTodos execute "e ~/Documents/Work/work_todos"
   command! Leaders call ListLeaders()
 " }}} commands "
 

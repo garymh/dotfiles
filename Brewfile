@@ -12,6 +12,9 @@ brew "openssl"
 brew "readline"
 brew 'mas'
 
+brew "git-extras"
+brew "fpp"
+brew "mtr"
 brew "aircrack-ng"
 brew "automake"
 brew "bash"
@@ -101,21 +104,67 @@ brew "heroku/brew/heroku"
 cask "1password-cli"
 cask "alfred"
 cask "appcleaner"
-cask "atom"
 cask "bartender"
 cask "bettertouchtool"
 cask "blue-jeans"
 cask "calibre"
+cask "chromedriver"
 cask "coconutbattery"
 cask "colorpicker-developer"
-cask "cyberduck"
 cask "daisydisk"
 cask "discord"
+cask "diskmaker-x"
 cask "docker"
-# cask "fake"
+cask "fake"
 cask "fantastical"
 cask "firefox-developer-edition"
-# cask "fluid"
+cask "firefox-nightly"
+cask "fluid"
+cask "github"
+cask "go64"
+cask "gpg-suite"
+cask "hammerspoon"
+cask "iina"
+cask "iterm2"
+cask "kaleidoscope"
+cask "karabiner-elements"
+cask "keyboard-cleaner"
+cask "latest"
+cask "lingon-x"
+cask "linkliar"
+cask "macdown"
+cask "macvim"
+cask "monodraw"
+cask "muzzle"
+cask "name-mangler"
+cask "opera"
+cask "pacifist"
+cask "paw"
+cask "qlcolorcode"
+cask "qlimagesize"
+cask "qlmarkdown"
+cask "qlstephen"
+cask "qlvideo"
+cask "quicklook-csv"
+cask "quicklook-json"
+cask "quicklookase"
+cask "selfcontrol"
+cask "skype"
+cask "skype-for-business"
+cask "slack"
+cask "sloth"
+cask "sourcetree"
+cask "spotify"
+cask "superduper"
+cask "suspicious-package"
+cask "tableplus"
+cask "the-unarchiver"
+cask "typora"
+cask "virtualbox"
+cask "vlc"
+cask "webpquicklook"
+cask "xquartz"
+
 cask "font-3270-nerd-font-mono"
 cask "font-anonymouspro-nerd-font-mono"
 cask "font-arimo-nerd-font-mono"
@@ -152,64 +201,28 @@ cask "font-terminus-nerd-font-mono"
 cask "font-tinos-nerd-font-mono"
 cask "font-ubuntu-nerd-font-mono"
 cask "font-ubuntumono-nerd-font-mono"
-cask "gpg-suite"
-cask "hammerspoon"
-cask "iina"
-cask "iterm2"
-cask "kaleidoscope"
-cask "karabiner-elements"
-cask "keyboard-cleaner"
-cask "latest"
-cask "lingon-x"
-cask "linkliar"
-cask "macdown"
-cask "macvim"
-cask "microsoft-office"
-cask "muzzle"
-cask "name-mangler"
-cask "opera"
-cask "pacifist"
-cask "paw"
-cask "qlcolorcode"
-cask "qlimagesize"
-cask "qlmarkdown"
-cask "qlstephen"
-cask "qlvideo"
-cask "quicklook-csv"
-cask "quicklook-json"
-cask "quicklookase"
-cask "selfcontrol"
-cask "skype"
-cask "skype-for-business"
-cask "slack"
-cask "sloth"
-cask "sourcetree"
-cask "spotify"
-cask "steam"
-cask "superduper"
-cask "suspicious-package"
-cask "tableplus"
-cask "the-unarchiver"
-cask "vlc"
-cask "webpquicklook"
 
-mas "com.acqualia.soulver", id: 413965349
-mas "com.amarcus.PiPer", id: 1421915518
-mas "com.apple.dt.Xcode", id: 497799835
-mas "com.apple.iWork.Keynote", id: 409183694
-mas "com.apple.iWork.Numbers", id: 409203825
-mas "com.apple.iWork.Pages", id: 409201541
-mas "com.atlassian.trello", id: 1278508951
-mas "com.blackmagic-design.DiskSpeedTest", id: 425264550
-# mas "com.grandsoft.MDB-Explorer", id: 506622388
-mas "com.helloresolven.GIF-Brewery-3", id: 1081413713
-mas "com.houdah.MagicKeyboard", id: 472717129
-mas "com.if.Amphetamine", id: 937984704
-mas "com.iflicksapp.iFlicks2", id: 731062389
-mas "com.pixelmatorteam.pixelmator.x", id: 1289583905
-mas "com.reederapp.macOS", id: 1449412482
-mas "com.robinlu.mac.Tooth-Fairy", id: 1191449274
-mas "com.tapbots.Tweetbot3Mac", id: 1384080005
-mas "com.underpassapp.StopTheMadness", id: 1376402589
-mas "net.evanm.SmileAllDay", id: 1180442868
-mas "org.darkreader.DarkReaderSafari", id: 1438243180
+mas "AdGuard for Safari", id: 1440147259
+mas "Amphetamine", id: 937984704
+mas "CleanLinksForGoogle", id: 1467225874
+mas "Dark Reader for Safari", id: 1438243180
+mas "Disk Speed Test", id: 425264550
+mas "GIF Brewery 3", id: 1081413713
+mas "Grammarly for Safari", id: 1462114288
+mas "Hole for Pi-hole", id: 1448464118
+mas "Keynote", id: 409183694
+mas "Kindle", id: 405399194
+mas "MiniPlay", id: 936243210
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "PiPer", id: 1421915518
+mas "Pixelmator Pro", id: 1289583905
+mas "Pocket", id: 568494494
+mas "Reeder", id: 1449412482
+mas "SmileAllDay", id: 1180442868
+mas "StopTheMadness", id: 1376402589
+mas "ToothFairy", id: 1191449274
+mas "Tweetbot", id: 1384080005
+mas "Type2Phone", id: 472717129
+mas "Xcode", id: 497799835
+# office?

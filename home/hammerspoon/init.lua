@@ -18,11 +18,11 @@ local function _resource_path(partial)
 
 hs.loadSpoon("SpoonInstall")
 Install=spoon.SpoonInstall
-Install:andUse("TimeMachineProgress",
-  {
-    start = true
-  }
-  )
+-- Install:andUse("TimeMachineProgress",
+--   {
+--     start = true
+--   }
+--   )
 Install:andUse("SendToOmniFocus",
   {
     config = {

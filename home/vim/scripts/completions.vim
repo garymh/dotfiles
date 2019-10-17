@@ -2,25 +2,25 @@ set completeopt=menuone,preview,noinsert,noselect
 set shortmess+=c   " Shut off completion messages
 set complete-=i
 
-
 let g:ulti_expand_or_jump_res = 0
-let g:airline#extensions#languageclient#enabled = 1
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#completion_delay = 50
 let g:mucomplete#reopen_immediately = 0
 let g:mucomplete#always_use_completeopt = 1
+let g:LanguageClient_useFloatingHover=1
+let g:LanguageClient_hoverPreview='Always'
 " set completefunc=LanguageClient#complete
 " set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
 
-" let g:LanguageClient_serverCommands = {
-"     \ 'javascript': ["/usr/local/bin/javascript-typescript-stdio"],
-"     \ 'css': ['css-languageserver', '--stdio'],
-"     \ 'less': ['css-languageserver', '--stdio'],
-"     \ 'scss': ['css-languageserver', '--stdio'],
-"     \ 'ruby': ["$GEM_HOME/bin/solargraph", "stdio"],
-"     \ 'erb': ["$GEM_HOME/bin/solargraph", "stdio"],
-"     \ 'vim': ["vim-language-server", "--stdio"]
-"     \ }
+let g:LanguageClient_serverCommands = {
+    \ 'javascript': ["/usr/local/bin/javascript-typescript-stdio"],
+    \ 'css': ['css-languageserver', '--stdio'],
+    \ 'less': ['css-languageserver', '--stdio'],
+    \ 'scss': ['css-languageserver', '--stdio'],
+    \ 'ruby': ["$GEM_HOME/bin/solargraph", "stdio"],
+    \ 'erb': ["$GEM_HOME/bin/solargraph", "stdio"],
+    \ 'vim': ["vim-language-server", "--stdio"]
+    \ }
 
 " TAB STUFF {{{ "
   fun! MyTabAction()
@@ -43,6 +43,11 @@ let g:mucomplete#chains.markdown   = ['path', 'keyn', 'dict', 'uspl']
 let g:mucomplete#chains.text       = ['path', 'keyn', 'dict', 'uspl']
 let g:mucomplete#chains.javascript = ['path', 'keyn', 'dict', 'uspl', 'ulti']
 
+let g:mucomplete#can_complete = {}
+let g:mucomplete#can_complete.default = {
+  \  'omni': { t -> strlen(&l:omnifunc) > 0 && t =~# '\%(\k\.\)$' }
+  \ }
+
 " let g:mucomplete#chains = {
 "   \ 'default' : ['path', 'ulti', 'omni', 'keyn', 'dict', 'uspl'],
 "   \ 'vim'     : ['path', 'omni', 'ulti', 'cmd', 'keyn'],
@@ -50,28 +55,45 @@ let g:mucomplete#chains.javascript = ['path', 'keyn', 'dict', 'uspl', 'ulti']
 "   \ 'eruby'   : ['path', 'ulti', 'cmd', 'keyn']
 "   \ }
 
-"c-n" : keywords in 'complete' (search forwards);
-"c-p" : keywords in 'complete' (search backwards);
-"cmd" : Vim command line;
-"defs": definitions or macros;
-"dict": keywords in 'dictionary';
-"file": file names;
-"incl": keywords in the current and included files;
-"keyn": keywords in the current file (search forwards);
-"keyp": keywords in the current file (search backwards);
-"line": whole lines;
-"omni": omni completion ('omnifunc');
-"spel": spelling suggestions;
-"tags": tags;
-"thes": keywords in 'thesaurus';
-"user": user defined completion ('completefunc').
-"path": file names (MUcomplete's implementation).
-"uspl": spelling suggestions (MUcomplete's implementation).
+function! s:Config()
+  if has_key(g:LanguageClient_serverCommands, &filetype)
+    if &filetype == 'reason'
+      " Format selection with gq.
+      setlocal formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
 
-" nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-" " Or map each action separately
-" nnoremap <silent> <leader>k :call LanguageClient#textDocument_hover()<CR>
-" nnoremap <silent> <leader>d :call LanguageClient#textDocument_definition()<CR>
-" nnoremap <silent> <leader>r :call LanguageClient#textDocument_rename()<CR>
+      " <Leader>f -- Format buffer.
+      nnoremap <buffer> <silent> <Leader>f :call LanguageClient_textDocument_formatting()<CR>
+    endif
 
-" nnoremap K :call LanguageClient_contextMenu()<CR>
+    " gd -- go to definition
+    nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
+
+    " K -- lookup keyword
+    nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
+
+    if exists('+signcolumn')
+      setlocal signcolumn=yes
+    endif
+  endif
+endfunction
+
+function! s:Bind()
+  nnoremap <buffer> <silent> K :call LanguageClient#closeFloatingHover()<CR>
+  nnoremap <buffer> <silent> <Esc> :call LanguageClient#closeFloatingHover()<CR>
+endfunction
+
+augroup WincentLanguageClientAutocmds
+  autocmd!
+  autocmd FileType * call s:Config()
+
+  if has('nvim') && exists('*nvim_open_win')
+    " Can use floating window.
+    autocmd BufEnter __LanguageClient__ call s:Bind()
+  endif
+augroup END
+
+augroup LanguageClient_config
+    autocmd!
+    autocmd User LanguageClientStarted setlocal signcolumn=yes
+    autocmd User LanguageClientStopped setlocal signcolumn=auto
+  augroup END

@@ -104,3 +104,13 @@ export PATH=/usr/local/opt/python/libexec/bin:$PATH
 if _exists go; then
   export PATH=$PATH:$HOME/code/go/bin
 fi
+
+if _exists cargo; then
+  export PATH=$PATH:$HOME/.cargo/bin
+fi
+
+export LDFLAGS="-L/usr/local/opt/sqlite/lib"
+export CPPFLAGS="-I/usr/local/opt/sqlite/include"
+export PATH="/usr/local/opt/sqlite/bin:$PATH"
+
+

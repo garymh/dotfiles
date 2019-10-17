@@ -1,5 +1,18 @@
 " vim:fdm=marker
 
+" ale? {{{ "
+
+" }}} ale? "
+let g:ale_linters = {
+      \   'ruby': ['standardrb', 'rubocop'],
+      \   'javascript': ['eslint'],
+      \}
+let g:ale_fixers = {
+      \    'ruby': ['standardrb'],
+      \}
+nmap <silent> [e <Plug>(ale_previous_wrap)
+nmap <silent> ]e <Plug>(ale_next_wrap)
+
 " hexokinase {{{ "
   let g:Hexokinase_optInPatterns = ['full_hex', 'triple_hex', 'rgb', 'rgba', 'colour_names']
   let g:Hexokinase_ftAutoload = ['*']
@@ -8,6 +21,87 @@
 " tagbar {{{ "
   let g:tagbar_compact = 1
 " }}} tagbar "
+
+" vim-which-key {{{ "
+let g:mapleader = ","
+let g:maplocalleader = '\'
+let g:which_key_use_floating_win = 1
+nnoremap <silent> <leader>      :<c-u>WhichKey ','<CR>
+nnoremap <silent> <space>       :<c-u>WhichKey '<space>'<CR>
+" let g:which_key_map =  {}
+nnoremap <silent> <localleader> :<c-u>WhichKey '\'<CR>
+" call which_key#register(',', "g:which_key_map")
+" let g:which_key_map.f = { 'name' : '+file' }
+" call which_key#register('<space>', "g:which_key_map")
+" let g:which_key_map.y = { 'name' : 'lo :)' }
+" call which_key#register('\', "g:which_key_map")
+" let g:which_key_map.y = { 'name' : 'hmm' }
+
+" autocmd! FileType which_key
+" autocmd  FileType which_key set laststatus=0 noshowmode noruler
+"   \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+" }}} vim-which-key "
+
+" lightline {{{ "
+  function! LightlineModified()
+    let map = { 'V': 'n', "\<C-v>": 'n', 's': 'n', 'v': 'n', "\<C-s>": 'n', 'c': 'n', 'R': 'n'}
+    let mode = get(map, mode()[0], mode()[0])
+    let bgcolor = {'n': [240, '#585858'], 'i': [31, '#0087af']}
+    let color = get(bgcolor, mode, bgcolor.n)
+    exe printf('hi ModifiedColor ctermfg=196 ctermbg=%d guifg=#ff0000 guibg=%s term=bold cterm=bold',
+          \ color[0], color[1])
+    return &modified ? '+' : &modifiable ? '' : '-'
+  endfunction
+
+  function! LightlineReadonly()
+    return &readonly ? '' : ''
+  endfunction
+
+  function! LightlineFugitive()
+    if &ft !~? 'vimfiler' && exists('*fugitive#head')
+      let branch = fugitive#head()
+      return branch !=# '' ? ' '.branch : ''
+    endif
+    return ''
+  endfunction
+
+  let g:tagbar_status_func = 'TagbarStatusFunc'
+
+  function! TagbarStatusFunc(current, sort, fname, ...) abort
+      let g:lightline.fname = a:fname
+    return lightline#statusline(0)
+  endfunction
+
+  set showtabline=2
+  let g:lightline = {
+        \ 'component': {
+        \   'modified': '%#ModifiedColor#%{LightlineModified()}'
+        \ },
+        \ 'separator': { 'left': ' ', 'right': ' ' },
+        \ 'subseparator': { 'left': ' ', 'right': ' ' },
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'fugitive', 'filename' ] ]
+        \ },
+        \ 'component_function': {
+        \   'fugitive': 'LightlineFugitive',
+        \   'filename': 'LightlineFilename',
+        \   'readonly': 'LightlineReadonly',
+        \ }
+        \ }
+  let g:lightline#bufferline#enable_devicons = 1
+  let g:lightline#bufferline#filename_modifier = ':t'
+  let g:lightline#bufferline#unicode_symbols = 1
+  let g:lightline#bufferline#read_only = ''
+  let g:lightline.colorscheme = 'ayu_mirage'
+  let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
+  let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+  let g:lightline.component_type   = {'buffers': 'tabsel'}
+" }}} lightline "
+
+" multichange {{{ "
+  let g:multichange_mapping        = 'sm'
+  let g:multichange_motion_mapping = 'm'
+" }}} multichange "
 
 " vim-slime {{{ "
   let g:slime_target = "tmux"
@@ -85,23 +179,23 @@
 " }}} Text objects "
 
 " Airline {{{ "
-  let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#fnamemod = ':t'
-  let g:airline#extensions#tabline#fnametruncate = 10
-  let g:airline#extensions#neomake#enabled = 1
-  let g:airline#extensions#nrrwrgn#enabled = 1
-  let g:airline#extensions#csv#enabled = 1
+  " let g:airline#extensions#tabline#enabled = 1
+  " let g:airline#extensions#tabline#fnamemod = ':t'
+  " let g:airline#extensions#tabline#fnametruncate = 10
+  " let g:airline#extensions#neomake#enabled = 1
+  " let g:airline#extensions#nrrwrgn#enabled = 1
+  " let g:airline#extensions#csv#enabled = 1
 
-  if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-  endif
+  " if !exists('g:airline_symbols')
+  "   let g:airline_symbols = {}
+  " endif
 
-  " unicode symbols
-  let g:airline_left_sep       = ''
-  let g:airline_right_sep      = ''
-  let g:airline_symbols.crypt  = '🔒'
-  let g:airline_section_z      = '%2l/%L:%2v'
-  let g:airline_symbols.branch = 'ᚬ'
+  " " unicode symbols
+  " let g:airline_left_sep       = ''
+  " let g:airline_right_sep      = ''
+  " let g:airline_symbols.crypt  = '🔒'
+  " let g:airline_section_z      = '%2l/%L:%2v'
+  " let g:airline_symbols.branch = 'ᚬ'
 " }}} Airline "
 
 " ragtag {{{ "
@@ -181,11 +275,16 @@
 " }}} Testing "
 
 " git-gutter {{{ "
-  let g:gitgutter_sign_added= '█'
-  let g:gitgutter_sign_modified= '█'
-  let g:gitgutter_sign_removed= '█'
-  let g:gitgutter_sign_removed_first_line= '█'
-  let g:gitgutter_sign_modified_removed= '█'
+  " let g:gitgutter_sign_added= '█'
+  " let g:gitgutter_sign_modified= '█'
+  " let g:gitgutter_sign_removed= '█'
+  " let g:gitgutter_sign_removed_first_line= '█'
+  " let g:gitgutter_sign_modified_removed= '█'
+  let g:gitgutter_sign_added= "·"
+  let g:gitgutter_sign_modified= "·"
+  let g:gitgutter_sign_removed= "·"
+  let g:gitgutter_sign_removed_first_line= "·"
+  let g:gitgutter_sign_modified_removed= "·"
 " }}} git-gutter "
 
 " ctrlsf {{{ "

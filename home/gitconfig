@@ -15,15 +15,10 @@
 [alias]
   amend                                   = commit -a --amend
   branches                                = branch -a
-  cm                                      = !git add -A && git commit -m
-  co                                      = checkout
-  cob                                     = checkout -b
   combine-commits                         = "!sh -c 'git rebase -i HEAD$1'"
   delete-local-branch                     = branch -D
-  delete-local-reference-to-remote-branch = "!sh -c 'git branch -rd $1/$2' -"
   delete-remote-branch                    = "!sh -c 'git push $1 --delete $2' -"
   discard                                 = checkout --
-  ec                                      = config --global -e
   explode                                 = !git reset --hard HEAD && git clean -d -f
   forgot-to-commit                        = difftool HEAD~1 HEAD
   ksdiff                                  = difftool
@@ -34,12 +29,10 @@
   stashes                                 = stash list
   tags                                    = tag -l
   uncommit                                = reset --mixed HEAD~
-  undo                                    = reset HEAD~1 --mixed
   up                                      = !git pull --rebase --prune $@ && git submodule update --init --recursive
   update-submodules                       = submodule update --init --recursive
   wip                                     = !git add -u && git commit -m "WIP"
   wipe                                    = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
-  ignore                                  = !([ ! -e .gitignore ] && touch .gitignore) | echo `\n$2` >> .gitignore
 
 [color]
   branch      = auto
@@ -54,10 +47,10 @@
 [difftool]
   prompt        = false
 [mergetool "Kaleidoscope"]
-	cmd     = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
   trustexitcode = true
 [merge]
-	tool    = ksdiff
+	tool = Kaleidoscope
 [difftool "Kaleidoscope"]
   cmd           = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [mergetool]
@@ -101,3 +94,6 @@
 	autoSetupMerge = false
 [push]
 	default = current
+[user]
+	name = garymh
+	email = garymh@users.noreply.github.com

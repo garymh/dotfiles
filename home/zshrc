@@ -6,6 +6,8 @@ if _macos; then
   zplug "plugins/github",         from:oh-my-zsh
   zplug "plugins/yarn",           from:oh-my-zsh
   zplug "plugins/tmux",           from:oh-my-zsh
+  zplug "plugins/git-extras",     from:oh-my-zsh
+  zplug "plugins/gitfast",        from:oh-my-zsh
   export ZSH_TMUX_AUTOSTART="true"
   export ZSH_TMUX_FIXTERM="false"
   export ZSH_TMUX_FIXTERM_WITH_256COLOR="tmux-256color"
@@ -67,3 +69,4 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 set -o monitor
+export PATH="/usr/local/opt/ncurses/bin:$PATH"

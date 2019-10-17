@@ -1,5 +1,5 @@
-" vim:fdm=marker
 " ~/.vimrc
+" vim:fdm=marker
 " thanks to the brilliant @tpope, @skwp, @nelstrom, @bling, @mhinz
 " @r00k, @spf13, @AndrewRadev, @junegunn, @wincent, and @sjl for unknowingly
 " allowing me to borrow from their dotfiles.
@@ -24,22 +24,24 @@ call plug#begin()
   Plug 'junegunn/vim-slash'
   Plug 'mhinz/vim-sayonara',      { 'on': 'Sayonara' }
   Plug 'tpope/vim-commentary'
-  " Plug 'tpope/vim-ragtag'
   Plug 'tpope/vim-repeat'
   Plug 'takac/vim-commandcaps'
+  Plug 'AndrewRadev/tagalong.vim'
 " }}} almost standard "
 
 " looks {{{ "
   Plug 'junegunn/rainbow_parentheses.vim'
-  Plug 'RRethy/vim-hexokinase', { 'for': ['eruby', 'haml', 'html', 'css', 'scss', 'less', 'tmux'] }
+  Plug 'RRethy/vim-hexokinase', { 'for': ['eruby', 'haml', 'html', 'css', 'scss', 'less', 'tmux', 'vim'] }
   Plug 'airblade/vim-gitgutter'
   Plug 'nathanaelkane/vim-indent-guides'
-  Plug 'vim-airline/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
 " }}} looks "
 
 " colors {{{ "
   Plug 'nanotech/jellybeans.vim'
+  Plug 'sheerun/vim-wombat-scheme'
+  Plug 'blueshirts/darcula'
+  Plug 'NLKNguyen/papercolor-theme'
+  Plug 'ayu-theme/ayu-vim'
 " }}} colors "
 
 " ruby {{{ "
@@ -90,17 +92,23 @@ call plug#begin()
 " }}} misc "
 
 " the lab {{{ "
-Plug 'vim-scripts/genutils'
-Plug 'vim-scripts/foldutil.vim'
-Plug 'docunext/closetag.vim'
-  Plug 'svermeulen/vim-subversive'
+  " Plug 'drmikehenry/vim-fixkey'
+  " investigate ^^
+  Plug 'dense-analysis/ale'
+  Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+  Plug 'vim-scripts/genutils'
+  Plug 'vim-scripts/foldutil.vim'
+  Plug 'docunext/closetag.vim'
   Plug 'justinmk/vim-dirvish'
   Plug 'kristijanhusak/vim-dirvish-git'
+  Plug 'AndrewRadev/multichange.vim'
   Plug 'jpalardy/vim-slime', { 'on': ['<Plug>SlimeParagraphSend', '<Plug>SlimeSendCurrentLine'] }
+  Plug 'itchyny/lightline.vim'
+  Plug 'mengelbrecht/lightline-bufferline'
 " }}} the lab "
 
 " dependencies {{{ "
-  Plug 'godlygeek/tabular/'
+  Plug 'godlygeek/tabular'
 " }}} dependencies "
 
 " mac/nvim {{{ "
@@ -114,7 +122,7 @@ Plug 'docunext/closetag.vim'
 
     if has('nvim-0.3.2')
       Plug 'meain/vim-package-info', { 'do': 'npm install', 'for': ['json'] }
-      set fillchars+=eob:\
+      :set fillchars=stl:^,stlnc:=,vert:│,fold:·,diff:-
       " suppress ~ at EndOfBuffer
     endif
 
@@ -131,7 +139,6 @@ Plug 'docunext/closetag.vim'
     endif
 
     Plug 'tpope/vim-sensible'
-    set ttimeoutlen=50 " vim-sensible's is kinda slow
   endif
 
 " }}} mac/nvim "
@@ -149,7 +156,7 @@ Plug 'docunext/closetag.vim'
   Plug 'kana/vim-textobj-entire'
   Plug 'kana/vim-textobj-indent'
   Plug 'kana/vim-textobj-line'
-  Plug 'somini/vim-textobj-fold'
+  Plug 'kana/vim-textobj-fold'
   Plug 'whatyouhide/vim-textobj-erb'
   Plug 'whatyouhide/vim-textobj-xmlattr'
   " Plug 'gilligan/textobj-gitgutter'
@@ -188,14 +195,13 @@ endif
   set hidden                " make unsaved buffers hidden
   set ignorecase
   set lazyredraw            " enables faster macros
-  set laststatus=2          " always show status line
   set list                  " show extra characters
   set listchars=nbsp:⦸,trail:•,tab:├─,precedes:«,extends:»
   set matchtime=5           " Show matching time
   set mouse=a
   set mousehide             " Hide the mouse cursor while typing
   set nojoinspaces          " don't autoinsert two spaces after '.', '?', '!' for join command
-  set noshowcmd           " don't jump between matching brackets
+  set noshowcmd
   set noshowmatch           " don't jump between matching brackets
   set nowrap
   set pumheight=20          " Avoid the pop up menu occupying the whole screen
@@ -216,6 +222,7 @@ endif
   set tabstop=2             " An indentation every four columns
   set virtualedit=block     " allow selection in visual mode
   syntax sync minlines=256  " start highlighting from 256 lines backwards
+  set timeoutlen=300        " vim-sensible's is kinda slow
 
   if exists('+colorcolumn')
     let &l:colorcolumn='+' . join(range(0, 254), ',+')
@@ -246,13 +253,20 @@ endif
 " }}} wildignore "
 
 " coloring {{{ "
-  set background=dark
-
   try
-    colorscheme jellybeans
+    let ayucolor="dark"   " for dark version of theme
+    colorscheme ayu
   catch /:E185:/
     colorscheme default
   endtry
+
+  hi TabLineFill ctermfg=LightGreen ctermbg=DarkGreen
+  hi TabLine ctermfg=Blue ctermbg=Yellow
+  hi TabLineSel ctermfg=Red ctermbg=Yellow
+
+  hi! BufTabLineHidden guifg=#E8E8D5 guibg=#242424
+  hi! BufTabLineFill guibg=#242424 guifg=#ff0000
+  hi! BufTabLineCurrent guibg=#4E4E44 guifg=#FFFFFF
 
   highlight Comment gui=italic
 " }}} coloring "

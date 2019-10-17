@@ -14,15 +14,36 @@ function zsh_stats() {
   fc -l 1 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n20
 }
 
-export IDEA_FILE="$HOME/Documents/ideas.txt"
-function idea() {
-  if [ -n "$1" ]; then
-    echo "$(date +'[%F %X]') $*" >> $IDEA_FILE
-    tail -n 1 $IDEA_FILE
-  else
-    cat $IDEA_FILE
-  fi
+# stolen from https://github.com/statico/dotfiles/blob/master/.zshrc
+expand-or-complete-with-dots() {
+echo -n "\e[31m......\e[0m"
+zle expand-or-complete
+zle redisplay
 }
+zle -N expand-or-complete-with-dots
+bindkey "^I" expand-or-complete-with-dots
+
+self-insert-redir() {
+integer l=$#LBUFFER
+zle self-insert
+(( $l >= $#LBUFFER )) && LBUFFER[-1]=" $LBUFFER[-1]"
+}
+zle -N self-insert-redir
+for op in \| \< \> \& ; do
+  bindkey "$op" self-insert-redir
+done
+
+	# One keystroke to cd ..
+bindkey -s '\eu' '\eq^Ucd ..; ls^M'
+
+  # Let ^W delete to slashes - zsh-users list, 4 Nov 2005
+backward-delete-to-slash() {
+  local WORDCHARS=${WORDCHARS//\//}
+  zle .backward-delete-word
+}
+zle -N backward-delete-to-slash
+bindkey "^W" backward-delete-to-slash
+# end statico thievery
 
 # insert_sudo () { zle beginning-of-line; zle -U "sudo " }
 # zle -N insert-sudo insert_sudo
@@ -32,24 +53,24 @@ function idea() {
 local zle_sticked=""
 
 zle-line-init() {
-    BUFFER="$zle_sticked$BUFFER"
-    zle end-of-line
+BUFFER="$zle_sticked$BUFFER"
+zle end-of-line
 }
 zle -N zle-line-init
 
 function zle-set-sticky {
-    zle_sticked="$BUFFER"
-    zle -M "Sticky: '$zle_sticked'."
+  zle_sticked="$BUFFER"
+  zle -M "Sticky: '$zle_sticked'."
 }
 zle -N zle-set-sticky
 bindkey '^S' zle-set-sticky
 
 function accept-line {
-    if [[ -z "$BUFFER" ]] && [[ -n "$zle_sticked" ]]; then
-        zle_sticked=""
-        echo -n "\nRemoved sticky."
-    fi
-    zle .accept-line
+  if [[ -z "$BUFFER" ]] && [[ -n "$zle_sticked" ]]; then
+    zle_sticked=""
+    echo -n "\nRemoved sticky."
+  fi
+  zle .accept-line
 }
 zle -N accept-line
 # zsh-sticky
@@ -57,6 +78,10 @@ zle -N accept-line
 c() { cd ~/code/$1;  }
 _c() { _files -W ~/code -/; }
 compdef _c c
+
+cw() { cd ~/code/work/$1;  }
+_cw() { _files -W ~/code/work -/; }
+compdef _cw cw
 
 h() { cd ~/$1;  }
 _h() { _files -W ~/ -/; }
@@ -77,13 +102,9 @@ if _macos; then
     git clone "$*"
   }
 
-  function localhost() {
-    open "http://localhost:${1:-80}"
-  }
-
-  function port() {
-    lsof -i ":${1:-80}"
-  }
+function port() {
+  lsof -i ":${1:-80}"
+}
 fi
 
 # alias last and save
@@ -110,6 +131,14 @@ function make_alias() {
   fi
 }
 
+function yarn() {
+    if [[ $1 == "search" ]]; then
+        command npm search "$2-"
+    else
+        command yarn "$@"
+    fi
+}
+
 function any() {
   emulate -L zsh
   unsetopt KSH_ARRAYS
@@ -122,13 +151,13 @@ function any() {
 }
 
 fancy-ctrl-z () {
-  if [[ $#BUFFER -eq 0 ]]; then
-    BUFFER="fg"
-    zle accept-line -w
-  else
-    zle push-input -w
-    zle clear-screen -w
-  fi
+if [[ $#BUFFER -eq 0 ]]; then
+  BUFFER="fg"
+  zle accept-line -w
+else
+  zle push-input -w
+  zle clear-screen -w
+fi
 }
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
@@ -141,4 +170,4 @@ path() {
     sub(\"/sbin\",  \"$fg_no_bold[magenta]/sbin$reset_color\"); \
     sub(\"/local\", \"$fg_no_bold[yellow]/local$reset_color\"); \
     print }"
-}
+  }
