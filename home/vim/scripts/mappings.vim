@@ -44,6 +44,8 @@ endfunction
   nmap <silent> <LocalLeader><LocalLeader> :TagbarToggle<CR>
   nmap <silent> <LocalLeader>t :TestVisit<CR>
   nmap <silent> <LocalLeader>r :ReneeNotes<CR>
+  nmap <silent> <LocalLeader>f :echo expand('%:p')<CR>
+
   nmap <silent> <LocalLeader><space> :WorkTodos<CR>
   nnoremap <LocalLeader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 

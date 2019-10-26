@@ -1,4 +1,6 @@
 if _macos; then
+  alias fix_audio='sudo killall coreaudiod'
+
   alias disk_space="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
   alias show_hidden="defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app"
   alias hide_hidden="defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app"
@@ -29,8 +31,8 @@ if _macos; then
   alias cpu="gotop -c monokai -f"
   alias restore_db="pg_restore -h localhost -p 5432 -U postgres -d membership_user -O -c -v"
 
-  alias renee_notes="$VISUAL ~/Documents/Work/NU/renee-meeting"
-  alias work_todos="$VISUAL ~/Documents/Work/NU/work_todos"
+  alias renee_notes="$VISUAL ~/Documents/Work/renee-meeting"
+  alias work_todos="$VISUAL ~/Documents/Work/work_todos"
   alias dnd_notes="$VISUAL ~/Documents/Fun/D\&D/dndnotes"
 
   # typos

@@ -334,11 +334,11 @@ function! s:progress_opt(base)
         \ s:git_version_requirement(1, 7, 1) ? '--progress' : ''
 endfunction
 
-if s:is_win
-  function! s:rtp(spec)
-    return s:path(a:spec.dir . get(a:spec, 'rtp', ''))
-  endfunction
+function! s:rtp(spec)
+  return s:path(a:spec.dir . get(a:spec, 'rtp', ''))
+endfunction
 
+if s:is_win
   function! s:path(path)
     return s:trim(substitute(a:path, '/', '\', 'g'))
   endfunction
@@ -376,10 +376,6 @@ if s:is_win
     return [batchfile, cmd]
   endfunction
 else
-  function! s:rtp(spec)
-    return s:dirpath(a:spec.dir . get(a:spec, 'rtp', ''))
-  endfunction
-
   function! s:path(path)
     return s:trim(a:path)
   endfunction
@@ -1036,7 +1032,7 @@ function! s:update_impl(pull, force, args) abort
   let s:clone_opt = get(g:, 'plug_shallow', 1) ?
         \ '--depth 1' . (s:git_version_requirement(1, 7, 10) ? ' --no-single-branch' : '') : ''
 
-  if has('win32unix')
+  if has('win32unix') || has('wsl')
     let s:clone_opt .= ' -c core.eol=lf -c core.autocrlf=input'
   endif
 

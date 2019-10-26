@@ -1,99 +1,140 @@
-set completeopt=menuone,preview,noinsert,noselect
-set shortmess+=c   " Shut off completion messages
-set complete-=i
+" if hidden is not set, TextEdit might fail.
+set hidden
 
-let g:ulti_expand_or_jump_res = 0
-let g:mucomplete#enable_auto_at_startup = 1
-let g:mucomplete#completion_delay = 50
-let g:mucomplete#reopen_immediately = 0
-let g:mucomplete#always_use_completeopt = 1
-let g:LanguageClient_useFloatingHover=1
-let g:LanguageClient_hoverPreview='Always'
-" set completefunc=LanguageClient#complete
-" set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
 
-let g:LanguageClient_serverCommands = {
-    \ 'javascript': ["/usr/local/bin/javascript-typescript-stdio"],
-    \ 'css': ['css-languageserver', '--stdio'],
-    \ 'less': ['css-languageserver', '--stdio'],
-    \ 'scss': ['css-languageserver', '--stdio'],
-    \ 'ruby': ["$GEM_HOME/bin/solargraph", "stdio"],
-    \ 'erb': ["$GEM_HOME/bin/solargraph", "stdio"],
-    \ 'vim': ["vim-language-server", "--stdio"]
-    \ }
+" Better display for messages
+set cmdheight=2
 
-" TAB STUFF {{{ "
-  fun! MyTabAction()
-    return g:ulti_expand_or_jump_res ? "" : "\<plug>(MyFwd)"
-  endf
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
 
-  imap <plug>(MyFwd) <plug>(MUcompleteFwd)
-  inoremap <plug>(TryUlti) <c-r>=UltiSnips#ExpandSnippetOrJump()<cr>
-  imap <expr> <silent> <plug>(TryMUcomplete) MyTabAction()
-  imap <expr> <silent> <tab> "\<plug>(TryUlti)\<plug>(TryMUcomplete)"
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
 
-  let g:UltiSnipsExpandTrigger = "<f5>"        " Do not use <tab>
-  let g:UltiSnipsJumpForwardTrigger = "<c-b>"  " Do not use <c-j>
-" }}} TAB STUFF "
+" always show signcolumns
+set signcolumn=yes
 
-let g:mucomplete#chains = {}
-let g:mucomplete#chains.default    = ['path', 'omni', 'keyn', 'dict', 'uspl', 'ulti']
-let g:mucomplete#chains.markdown   = ['path', 'keyn', 'dict', 'uspl']
-" let g:mucomplete#chains.vim      = ['path', 'keyn', 'dict', 'uspl']
-let g:mucomplete#chains.text       = ['path', 'keyn', 'dict', 'uspl']
-let g:mucomplete#chains.javascript = ['path', 'keyn', 'dict', 'uspl', 'ulti']
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-let g:mucomplete#can_complete = {}
-let g:mucomplete#can_complete.default = {
-  \  'omni': { t -> strlen(&l:omnifunc) > 0 && t =~# '\%(\k\.\)$' }
-  \ }
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
-" let g:mucomplete#chains = {
-"   \ 'default' : ['path', 'ulti', 'omni', 'keyn', 'dict', 'uspl'],
-"   \ 'vim'     : ['path', 'omni', 'ulti', 'cmd', 'keyn'],
-"   \ 'ruby'    : ['path', 'omni', 'ulti', 'tags', 'keyn'],
-"   \ 'eruby'   : ['path', 'ulti', 'cmd', 'keyn']
-"   \ }
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-function! s:Config()
-  if has_key(g:LanguageClient_serverCommands, &filetype)
-    if &filetype == 'reason'
-      " Format selection with gq.
-      setlocal formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+let g:coc_snippet_next = '<tab>'
 
-      " <Leader>f -- Format buffer.
-      nnoremap <buffer> <silent> <Leader>f :call LanguageClient_textDocument_formatting()<CR>
-    endif
+" Use <c-space> to trigger completion.
+" inoremap <silent><expr> <c-space> coc#refresh()
 
-    " gd -- go to definition
-    nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
-    " K -- lookup keyword
-    nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-    if exists('+signcolumn')
-      setlocal signcolumn=yes
-    endif
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
   endif
 endfunction
 
-function! s:Bind()
-  nnoremap <buffer> <silent> K :call LanguageClient#closeFloatingHover()<CR>
-  nnoremap <buffer> <silent> <Esc> :call LanguageClient#closeFloatingHover()<CR>
-endfunction
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
-augroup WincentLanguageClientAutocmds
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
   autocmd!
-  autocmd FileType * call s:Config()
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
 
-  if has('nvim') && exists('*nvim_open_win')
-    " Can use floating window.
-    autocmd BufEnter __LanguageClient__ call s:Bind()
-  endif
-augroup END
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-augroup LanguageClient_config
-    autocmd!
-    autocmd User LanguageClientStarted setlocal signcolumn=yes
-    autocmd User LanguageClientStopped setlocal signcolumn=auto
-  augroup END
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <C-d> <Plug>(coc-range-select)
+xmap <silent> <C-d> <Plug>(coc-range-select)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>

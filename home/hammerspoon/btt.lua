@@ -24,6 +24,14 @@ function action_key()
     hs.eventtap.keyStroke({'alt', 'cmd'}, 'c')
   elseif name == 'Slack' then
     hs.eventtap.keyStroke({'cmd'}, '.')
+  elseif name == 'Microsoft Teams' then
+    hs.eventtap.keyStroke({'cmd'}, 'e')
+  elseif name == 'Calendar' then
+    if app:selectMenuItem("Hide Calendar List") == nil then
+      app:selectMenuItem("Show Calendar List")
+    else
+      app:selectMenuItem("Show Toolbar")
+    end
   elseif name == 'iTerm2' or name == "Oni" or name == 'MacVim' or name == 'Alfred 3' then
     hs.eventtap.keyStroke({}, 'escape')
   else

@@ -3,15 +3,15 @@
 " ale? {{{ "
 
 " }}} ale? "
-let g:ale_linters = {
-      \   'ruby': ['standardrb', 'rubocop'],
-      \   'javascript': ['eslint'],
-      \}
-let g:ale_fixers = {
-      \    'ruby': ['standardrb'],
-      \}
-nmap <silent> [e <Plug>(ale_previous_wrap)
-nmap <silent> ]e <Plug>(ale_next_wrap)
+" let g:ale_linters = {
+"       \   'ruby': ['standardrb', 'rubocop'],
+"       \   'javascript': ['eslint'],
+"       \}
+" let g:ale_fixers = {
+"       \    'ruby': ['standardrb'],
+"       \}
+" nmap <silent> [e <Plug>(ale_previous_wrap)
+" nmap <silent> ]e <Plug>(ale_next_wrap)
 
 " hexokinase {{{ "
   let g:Hexokinase_optInPatterns = ['full_hex', 'triple_hex', 'rgb', 'rgba', 'colour_names']
@@ -272,6 +272,9 @@ nnoremap <silent> <localleader> :<c-u>WhichKey '\'<CR>
 " Testing {{{ "
   let test#strategy = "vimux"
   let g:VimuxOrientation = "v"
+  let test#ruby#rails#options = {
+  \ 'all':   '-f -p'
+\}
 " }}} Testing "
 
 " git-gutter {{{ "
