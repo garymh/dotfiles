@@ -1,8 +1,0 @@
-set guifont=HackNerdFontCompleteM-Regular:h24
-" set guioptions -=m
-" set guioptions -=T
-" set guioptions=e  " instead of clearing this, set it to only `e`
-" set showtabline=1 " one is the default value
-if has('gui_running')
-  set guioptions-=e
-endif

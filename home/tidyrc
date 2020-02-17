@@ -1,7 +1,0 @@
-//config file for html tidy
-tidy-mark: no
-doctype: omit
-show-body-only: yes
-indent: yes
-wrap-asp: no
-vertical-space: yes

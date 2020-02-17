@@ -1,9 +1,0 @@
---theme="1337"
---italic-text=always
---pager="less -FR"
---map-syntax .ignore:.gitignore
---map-syntax Rakefile:rb
---map-syntax Gemfile:rb
---map-syntax Capfile:rb
---map-syntax .pryrc:rb
---map-syntax Brewfile:rb
