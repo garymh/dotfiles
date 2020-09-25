@@ -32,10 +32,7 @@ fi
 
 export EDITOR="$VISUAL"
 
-# if _exists moar; then
-#   export PAGER="moar"
-# fi
-
+if _exists moar; then export PAGER="moar"; fi
 if _exists go; then export PATH=$PATH:$HOME/code/go/bin; fi
 if _exists cargo; then export PATH=$PATH:$HOME/.cargo/bin; fi
 
@@ -228,7 +225,9 @@ bindkey '^U' backward-kill-line
 
 set -o monitor
 
+# I prefer my own aliases, please
 unalias sd
+unalias gc
 
 export ZSH_TMUX_AUTOSTART="true"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
