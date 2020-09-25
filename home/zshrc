@@ -9,6 +9,7 @@ source $HOME/.zsh/misc/_utility.zsh
 export DOTFILES="$HOME/code/dotfiles"
 export VIMFILES="$HOME/code/dotfiles/home/vim"
 export OCI_DIR=/usr/local/lib
+export HOME_DIR="$DOTFILES/home"
 export HOMEBREW_CASK_OPTS="--fontdir=~/Library/Fonts"
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_BUNDLE_FILE_PATH="$DOTFILES/Brewfile"
