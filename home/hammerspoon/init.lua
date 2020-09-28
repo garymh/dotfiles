@@ -1,4 +1,4 @@
-system_ruby = "/Users/gary/.rubies/ruby-2.6.5/bin/ruby"
+system_ruby = "/Users/gary/.rubies/ruby-2.6.6/bin/ruby"
 
 require "grid"
 require "hyper"
