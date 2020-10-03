@@ -19,6 +19,8 @@ GEM
     awesome_print (1.8.0)
     backport (1.1.2)
     backticks (1.0.2)
+    bitbar (0.1.0)
+      activesupport (>= 4)
     coderay (1.1.2)
     colorize (0.8.1)
     concurrent-ruby (1.1.5)
@@ -116,6 +118,7 @@ PLATFORMS
 DEPENDENCIES
   annotate
   awesome_print
+  bitbar
   bundler
   docker-compose
   gem-browse

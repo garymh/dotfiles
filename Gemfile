@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'annotate'
 gem 'awesome_print'
+gem 'bitbar'
 gem 'bundler'
 gem 'docker-compose'
 gem 'gem-browse'
