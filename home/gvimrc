@@ -5,4 +5,5 @@ set guifont=FixedsysExcelsiorIIIbNerdFont-:h24
 " set showtabline=1 " one is the default value
 if has('gui_running')
   set guioptions-=e
+  set belloff=all
 endif
