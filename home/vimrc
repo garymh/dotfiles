@@ -311,10 +311,10 @@ endif
 
       lua require'colorizer'.setup()
       highlight Whitespace guibg=None ctermbg=None
-      let g:equinusocio_material_bracket_improved = 1
-      let g:equinusocio_material_less = 50
-      let g:equinusocio_material_style = 'darker'
-      colorscheme equinusocio_material
+      " let g:equinusocio_material_bracket_improved = 1
+      " let g:equinusocio_material_less = 50
+      " let g:equinusocio_material_style = 'darker'
+      colorscheme dogrun
     else
       colorscheme jellybeans
     endif
