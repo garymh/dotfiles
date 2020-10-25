@@ -27,6 +27,8 @@ alias gdb="git branch --merged | egrep -v \"(^\*|master|develop|dev|staging|prod
 alias gpm="git push -u origin -o merge_request.create -o merge_request.remove_source_branch -o merge_request.label='frontend'" # Push the current branch and create a merge request for it
 alias branch="git branch --show-current"
 
+alias gdkup="gdk update && gdk reconfigure && git checkout db/structure.sql"
+
 alias file_size="du -sh"
 
 
