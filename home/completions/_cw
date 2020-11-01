@@ -1,0 +1,2 @@
+_cw() { _files -W ~/code/work -/; }
+compdef _cw cw

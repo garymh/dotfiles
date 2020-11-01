@@ -25,6 +25,7 @@ alias kd="kitty +kitten diff"
 alias gam='git commit --amend -C HEAD' # Commit current staged files and amend it to the previous commit message without changing the commit or being prompted
 alias gdb="git branch --merged | egrep -v \"(^\*|master|develop|dev|staging|production)\" | xargs git branch -d" # Delete all local branches that have been merged into HEAD
 alias gpm="git push -u origin -o merge_request.create -o merge_request.remove_source_branch -o merge_request.label='frontend'" # Push the current branch and create a merge request for it
+alias gfo="git fetch origin"
 alias branch="git branch --show-current"
 
 alias gdkup="gdk update && gdk reconfigure && git checkout db/structure.sql"
@@ -97,6 +98,9 @@ fi
 
 if _exists lsd; then
   alias ls='lsd'
+  alias ll='lsd -al'
+  alias lsl='lsd *(@)' # only symlinks
+  alias lsx='lsd *(*)' # only executables
 fi
 
 # typos
@@ -126,6 +130,9 @@ alias -g NUL="> /dev/null 2>&1"
 alias -g S='| sort'
 alias -g T='| tail'
 alias -g F='| fzf'
+alias -g HL="--help"
+alias -g V="--version"
+
 
 alias -g RED='RAILS_ENV=development'
 alias -g REP='RAILS_ENV=production'
@@ -134,6 +141,7 @@ alias -g RES='RAILS_ENV=staging'
 
 # work!
 alias grho="git back-to-origin"
+alias grbm="git rebase master"
 alias harness="scripts/security-harness"
 alias gpf="git push --force"
 alias amend="git commit --amend"

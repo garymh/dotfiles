@@ -1,42 +1,27 @@
 #!/usr/local/bin/zsh
 typeset -F4 SECONDS=0
 
-source $HOME/.zsh/misc/_utility.zsh
+source $HOME/.zsh/misc/utility.zsh
 
-# export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
-# export SSH_AUTH_SOCK=/Users/gary/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
+setopt extended_history  # record timestamp of command in HISTFILE
+setopt hist_expire_dups_first
+setopt hist_ignore_dups  # don't add duplicate entries
+setopt hist_ignore_space # ignore commands that start with space
+unsetopt menu_complete   # do not autoselect the first completion entry
+unsetopt flowcontrol     # gives me back ^-S
+setopt auto_menu         # show completion menu on successive tab press
+setopt complete_in_word
+setopt always_to_end     # always move to the end of the word if completion worked
+setopt hist_find_no_dups # don't display duplicates in reverse search
+setopt hist_reduce_blanks # remove superfluous blanks
+unsetopt correct_all # don't autocorrect when thefuck does it better.
 
-export DOTFILES="$HOME/code/dotfiles"
-export VIMFILES="$HOME/code/dotfiles/home/vim"
-export OCI_DIR=/usr/local/lib
-export HOME_DIR="$DOTFILES/home"
-export HOMEBREW_CASK_OPTS="--fontdir=~/Library/Fonts"
-export HOMEBREW_NO_ANALYTICS=1
-export HOMEBREW_BUNDLE_FILE_PATH="$DOTFILES/Brewfile"
-export LDFLAGS="-L/usr/local/opt/icu4c/lib"
-export CPPFLAGS="-I/usr/local/opt/icu4c/include"
-export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
-
-export PATH="/usr/local/opt/postgresql@10/bin:/usr/local/opt/node@12/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/sbin:$PATH"
-export PATH=$HOME_DIR/zsh/bin:$PATH
-
-export NAVI_PATH="$DOTFILES/home/doc"
-export NEXTWORD_DATA_PATH="$HOME/.config/nextword-data"
-export GPG_TTY=$(tty)
-
-if _exists nvim; then
-  export VISUAL='nvim'
-fi
+if _exists nvim; then export VISUAL='nvim'; fi
 
 export EDITOR="$VISUAL"
 
-if _exists moar; then export PAGER="moar"; fi
 if _exists go; then export PATH=$PATH:$HOME/code/go/bin; fi
 if _exists cargo; then export PATH=$PATH:$HOME/.cargo/bin; fi
-
-export PATH="/usr/local/sbin:$PATH"
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -61,44 +46,59 @@ zinit light-mode for \
 
 ### End of Zinit's installer chunk
 
-omz_libs=(
-  functions
-  misc
-  key-bindings
-  history
-  git
-  directories
-  compfix
-)
+zinit ice svn
+zinit snippet OMZP::tmux
+
+# most of the things below thieved from https://github.com/Seirdy/dotfiles
+# guy is a genius.
+
+z_lucid() { zinit ice lucid ver'master' "$@" }
+zi0a() { z_lucid wait'0a' "$@" }
+zi0b() { z_lucid wait'0b' "$@" }
+zi0c() { z_lucid wait'0c' "$@" }
 
 omz_plugins=(
-  bundler
   zsh_reload
   chruby
   fasd
-  git
+  colored-man-pages
   github
-  # git-extras
   thefuck
+  rake-fast
+  fancy-ctrl-z
 )
 
-for plugin in ${omz_libs[@]}; do zinit snippet OMZ::lib/$plugin.zsh; done
+zinit snippet OMZ::lib/key-bindings.zsh
 for plugin in ${omz_plugins[@]}; do zinit snippet OMZP::$plugin; done
 
-zinit ice wait'1' lucid
-zinit light $HOME/code/fzf-widgets
+zinit ice atload"unalias sd"
+zinit snippet OMZP::fasd
 
-zinit ice pick'init.zsh' compile'*.zsh'
-zinit light laggardkernel/zsh-iterm2
+zinit load mafredri/zsh-async
+zinit load $HOME/code/fzf-widgets
 
-export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES=":q gco g rubocop"
-# export ZSH_PLUGINS_ALIAS_TIPS_FORCE=1
-export ZSH_PLUGINS_ALIAS_TIPS_REVEAL=1
-zinit ice wait'0' lucid
+zi0b pick"bin/git-fuzzy" as"program"
+zinit load bigH/git-fuzzy
+
+zi0b
 zinit load djui/alias-tips
 
-zinit ice wait'0' lucid
-zinit load ael-code/zsh-colored-man-pages
+zi0b
+zinit load paoloantinori/hhighlighter
+
+zi0b
+zinit load unixorn/git-extra-commands
+
+zi0c
+zinit load RobSis/zsh-completion-generator
+
+zinit wait lucid light-mode for \
+  atinit"zicompinit; zicdreplay" \
+      zdharma/fast-syntax-highlighting \
+  atload"_zsh_autosuggest_start" \
+      zsh-users/zsh-autosuggestions \
+  blockf atpull'zinit creinstall -q .' \
+      zsh-users/zsh-completions
 
 # From: https://github.com/sgleizes/dotfiles/blob/0b9fa9ced2ba2bc189ba6ba47d8672b8a8f4fa8e/.xsh/zsh/module/git/%40interactive.zsh
 # Automatically detect and escape zsh globbing meta-characters when used with
@@ -110,66 +110,50 @@ zinit ice wait'0b' lucid depth=1 reset \
   atpull'%atclone' nocompile'!' \
   pick'git-escape-magic'
 zinit light knu/zsh-git-escape-magic
-# zinit ice wait'1' lucid
-# zinit load knu/zsh-git-escape-magic
 
-# zinit ice wait'1' lucid
-# zinit load unixorn/git-extra-commands
-
-#################################################################
-zinit ice depth=1 wait blockf lucid atpull"zinit creinstall -q ."
-zinit light clarketm/zsh-completions
-
-zinit ice wait'1' lucid atinit"zpcompinit"
-zinit light zdharma/fast-syntax-highlighting
-
-export ZSH_AUTOSUGGEST_USE_ASYNC="true"
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
-zinit ice wait lucid atload"_zsh_autosuggest_start"
-zinit light zsh-users/zsh-autosuggestions
-#################################################################
-
-zinit load mafredri/zsh-async
-
-zinit ice atclone"gdircolors -b LS_COLORS > clrs.zsh" \
-    atpull'%atclone' pick"clrs.zsh" nocompile'!' \
+zinit ice wait"0c" lucid reset \
+    atclone"local P=${${(M)OSTYPE:#*darwin*}:+g}
+            \${P}sed -i \
+            '/DIR/c\DIR 38;5;63;1' LS_COLORS; \
+            \${P}dircolors -b LS_COLORS > c.zsh" \
+    atpull'%atclone' pick"c.zsh" nocompile'!' \
     atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
 zinit light trapd00r/LS_COLORS
 
 if [[ $(zsh --version | awk '{print $2}') > 5.0.7 ]]; then
   export SPACESHIP_PROMPT_ORDER=(
-    time          # Time stamps section
-    user          # Username section
-    dir           # Current directory section
-    host          # Hostname section
-    hg            # Mercurial section (hg_branch  + hg_status)
-    package       # Package version
-    ruby          # Ruby section
-    elixir        # Elixir section
-    xcode         # Xcode section
-    swift         # Swift section
-    golang        # Go section
-    php           # PHP section
-    rust          # Rust section
-    haskell       # Haskell Stack section
-    julia         # Julia section
-    aws           # Amazon Web Services section
-    venv          # virtualenv section
-    conda         # conda virtualenv section
-    pyenv         # Pyenv section
-    dotnet        # .NET section
-    ember         # Ember.js section
-    # kubecontext   # Kubectl context section
-    terraform     # Terraform workspace section
-    exec_time     # Execution time
-    # git          # Git section (git_branch + git_status)
-    line_sep      # Line break
-    battery       # Battery level and status
-    vi_mode       # Vi-mode indicator
-    jobs          # Background jobs indicator
-    exit_code     # Exit code section
-    char          # Prompt character
-  )
+  time          # Time stamps section
+  user          # Username section
+  dir           # Current directory section
+  host          # Hostname section
+  hg            # Mercurial section (hg_branch  + hg_status)
+  package       # Package version
+  ruby          # Ruby section
+  elixir        # Elixir section
+  xcode         # Xcode section
+  swift         # Swift section
+  golang        # Go section
+  php           # PHP section
+  rust          # Rust section
+  haskell       # Haskell Stack section
+  julia         # Julia section
+  aws           # Amazon Web Services section
+  venv          # virtualenv section
+  conda         # conda virtualenv section
+  pyenv         # Pyenv section
+  dotnet        # .NET section
+  ember         # Ember.js section
+  # kubecontext   # Kubectl context section
+  terraform     # Terraform workspace section
+  exec_time     # Execution time
+  # git          # Git section (git_branch + git_status)
+  line_sep      # Line break
+  battery       # Battery level and status
+  vi_mode       # Vi-mode indicator
+  jobs          # Background jobs indicator
+  exit_code     # Exit code section
+  char          # Prompt character
+)
 
   export SPACESHIP_RPROMPT_ORDER=(
     git
@@ -185,15 +169,34 @@ if [[ $(zsh --version | awk '{print $2}') > 5.0.7 ]]; then
   export SPACESHIP_EXIT_CODE_SHOW="1"
 
   zinit light denysdovhan/spaceship-prompt
+  # eval "$(starship init zsh)"
 
-  zinit ice silent wait"0" pick"autopair.zsh"
-  zinit load "hlissner/zsh-autopair"
+  zi0a pick'autopair.zsh'
+  zinit light hlissner/zsh-autopair
 fi
 
-autoload -Uz compinit
-compinit
+zi_completion() { zi0a as'completion' blockf "$@" }
 
-e_header "[zshrc] zinit block took ${(M)$(( SECONDS * 1000 ))#*.?} ms"
+zi_completion has'docker'
+zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
+
+zi_completion has'rg'
+zinit snippet https://github.com/BurntSushi/ripgrep/blob/master/complete/_rg
+
+zi_completion has'fd'
+zinit snippet https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/fd/_fd
+
+zi_completion has'exa' mv'completions.zsh -> _exa'
+zinit snippet https://github.com/ogham/exa/blob/master/completions/completions.zsh
+
+zi_completion has'brew'
+zinit snippet https://github.com/Homebrew/brew/tree/master/completions/zsh/_brew
+
+zi_completion has'brew'
+zinit snippet https://github.com/Homebrew/brew/tree/master/completions/zsh/_brew_cask
+
+zi0b as'completion'
+zinit light $DOTFILES/home/zsh/completions
 
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then
   git clone https://github.com/tmux-plugins/tpm.git --depth 1 ~/.tmux/plugins/tpm 2> /dev/null
@@ -207,33 +210,5 @@ done
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# if _exists fasd; then
-#   fasd_cache="${ZSH_CACHE_DIR}/fasd-init-cache"
-#   if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-#     fasd --init auto >| "$fasd_cache"
-#   fi
-#   source "$fasd_cache"
-#   unset fasd_cache
-
-#   alias v="f -e \"$VISUAL\""
-#   alias o='a -e open'
-# fi
-
-set -o ignoreeof
-
-bindkey '^U' backward-kill-line
-
-set -o monitor
-
-# I prefer my own aliases, please
-unalias sd
-unalias gc
-
-export ZSH_TMUX_AUTOSTART="true"
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
-
-zinit ice svn
-zinit snippet OMZP::tmux
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+echo ""
+e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"

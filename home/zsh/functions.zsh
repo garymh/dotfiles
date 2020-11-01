@@ -31,76 +31,9 @@ function zsh_stats() {
   fc -l 1 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n20
 }
 
-# stolen from https://github.com/statico/dotfiles/blob/master/.zshrc
-expand-or-complete-with-dots() {
-echo -n "\e[31m......\e[0m"
-zle expand-or-complete
-zle redisplay
-}
-zle -N expand-or-complete-with-dots
-bindkey "^I" expand-or-complete-with-dots
-
-self-insert-redir() {
-integer l=$#LBUFFER
-zle self-insert
-(( $l >= $#LBUFFER )) && LBUFFER[-1]=" $LBUFFER[-1]"
-}
-zle -N self-insert-redir
-for op in \| \< \> \& ; do
-  bindkey "$op" self-insert-redir
-done
-
-# One keystroke to cd ..
-bindkey -s '\eu' '\eq^Ucd ..; ls^M'
-
-# Let ^W delete to slashes - zsh-users list, 4 Nov 2005
-backward-delete-to-slash() {
-  local WORDCHARS=${WORDCHARS//\//}
-  zle .backward-delete-word
-}
-zle -N backward-delete-to-slash
-bindkey "^W" backward-delete-to-slash
-# end statico thievery
-
-# bindkey "\e\e" fuck-command-line
-
-# zsh-sticky-prefix
-local zle_sticked=""
-
-zle-line-init() {
-BUFFER="$zle_sticked$BUFFER"
-zle end-of-line
-}
-zle -N zle-line-init
-
-function zle-set-sticky {
-  zle_sticked="$BUFFER"
-  zle -M "Sticky: '$zle_sticked'."
-}
-zle -N zle-set-sticky
-bindkey '^S' zle-set-sticky
-
-function accept-line {
-  if [[ -z "$BUFFER" ]] && [[ -n "$zle_sticked" ]]; then
-    zle_sticked=""
-    echo -n "\nRemoved sticky."
-  fi
-  zle .accept-line
-}
-zle -N accept-line
-# zsh-sticky
-
 c() { cd ~/code/$1;  }
-_c() { _files -W ~/code -/; }
-compdef _c c
-
 cw() { cd ~/code/work/$1;  }
-_cw() { _files -W ~/code/work -/; }
-compdef _cw cw
-
 h() { cd ~/$1;  }
-_h() { _files -W ~/ -/; }
-compdef _h h
 
 alias git_command="git"
 
@@ -115,10 +48,6 @@ function gac() { git_command add -A && git_command commit -avm "$*" }
 function gc() { git_command add -A && git_command commit -av }
 function gpn() { git_command push -o ci.skip }
 function combine() { git_command combine-commits $1 }
-
-# _git_fuzzy_branch () { local branch=$(git fuzzy branch); git checkout $branch; zle redisplay }
-# zle -N _git_fuzzy_branch
-# bindkey ^g^g _git_fuzzy_branch
 
 fuzzydiff() { git fuzzy diff }
 zle -N fuzzydiff{,}
@@ -144,25 +73,3 @@ function any() {
     ps xauwww | grep -i --color=auto "[${1[1]}]${1[2,-1]}"
   fi
 }
-
-fancy-ctrl-z () {
-if [[ $#BUFFER -eq 0 ]]; then
-  BUFFER="fg"
-  zle accept-line -w
-else
-  zle push-input -w
-  zle clear-screen -w
-fi
-}
-zle -N fancy-ctrl-z
-bindkey '^Z' fancy-ctrl-z
-
-path() {
-  echo $PATH | tr ":" "\n" | \
-    awk "{ sub(\"/usr\",   \"$fg_no_bold[green]/usr$reset_color\"); \
-    sub(\"/bin\",   \"$fg_no_bold[blue]/bin$reset_color\"); \
-    sub(\"/opt\",   \"$fg_no_bold[cyan]/opt$reset_color\"); \
-    sub(\"/sbin\",  \"$fg_no_bold[magenta]/sbin$reset_color\"); \
-    sub(\"/local\", \"$fg_no_bold[yellow]/local$reset_color\"); \
-    print }"
-  }

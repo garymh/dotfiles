@@ -13,7 +13,10 @@ if [[ -f ~/.fzf.zsh ]]; then
                            --bind 'ctrl-f:page-down'
                            --bind 'tab:toggle+up'
                            --bind 'ctrl-b:page-up'
-                           --bind 'ctrl-y:execute[echo {} | pbcopy]'"
+                           --bind 'ctrl-y:execute[echo {} | pbcopy]'
+                           --prompt='❯ '
+                           --pointer='❯'
+                           --marker='✔'"
 
               # fzf exports $FZF_PREVIEW_LINES and $FZF_PREVIEW_COLUMNS so that they represent the exact size of the preview  window.  (It  also  overrides
               # $LINES  and $COLUMNS with the same values but they can be reset by the default shell, so prefer to refer to the ones with FZF_PREVIEW_ pre-

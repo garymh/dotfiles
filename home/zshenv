@@ -1,189 +1,29 @@
-	#
-# INSTRUCTIONS
-#
-#  With either a manual or brew installed chruby things should just work.
-#
-#  If you'd prefer to specify an explicit path to load chruby from
-#  you can set variables like so:
-#
-#    zstyle :omz:plugins:chruby path /local/path/to/chruby.sh
-#    zstyle :omz:plugins:chruby auto /local/path/to/auto.sh
-#
-# TODO
-#  - autodetermine correct source path on non OS X systems
-#  - completion if ruby-install exists
+export DOTFILES="$HOME/code/dotfiles"
+export VIMFILES="$HOME/code/dotfiles/home/vim"
+export OCI_DIR=/usr/local/lib
+export HOME_DIR="$DOTFILES/home"
+export HOMEBREW_CASK_OPTS="--fontdir=~/Library/Fonts"
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_BUNDLE_FILE_PATH="$DOTFILES/Brewfile"
+export LDFLAGS="-L/usr/local/opt/icu4c/lib"
+export CPPFLAGS="-I/usr/local/opt/icu4c/include"
+export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
+export NAVI_PATH="$DOTFILES/home/doc"
+export NEXTWORD_DATA_PATH="$HOME/.config/nextword-data"
+export GPG_TTY=$(tty)
+export ZSH_AUTOSUGGEST_USE_ASYNC="true"
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
+export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES=":q gco g rubocop"
+export ZSH_PLUGINS_ALIAS_TIPS_REVEAL=1
+export ZSH_TMUX_AUTOSTART="true"
+export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+export HISTSIZE=99999
+export SAVEHIST=90000
+export COMPLETION_WAITING_DOTS="true"
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
 
-# rvm and rbenv plugins also provide this alias
-alias rubies='chruby'
-
-
-_homebrew-installed() {
-    whence brew &> /dev/null
-    _xit=$?
-    if [ $_xit -eq 0 ];then
-    	# ok , we have brew installed
-	# speculatively we check default brew prefix
-        if [ -h  /usr/local/opt/chruby ];then
-		_brew_prefix="/usr/local/opt/chruby"
-	else
-		# ok , it is not default prefix
-		# this call to brew is expensive ( about 400 ms ), so at least let's make it only once
-		_brew_prefix=$(brew --prefix chruby)
-	fi
-	return 0
-   else
-        return $_xit
-   fi
-}
-
-_chruby-from-homebrew-installed() {
-  [ -r _brew_prefix ] &> /dev/null
-}
-
-_ruby-build_installed() {
-    whence ruby-build &> /dev/null
-}
-
-_ruby-install-installed() {
-    whence ruby-install &> /dev/null
-}
-
-# Simple definition completer for ruby-build
-if _ruby-build_installed; then
-    _ruby-build() { compadd $(ruby-build --definitions) }
-    compdef _ruby-build ruby-build
-fi
-
-_source_from_omz_settings() {
-    local _chruby_path
-    local _chruby_auto
-
-    zstyle -s :omz:plugins:chruby path _chruby_path
-    zstyle -s :omz:plugins:chruby auto _chruby_auto
-
-    if [[ -r ${_chruby_path} ]]; then
-        source ${_chruby_path}
-    fi
-
-    if [[ -r ${_chruby_auto} ]]; then
-        source ${_chruby_auto}
-    fi
-}
-
-_chruby_dirs() {
-    chrubydirs=($HOME/.rubies/ $PREFIX/opt/rubies)
-    for dir in chrubydirs; do
-        if [[ -d $dir ]]; then
-            RUBIES+=$dir
-        fi
-    done
-}
-
-if _homebrew-installed && _chruby-from-homebrew-installed ; then
-    source $_brew_prefix/share/chruby/chruby.sh
-    source $_brew_prefix/share/chruby/auto.sh
-    _chruby_dirs
-elif [[ -r "/usr/local/share/chruby/chruby.sh" ]] ; then
-    source /usr/local/share/chruby/chruby.sh
-    source /usr/local/share/chruby/auto.sh
-    _chruby_dirs
-else
-    _source_from_omz_settings
-    _chruby_dirs
-fi
-
-function ensure_chruby() {
-    $(whence chruby)
-}
-
-function current_ruby() {
-    local _ruby
-    _ruby="$(chruby |grep \* |tr -d '* ')"
-    if [[ $(chruby |grep -c \*) -eq 1 ]]; then
-        echo ${_ruby}
-    else
-        echo "system"
-    fi
-}
-
-function chruby_prompt_info() {
-    echo "$(current_ruby)"
-}
-
-# complete on installed rubies
-_chruby() {
-    compadd $(chruby | tr -d '* ')
-    local default_path='/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
-    if PATH=${default_path} type ruby &> /dev/null; then
-        compadd system
-    fi
-}
-compdef _chruby chruby
-
-# source $HOME/.zsh/misc/_utility.zsh
-
-# export DOTFILES="$HOME/code/dotfiles"
-# export VIMFILES="$HOME/code/dotfiles/home/vim"
-# export OCI_DIR=/usr/local/lib
-# export HOMEBREW_CASK_OPTS="--fontdir=~/Library/Fonts"
-# export HOMEBREW_NO_ANALYTICS=1
-# export HOMEBREW_BUNDLE_FILE_PATH="$DOTFILES/Brewfile"
-# export PATH="/usr/local/opt/postgresql@10/bin:/usr/local/opt/node@12/bin:$PATH"
-# export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
-# export PATH=$HOME_DIR/zsh/bin:$PATH
-
-# export NAVI_PATH="$DOTFILES/home/doc"
-# export NEXTWORD_DATA_PATH="$HOME/.config/nextword-data"
-
-# source $DOTFILES/home/zsh/EXA_COLORS
-
-# if _exists nvim; then
-#   if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
-#     export VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
-#   else
-#     export VISUAL='nvim'
-#   fi
-# else
-#   export VISUAL='vim'
-# fi
-
-# if _exists fasd; then
-#   fasd_cache="${ZSH_CACHE_DIR}/fasd-init-cache"
-#   if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-#     fasd --init auto >| "$fasd_cache"
-#   fi
-#   source "$fasd_cache"
-#   unset fasd_cache
-
-#   alias v="f -e \"$VISUAL\""
-#   alias o='a -e open'
-# fi
-
-# export GPG_TTY=$(tty)
-# export EDITOR="$VISUAL"
-# # if _exists moar; then
-# #   export PAGER="moar"
-# # fi
-# export HOME_DIR="$DOTFILES/home"
-
-# if _exists go; then
-#   export PATH=$PATH:$HOME/code/go/bin
-# fi
-
-# if _exists cargo; then
-#   export PATH=$PATH:$HOME/.cargo/bin
-# fi
-
-# export PATH="/usr/local/sbin:$PATH"
-
-# # filename (if known), line number if known, falling back to percent if known,
-# # falling back to byte offset, falling back to dash
-# export LESSPROMPT='?f%f .?ltLine %lt:?pt%pt\%:?btByte %bt:-...'
-
-# # i = case-insensitive searches, unless uppercase characters in search string
-# # F = exit immediately if output fits on one screen
-# # M = verbose prompt
-# # R = ANSI color support
-# # S = chop long lines (rather than wrap them onto next line)
-# # X = suppress alternate screen
-# export LESS=iFMRSX
+export PATH="/usr/local/opt/postgresql@10/bin:/usr/local/opt/node@12/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+export PATH=$HOME_DIR/zsh/bin:$PATH
+export PATH="/usr/local/sbin:$PATH"
