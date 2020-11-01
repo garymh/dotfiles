@@ -30,6 +30,18 @@ local lsp_status = require('lsp-status')
   capabilities = lsp_status.capabilities
  })
 
+lsp_status.config({
+  kind_labels = {},
+  indicator_errors = '',
+  indicator_warnings = '',
+  indicator_info = '🛈',
+  indicator_hint = '❗',
+  indicator_ok = '',
+  spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
+  status_symbol = '𝓵',
+  select_symbol = nil
+})
+
  nvim_lsp.vimls.setup({
   on_attach = lsp_status.on_attach,
   capabilities = lsp_status.capabilities
