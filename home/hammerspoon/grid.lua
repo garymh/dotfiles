@@ -9,8 +9,8 @@ local wide_screen    = hs.screen.find(458627443)
 local macbook_screen = hs.screen.find(2077748985)
 local hyper          = { "cmd", "alt", "ctrl", "shift" }
 
-function on_macbook()
-  if hs.screen.mainScreen():name() == "Color LCD" then
+function onMacbook()
+  if hs.screen.mainScreen() == macbook_screen then
     return true
   else
     return false
@@ -54,19 +54,16 @@ function moveWindowToDisplay(d)
   moom:exit()
 end
 
-function adjust_moom (x, y, w, h)
-  -- hs.alert(hs.screen.mainScreen():id())
+function adjust_moom(x, y, w, h)
   hs.grid.set(hs.window.focusedWindow(), {x=x, y=y, w=w, h=h}, hs.screen.mainScreen())
   moom:exit()
 end
 
--- moom-like functionality
 moom = hs.hotkey.modal.new({"cmd"}, "f16")
 moom:bind({}, 'escape', function() moom:exit() end)
 moom:bind({}, 'space',  function() moom:exit() end)
 
 function moom:entered()
-  -- hs.alert(hs.screen.mainScreen():id())
   drawBorder()
 end
 
@@ -75,8 +72,12 @@ function moom:exited()
 end
 
 function youtube()
-  moveWindowToDisplay(2)
-  hs.grid.maximizeWindow()
+  if onMacbook() then
+    adjust_moom(5, 0, 5,  10)
+  else
+    moveWindowToDisplay(2)
+    hs.grid.maximizeWindow()
+  end
 end
 
 moom:bind({}, 'f', set_full_screen)
