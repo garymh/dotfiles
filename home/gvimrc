@@ -1,4 +1,4 @@
-set guifont=FixedsysExcelsiorIIIbNerdFont-:h24
+set guifont=JuliaMono-Regular:h24
 " set guioptions -=m
 " set guioptions -=T
 " set guioptions=e  " instead of clearing this, set it to only `e`
