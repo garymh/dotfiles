@@ -142,6 +142,7 @@ alias -g RES='RAILS_ENV=staging'
 # work!
 alias grho="git back-to-origin"
 alias grbm="git rebase master"
+alias gp="git push"
 alias harness="scripts/security-harness"
 alias gpf="git push --force"
 alias amend="git commit --amend"
