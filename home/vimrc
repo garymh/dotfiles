@@ -31,7 +31,7 @@ endfunction
 
 " standard {{{ "
   Plug 'tpope/vim-unimpaired'
-  Plug 'EinfachToll/DidYouMean'
+  " Plug 'EinfachToll/DidYouMean'
   Plug 'tpope/vim-sleuth'
 " }}} standard "
 
