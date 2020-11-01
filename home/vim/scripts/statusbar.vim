@@ -2,6 +2,13 @@ if has('nvim')
   " Cool bubble design blatantly ripped off from @elenapan's brilliant dotfiles:
   " https://github.com/elenapan/dotfiles
 
+  " windowsizes
+  " mbp screen: 146
+  let g:max_screen = 146
+  let g:three_fourths_screen = g:max_screen * 0.75
+  let g:half_screen = g:max_screen / 2
+  let g:quarter_screen = g:half_screen / 2
+
   function! SetColors(dark, light, text) " {{{
     execute 'highlight BubbleLeft guifg=' . a:dark . ' guibg=bg'
     execute 'highlight BubbleInner1 guifg=' . a:text . ' guibg=' . a:dark
@@ -52,7 +59,7 @@ if has('nvim')
   endfunction
 
   function! StatusbarFilename()
-    return (StatusbarRawFilename() !=# '' ? (StatusbarRawFilename()) : 'newfile') .
+    return (FilenameDisplay() !=# '' ? (FilenameDisplay()) : 'newfile') .
           \ (StatusbarReadonly() !=# '' ? StatusbarReadonly() . ' ' : '')
   endfunction
 
@@ -63,7 +70,7 @@ if has('nvim')
   function! StatusbarBranch()
     let branch = ""
     if gitbranch#name() !=# ''
-      if winwidth(0) > 70
+      if winwidth(0) > g:half_screen
         let branch = gitbranch#name()[0:15]
       else
         let branch = gitbranch#name()[0:5]
@@ -87,12 +94,23 @@ if has('nvim')
       \)
   endfunction
 
-  function! StatusbarRawFilename()
-    return winwidth(0) < 90 ? expand('%:t') : expand('%')
+  function! RawFilename()
+    let l:original = expand('%:t')
+    let l:dotfiles_mod = substitute(l:original, "/Users/gary/", "HOME", "")
+
+    return l:dotfiles_mod
+  endfunction
+
+  function! FilenameDisplay()
+    return winwidth(0) < g:half_screen ? RawFilename() : expand('%')
   endfunction
 
   function! StatusbarFileencoding()
-    return winwidth(0) > 70 && &ft !~# g:plugin_filetypes ? (strlen(&fenc) ? &fenc : &enc) : ''
+    return winwidth(0) > g:quarter_screen && &ft !~# g:plugin_filetypes ? (strlen(&fenc) ? &fenc : &enc) : ''
+  endfunction
+
+  function! StatusbarScrollStatus()
+    return winwidth(0) < g:three_fourths_screen ? "" : ScrollStatus()
   endfunction
 
   function! StatusbarFileformat()
@@ -108,7 +126,8 @@ if has('nvim')
   endfunction
 
   function! StatusbarCocStatus()
-    return LspStatus()
+    " return LspStatus()
+    return winwidth(0) < g:half_screen ? '' : LspStatus()
   endfunction
 
   function! DrawStatusbar()
@@ -151,7 +170,8 @@ if has('nvim')
       let statusline .= StatusBubble('#E2A578', "%{StatusbarFileencoding()}")
     endif
 
-    let statusline .= "%#Scrollbar#\  %{ScrollStatus()}"
+    " let statusline .= "#{StatusbarScrollStatus()}"
+    let statusline .= "%#Scrollbar#\  %{StatusbarScrollStatus()}"
 
     let statusline .= "%="
 
@@ -174,7 +194,7 @@ if has('nvim')
     let l:rhs=''
     let l:column=virtcol('.')
 
-    if winwidth(0) > 80
+    if winwidth(0) > g:quarter_screen
       let l:width=virtcol('$')
       let l:rhs.=' '
       let l:rhs.=l:column
@@ -195,7 +215,8 @@ if has('nvim')
   endfunction
 
   function! NearestMethodOrFunction() abort
-    return get(b:, 'vista_nearest_method_or_function', '')
+    " return get(b:, 'vista_nearest_method_or_function', '')
+    return winwidth(0) < g:half_screen ? '' : get(b:, 'vista_nearest_method_or_function', '')
   endfunction
 
   function! StatusLineColors()
