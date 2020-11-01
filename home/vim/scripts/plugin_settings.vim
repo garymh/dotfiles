@@ -416,6 +416,10 @@ scriptencoding utf-8
   " cool boxes: ░▒▓
 " }}} git-gutter "
 
+" fzf-checkout.vim {{{ "
+  let g:fzf_checkout_git_options = '--sort=-committerdate'
+" }}} fzf-checkout.vim "
+
 " dim-inactive {{{ "
   let g:diminactive_enable_focus = 1
   let g:diminactive_use_colorcolumn = 1
