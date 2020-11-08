@@ -48,6 +48,7 @@ function gac() { git_command add -A && git_command commit -avm "$*" }
 function gc() { git_command add -A && git_command commit -av }
 function gpn() { git_command push -o ci.skip }
 function combine() { git_command combine-commits $1 }
+function savepage() { monolith $1 -o ~/Documents/Reference/$2 }
 
 fuzzydiff() { git fuzzy diff }
 zle -N fuzzydiff{,}
