@@ -1,7 +1,7 @@
 [core]
   excludesfile = ~/code/dotfiles/home/gitignore_global
   whitespace   = space-before-tab,-indent-with-non-tab,trailing-space
-	pager = diff-so-fancy | less --tabs=4 -RFX
+  pager        = delta | less --tabs=4 -RFX
   editor       = nvim
 
   # Make `git rebase` safer on OS X
@@ -41,81 +41,114 @@
   diff        = auto
   interactive = auto
   status      = auto
-  ui = true
+  ui          = true
+
 [web]
-  browser     = open
+  browser = open
+
 [status]
   showUntrackedFiles = all
+
 [help]
-  autocorrect   = 1
+  autocorrect = 1
+
 [difftool "kitty"]
   cmd = kitty +kitten diff $LOCAL $REMOTE
+
 [difftool "kitty.gui"]
   cmd = kitty kitty +kitten diff $LOCAL $REMOTE
+
 [difftool "Kaleidoscope"]
   cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+
 [mergetool "Kaleidoscope"]
   cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
   trustexitcode = true
+
 [merge]
-  ff = only
-  tool = Kaleidoscope
+  ff          = only
+  tool        = Kaleidoscope
   renamelimit = 2305
+
 [mergetool]
   tool       = Kaleidoscope
   prompt     = false
   keepBackup = false
+
 [diff]
   tool = Kaleidoscope
+
 [commit]
-  gpgsign      = true
+  gpgsign = true
+
 [filter "lfs"]
-  required     = true
-  clean        = git-lfs clean -- %f
-  smudge       = git-lfs smudge -- %f
-  process      = git-lfs filter-process
+  required = true
+  clean    = git-lfs clean -- %f
+  smudge   = git-lfs smudge -- %f
+  process  = git-lfs filter-process
+
  [include]
-   path         = ~/.gitconfig.local
- [includeIf "gitdir:~/code/work/"]
-   path         = ~/.gitconfig.work
+   path    = ~/.gitconfig.local
+
+[includeIf "gitdir:~/code/work/"]
+  path     = ~/.gitconfig.work
+
 [rebase]
   autoStash = true
   autosquash = true
+
 [apply]
   whitespace = nowarn
+
 [branch]
   autosetuprebase = always
+
 [gpg]
   program = gpg2
+
 [push]
   default = upstream
+
 [pull]
   default = current
   ff = only
+
 [url "git@github.com:"]
   insteadOf = https://github.com/
+
 [url "git@gitlab.com:"]
   insteadOf = https://gitlab.com/
+
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
+
 [mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[commit]
-  template = ~/code/dotfiles/git/commit.template
+  cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
 
 [color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
+
 [color "diff"]
-	meta = yellow
-	frag = magenta bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
-[diff-so-fancy]
-	first-run = false
+  meta = yellow
+  frag = magenta bold
+  commit = yellow bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  features = side-by-side line-numbers decorations
+  whitespace-error-style = 22 reverse
+
+[delta "decorations"]
+  commit-decoration-style = bold yellow box ul
+  file-style = bold yellow ul
+  file-decoration-style = none
