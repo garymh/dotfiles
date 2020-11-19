@@ -18,17 +18,18 @@ alias egit="$VISUAL $HOME_DIR/gitconfig"
 alias zshrc="$VISUAL $HOME_DIR/zshrc"
 alias ekitty="$VISUAL $HOME_DIR/kitty/kitty.conf"
 alias g="git"
-alias oc=OVERCOMMIT_DISABLE=1
+alias lh=LEFTHOOK=0
+alias oc=lh
 
 alias kd="kitty +kitten diff"
 
 alias gam='git commit --amend -C HEAD' # Commit current staged files and amend it to the previous commit message without changing the commit or being prompted
 alias gdb="git branch --merged | egrep -v \"(^\*|master|develop|dev|staging|production)\" | xargs git branch -d" # Delete all local branches that have been merged into HEAD
-alias gpm="git push -u origin -o merge_request.create -o merge_request.remove_source_branch -o merge_request.label='frontend'" # Push the current branch and create a merge request for it
+alias gpm="git push -u origin -o merge_request.create -o merge_request.remove_source_branch -o merge_request.label='backend'" # Push the current branch and create a merge request for it
 alias gfo="git fetch origin"
 alias branch="git branch --show-current"
 
-alias gdkup="gdk update && gdk reconfigure && git checkout db/structure.sql"
+alias gdkup="gdk update && gdk reconfigure && be rake db:migrate && git checkout $HOME/code/work/gdk/gitlab/db/structure.sql"
 
 alias file_size="du -sh"
 
@@ -140,9 +141,14 @@ alias -g RET='RAILS_ENV=test'
 alias -g RES='RAILS_ENV=staging'
 
 # work!
+alias be="bundle exec"
 alias grho="git back-to-origin"
+alias gcm="git checkout master"
 alias grbm="git rebase master"
+alias grbi="git rebase -i"
+alias grb="git rebase"
 alias gp="git push"
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias harness="scripts/security-harness"
 alias gpf="git push --force"
 alias amend="git commit --amend"

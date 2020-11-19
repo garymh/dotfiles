@@ -44,6 +44,7 @@ alias gpu='[[ -z $(git config "branch.$(git symbolic-ref --short HEAD).merge") ]
            git push -u origin $(git symbolic-ref --short HEAD) ||
            git push'
 
+function grbn() { git rebase -i HEAD~$1 }
 function gac() { git_command add -A && git_command commit -avm "$*" }
 function gc() { git_command add -A && git_command commit -av }
 function gpn() { git_command push -o ci.skip }
