@@ -83,8 +83,7 @@ scriptencoding utf-8
 " nerdfont {{{ "
   let g:fern#renderer                          = "devicons"
   let g:fern#disable_default_mappings          = 1
-  let g:fern#disable_drawer_auto_quit          = 1
-  let g:fern#disable_viewer_hide_cursor        = 1
+  let g:fern#disable_drawer_smart_quit         = 1
   let g:fern#mark_symbol                       = '●'
   let g:fern_git_status#disable_ignored        = 1
   let g:fern_git_status#disable_untracked      = 1
@@ -297,10 +296,15 @@ scriptencoding utf-8
 " }}} ragtag "
 
 " indentLine {{{ "
-  let g:indentLine_char_list       = ['▒']
-  let g:indent_blankline_char      = 'f'
-  let g:indentLine_fileTypeExclude = ['help', 'netrw', 'fzf']
-  let g:indentLine_faster          = 1
+
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level           = 2
+let g:indent_guides_exclude_filetypes     = ['help', 'nerdtree', 'fzf']
+let g:indent_guides_color_change_percent  = 5
+  " let g:indentLine_char_list       = ['▒']
+  " let g:indent_blankline_char      = 'f'
+  " let g:indentLine_fileTypeExclude = ['help', 'netrw', 'fzf']
+  " let g:indentLine_faster          = 1
 " }}} indentLine "
 
 " vim-sayonara {{{ "

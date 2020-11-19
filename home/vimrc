@@ -166,7 +166,8 @@ endfunction
       Plug 'camspiers/animate.vim'
       Plug 'ojroques/vim-scrollstatus'
       Plug 'norcalli/nvim-colorizer.lua'
-      Plug 'lukas-reineke/indent-blankline.nvim'
+      " Plug 'lukas-reineke/indent-blankline.nvim'
+      Plug 'yuntan/neovim-indent-guides'
     " }}} pretty things "
 
     " completions {{{ "
