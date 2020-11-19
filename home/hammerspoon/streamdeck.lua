@@ -69,6 +69,10 @@ function zoomClose(deck, isDown)
     end
 end
 
+function openGitlabScript(script)
+ hs.execute("source " .. zsh_env .. " && ~/.zsh/bin/" .. script)
+end
+
 function toggleThing(deck, isDown)
     if isDown then
         deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.orange)
@@ -128,7 +132,7 @@ function deckButtonEvent(deck, button, isDown)
                 if hs.eventtap.checkKeyboardModifiers().cmd then
                     hs.urlevent.openURL("https://gitlab.com/dashboard/issues?assignee_username=garyh")
                 else
-                    hs.execute(system_ruby .. " /Users/gary/.zsh/bin/glissue")
+                    openGitlabScript('glissue')
                 end
             end
         end
@@ -140,7 +144,7 @@ function deckButtonEvent(deck, button, isDown)
                 if hs.eventtap.checkKeyboardModifiers().cmd then
                     hs.urlevent.openURL("https://gitlab.com/dashboard/merge_requests?assignee_username=garyh")
                 else
-                    hs.execute(system_ruby .. " /Users/gary/.zsh/bin/glmr")
+                    openGitlabScript('glmr')
                 end
             end
         end
@@ -225,7 +229,7 @@ function zoomCallback(appName, eventType, appObject)
 end
 
 hs.streamdeck.init(streamDeckDiscovery)
-hs.timer.doAt("23:59",streamDeckDiscovery)
-hs.timer.doAt("08:00",streamDeckDiscovery)
+hs.timer.doAt("23:59", "1d", streamDeckDiscovery)
+hs.timer.doAt("08:00", "1d", streamDeckDiscovery)
 zoomWatcher = hs.application.watcher.new(zoomCallback)
 zoomWatcher:start()

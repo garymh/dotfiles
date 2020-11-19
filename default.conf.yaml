@@ -13,6 +13,7 @@
     ~/.rgignore: home/agignore
     ~/.fdignore: home/agignore
     ~/.batconfig: home/batconfig
+    ~/.shellenv: home/shell_env
     ~/.ignore: home/agignore
     ~/.gemrc: home/gemrc
     ~/.gitconfig: home/gitconfig

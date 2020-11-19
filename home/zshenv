@@ -27,3 +27,7 @@ export PATH="/usr/local/opt/icu4c/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 export PATH=$HOME_DIR/zsh/bin:$PATH
 export PATH="/usr/local/sbin:$PATH"
+
+for f in ~/.zsh/private/*.zsh(N); do
+  [ -e "$f" ] && source $f || break
+done

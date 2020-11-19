@@ -93,8 +93,6 @@ zi0c
 zinit load RobSis/zsh-completion-generator
 
 zinit wait lucid light-mode for \
-  atinit"zicompinit; zicdreplay" \
-      zdharma/fast-syntax-highlighting \
   atload"_zsh_autosuggest_start" \
       zsh-users/zsh-autosuggestions \
   blockf atpull'zinit creinstall -q .' \
@@ -203,10 +201,6 @@ if [[ ! -d ~/.tmux/plugins/tpm ]]; then
 fi
 
 for f ($HOME/.zsh/*.zsh) { source $f }
-
-for f in ~/.zsh/private/*.zsh(N); do
-  [ -e "$f" ] && source $f || break
-done
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
