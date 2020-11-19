@@ -59,6 +59,9 @@
 
     ~/.tmux.conf: home/tmux.conf
 
+    ~/code/work/gdk/gitlab/spec/support/helpers/gary_spec_helper.rb: gitlab/spec_helper.rb
+    ~/code/work/gdk/gitlab/config/initializers/gary_hacks.rb: gitlab/hacks.rb
+
 - shell:
     - ["touch ~/.hushlogin", "Hushing login"]
     - ["touch ~/.rm_recycle", "Enabling recyling"]

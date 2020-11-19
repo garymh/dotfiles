@@ -87,4 +87,5 @@ tags\~
 all_models
 all_lib
 all_specs
-gary_hackz.rb
+gary_hacks.rb
+gary_spec_helper.rb
