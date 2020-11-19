@@ -49,21 +49,24 @@ endfunction
   Plug 'lambdalisue/suda.vim'
 " }}} almost standard "
 
-" looks {{{ "
+" looks and colorschemes {{{ "
   " Plug 'blueyed/vim-diminactive'
-  " Plug 'cocopon/iceberg.vim'
+  Plug 'cocopon/iceberg.vim'
   Plug 'airblade/vim-gitgutter'
-  Plug 'chuling/equinusocio-material.vim'
   Plug 'frazrepo/vim-rainbow'
   Plug 'google/vim-searchindex'
   Plug 'itchyny/vim-gitbranch'
   Plug 'sainnhe/artify.vim'
-  Plug 'Yggdroot/indentLine'
+  " Plug 'Yggdroot/indentLine'
 
+  Plug 'romgrk/barbar.nvim'
+  Plug 'kyazdani42/nvim-web-devicons'
   Plug 'kyazdani42/blue-moon'
   Plug 'nanotech/jellybeans.vim'
   Plug 'wadackel/vim-dogrun'
-" }}} looks "
+  Plug 'eemed/sitruuna.vim'
+  Plug 'pgavlin/pulumi.vim'
+" }}} looks and colorschemes "
 
 " ruby {{{ "
   let ruby_filetypes = { 'for': ['ruby', 'eruby', 'slim', 'haml', 'rspec'] }
@@ -146,7 +149,6 @@ endfunction
   Plug 'airblade/vim-rooter'
   Plug 'liuchengxu/vista.vim',   { 'on': 'Vista' }
   Plug 'pechorin/any-jump.vim'
-  Plug 'sedm0784/vim-you-autocorrect'
   Plug 'sickill/vim-pasta'
   Plug 'tpope/vim-dadbod'
   Plug 'honza/vim-snippets'
@@ -174,13 +176,11 @@ endfunction
       Plug 'kristijanhusak/vim-dadbod-completion'
       Plug 'neovim/nvim-lspconfig'
       Plug 'nvim-lua/completion-nvim'
-      Plug 'nvim-lua/diagnostic-nvim'
       Plug 'nvim-lua/lsp-status.nvim'
       Plug 'steelsojka/completion-buffers'
-      Plug 'RishabhRD/popfix'
-      Plug 'RishabhRD/nvim-lsputils'
     " }}} completions "
 
+    Plug 'nathunsmitty/nvim-ale-diagnostic'
     Plug 'svermeulen/vimpeccable'
     " Plug 'mcchrish/info-window.nvim'
     Plug 'ripxorip/aerojump.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -193,8 +193,6 @@ endfunction
   else
     Plug 'lifepillar/vim-mucomplete'
     Plug 'tpope/vim-sensible'
-    " Plug 'roxma/nvim-yarp',          v:version >= 800 ? {} : { 'on': [], 'for': [] }
-    " Plug 'roxma/vim-hug-neovim-rpc', v:version >= 800 ? {} : { 'on': [], 'for': [] }
   endif
 " }}} mac/nvim "
 
@@ -224,7 +222,6 @@ if has('nvim')
   augroup compl
     autocmd!
     autocmd BufEnter * lua require'completion'.on_attach()
-    autocmd BufEnter * lua require'diagnostic'.on_attach()
   augroup END
 
   if !has('gui_vimr')
@@ -315,7 +312,7 @@ endif
       " let g:equinusocio_material_bracket_improved = 1
       " let g:equinusocio_material_less = 50
       " let g:equinusocio_material_style = 'darker'
-      colorscheme dogrun
+      colorscheme pulumi
     else
       colorscheme jellybeans
     endif

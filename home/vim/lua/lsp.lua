@@ -3,46 +3,39 @@
 --   highlight = {
 --     enable = true,
 --   },
---   -- navigation = {
---   --   enable = true,
---   --   keymaps = {
---   --     goto_definition = "gnd",
---   --     list_definitions = "gnD",
---   --   },
---   -- },
 -- }
 
-vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-vim.lsp.callbacks['textDocument/references'] = require'lsputil.locations'.references_handler
-vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
-vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = false,
+    virtual_text = false,
+    signs = true,
+    update_in_insert = false,
+  }
+)
 
 local lsp_status = require('lsp-status')
- lsp_status.register_progress()
- local nvim_lsp = require('nvim_lsp')
+local lspconfig  = require('lspconfig')
+lsp_status.register_progress()
 
- nvim_lsp.solargraph.setup({
-  on_attach = lsp_status.on_attach,
-  capabilities = lsp_status.capabilities
- })
+lspconfig.solargraph.setup({
+    on_attach = lsp_status.on_attach,
+    capabilities = lsp_status.capabilities
+  })
+
+lspconfig.vimls.setup({
+    on_attach    = lsp_status.on_attach,
+    capabilities = lsp_status.capabilities
+  })
 
 lsp_status.config({
-  kind_labels = {},
-  indicator_errors = '',
-  indicator_warnings = '',
-  indicator_info = '🛈',
-  indicator_hint = '❗',
-  indicator_ok = '',
-  spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
-  status_symbol = '𝓵',
-  select_symbol = nil
-})
-
- nvim_lsp.vimls.setup({
-  on_attach = lsp_status.on_attach,
-  capabilities = lsp_status.capabilities
- })
+    kind_labels        = {},
+    indicator_errors   = '',
+    indicator_warnings = '',
+    indicator_info     = '🛈',
+    indicator_hint     = '❗',
+    indicator_ok       = '',
+    spinner_frames     = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
+    status_symbol      = '𝓵',
+    select_symbol      = nil
+  })

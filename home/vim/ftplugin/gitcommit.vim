@@ -23,13 +23,3 @@ let b:ale_linters = ['vale']
 setlocal textwidth=51
 " setlocal colorcolumn=73
 setlocal colorcolumn=51,73
-
-
-" " if has('nvim-0.4')
-" "   set signcolumn="yes:1"
-" " endif
-
-augroup ILoveCorrections
-  autocmd!
-  autocmd BufEnter * EnableAutocorrect
-augroup END
