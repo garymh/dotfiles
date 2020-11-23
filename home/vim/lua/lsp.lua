@@ -1,9 +1,7 @@
--- require'nvim-treesitter.configs'.setup {
---   ensure_installed = "all",
---   highlight = {
---     enable = true,
---   },
--- }
+local lsp_status = require('lsp-status')
+lsp_status.register_progress()
+
+local lspconfig  = require('lspconfig')
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -14,12 +12,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
-local lsp_status = require('lsp-status')
-local lspconfig  = require('lspconfig')
-lsp_status.register_progress()
-
 lspconfig.solargraph.setup({
-    on_attach = lsp_status.on_attach,
+    on_attach    = lsp_status.on_attach,
     capabilities = lsp_status.capabilities
   })
 
@@ -29,7 +23,6 @@ lspconfig.vimls.setup({
   })
 
 lsp_status.config({
-    kind_labels        = {},
     indicator_errors   = '',
     indicator_warnings = '',
     indicator_info     = '🛈',
@@ -37,5 +30,10 @@ lsp_status.config({
     indicator_ok       = '',
     spinner_frames     = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
     status_symbol      = '𝓵',
-    select_symbol      = nil
   })
+
+local mapper = function(mode, key, result)
+  vim.api.nvim_buf_set_keymap(0, mode, key, result, {noremap = true, silent = true})
+end
+
+mapper('n', '<space>sl', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
