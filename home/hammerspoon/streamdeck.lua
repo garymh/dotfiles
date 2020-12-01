@@ -1,232 +1,212 @@
-on_image       = hs.image.imageFromPath("~/iCloud/Storage/streamdeck_icons/on.png")
-off_image      = hs.image.imageFromPath("~/iCloud/Storage/streamdeck_icons/off.png")
-iterm_image    = hs.image.imageFromPath("~/iCloud/Storage/streamdeck_icons/iterm.png")
-mute_off_image = hs.image.imageFromPath("~/iCloud/Storage/streamdeck_icons/mute_off.png")
-mute_on_image  = hs.image.imageFromPath("~/iCloud/Storage/streamdeck_icons/mute_on.png")
-issue_image    = hs.image.imageFromPath("~/iCloud/Storage/streamdeck_icons/issue.png")
-mr_image       = hs.image.imageFromPath("~/iCloud/Storage/streamdeck_icons/merge_request.png")
-record_image   = hs.image.imageFromPath("~/iCloud/Storage/streamdeck_icons/zoom_active.gif")
+icons_path = "~/iCloud/Storage/streamdeck_icons/"
 
-tweetbot = hs.application"Tweetbot"
-slack    = hs.application"Slack"
-reeder   = hs.application"Reeder"
-firefox  = hs.application"Firefox"
-zoom     = hs.application"zoom.us"
-
-function dateImage(date)
-    return hs.image.imageFromPath("~/iCloud/Storage/streamdeck_icons/" .. date ..  ".png")
+function streamDeckImage(filename)
+  return hs.image.imageFromPath(icons_path .. filename)
 end
 
 function checkMute()
-    if zoom then
-        if zoom:findMenuItem'Unmute Audio' then
-            return true
-        else
-            return false
-        end
+  if zoom then
+    print("fart")
+    if zoom:findMenuItem'Unmute Audio' then
+      print("bonza")
+      return true
     else
-        return hs.audiodevice.defaultInputDevice():muted()
+      return false
     end
+  else
+    return hs.audiodevice.defaultInputDevice():muted()
+  end
 end
 
 function anyDistractions()
 end
 
 function killDistractions(bool)
-    distractions = {tweetbot, slack, reeder, firefox}
+  distractions = {tweetbot, slack, reeder, firefox}
 
-    if bool == true then
-        for _index, app in pairs(distractions) do
-            if app then
-                app:kill()
-            end
-        end
-    else
+  if bool == true then
+    for _index, app in pairs(distractions) do
+      if app then
+        app:kill()
+      end
     end
-end
-
-function zoomClose(deck, isDown)
-    if isDown then
-        deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.orange)
-    else
-        -- if hs.eventtap.checkKeyboardModifiers().kmd then
-        --     deck:reset()
-        --     deck:setBrightness(0)
-        --     hs.settings.set("deck", nil)
-        -- else
-        --     if hs.settings.get("toggle") == true then
-        --         print("lo on")
-        --         hs.settings.set("toggle", nil)
-        --         streamDeck:setButtonImage(button, off_image)
-        --     else
-        --         print("lo off")
-        --         hs.settings.set("toggle", true)
-        --         streamDeck:setButtonImage(button, on_image)
-        --     end
-        -- end
-        -- -- deck:setButtonImage(2, hs.image.imageFromPath(""))
-        -- -- hs.application.launchOrFocus("iTerm")
-    end
+  else
+  end
 end
 
 function openGitlabScript(script)
- hs.execute("source " .. zsh_env .. " && ~/.zsh/bin/" .. script)
+  hs.execute("source " .. zsh_env .. " && ~/.zsh/bin/" .. script)
 end
 
 function toggleThing(deck, isDown)
-    if isDown then
-        deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.orange)
+  if isDown then
+    deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.orange)
+  else
+    if hs.eventtap.checkKeyboardModifiers().cmd then
+      deck:reset()
+      deck:setBrightness(0)
+      hs.settings.set("deck", nil)
     else
-        if hs.eventtap.checkKeyboardModifiers().cmd then
-            deck:reset()
-            deck:setBrightness(0)
-            hs.settings.set("deck", nil)
-        else
-            if hs.settings.get("toggle") == true then
-                print("lo on")
-                hs.settings.set("toggle", nil)
-                streamDeck:setButtonImage(button, off_image)
-            else
-                print("lo off")
-                hs.settings.set("toggle", true)
-                streamDeck:setButtonImage(button, on_image)
-            end
-        end
-        -- deck:setButtonImage(2, hs.image.imageFromPath(""))
-        -- hs.application.launchOrFocus("iTerm")
+      if hs.settings.get("toggle") == true then
+        hs.settings.set("toggle", nil)
+        streamDeck:setButtonImage(button, off_image)
+      else
+        hs.settings.set("toggle", true)
+        streamDeck:setButtonImage(button, on_image)
+      end
     end
+    -- deck:setButtonImage(2, hs.image.imageFromPath(""))
+    -- hs.application.launchOrFocus("iTerm")
+  end
 end
 
 function deckButtonEvent(deck, button, isDown)
 
-    if hs.settings.get("deck") == nil then
-        initialScreen(deck)
-        hs.settings.set("deck", true)
-    else
+  if hs.settings.get("deck") == nil then
+    initialScreen(deck)
+    hs.settings.set("deck", true)
+  else
 
-        print("deckButtonEvent: "..button.." isDown: "..(isDown and "YES" or "NO"))
-        if button == 1 then
-            zoomClose(deck, isDown)
-        end
-        if button == 2 then
-            if isDown then
-                deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.steelblue)
-            else
-                deck:setButtonImage(button, iterm_image)
-                hs.application.launchOrFocus("kitty")
-            end
-        end
-        if button == 3 then
-            if isDown then
-                deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.yellow)
-            else
-                deck:setButtonImage(button, dateImage(os.date('%d')))
-                hs.application.launchOrFocus("Calendar")
-            end
-        end
-        if button == 4 then
-            if isDown then
-                deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.seagreen)
-            else
-                deck:setButtonImage(button, issue_image)
-                if hs.eventtap.checkKeyboardModifiers().cmd then
-                    hs.urlevent.openURL("https://gitlab.com/dashboard/issues?assignee_username=garyh")
-                else
-                    openGitlabScript('glissue')
-                end
-            end
-        end
-        if button == 5 then
-            if isDown then
-                deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.darkslateblue)
-            else
-                deck:setButtonImage(button, mr_image)
-                if hs.eventtap.checkKeyboardModifiers().cmd then
-                    hs.urlevent.openURL("https://gitlab.com/dashboard/merge_requests?assignee_username=garyh")
-                else
-                    openGitlabScript('glmr')
-                end
-            end
-        end
-        if button == 6 then
-            if isDown then
-                if checkMute() then
-                    deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.red)
-                else
-                    deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.steelblue)
-                end
-            else
-                if checkMute() then
-                    -- print "-------------------------- UNMUTE"
-                    deck:setButtonImage(button, mute_off_image)
-                else
-                    -- print "-------------------------- MUTE"
-                    deck:setButtonImage(button, mute_on_image)
-                end
-                toggleMicMute()
-            end
-        end
+    if button == 1 then
+      zoomClose(deck, isDown)
     end
+    if button == 2 then
+      if isDown then
+        deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.steelblue)
+      else
+        deck:setButtonImage(button, iterm_image)
+        hs.application.launchOrFocus("Alacritty")
+      end
+    end
+    if button == 3 then
+      if isDown then
+        deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.yellow)
+      else
+        deck:setButtonImage(button, streamDeckImage(os.date('%d') .. ".png"))
+        hs.application.launchOrFocus("Calendar")
+      end
+    end
+    if button == 4 then
+      if isDown then
+        deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.seagreen)
+      else
+        deck:setButtonImage(button, issue_image)
+        if hs.eventtap.checkKeyboardModifiers().cmd then
+          hs.urlevent.openURL("https://gitlab.com/dashboard/issues?assignee_username=garyh")
+        else
+          openGitlabScript('glissue')
+        end
+      end
+    end
+    if button == 5 then
+      if isDown then
+        deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.darkslateblue)
+      else
+        deck:setButtonImage(button, mr_image)
+        if hs.eventtap.checkKeyboardModifiers().cmd then
+          hs.urlevent.openURL("https://gitlab.com/dashboard/merge_requests?assignee_username=garyh")
+        else
+          openGitlabScript('glmr')
+        end
+      end
+    end
+    if button == 6 then
+      if isDown then
+        if checkMute() then
+          deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.red)
+        else
+          deck:setButtonColor(button, hs.drawing.color.definedCollections.x11.steelblue)
+        end
+      else
+        toggleMicMute()
+        if checkMute() then
+          deck:setButtonImage(button, mute_on_image)
+        else
+          deck:setButtonImage(button, mute_off_image)
+        end
+      end
+    end
+  end
 end
 
 function appCallback(watcher)
 end
 
 function initialScreen(deck)
-    streamDeck = deck
-    streamDeck:setBrightness(100)
-    streamDeck:setButtonImage(1, on_image)
-    streamDeck:setButtonImage(2, iterm_image)
-    streamDeck:setButtonImage(3, dateImage(os.date('%d')))
-    streamDeck:setButtonImage(4, issue_image)
-    streamDeck:setButtonImage(5, mr_image)
-    if checkMute() then
-        streamDeck:setButtonImage(6, mute_on_image)
-    else
-        streamDeck:setButtonImage(6, mute_off_image)
-    end
+  streamDeck = deck
+  streamDeck:setBrightness(100)
+  streamDeck:setButtonImage(1, on_image)
+  streamDeck:setButtonImage(2, iterm_image)
+  streamDeck:setButtonImage(3, streamDeckImage(os.date('%d') .. ".png"))
+  streamDeck:setButtonImage(4, issue_image)
+  streamDeck:setButtonImage(5, mr_image)
+  if checkMute() then
+    streamDeck:setButtonImage(6, mute_on_image)
+  else
+    streamDeck:setButtonImage(6, mute_off_image)
+  end
 end
 
 function streamDeckDiscovery(isConnect, deck)
-    if isConnect then
-        -- print("Stream Deck connected: "..tostring(deck))
-        streamDeck = deck
-        streamDeck:reset()
-        streamDeck:setBrightness(100)
-        streamDeck:buttonCallback(deckButtonEvent)
+  if isConnect then
+    -- print("Stream Deck connected: "..tostring(deck))
+    streamDeck = deck
+    streamDeck:reset()
+    streamDeck:setBrightness(100)
+    streamDeck:buttonCallback(deckButtonEvent)
 
-        initialScreen(deck)
+    initialScreen(deck)
 
-        -- check
+    -- check
 
-        -- spoon.StreamDeckMicMuter:start(streamDeck, 6)
-        -- spoon.StreamDeckAudioDeviceCycle:start(streamDeck, 5)
-    else
-        -- print("Stream Deck disconnected")
-        -- spoon.StreamDeckMicMuter:stop()
-        -- spoon.StreamDeckAudioDeviceCycle:stop()
-        streamDeck = nil
-    end
+    -- spoon.StreamDeckMicMuter:start(streamDeck, 6)
+    -- spoon.StreamDeckAudioDeviceCycle:start(streamDeck, 5)
+  else
+    -- print("Stream Deck disconnected")
+    -- spoon.StreamDeckMicMuter:stop()
+    -- spoon.StreamDeckAudioDeviceCycle:stop()
+    streamDeck = nil
+  end
 end
 
 function handleAppEvent(element, event, watcher, userData)
-    if (event == "AXTitleChanged") then
-        if string.find(element:title(), "Zoom Meeting ID") then
-            if (hs.settings.get("in_meeting") == nil) then
-                hs.settings.set("in_meeting", "yes")
-            end
-            -- do the thing
-        end
+  if (event == "AXTitleChanged") then
+    if string.find(element:title(), "Zoom Meeting ID") then
+      if (hs.settings.get("in_meeting") == nil) then
+        hs.settings.set("in_meeting", "yes")
+      end
+      -- do the thing
     end
+  end
 end
 
 function zoomCallback(appName, eventType, appObject)
-    if (appName == "zoom.us") then
-        local events = hs.uielement.watcher
-        local watcher = appObject:newWatcher(handleAppEvent)
-        watcher:start({events.titleChanged})
-    end
+  if (appName == "zoom.us") then
+    local events = hs.uielement.watcher
+    local watcher = appObject:newWatcher(handleAppEvent)
+    print("fart2" .. appName .. eventType)
+    watcher:start({events.titleChanged})
+  end
 end
+
+on_image       = streamDeckImage("on.png")
+off_image      = streamDeckImage("off.png")
+iterm_image    = streamDeckImage("iterm.png")
+mute_off_image = streamDeckImage("mute_off.png")
+mute_on_image  = streamDeckImage("mute_on.png")
+issue_image    = streamDeckImage("issue.png")
+mr_image       = streamDeckImage("merge_request.png")
+record_image   = streamDeckImage("zoom_active.gif")
+
+tweetbot  = hs.application"Tweetbot"
+slack     = hs.application"Slack"
+reeder    = hs.application"Reeder"
+firefox   = hs.application"Firefox"
+zoom      = hs.application"zoom.us"
+spotify   = hs.application"Spotify"
+alacritty = hs.application"Alacritty"
+
+
 
 hs.streamdeck.init(streamDeckDiscovery)
 hs.timer.doAt("23:59", "1d", streamDeckDiscovery)

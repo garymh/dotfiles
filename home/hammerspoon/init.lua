@@ -1,4 +1,4 @@
-system_ruby = "/Users/gary/.rubies/ruby-2.6.6/bin/ruby"
+zsh_env = "~/.shellenv"
 
 require "grid"
 require "hyper"
@@ -18,6 +18,31 @@ end
 local function _resource_path(partial)
    return(_script_path(3) .. partial)
  end
+
+ function get_file_name(file)
+   return file:match("^.+/(.+)$")
+end
+
+hs.console.darkMode(true)
+hs.console.consoleFont{name = "FixedsysExcelsiorIIIb Nerd Font", size = 20}
+hs.console.outputBackgroundColor{ white = 0 }
+hs.console.consoleCommandColor{ white = 1 }
+
+hs.fileDroppedToDockIconCallback = function(file_string)
+  if string.find(file_string, "torrent") then
+    uti = hs.fs.fileUTI(file_string)
+    extension = hs.fs.fileUTIalternate(uti, "extension")
+    if extension == "torrent" then
+      filename = get_file_name(file_string)
+      if hs.fs.attributes("/Volumes/media") == nil then
+        os.execute("open 'smb://oracle/media'")
+      end
+      os.execute("cp " .. file_string .. " /Volumes/media/Torrents/" .. filename)
+      hs.alert("File copied")
+    end
+  else
+  end
+end
 
 hs.loadSpoon("SpoonInstall")
 spoon.SpoonInstall.use_syncinstall = true
@@ -54,7 +79,6 @@ Install:andUse("FadeLogo",
                }
                )
 
-local console     = require("hs.console")
 local requirePlus = require("utils.require")
 local crash       = require("hs.crash")
 local window      = require("hs.window")
@@ -64,16 +88,6 @@ local timer       = require("hs.timer")
 local ipc         = require("hs.ipc")
 local alert       = require("hs.alert")
 local image       = require("hs.image")
-
-window.animationDuration = 0
-if console.darkMode() then
-    console.outputBackgroundColor{ white = 0 }
-    console.consoleCommandColor{ white = 1 }
-else
-    console.windowBackgroundColor({red=.6,blue=.7,green=.7})
-    console.outputBackgroundColor({red=.8,blue=.8,green=.8})
-end
-
 
 -- TODO:
 

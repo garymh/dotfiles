@@ -9,13 +9,6 @@ function custom_read_from(file)
   return lines
 end
 
-function update_gitlab()
-  hs.execute(system_ruby .. " /Users/gary/.zsh/bin/glupdate")
-end
-
-hs.timer.doEvery(3600, update_gitlab)
-update_gitlab()
-
 function custom_max_key(t)
   max_k, max_v = nil, 0
   for index,value in pairs(t) do

@@ -4,10 +4,11 @@ hs.grid.MARGINX             = 0
 hs.grid.MARGINY             = 0
 hs.window.animationDuration = 0.01
 
-local tall_screen    = hs.screen.find(458678080)
-local wide_screen    = hs.screen.find(458627443)
-local macbook_screen = hs.screen.find(2077748985)
-local hyper          = { "cmd", "alt", "ctrl", "shift" }
+wide_screen    = hs.screen.find("4256FDCC-6AF8-5617-F1E1-9C84B1412690")
+tall_screen    = hs.screen.find("8B9A0CEE-A3DD-776E-F3B1-B922AF4D4134")
+portable       = hs.screen.find("C8C31A29-83A5-EAD6-AD1C-17ECADF088CE")
+macbook_screen = hs.screen.find(2077748985)
+hyper          = { "cmd", "alt", "ctrl", "shift" }
 
 function onMacbook()
   if hs.screen.mainScreen() == macbook_screen then
@@ -47,10 +48,21 @@ local function set_full_screen()
   moom:exit()
 end
 
-function moveWindowToDisplay(d)
-  local displays = hs.screen.allScreens()
-  local win      = hs.window.focusedWindow()
-  win:moveToScreen(displays[d], false, true)
+function moveWindowToDisplay(display)
+  local win = hs.window.focusedWindow()
+
+  if win:isFullScreen() then
+    win:setFullScreen(false)
+    win:moveToScreen(display, false, true)
+    win:setFullScreen(true)
+  elseif display == portable then
+    win:setFullScreen(false)
+    win:moveToScreen(portable, false, true)
+    win:setFullScreen(true)
+  else
+    win:moveToScreen(display, false, true)
+  end
+
   moom:exit()
 end
 
@@ -75,15 +87,16 @@ function youtube()
   if onMacbook() then
     adjust_moom(5, 0, 5,  10)
   else
-    moveWindowToDisplay(2)
+    moveWindowToDisplay(tall_screen)
     hs.grid.maximizeWindow()
   end
 end
 
 moom:bind({}, 'f', set_full_screen)
 
-moom:bind({}, '1', function() moveWindowToDisplay(1) end)
-moom:bind({}, '2', function() moveWindowToDisplay(2) end)
+moom:bind({}, '1', function() moveWindowToDisplay(wide_screen) end)
+moom:bind({}, '2', function() moveWindowToDisplay(tall_screen) end)
+moom:bind({}, '3', function() moveWindowToDisplay(portable) end)
 moom:bind({}, 'y', youtube)
 moom:bind({}, 'h', function() adjust_moom(0, 0, 5,  10) end)
 moom:bind({}, 'g', function() adjust_moom(0, 0, 7,  10) end)
