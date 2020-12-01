@@ -216,13 +216,14 @@ let g:which_key_rightbracket.o = {
 command! PrettyJSON execute "%!python -m json.tool"
 
 function! GoogleSearch()
-    let searchterm = escape(getreg("g"))
-    silent! exec "silent! !open \"http://google.com/search?q=" . searchterm . "\" &"
+    " let searchterm = escape(getreg("g"))
+    let searchterm = substitute(join(split(getreg("g")),"+"),'"',"","g")
+     silent! exec "silent! !open \"http://google.com/search?q=" . searchterm . "\" &"
 endfunction
 
 function! LuckySearch()
      let searchterm = substitute(join(split(getreg("g")),"+"),'"',"","g")
-     silent! exec "silent! !open \"https://duckduckgo.com/?q=\\" . searchterm . "&ia=web\""
+    silent! exec "silent! !open \"https://duckduckgo.com/?q=\\!ducky+" . searchterm . "&ia=web\""
 endfunction
 
 " Edit my filetype/syntax plugin files for current filetype.
@@ -356,9 +357,9 @@ command! InfoWindowCustomToggle call infowindow#toggle({} , { default_lines -> e
       map <silent> <leader>aa <Plug>(AerojumpFromCursorBolt)
       map <silent> <leader>ad <Plug>(AerojumpDefault) " Boring mode
       map <silent> <leader>T :TestFile<CR>
-      map <silent> <leader>b :Bonly<cr>
+      map <silent> <leader>b :BufferCloseAllButCurrent<cr>
       map <silent> <leader>g :G<cr>
-      map <silent> <leader>i :<c-u>let pc = (v:count1 ? v:count1 : 1)<cr>:read !tail -<c-r>=pc<cr> ~/.pry_history<cr>:.-<c-r>=pc-1<cr>:norm <c-r>=pc<cr>==<cr>
+      map <silent> <leader>i :<c-u>let pc = (v:count1 ? v:count1 : 1)<cr>:read !tail -<c-r>=pc<cr> ~/.irb_history<cr>:.-<c-r>=pc-1<cr>:norm <c-r>=pc<cr>==<cr>
       map <silent> <leader>c :t.<CR>k<Plug>CommentaryLinej
       map <silent> <leader>l :TestLast<CR>
       map <silent> <leader>sv :source $MYVIMRC<cr>
@@ -408,7 +409,7 @@ command! InfoWindowCustomToggle call infowindow#toggle({} , { default_lines -> e
       nmap <silent> <space>\ :call Vsplit()<CR>
       nmap <silent> <space>- :call Split()<CR>
       nmap <silent> <space>; :Commands<CR>
-      nmap <silent> <space>s :CocList snippets<CR>
+      nmap <silent> <space>s :Snippets<CR>
       nmap <silent> <space>c :Commits<CR>
       nmap <silent> <space>g :GFiles?<CR>
       nmap <silent> <space>h :Helptags<CR>
@@ -429,6 +430,7 @@ command! InfoWindowCustomToggle call infowindow#toggle({} , { default_lines -> e
     nmap <silent> ]<Tab> :SidewaysRight<cr>
     nmap <silent> [n :call mappings#cycle_numbering()<CR>
     nmap <silent> ]n :call mappings#cycle_numbering()<CR>
+    nmap <silent> dh :Deleft<CR>
     nmap <silent> ga <Plug>(EasyAlign)
     nmap <silent> gbc :GBranches create<SPACE>
     nmap <silent> gbd :GBranches delete<CR>
@@ -542,8 +544,8 @@ command! InfoWindowCustomToggle call infowindow#toggle({} , { default_lines -> e
   xnoremap < <gv
   xnoremap > >gv
   xnoremap @ :norm@
-  nmap s <Nop>
-  xmap s <Nop>
+  " nmap s <Nop>
+  " xmap s <Nop>
   noremap <leader>y "*y
   noremap <leader>p "*p
 " }}} should-be-defaults  "
