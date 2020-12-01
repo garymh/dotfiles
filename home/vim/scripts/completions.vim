@@ -35,7 +35,7 @@ if has('nvim')
         \    {'mode': '<c-p>'}
         \],
         \ 'ruby': [
-        \    {'complete_items': ['snippet', 'lsp', 'buffers', 'path', 'tags' ]},
+        \    {'complete_items': ['snippet', 'lsp', 'buffers', 'path' ]},
         \    {'mode': '<c-n>'},
         \    {'mode': '<c-p>'}
         \],
