@@ -45,7 +45,7 @@ require "#{ENV['HOME']}/.pryrc-helpers.rb"
 ___ = PryrcHelpers
 
 ___daily_gems  = %w[benchmark yaml json]
-___pry_gems = %w[awesome_print hirb pry-clipboard pry-doc pry-inline pry-loudmouth pry-theme pry-toys]
+___pry_gems = %w[awesome_print hirb pry-clipboard pry-doc pry-inline pry-theme pry-toys]
 
 ___daily_gems.___require_gems
 ___pry_gems.___require_gems
