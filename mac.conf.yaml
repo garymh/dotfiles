@@ -28,18 +28,22 @@
     ~/.gitconfig.local: home/zsh/private/gitconfig.local
     ~/.gitconfig.work: home/zsh/private/gitconfig.work
 
-- shell:
-    - ["xcode-select -p && echo 'Xcode tools installed' || xcode-select --install", "Installing Xcode command tools"]
-    - ["/usr/bin/ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"", "Installing homebrew"]
-
 - brewfile:
     - Brewfile
 
 - shell:
     - ["./npm_modules.sh", "Installing npm modules"]
-    - ["ruby-install --latest --no-reinstall --cleanup ruby", "Installing latest ruby"]
+    # - ["ruby-install --latest --no-reinstall --cleanup ruby", "Installing latest ruby"]
     - ["./dockutil_init.sh", "Fixing up Dock"]
-    - ["bundle", "Installing rubygems"]
+    # - ["bundle", "Installing rubygems"]
+    - ["~/code/dotfiles/home/zsh/bin/build_neovim", "Building Neovim"]
+    - ["./hide_folders.sh", "Hiding macos folders"]
+    - ["/usr/local/bin/nvim +PlugInstall +qall >/dev/null 2>&1", "Installing neovim plugins"]
+# sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
+# packer
+# vim-plug
+# make bootstrap with asdf?
+# symlink tool-versions
 
 - pip:
     file: requirements.txt
@@ -48,3 +52,7 @@
 
 - duti:
     file: Dutifile
+
+- shell:
+    - ["for f (/Applications/*.app) { sudo xattr -d -r com.apple.quarantine $f }", "Disable macos quarantine"]
+      # for f (~/Library/QuickLook/*.qlgenerator) { sudo xattr -d -r com.apple.quarantine $f }

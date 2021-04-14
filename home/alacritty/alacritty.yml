@@ -1,18 +1,49 @@
+env:
+  TERM: alacritty
 font:
   normal:
-    family: FixedsysExcelsiorIIIb Nerd Font
-    style: Book
+    # family: InputMonoCompressed Nerd Font
+    family: Sudo Nerd Font Mono
+    # family: FixedsysExcelsiorIIIb Nerd Font
+    # family: Dank Mono
+    # family: Iosevka Nerd Font Mono
+    style: Regular
+    # style: Book
   bold:
-    family: FixedsysExcelsiorIIIb Nerd Font
-    style: Book
-  italic:
-    family: FixedsysExcelsiorIIIb Nerd Font
-    style: Book
+    # family: InputMonoCompressed Nerd Font
+    # family: FixedsysExcelsiorIIIb Nerd Font
+    # family: InputMonoCompressed Nerd Font
+    family: Sudo Nerd Font Mono
+    # family: Dank Mono
+    # family: Iosevka Nerd Font Mono
+    style: Bold
+    # style: Regular
+    # style: Book
+    italic:
+    # family: InputMonoCompressed Nerd Font
+    family: Sudo Nerd Font Mono
+    # family: InputMonoCompressedCompressed Nerd Font
+    # family: FixedsysExcelsiorIIIb Nerd Font
+    # family: Dank Mono
+    # family: Iosevka Nerd Font Mono
+    style: Light Italic
+    # style: Italic
+    # style: Book
   bold_italic:
-    family: FixedsysExcelsiorIIIb Nerd Font
-    style: Book
-  size: 18.0
+    # family: InputMonoCompressedCompressed Nerd Font
+    # family: FixedsysExcelsiorIIIb Nerd Font
+    # family: InputMonoCompressed Nerd Font
+    family: Sudo Nerd Font Mono
+    # family: Dank Mono
+    # family: Iosevka Nerd Font Mono
+    style: Bold Italic
+    # style: Italic
+    # style: Book
+  size: 24.0
   use_thin_strokes: true
+  offset:
+    x: -1
+    y: -2
 
 draw_bold_text_with_bright_colors: true
 
@@ -34,21 +65,30 @@ key_bindings:
   - { key: D,        mods: Command,       chars: "\x00\x2d" }
   - { key: W,        mods: Command,       chars: "\x00\x78" }
   - { key: T,        mods: Command,       chars: "\x00\x63" }
+  - { key: Comma,     mods: Command,      command:
+      {program: "sh", args: ["-c","open ~/.config/alacritty/alacritty.yml"]}     }
+  - { key: N,         mods: Command,      action: SpawnNewInstance       }
+  - { key: Space,     mods: Alt,          chars: " "                     }
+  # - { key: Back, mods: Super, chars: "\x15" } # delete word/line
+  # - { key: Left,     mods: Alt,     chars: "\x1bb"                       } # one word left
+  # - { key: Right,    mods: Alt,     chars: "\x1bf"                       } # one word right
+  # - { key: Left,     mods: Command, chars: "\x1bOH",   mode: AppCursor   } # Home
+  # - { key: Right,    mods: Command, chars: "\x1bOF",   mode: AppCursor   } # End
 
 window:
   dimensions:
     columns: 0
     lines: 0
   padding:
-    x: 2
-    y: 2
-  dynamic_padding: false
+    x: 5
+    y: 5
+  dynamic_padding: true
   # Values for `decorations`:
   #     - full: Borders and title bar
   #     - none: Neither borders nor title bar
   #     - buttonless: Title bar, transparent background and title bar buttons
   #     - transparent: Title bar, transparent background, but no title bar buttons
-  decorations: full
+  decorations: buttonless
   startup_mode: Windowed
 
 scrolling:
@@ -60,7 +100,7 @@ scrolling:
 #   duration: 100
 #   color: '0x7A8087'
 
-background_opacity: 0.95
+background_opacity: 0.97
 
 mouse:
   double_click: { threshold: 300 }
@@ -69,9 +109,12 @@ mouse:
   url:
       launcher: open
 
+mouse_bindings:
+  - { mouse: Right,  action: Copy }
+
 selection:
-  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
-  save_to_clipboard: true
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+  save_to_clipboard: false
 
 # dynamic_title: true
 
@@ -81,3 +124,41 @@ cursor:
 
 live_config_reload: true
 
+# Base16 Default Dark 256 - alacritty color config
+# Chris Kempson (http://chriskempson.com)
+colors:
+  # Default colors
+  primary:
+    background: '0x181818'
+    foreground: '0xd8d8d8'
+    # Colors the cursor will use if `custom_cursor_colors` is true
+    cursor:
+      text: '0x181818'
+      cursor: '0xd8d8d8'
+      # Normal colors
+      normal:
+        black: '0x181818'
+        red: '0xab4642'
+        green: '0xa1b56c'
+        yellow: '0xf7ca88'
+        blue: '0x7cafc2'
+        magenta: '0xba8baf'
+        cyan: '0x86c1b9'
+        white: '0xd8d8d8'
+        # Bright colors
+      bright:
+        black: '0x585858'
+        red: '0xab4642'
+        green: '0xa1b56c'
+        yellow: '0xf7ca88'
+        blue: '0x7cafc2'
+        magenta: '0xba8baf'
+        cyan: '0x86c1b9'
+        white: '0xf8f8f8'
+      indexed_colors:
+        - { index: 16, color: '0xdc9656' }
+        - { index: 17, color: '0xa16946' }
+        - { index: 18, color: '0x282828' }
+        - { index: 19, color: '0x383838' }
+        - { index: 20, color: '0xb8b8b8' }
+        - { index: 21, color: '0xe8e8e8' }

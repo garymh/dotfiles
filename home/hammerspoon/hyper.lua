@@ -1,41 +1,45 @@
-local hyper = { "cmd", "alt", "ctrl", "shift" }
+function hide_toolbar(app, string) app:selectMenuItem("Hide " .. string) end
+function show_toolbar(app, string) app:selectMenuItem("Show " .. string) end
+
+function toggle(app, string)
+    if show_toolbar(app, string) then
+        show_toolbar(app, string)
+    else
+        hide_toolbar(app, string)
+    end
+
+end
 
 function cleanup_key()
-  local app = hs.application.frontmostApplication()
-  local name = app:name()
-  if name == 'Mail' then
-    if app:selectMenuItem("Hide Mailbox List") == nil then
-      app:selectMenuItem("Show Mailbox List")
-    end
-    if app:selectMenuItem("Hide Toolbar") == nil then
-      app:selectMenuItem("Show Toolbar")
-    end
-  elseif name == 'OmniFocus' then
-    if app:selectMenuItem("Hide Sidebar") == nil then
-      app:selectMenuItem("Show Sidebar")
+    local app = hs.application.frontmostApplication()
+    local name = app:name()
+    if name == 'Mail' then
+        toggle(app, "Mailbox List")
+        toggle(app, "Toolbar")
+    elseif name == 'OmniFocus' then
+        toggle(app, "Sidebar")
+    elseif name == 'Slack' then
+        hs.eventtap.keyStroke({'shift', 'cmd'}, 'D')
     else
-      app:selectMenuItem("Hide Sidebar")
+        toggle(app, "Toolbar")
     end
+end
+
+function next_song() hs.spotify.next() end
+
+function prev_song() hs.spotify.previous() end
+
+function play_pause() hs.spotify.playpause() end
+
+function show_hide_sicilio()
+  if hs.application "Silicio" == nil then
+    hs.application.launchOrFocus("Silicio")
   else
-    if app:selectMenuItem("Hide Toolbar") == nil then
-      app:selectMenuItem("Show Toolbar")
-    end
-  end
-end
-
-function next_song()
-  hs.spotify.next()
-end
-
-function prev_song()
-  hs.spotify.previous()
-end
-
-function play_pause()
-  hs.spotify.playpause()
+    hs.eventtap.keyStroke(hyper, '5')
+  end -- Silicio has its own show/hide thats bound to this key
 end
 
 hs.hotkey.bind(hyper, 'F16', cleanup_key)
 hs.hotkey.bind(hyper, 'right', next_song)
 hs.hotkey.bind(hyper, 'left', prev_song)
-hs.hotkey.bind(hyper, 'down', play_pause)
+hs.hotkey.bind(hyper, 'up', show_hide_sicilio)

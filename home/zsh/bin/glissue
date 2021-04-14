@@ -3,7 +3,11 @@
 
 require_relative 'glhelper'
 
-issues = JSON.parse(File.read('/tmp/gitlab/issues.json'))
-issue = issues.find { |i| i["iid"] == @branch.split("-").first.to_i }
+if on_default_branch?
+  `open "https://gitlab.com/dashboard/issues?assignee_username=garyh"`
+else
+  issues = JSON.parse(File.read('/tmp/gitlab/issues.json'))
+  issue  = issues.find { |i| i["iid"] == @branch.split("-").first.to_i }
 
-`open #{issue["web_url"]}`
+  `open #{issue["web_url"]}`
+end

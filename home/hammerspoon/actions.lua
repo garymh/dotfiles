@@ -3,7 +3,7 @@ function action_key()
   local name = app:name()
 
   if name == 'Mail' then
-    hs.eventtap.keyStroke({'alt', 'cmd'}, 'f')
+    hs.eventtap.keyStroke({'shift', 'cmd'}, 'u')
   elseif name == 'OmniFocus' then
     hs.eventtap.keyStroke({'alt', 'cmd'}, 'i')
   elseif name == 'Finder' then
@@ -38,4 +38,19 @@ function action_key()
   end
 end
 
+function shift_action_key()
+  local app = hs.application.frontmostApplication()
+  local name = app:name()
+
+  if name == 'Mail' then
+    app:selectMenuItem("Toggle Flag")
+  -- elseif name == 'OmniFocus' then
+  else
+    hs.alert("Unknown application")
+  end
+    -- hs.alert("woop woop")
+  -- app:selectMenuItem("Bring All to Front")
+end
+
+hs.hotkey.bind({"shift"}, 'F16', shift_action_key)
 hs.hotkey.bind({""}, 'F16', action_key)

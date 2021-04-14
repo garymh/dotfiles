@@ -1,12 +1,10 @@
 if [[ -f ~/.fzf.zsh ]]; then
-  # export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
   export FZF_DEFAULT_COMMAND='fd --type f --color=always --hidden -L'
-  export FZF_DEFAULT_OPTS="--height 25%
-                           --ansi
+  export FZF_DEFAULT_OPTS="--ansi
                            --info=inline
                            --multi --reverse
-                           --header '? - toggle preview, <C-f/b> pages, <C-o> opens, <C-y> copies'
-                           --preview-window=right:60%:wrap
+                           --header '? - toggle preview, <C-f/b> pages, <C-o> opens, <C-y> copies, <C-a> all+confirm'
+                           --preview-window='right:50%:hidden'
                            --bind '?:toggle-preview'
                            --bind 'ctrl-a:select-all+accept'
                            --bind 'ctrl-o:execute[open {}]'

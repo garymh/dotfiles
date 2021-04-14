@@ -28,6 +28,7 @@
     ~/.solargraph.yml: home/solargraph.yml
     ~/.vale.ini: home/vale.ini
     ~/.xvimrc: home/xvimrc
+    ~/.config/nvim/init.lua: home/init.lua
     ~/.zshenv: home/zshenv
     ~/.zshrc: home/zshrc
     ~/.zsh: home/zsh/
@@ -38,21 +39,20 @@
 
     ~/.vimrc: home/vimrc
     ~/.vimrc_min: home/vimrc.min
-    ~/.config/nvim/init.vim: home/vimrc
 
     ~/.vim/autoload: home/vim/autoload
     ~/.vim/syntax: home/vim/syntax
     ~/.vim/ftplugin: home/vim/ftplugin/
     ~/.vim/ftdetect: home/vim/ftdetect/
     ~/.vim/UltiSnips: home/vim/UltiSnips/
-    ~/.vim/scripts: home/vim/scripts/
+    ~/.vim/scripts: home/vim/vimscript/
     ~/.vim/spell: home/vim/spell/
 
     ~/.config/nvim/UltiSnips: home/vim/UltiSnips
     ~/.config/nvim/autoload: home/vim/autoload/
     ~/.config/nvim/ftdetect: home/vim/ftdetect/
     ~/.config/nvim/ftplugin: home/vim/ftplugin/
-    ~/.config/nvim/scripts: home/vim/scripts/
+    ~/.config/nvim/vimscript: home/vim/vimscript/
     ~/.config/nvim/after: home/vim/after/
     ~/.config/nvim/syntax: home/vim/syntax/
     ~/.config/nvim/lua: home/vim/lua/
@@ -62,12 +62,13 @@
 
     ~/code/work/gdk/gitlab/spec/support/helpers/gary_spec_helper.rb: gitlab/spec_helper.rb
     ~/code/work/gdk/gitlab/config/initializers/gary_hacks.rb: gitlab/hacks.rb
+    ~/code/work/gdk/gitlab/config/initializers/rails.rb: gitlab/rails.rb
 
 - shell:
     - ["touch ~/.hushlogin", "Hushing login"]
     - ["touch ~/.rm_recycle", "Enabling recyling"]
     - ["[ -d ~/.vim/tmp ] || mkdir ~/.vim/tmp", "Creating vim temp dir if needed"]
-    - ["tic home/terms/tmux.terminfo", "Installing tmux color profile"]
-    - ["tic home/terms/tmux-256color.terminfo", "Installing tmux-256 color profile"]
-    - ["tic home/terms/xterm-256color.terminfo", "Installing xterm color profile"]
-    - ["tic home/terms/xterm-256color-italic.terminfo", "Installing xterm italic color profile"]
+#     - ["tic home/terms/tmux.terminfo", "Installing tmux color profile"]
+#     - ["tic home/terms/tmux-256color.terminfo", "Installing tmux-256 color profile"]
+#     - ["tic home/terms/xterm-256color.terminfo", "Installing xterm color profile"]
+#     - ["tic home/terms/xterm-256color-italic.terminfo", "Installing xterm italic color profile"]

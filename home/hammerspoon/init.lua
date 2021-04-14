@@ -1,32 +1,48 @@
 zsh_env = "~/.shellenv"
 
+hyper = {"cmd", "alt", "ctrl", "shift"}
+
+function sendSystemKey(key)
+    hs.eventtap.event.newSystemKeyEvent(key, true):post()
+    hs.eventtap.event.newSystemKeyEvent(key, false):post()
+end
+
+tweetbot  = hs.application "Tweetbot"
+tweetbot  = hs.application "Calendar"
+slack     = hs.application "Slack"
+reeder    = hs.application "Reeder"
+firefox   = hs.application "Firefox"
+zoom      = hs.application "zoom.us"
+spotify   = hs.application "Spotify"
+alacritty = hs.application "Alacritty"
+
+function showOrHide(application)
+  if hs.application.frontmostApplication() == hs.application(application) then
+    hs.application(application):hide()
+  else
+    hs.application.launchOrFocus(application)
+  end
+end
+
 require "grid"
 require "hyper"
 require "actions"
-require "scenarios"
-require "micmute"
-require "streamdeck"
-
-local hyper = { "cmd", "alt", "ctrl", "shift" }
+require "knob"
 
 local function _script_path(n)
-   if n == nil then n = 2 end
-   local str = debug.getinfo(n, "S").source:sub(2)
-   return str:match("(.*/)")
+  if n == nil then n = 2 end
+  local str = debug.getinfo(n, "S").source:sub(2)
+  return str:match("(.*/)")
 end
 
-local function _resource_path(partial)
-   return(_script_path(3) .. partial)
- end
+local function _resource_path(partial) return (_script_path(3) .. partial) end
 
- function get_file_name(file)
-   return file:match("^.+/(.+)$")
-end
+function get_file_name(file) return file:match("^.+/(.+)$") end
 
 hs.console.darkMode(true)
-hs.console.consoleFont{name = "FixedsysExcelsiorIIIb Nerd Font", size = 20}
-hs.console.outputBackgroundColor{ white = 0 }
-hs.console.consoleCommandColor{ white = 1 }
+hs.console.consoleFont {name = "FixedsysExcelsiorIIIb Nerd Font", size = 20}
+hs.console.outputBackgroundColor {white = 0}
+hs.console.consoleCommandColor {white = 1}
 
 hs.fileDroppedToDockIconCallback = function(file_string)
   if string.find(file_string, "torrent") then
@@ -38,6 +54,7 @@ hs.fileDroppedToDockIconCallback = function(file_string)
         os.execute("open 'smb://oracle/media'")
       end
       os.execute("cp " .. file_string .. " /Volumes/media/Torrents/" .. filename)
+      os.execute("rm " .. file_string)
       hs.alert("File copied")
     end
   else
@@ -46,38 +63,24 @@ end
 
 hs.loadSpoon("SpoonInstall")
 spoon.SpoonInstall.use_syncinstall = true
-Install=spoon.SpoonInstall
+Install = spoon.SpoonInstall
 
-Install:andUse("SendToOmniFocus",
-  {
-    config = {
-      quickentrydialog = false,
-      notifications = false
-    },
-    hotkeys = {
-      send_to_omnifocus = { hyper, "o" }
-    },
-    actions =   {
-      ["Google Chrome"] = {
-        apptype = "chromeapp",
-        itemname = "tab"
-      },
-      Safari = {
-        as_scriptfile = _resource_path("scripts/safari-to-omnifocus.applescript"),
-        itemname = "message"
-      }
-    }
-  }
-)
+Install.repos["gary"] = {
+  url = "https://github.com/garymh/Spoons",
+  desc = "Gary's Personal Spoons Fork",
+  branch = "master"
+}
 
-Install:andUse("FadeLogo",
-               {
-                 config = {
-                   default_run = 1.0,
-                 },
-                 start = true
-               }
-               )
+Install:andUse("SendToOmniFocus", {
+  config = {quickentrydialog = true, notifications = false},
+  hotkeys = {send_to_omnifocus = {hyper, "o"}},
+  ['repo'] = "gary"
+})
+
+Install:andUse("MicMute", {['repo'] = "gary"})
+
+require "streamdeck"
+Install:andUse("FadeLogo", {config = {default_run = 1.0}, start = true})
 
 local requirePlus = require("utils.require")
 local crash       = require("hs.crash")
@@ -90,7 +93,7 @@ local alert       = require("hs.alert")
 local image       = require("hs.image")
 
 -- TODO:
-
+-- Global show/hide hammerspoon dock icon
 -- can grid be simplified?
 -- hskeybindings
 -- ksheet

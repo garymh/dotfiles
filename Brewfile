@@ -1,137 +1,179 @@
-tap "cjbassi/gotop"
+tap "charmbracelet/tap"
+tap "clementtsang/bottom"
 tap "goles/battery"
 tap "heroku/brew"
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
 tap "homebrew/command-not-found"
 tap "homebrew/core"
+tap "homebrew/services"
+# tap "minio/stable"
+tap "muesli/tap"
+tap "rigellute/tap"
 
-brew "openssl"
-brew "readline"
-brew "mas"
-
-brew "fpp"
-brew "mtr"
 brew "aircrack-ng"
 brew "automake"
-brew "bash"
 brew "bat"
-brew "bison"
-brew "gettext"
-brew "gdbm"
-brew "libffi"
-brew "python"
+brew "bottom"
 brew "ccat"
+brew "charmbracelet/tap/glow"
 brew "choose-gui"
-brew "chruby"
-brew "clipper"
+# brew "chruby"
 brew "cmake"
-brew "cmatrix"
 brew "coreutils"
-brew "ctags"
 brew "curl"
-brew "git-delta"
+brew "diff-so-fancy"
 brew "dockutil"
+brew "dust"
 brew "duti"
 brew "exa"
 brew "fasd"
 brew "fd"
-brew "sdl2"
-brew "ffmpeg"
-brew "ghi"
-brew "go"
+brew "fzy"
+brew "git"
+brew "git-delta"
+brew "git-lfs"
+brew "gitlab-runner", restart_service: true
+brew "gnupg", link: false
+# brew "go"
+brew "goles/battery/battery"
+brew "gpgme"
+brew "graphicsmagick"
 brew "hashcat"
+brew "heroku/brew/heroku"
 brew "hidapi"
-brew "lua"
 brew "highlight"
 brew "hr"
 brew "htop"
+brew "httpstat"
 brew "ical-buddy"
 brew "ifstat"
-brew "libtool"
 brew "imagemagick"
+brew "iperf3"
 brew "john"
 brew "jq"
+brew "lazygit"
+brew "libassuan"
+brew "libgpg-error"
+brew "libiconv"
 brew "libressl"
-brew "libsodium"
 brew "libtermkey"
 brew "libusb"
 brew "libyaml"
 brew "lnav"
+brew "lolcat"
+brew "lsd"
+brew "lua"
 brew "luajit"
-brew "mackup"
+brew "luarocks"
+brew "lv"
 brew "m-cli"
-brew "protobuf"
-brew "mosh", args: ["HEAD"]
+brew "mackup"
+brew "mas"
+# brew "minio/stable/minio"
+brew "mkcert"
+brew "monolith"
+brew "mosh"
+brew "mtr"
+brew "muesli/tap/duf"
+brew "navi"
 brew "ncdu"
+brew "ncurses"
+brew "nginx"
 brew "ninja"
+brew "nmap"
+# brew "node"
+# brew "node@12"
 brew "noti"
 brew "pandoc"
+brew "pastel"
 brew "pdfcrack"
+brew "perl"
 brew "pkg-config"
 brew "portaudio"
-brew "postgresql"
+# brew "postgresql"
+brew "procs"
+brew "protobuf"
+brew "pulseaudio"
+brew "python@3.8"
 brew "qt"
+brew "re2"
+# brew "redis"
 brew "ripgrep"
 brew "ruby-install"
+brew "runit"
 brew "rust"
+brew "rustup-init"
 brew "sassc"
+brew "sd"
+brew "shellcheck"
 brew "shfmt"
-brew "ssh-copy-id"
-brew "streamlink"
+brew "showkey"
+brew "sl"
+brew "ssh-copy-id", link: true
 brew "telnet"
 brew "terminal-notifier"
 brew "the_silver_searcher"
+brew "thefuck"
 brew "tig"
-brew "tmux"
 brew "topgrade"
 brew "trash"
 brew "tree"
+brew "tvnamer"
 brew "urlview"
+brew "vale"
+brew "vifm"
 brew "wget"
+brew "whalebrew"
 brew "wifi-password"
+brew "wtfutil"
+# brew "yarn"
 brew "youtube-dl"
 brew "zsh"
-brew "cjbassi/gotop/gotop"
-brew "goles/battery/battery"
-brew "heroku/brew/heroku"
+brew "apparition47/tap/mailtrackerblocker"
+brew "tmux"
+brew "svn"
+brew 'tree-sitter'
 
 cask "1password"
 cask "1password-cli"
+cask "alacritty"
+cask "brave"
 cask "alfred"
+cask "amethyst"
 cask "appcleaner"
 cask "bartender"
 cask "calibre"
-# cask "chromedriver"
+cask "choosy"
+cask "chromedriver"
 cask "coconutbattery"
-cask "colorpicker-developer"
+# cask "colorpicker-developer"
 cask "daisydisk"
 cask "discord"
 cask "docker"
-cask "fantastical"
+# cask "fantastical"
+cask "firefox"
 cask "firefox-developer-edition"
-cask "fluid"
-cask "go64"
 cask "gpg-suite"
 cask "hammerspoon"
-cask "iina"
-cask "iterm2"
 cask "kaleidoscope"
 cask "karabiner-elements"
 cask "keyboard-cleaner"
 cask "latest"
 cask "lingon-x"
-cask "linkliar"
 cask "macdown"
 cask "macvim"
 cask "monodraw"
 cask "muzzle"
 cask "name-mangler"
-cask "opera"
+cask "notion"
+cask "omnifocus"
+# cask "opera"
 cask "pacifist"
 cask "paw"
-cask "qlcolorcode"
+cask "plex-media-player"
 cask "qlimagesize"
 cask "qlmarkdown"
 cask "qlstephen"
@@ -140,83 +182,54 @@ cask "quicklook-csv"
 cask "quicklook-json"
 cask "quicklookase"
 cask "selfcontrol"
-cask "slack"
 cask "sloth"
+cask "soulver"
 cask "sourcetree"
 cask "spotify"
 cask "superduper"
 cask "suspicious-package"
+cask "swiftbar"
 cask "tableplus"
 cask "the-unarchiver"
 cask "typora"
+cask "vimr"
+# cask "vivaldi"
 cask "vlc"
 cask "webpquicklook"
-cask "zoomus"
+cask "zoom"
 
-cask "font-3270-nerd-font-mono"
-cask "font-anonymouspro-nerd-font-mono"
-cask "font-arimo-nerd-font-mono"
-cask "font-aurulentsansmono-nerd-font-mono"
-cask "font-bitstreamverasansmono-nerd-font-mono"
-cask "font-codenewroman-nerd-font-mono"
-cask "font-cousine-nerd-font-mono"
-cask "font-dejavusansmono-nerd-font-mono"
-cask "font-droidsansmono-nerd-font-mono"
-cask "font-fantasquesansmono-nerd-font-mono"
-cask "font-firacode-nerd-font-mono"
-cask "font-firamono-nerd-font-mono"
-cask "font-go-mono-nerd-font-mono"
-cask "font-gohu-nerd-font-mono"
-cask "font-hack-nerd-font-mono"
-cask "font-hasklig-nerd-font-mono"
-cask "font-heavydata-nerd-font-mono"
-cask "font-hermit-nerd-font-mono"
-cask "font-inconsolata-nerd-font-mono"
-cask "font-inconsolatago-nerd-font-mono"
-cask "font-inconsolatalgc-nerd-font-mono"
-cask "font-iosevka"
-cask "font-iosevka-nerd-font-mono"
-cask "font-liberationmono-nerd-font-mono"
-cask "font-meslo-nerd-font-mono"
-cask "font-monoid-nerd-font"
-cask "font-monoid-nerd-font-mono"
-cask "font-mononoki-nerd-font"
-cask "font-mononoki-nerd-font-mono"
-cask "font-mplus-nerd-font-mono"
-cask "font-spacemono-nerd-font-mono"
-cask "font-terminus-nerd-font-mono"
-cask "font-tinos-nerd-font-mono"
-cask "font-ubuntu-nerd-font-mono"
-cask "font-ubuntumono-nerd-font-mono"
-
-mas "Amphetamine", id: 937_984_704
-mas "AudioBookBinder", id: 413_969_927
-mas "CleanLinksForGoogle", id: 1_467_225_874
-mas "Dark Reader for Safari", id: 1_438_243_180
-mas "Disk Speed Test", id: 425_264_550
-mas "Focus for Youtube", id: 1_447_962_180
-mas "GIF Brewery 3", id: 1_081_413_713
-mas "Gifski", id: 1_351_639_930
-mas "Grammarly for Safari", id: 1_462_114_288
-mas "Hole for Pi-hole", id: 1_448_464_118
-mas "JSONPeep", id: 1_458_969_831
-mas "Keynote", id: 409_183_694
-mas "Kindle", id: 405_399_194
-mas "Link Text Selector", id: 1_398_143_805
-mas "m-wiki", id: 1_480_168_619
-mas "Numbers", id: 409_203_825
-mas "Pages", id: 409_201_541
-mas "PiPer", id: 1_421_915_518
-mas "Pixelmator Pro", id: 1_289_583_905
-mas "Pocket", id: 568_494_494
-mas "Reeder", id: 1_449_412_482
-mas "RSS Button for Safari", id: 1_437_501_942
-mas "SmileAllDay", id: 1_180_442_868
-mas "Speedtest", id: 1153157709
-mas "StopTheMadness", id: 1_376_402_589
-mas "Table Tool", id: 1_122_008_420
-mas "Tampermonkey", id: 1_482_490_089
-mas "ToothFairy", id: 1_191_449_274
-mas "TV Streams", id: 1_181_863_013
-mas "Tweetbot", id: 1_384_080_005
-mas "Vimari", id: 1_480_933_944
+mas 1107421413
+mas 413969927
+mas 1546729687
+mas 1438243180
+mas 425264550
+mas 1514703160
+mas 682658836
+mas 1448464118
+mas 1514863337
+mas 1458969831
+mas 409183694
+mas 405399194
+mas 1493326487
+mas 1398143805
+mas 409203825
+mas 1439967473
+mas 409201541
+mas 1421915518
+mas 1289583905
+mas 525180431
+mas 1494023538
+mas 1529448980
+mas 1503136033
+mas 1522267256
+mas 1153157709
+mas 1376402589
+mas 1122008420
+mas 1482490089
+mas 1191449274
+mas 1492631819
+mas 1181863013
+mas 1480933944
+mas 1208909162
+mas 533696630
+mas 1320666476

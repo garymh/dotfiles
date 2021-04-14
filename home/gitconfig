@@ -1,7 +1,7 @@
 [core]
-  excludesfile = ~/code/dotfiles/home/gitignore_global
+	excludesfile = /Users/gary/code/dotfiles/home/gitignore_global
   whitespace   = space-before-tab,-indent-with-non-tab,trailing-space
-  pager        = delta | less --tabs=4 -RFX
+  pager        = delta | moar
   editor       = nvim
 
   # Make `git rebase` safer on OS X
@@ -14,27 +14,30 @@
 
 [alias]
   amend                 = commit -a --amend
-  co                    = checkout
   back-to-origin        = !git reset --hard origin/`git symbolic-ref --short HEAD`
+  mr-changes            = !git diff `git merge-base master HEAD`
+  kmr-changes           = !git ksdiff `git merge-base master HEAD`
+  co                    = checkout
   delete-local-branch   = branch -D
-  changes               = "!git diff $(git merge-base master HEAD)"
   discard               = checkout --
   explode               = !git reset --hard HEAD && git clean -d -f
   fuckthis              = !git reset --hard HEAD && git clean -d -f
   ksdiff                = difftool
   mr                    = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
   ours                  = "!f() { git co --ours $@ && git add $@; }; f"
-  rmfiles               = clean -fdx
   remotes               = remote -v
+  remove-local-branch   = branch -D
+  rmfiles               = clean -fdx
+  rspec                 = !git_rspec "$@"
   set-security-upstream = !git branch --set-upstream-to=security/`git symbolic-ref --short HEAD`
   set-upstream          = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
   stashes               = stash list
   theirs                = "!f() { git co --theirs $@ && git add $@; }; f"
   uncommit              = reset --mixed HEAD~
   undo                  = reset --mixed HEAD~
-  url                   = "!open $(glhelper)"
   up                    = !git pull --rebase --prune $@ && git submodule update --init --recursive
   update-submodules     = submodule update --init --recursive
+  url                   = "!open $(glhelper)"
 
 [color]
   branch      = auto
@@ -103,9 +106,6 @@
 [branch]
   autosetuprebase = always
 
-[gpg]
-  program = gpg2
-
 [push]
   default = upstream
 
@@ -120,12 +120,12 @@
   insteadOf = https://gitlab.com/
 
 [difftool "sourcetree"]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path =
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
 
 [mergetool "sourcetree"]
-  cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
 
 [color "diff-highlight"]
   oldNormal = red bold

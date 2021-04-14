@@ -5,6 +5,8 @@ export HOME_DIR="$DOTFILES/home"
 export HOMEBREW_CASK_OPTS="--fontdir=~/Library/Fonts"
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_BUNDLE_FILE_PATH="$DOTFILES/Brewfile"
+export HOMEBREW_BAT=1
+export HOMEBREW_DISPLAY_INSTALL_TIMES=1
 export LDFLAGS="-L/usr/local/opt/icu4c/lib"
 export CPPFLAGS="-I/usr/local/opt/icu4c/include"
 export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
@@ -15,18 +17,30 @@ export ZSH_AUTOSUGGEST_USE_ASYNC="true"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
 export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES=":q gco g rubocop"
 export ZSH_PLUGINS_ALIAS_TIPS_REVEAL=1
-export ZSH_TMUX_AUTOSTART="true"
+
+if [ "$TERM" = "alacritty" ]; then
+  export ZSH_TMUX_AUTOSTART="true"
+fi
+
 export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
-export HISTSIZE=99999
-export SAVEHIST=90000
 export COMPLETION_WAITING_DOTS="true"
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
-
-export PATH="/usr/local/opt/postgresql@10/bin:/usr/local/opt/node@12/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+export MY_RUBY_HOME="$HOME/.asdf/shims/ruby"
+export PATH="/usr/local/bin:$PATH"
+# export PATH="/usr/local/opt/postgresql@10/bin:/usr/local/opt/node@12/bin:$PATH"
+# export PATH="/usr/local/opt/icu4c/bin:$PATH"
+# export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 export PATH=$HOME_DIR/zsh/bin:$PATH
 export PATH="/usr/local/sbin:$PATH"
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000000
+SAVEHIST=10000000
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt SHARE_HISTORY             # Share history between all sessions.
 
 for f in ~/.zsh/private/*.zsh(N); do
   [ -e "$f" ] && source $f || break

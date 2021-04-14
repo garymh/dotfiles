@@ -30,3 +30,5 @@ source_maps
 tmp
 vendor
 locale
+*.css
+*.ts

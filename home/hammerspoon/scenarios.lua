@@ -1,26 +1,23 @@
-local cachedWifi      = hs.wifi.currentNetwork()
-local cachedPower     = hs.battery.powerSource()
+local cachedWifi  = hs.wifi.currentNetwork()
+local cachedPower = hs.battery.powerSource()
 
 function custom_read_from(file)
   lines = {}
-  for line in io.lines(file) do
-    lines[#lines + 1] = line
-  end
+  for line in io.lines(file) do lines[#lines + 1] = line end
   return lines
 end
 
 function custom_max_key(t)
   max_k, max_v = nil, 0
-  for index,value in pairs(t) do
-    if value > max_v then
-      max_k, max_v = index, value
-    end
+  for index, value in pairs(t) do
+    if value > max_v then max_k, max_v = index, value end
   end
   return max_k
 end
 
 function predictLocation()
-  hs.execute("/usr/local/bin/whereami predict_proba > ~/iCloud/Internal/whereami.data")
+  hs.execute(
+    "/usr/local/bin/whereami predict_proba > ~/iCloud/Internal/whereami.data")
   return readLocation()
 end
 
@@ -33,34 +30,33 @@ function readLocation()
 end
 
 function readLocationData()
-  location_data = custom_read_from(os.getenv("HOME") .. "/iCloud/Internal/whereami.data")
+  location_data = custom_read_from(os.getenv("HOME") ..
+                                     "/iCloud/Internal/whereami.data")
   return location_data[1]
 end
 
 function rubyRunner(name, argument)
-  print(" running:/usr/bin/env ruby ~/.hammerspoon/controlplane_actions/" .. name .. ".rb " .. argument)
-  os.execute("/usr/bin/env ruby ~/.hammerspoon/controlplane_actions/" .. name .. ".rb " .. argument)
+  print(" running:/usr/bin/env ruby ~/.hammerspoon/controlplane_actions/" ..
+          name .. ".rb " .. argument)
+  os.execute("/usr/bin/env ruby ~/.hammerspoon/controlplane_actions/" .. name ..
+               ".rb " .. argument)
 end
 
 local secureNetworks = {
-  'WPA Personal Mixed',
-  'WPA2 Personal',
-  'WPA Enterprise Mixed',
+  'WPA Personal Mixed', 'WPA2 Personal', 'WPA Enterprise Mixed'
 }
 
-local whiteList = {
-  'dandg'
-}
+local whiteList = {'dandg'}
 
 scenarios = {
-  kitchen_table           = "home_wifi",
-  dining_room_table       = "home_wifi",
+  kitchen_table = "home_wifi",
+  dining_room_table = "home_wifi",
   dining_room_table_front = "home_wifi",
-  bed                     = "home_wifi",
-  home_desk               = "home_desk",
-  kitchen_table           = "home_wifi",
-  living_room_couch_r     = "home_wifi",
-  ollies_room             = "home_wifi",
+  bed = "home_wifi",
+  home_desk = "home_desk",
+  kitchen_table = "home_wifi",
+  living_room_couch_r = "home_wifi",
+  ollies_room = "home_wifi"
 }
 
 function caffeineChanged(watcher)
@@ -82,9 +78,7 @@ function caffeineChanged(watcher)
     end
   end
 
-  if watcher == hs.caffeinate.watcher.systemDidWake then
-    getLocation()
-  end
+  if watcher == hs.caffeinate.watcher.systemDidWake then getLocation() end
 end
 
 function powerChanged()
@@ -110,27 +104,26 @@ function wifiChanged(watcher, message)
     getLocation()
   end
 
-  wifiName  = hs.wifi.currentNetwork()
-  security  = hs.wifi.interfaceDetails().security
+  wifiName = hs.wifi.currentNetwork()
+  security = hs.wifi.interfaceDetails().security
 
   local wifiName = hs.wifi.currentNetwork()
   local security = hs.wifi.interfaceDetails().security
 
-  if not wifiName or hs.fnutils.contains(secureNetworks, security) and hs.fnutils.contains(whiteList, wifiName) then
-    if wifiMenu then
-      wifiMenu:removeFromMenuBar()
-    end
+  if not wifiName or hs.fnutils.contains(secureNetworks, security) and
+    hs.fnutils.contains(whiteList, wifiName) then
+    if wifiMenu then wifiMenu:removeFromMenuBar() end
   else
-    if not wifiMenu then
-      wifiMenu = hs.menubar.newWithPriority(2147483645)
-    end
+    if not wifiMenu then wifiMenu = hs.menubar.newWithPriority(2147483645) end
 
     wifiMenu:setTitle(wifiName)
-    wifiMenu:setTooltip('This WiFi network is not recognized. Consider using a known one.')
+    wifiMenu:setTooltip(
+      'This WiFi network is not recognized. Consider using a known one.')
 
     if not hs.fnutils.contains(secureNetworks, security) then
       wifiMenu:setTitle('Insecure: ' .. wifiName)
-      wifiMenu:setTooltip('This WiFi network is insecure. Consider using a secure one.')
+      wifiMenu:setTooltip(
+        'This WiFi network is insecure. Consider using a secure one.')
     end
 
   end
@@ -148,7 +141,8 @@ function getLocation()
 end
 
 function setScenario(id)
-  if (hs.settings.get("scenario") == nil or hs.settings.get("scenario") ~= id) and id ~= nil then
+  if (hs.settings.get("scenario") == nil or hs.settings.get("scenario") ~= id) and
+    id ~= nil then
     print("setting scenario:" .. id)
     hs.settings.set("scenario", id)
     rubyRunner(id, "")
@@ -162,8 +156,7 @@ end
 
 -- powerWatcher    = hs.battery.watcher.new(powerChanged):start()
 caffeineWatcher = hs.caffeinate.watcher.new(caffeineChanged):start()
-wifiWatcher     = hs.wifi.watcher.new(wifiChanged):watchingFor({
-    "BSSIDChange", "SSIDChange",
-  }):start()
+wifiWatcher = hs.wifi.watcher.new(wifiChanged):watchingFor(
+                {"BSSIDChange", "SSIDChange"}):start()
 
 getLocation()

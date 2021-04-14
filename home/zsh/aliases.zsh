@@ -13,15 +13,13 @@ alias efunction="$VISUAL $HOME_DIR/zsh/functions.zsh"
 alias egems="$VISUAL $DOTFILES/new_machine/gems"
 alias eprivate="$VISUAL $DOTFILES/home/zsh/private/private.zsh"
 alias etmux="$VISUAL $DOTFILES/home/tmux.conf"
-alias evim="$VISUAL $HOME_DIR/vimrc"
+alias evim="$VISUAL $HOME_DIR/init.lua"
 alias egit="$VISUAL $HOME_DIR/gitconfig"
 alias zshrc="$VISUAL $HOME_DIR/zshrc"
 alias ekitty="$VISUAL $HOME_DIR/kitty/kitty.conf"
-alias g="git"
+alias ealacritty="$VISUAL $DOTFILES/home/alacritty/alacritty.yml"
 alias lh=LEFTHOOK=0
 alias oc=lh
-
-alias kd="kitty +kitten diff"
 
 alias gam='git commit --amend -C HEAD' # Commit current staged files and amend it to the previous commit message without changing the commit or being prompted
 alias gdb="git branch --merged | egrep -v \"(^\*|master|develop|dev|staging|production)\" | xargs git branch -d" # Delete all local branches that have been merged into HEAD
@@ -47,12 +45,11 @@ elif _exists wget; then
   alias rm="rm -i"
 fi
 
-alias netwtf='sudo /usr/local/sbin/mtr -n 8.8.8.8'
 alias oo='open .'
 alias plistbuddy="/usr/libexec/PlistBuddy"
-alias cask="brew cask"
+alias cask="brew install --cask"
 alias bin="brew install"
-alias cpu="gotop -c monokai -f"
+alias cpu="htop"
 
 alias dnd_notes="$VISUAL ~/Documents/Fun/D\&D/dndnotes"
 
@@ -108,6 +105,7 @@ fi
 alias gca="gac"
 alias vim="$VISUAL"
 alias rials="rails"
+alias :e="$VISUAL"
 
 alias v="$VISUAL"
 # more verbose fileutils
@@ -156,6 +154,9 @@ alias ammend="amend"
 alias cont="git rebase --continue"
 alias zg="fasd_cd -d gitlab"
 alias zd="fasd_cd -d dotfiles"
+alias zk="fasd_cd -d dev-kit"
 alias lg="lazygit"
 alias vis="TERM=xterm-256color vis; printf '\033]104\033\\'"
 alias gdks="gdk start"
+
+alias gdkdev="$HOME/code/work/dev-kit/gem/bin/gdk"

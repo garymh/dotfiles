@@ -1,34 +1,114 @@
-
 " ~/.vimrc
 " vim:fdm=marker
-" thanks to the brilliant @tpope, @skwp, @nelstrom, @bling, @mhinz
+" thanks to the brilliant @tpope, @skwp, @nelstrom, @bling, @mhinz, @Blacksuan19,
 " @r00k, @spf13, @AndrewRadev, @junegunn, @wincent, and @sjl for unknowingly
 " allowing me to borrow from their dotfiles.
+scriptencoding utf-8
 
-call plug#begin()
-" standard {{{ "
-  Plug 'tpope/vim-unimpaired'
-  Plug 'EinfachToll/DidYouMean'
-  Plug 'tpope/vim-sleuth'
-" }}} standard "
+if empty($DOTFILES)
+  let $DOTFILES = $HOME . "/code/dotfiles"
+endif
 
-" almost standard {{{ "
-  " Plug 'editorconfig/editorconfig-vim'
-  " Plug 'junegunn/fzf',            { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-  " Plug 'junegunn/fzf.vim'
-  " Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-  " Plug 'mhinz/vim-sayonara',      { 'on': 'Sayonara' }
-  " Plug 'pgdouyon/vim-evanesco'
-  " Plug 'takac/vim-commandcaps'
-  " Plug 'tpope/vim-commentary'
-  " Plug 'tpope/vim-repeat'
-  " Plug 'pbogut/fzf-mru.vim'
-" }}} almost standard "
+if !empty($MY_RUBY_HOME)
+ let g:ruby_path = join(split(glob($MY_RUBY_HOME.'/lib/ruby/*.*')."\n".glob($MY_RUBY_HOME.'/lib/rubysite_ruby/*'),"\n"),',')
+endif
 
-" looks {{{ "
-  " Plug 'blueyed/vim-diminactive'
-  " Plug 'cocopon/iceberg.vim'
-  Plug 'airblade/vim-gitgutter'
-" }}} looks "
+source $DOTFILES/home/vim/vimscript/plugins.vim
+" source $DOTFILES/home/vim/vimscript/mappings.vim
+" source $DOTFILES/home/vim/vimscript/plugin_settings.vim
+" source $DOTFILES/home/vim/vimscript/autocommands.vim
+" source $DOTFILES/home/vim/vimscript/folders.vim
+" source $DOTFILES/home/vim/vimscript/statusbar.vim
+" source $DOTFILES/home/vim/scripts/completions.vim
 
-call plug#end()
+if filereadable('~/.vimrc.local')
+  source ~/.vimrc.local
+endif
+
+" settings {{{ "
+  if v:version > 703 || v:version == 703 && has('patch541')
+    set formatoptions+=j
+  endif
+
+  if has('nvim-0.3.2')
+    set inccommand=split
+    set fillchars=stlnc:=,vert:│,fold:·,diff:-
+  endif
+
+  if has('nvim-0.4')
+    set wildoptions=pum,tagfile
+    set pumblend=0
+    set winblend=0
+    set signcolumn="yes:1"
+  endif
+
+  set autoindent " ?
+
+  set cmdheight=1                 " trying this out
+  set expandtab
+  set foldlevelstart=20
+  set formatoptions+=n            " smart auto-indenting inside numbered lists
+  set formatprg="par 79"          " respect the 80 character lines
+  set hidden                      " make unsaved buffers hidden
+  set ignorecase
+  set lazyredraw                  " enables faster macros
+  set list                        " show extra characters
+  set listchars=nbsp:⦸,trail:•,tab:├─,precedes:«,extends:»
+  set mouse=a
+  set mousehide                   " Hide the mouse cursor while typing
+  set noemoji                     " @wincent is smart!
+  set nojoinspaces                " don't autoinsert two spaces after '.', '?', '!' for join command
+  set noshowcmd
+  set noshowmode
+  set nowrap
+  set report=0                    " Always report changed lines
+  set shiftround                  " indenting to nearest tabstop
+  set shortmess+=A                " ignore annoying swapfile messages
+  set shortmess+=I                " no splash screen
+  set shortmess+=O                " file-read message overwrites previous
+  set shortmess+=T                " truncate non-file messages in middle
+  set shortmess+=o                " overwrite file-written messages
+  set smartcase                   " smartcase for searching
+  set spellcapcheck=              " smartcase for custom dictionary
+  set spelllang=en_us
+  set synmaxcol=180               " only highlight up to 180 characters
+  set timeoutlen=300              " vim-sensible's is kinda slow
+  set updatetime=100              " 4000 is so long!
+  set virtualedit=block           " allow selection in visual mode
+  set whichwrap=b,h,l,s,<,>,[,],~ " allow <BS>/h/l/<Left>/<Right>/<Space>, ~ to cross line boundaries
+
+  syntax sync minlines=256        " start highlighting from 256 lines backwards
+" }}} settings "
+
+" wildignore {{{ "
+  set wildignore+=.DS_Store
+  set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.psd,*.min.js,*.sock
+  set wildignore+=*/.git/*,*/log/*,*/tmp/*,.keep,.git/*,*/dotbot/*
+  set wildmode=longest:full,full
+" }}} wildignore "
+
+" coloring {{{ "
+  set background=dark
+
+  try
+    colorscheme pulumi
+  catch /:E185:/
+    colorscheme jellybeans
+  endtry
+
+  highlight Comment cterm=italic,bold gui=italic,bold
+  highlight Type cterm=bold gui=bold
+  highlight SpecialComment cterm=italic gui=italic
+" }}} coloring "
+
+" folding {{{ "
+  function! CustomFold()
+    let line = getline(v:foldstart)
+    let folded_line_num = v:foldend - v:foldstart
+    let line_text = substitute(line, '^"{\+', '', 'g')
+    let fillcharcount = &textwidth - len(line_text) - len(folded_line_num)
+    return repeat('·', 5) . line_text . repeat('·', fillcharcount) . ' ' . folded_line_num . ' lines '
+  endfunction
+
+  set foldtext=CustomFold()
+" }}} folding "

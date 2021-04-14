@@ -5,6 +5,5 @@ export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 export PATH=$HOME_DIR/zsh/bin:$PATH
 export PATH="/usr/local/sbin:$PATH"
 
-source /usr/local/share/chruby/chruby.sh
-chruby ruby
+source /Users/gary/.asdf/asdf.sh
 source $HOME/.zsh/private/private.zsh

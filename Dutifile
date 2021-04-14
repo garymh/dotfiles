@@ -43,6 +43,8 @@ org.vim.MacVim text/plain all
 org.vim.MacVim .json all
 org.vim.MacVim .zsh all
 at.eggerapps.tabletool public.comma-separated-values-text all
+org.vim.MacVim .zsh all
+org.hammerspoon.Hammerspoon .torrent all
 
 org.videolan.vlc .avi all
 org.videolan.vlc .mkv all

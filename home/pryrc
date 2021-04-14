@@ -1,9 +1,11 @@
 
-global_gemset = ENV['GEM_PATH'].split(':').first
-all_global_gem_paths = Dir.glob("#{global_gemset}/gems/*")
-all_global_gem_paths.each do |p|
-  gem_path = "#{p}/lib"
-  $LOAD_PATH << gem_path
+if ENV['GEM_PATH']
+  global_gemset = ENV['GEM_PATH'].split(':').first
+  all_global_gem_paths = Dir.glob("#{global_gemset}/gems/*")
+  all_global_gem_paths.each do |p|
+    gem_path = "#{p}/lib"
+    $LOAD_PATH << gem_path
+  end
 end
 
 # require 'rubygems'
@@ -25,6 +27,10 @@ def show_screen
     page.save_screenshot("screenshot.png")
     system("open 'screenshot.png'")
   end
+end
+
+def app(thing)
+  JSON.parse(JSON.pretty_generate(thing))
 end
 
 # Lots below stolen from Juanito Fatas
@@ -156,6 +162,11 @@ Pry::Commands.block_command "nolog", "silences database logs" do
 end
 
 Pry::Commands.block_command "log", "adds database logs" do
+  ActiveRecord::Base.logger = Logger.new(STDOUT)
+  output.puts "Database logs shown"
+end
+
+Pry::Commands.block_command "logg", "adds database logs" do
   ActiveRecord::Base.logger = Logger.new(STDOUT)
   output.puts "Database logs shown"
 end

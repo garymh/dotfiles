@@ -1,10 +1,5 @@
-if has('folding')
-  setlocal nofoldenable
-endif
-
-if has('syntax')
-  setlocal spell
-endif
+setlocal nofoldenable
+setlocal spell
 
 normal gg
 
@@ -19,7 +14,6 @@ call s:StartInsertIfEmpty()
 
 let b:ale_linters = ['vale']
 
-" " setlocal textwidth=51
 setlocal textwidth=51
-" setlocal colorcolumn=73
 setlocal colorcolumn=51,73
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u

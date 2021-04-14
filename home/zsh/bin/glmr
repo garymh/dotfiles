@@ -3,7 +3,11 @@
 
 require_relative 'glhelper'
 
-mrs = JSON.parse(File.read('/tmp/gitlab/mrs.json'))
-mr  = mrs.find { |i| i["source_branch"] == @branch }
+if on_default_branch?
+  `open "https://gitlab.com/dashboard/merge_requests?assignee_username=garyh"`
+else
+  mrs = JSON.parse(File.read('/tmp/gitlab/MRs.json'))
+  mr  = mrs.find { |i| i["source_branch"] == @branch }
 
-`open #{mr["web_url"]}`
+  `open #{mr["web_url"]}`
+end
