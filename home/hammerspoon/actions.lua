@@ -44,7 +44,8 @@ function shift_action_key()
 
   if name == 'Mail' then
     app:selectMenuItem("Toggle Flag")
-  -- elseif name == 'OmniFocus' then
+  elseif name == 'Firefox Developer Edition' then
+    hs.eventtap.keyStroke({'alt', 'cmd'}, 'i')
   else
     hs.alert("Unknown application")
   end
