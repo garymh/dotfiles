@@ -240,7 +240,36 @@ vim.g.which_key_leftbracket = {
 
 -- }}} right bracket"
 -- }}} brackets "
+-- right bracket {{{ "
 
+vim.g.which_key_go = {
+  ['name']  = 'Go to...',
+  ['*']     = 'which_key_ignore',
+  ['#']     = 'which_key_ignore',
+  ['a']     = 'Easy Align',
+  ['b']     = 'Point to line on website',
+  ['c']     = 'Comment...',
+  ['cc']     = 'Comment line',
+  ['g']     = 'Top',
+  ['h']     = 'which_key_ignore',
+  ['o']     = 'Open URL?',
+  ['oF']     = 'Open root folder in terminal',
+  ['of']     = 'Open current folder in terminal',
+  ['ot']     = 'Open root folder in Finder',
+  ['oT']     = 'Open current folder in Finder',
+  ['V']     = 'Last selection',
+  ['x']     = 'Thing on cursor',
+  ['%']     = 'Matchup',
+  ['h'] = {
+    ['name'] = 'Git',
+    ['R']    = 'Reset entire buffer',
+    ['r']    = 'Stage - undo hunk',
+    ['s']    = 'Stage - stage hunk',
+    ['u']    = 'Undo hunk',
+    ['p']    = 'Preview hunk',
+    ['b']    = 'Git Blame',
+}
+}
 -- -- visual in  {{{
 --   vim.g.which_key_visual_in = {
 --     ['name']  = 'Visual in...'
@@ -258,6 +287,7 @@ vim.call('which_key#register', '\\', "g:which_key_localleader")
 vim.call('which_key#register', '[', "g:which_key_leftbracket")
 vim.call('which_key#register', ']', "g:which_key_rightbracket")
 vim.call('which_key#register', 'yo', "g:which_key_toggles")
+vim.call('which_key#register', 'g', "g:which_key_go")
 -- vim.call('which_key#register', 'a', "g:which_key_a_maps")
 -- vim.call('which_key#register', 'i', "g:which_key_visual_in")
 
@@ -267,6 +297,9 @@ vim.api.nvim_set_keymap("n", "<leader>", [[:<c-u>WhichKey '<leader>'<CR>]], {sil
 vim.api.nvim_set_keymap("n", "<space>", [[:<c-u>WhichKey '<space>'<CR>]], {silent = true})
 vim.api.nvim_set_keymap("n", "<localleader>", [[:<c-u>WhichKey "\\"<CR>]], {silent = true})
 vim.api.nvim_set_keymap("n", "yo", [[:<c-u>WhichKey 'yo'<CR>]], {silent = true})
+-- vim.api.nvim_set_keymap("n", "g", [[:<c-u>WhichKey 'g'<CR>]], {silent = true})
+-- s_nmap("gg",  "gg", {noremap = true})
+-- s_nmap("gf",  "gf", {noremap = true})
 
 -- vim.api.nvim_set_keymap("o", "a", [[:<c-u>WhichKeyVisual 'a'<CR>]], {silent = false})
 -- vim.api.nvim_set_keymap("o", "i", [[:<c-u>WhichKey 'i'<CR>]], {silent = true})

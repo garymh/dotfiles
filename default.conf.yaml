@@ -44,7 +44,6 @@
     ~/.vim/syntax: home/vim/syntax
     ~/.vim/ftplugin: home/vim/ftplugin/
     ~/.vim/ftdetect: home/vim/ftdetect/
-    ~/.vim/UltiSnips: home/vim/UltiSnips/
     ~/.vim/scripts: home/vim/vimscript/
     ~/.vim/spell: home/vim/spell/
 
@@ -62,7 +61,12 @@
 
     ~/code/work/gdk/gitlab/spec/support/helpers/gary_spec_helper.rb: gitlab/spec_helper.rb
     ~/code/work/gdk/gitlab/config/initializers/gary_hacks.rb: gitlab/hacks.rb
-    ~/code/work/gdk/gitlab/config/initializers/rails.rb: gitlab/rails.rb
+    ~/code/work/gdk/gitlab/all_models/ce: ~/code/work/gdk/gitlab/app/models/
+    ~/code/work/gdk/gitlab/all_models/ee: ~/code/work/gdk/gitlab/ee/app/models/
+    ~/code/work/gdk/gitlab/all_specs/ce: ~/code/work/gdk/gitlab/spec/
+    ~/code/work/gdk/gitlab/all_specs/ee: ~/code/work/gdk/gitlab/ee/spec/
+    ~/code/work/gdk/gitlab/all_libs/ce: ~/code/work/gdk/gitlab/lib/
+    ~/code/work/gdk/gitlab/all_libs/ee: ~/code/work/gdk/gitlab/ee/lib/
 
 - shell:
     - ["touch ~/.hushlogin", "Hushing login"]

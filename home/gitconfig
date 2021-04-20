@@ -1,5 +1,7 @@
+# vi: ft=gitconfig
+
 [core]
-	excludesfile = /Users/gary/code/dotfiles/home/gitignore_global
+  excludesfile = /Users/gary/code/dotfiles/home/gitignore_global
   whitespace   = space-before-tab,-indent-with-non-tab,trailing-space
   pager        = delta | moar
   editor       = nvim
@@ -13,6 +15,7 @@
   precomposeunicode = false
 
 [alias]
+  abbrev-ref            = rev-parse --abbrev-ref HEAD
   amend                 = commit -a --amend
   back-to-origin        = !git reset --hard origin/`git symbolic-ref --short HEAD`
   mr-changes            = !git diff `git merge-base master HEAD`
@@ -35,6 +38,7 @@
   theirs                = "!f() { git co --theirs $@ && git add $@; }; f"
   uncommit              = reset --mixed HEAD~
   undo                  = reset --mixed HEAD~
+  unundo                = reset 'HEAD@{1}'
   up                    = !git pull --rebase --prune $@ && git submodule update --init --recursive
   update-submodules     = submodule update --init --recursive
   url                   = "!open $(glhelper)"
@@ -121,7 +125,7 @@
 
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"

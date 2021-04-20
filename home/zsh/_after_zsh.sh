@@ -6,7 +6,7 @@ spaceship_git_branch() {
 
   git_current_branch="${git_current_branch#heads/}"
   git_current_branch="${git_current_branch/.../}"
-  git_current_branch=$git_current_branch[1,15]
+  git_current_branch="${git_current_branch[1,15]}"
 
   spaceship::section \
     "$SPACESHIP_GIT_BRANCH_COLOR" \
