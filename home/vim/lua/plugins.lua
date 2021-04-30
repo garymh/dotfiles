@@ -1,14 +1,5 @@
 -- vi: foldmethod=marker
-vim.g.plug_shallow = 0
-vim.g.plug_window = "enew"
-vim.g.plug_pwindow = "vertical rightbelow new"
-vim.g.polyglot_disabled = {"git", "gitcommit", "markdown"}
-vim.g.vim_json_syntax_conceal = 0
-vim.g.no_gitcommit_commands = 1
-
 ruby_filetypes = {"ruby", "eruby", "slim", "haml", "rspec"}
-
-function has_tmux() return vim.env.TMUX ~= nil end
 
 local packer = nil
 
@@ -70,6 +61,7 @@ local function init()
 
     use {
         "SidOfc/mkdx",
+        ft = "markdown",
         config = function()
             vim.api.nvim_set_var("mkdx#settings", {
                 highlight = {enable = 1},
@@ -84,14 +76,10 @@ local function init()
         end
     }
 
-    use {"rstacruz/vim-xtract", cmd = {"Xtract"}}
+    use {"rstacruz/vim-xtract", cmd = {'Xtract'}}
 
     use {
         "AndrewRadev/sideways.vim",
-        cmd = {
-            "SidewaysLeft", "SidewaysRight", "SidewaysJumpLeft",
-            "SidewaysJumpRight"
-        },
         keys = {
             "<Plug>SidewaysArgumentAppendAfter",
             "<Plug>SidewaysArgumentInsertFirst",
@@ -108,114 +96,74 @@ local function init()
         end
     }
 
-    use {"coderifous/textobj-word-column.vim"}
-    use {"kana/vim-textobj-entire"}
-    use {"kana/vim-textobj-indent"}
-    use {"kana/vim-textobj-line"}
-    use {"kana/vim-textobj-user"}
-    use {"jceb/vim-textobj-uri"}
-    use {"somini/vim-textobj-fold"}
-    use {"glts/vim-textobj-indblock"}
-    use {"nelstrom/vim-textobj-rubyblock"}
+    use {
+        "kana/vim-textobj-user",
+        requires = {
+            "coderifous/textobj-word-column.vim", "kana/vim-textobj-entire",
+            "kana/vim-textobj-indent", "kana/vim-textobj-line",
+            "kana/vim-textobj-user", "jceb/vim-textobj-uri",
+            "somini/vim-textobj-fold", "glts/vim-textobj-indblock"
+        }
+    }
 
     -- COLORSCHEMES {{{
-
-
-    use {"pineapplegiant/spaceduck"}
     use {
-        "mhartington/oceanic-next",
+        "tiagovla/tokyodark.nvim",
         config = function()
-            vim.g.oceanic_next_terminal_bold = 1
-            vim.g.oceanic_next_terminal_italic = 1
+            vim.g.tokyonight_enable_italic = true
+            vim.g.tokyonight_enable_italic_comment = true
         end
     }
-    -- use {"ChristianChiarulli/nvcode-color-schemes.vim"}
-    use {"kyazdani42/blue-moon"}
-    -- use {"arzg/vim-colors-xcode"}
-    -- use {"atahabaki/archman-vim"}
-    -- use {"tjammer/focusedpanic.vim"}
-    use {"eemed/sitruuna.vim"}
-    use {"pgavlin/pulumi.vim"}
-    -- use {"relastle/bluewery.vim"}
-    use {"cocopon/iceberg.vim"}
-    use {"flrnd/plastic.vim"}
-    -- use {"levelone/tequila-sunrise.vim"}
-    use {"challenger-deep-theme/vim"}
-    use {"whatyouhide/vim-gotham"}
+
+    use {
+        "folke/tokyonight.nvim",
+        config = function()
+            vim.g.tokyonight_style = "night"
+            vim.g.tokyonight_dark_sidebar = true
+        end
+    }
+    -- use {"pineapplegiant/spaceduck"}
+    -- use {
+    --     "mhartington/oceanic-next",
+    --     config = function()
+    --         vim.g.oceanic_next_terminal_bold = 1
+    --         vim.g.oceanic_next_terminal_italic = 1
+    --     end
+    -- }
+    -- use {"kyazdani42/blue-moon"}
+    -- use {"eemed/sitruuna.vim"}
+    -- use {"pgavlin/pulumi.vim"}
+    -- use {"cocopon/iceberg.vim"}
+    -- use {"flrnd/plastic.vim"}
+    -- use {"whatyouhide/vim-gotham"}
     -- use {"xolox/vim-colorscheme-switcher"}
     -- use {"xolox/vim-misc"}
     -- }}} COLORSCHEMES
 
     use {
-      'lewis6991/gitsigns.nvim',
-      requires = {
-        'nvim-lua/plenary.nvim'
-      },
-      config = function()
-        require('gitsigns').setup {
-          signs = {
-            add          = {hl = 'GitSignsAdd'   , text = '▓', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
-            change       = {hl = 'GitSignsChange', text = '▓', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-            delete       = {hl = 'GitSignsDelete', text = '▓', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-            topdelete    = {hl = 'GitSignsDelete', text = '▓', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-            changedelete = {hl = 'GitSignsChange', text = '▓', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-          },
-          numhl = false,
-          linehl = false,
-          keymaps = {
-            -- Default keymap options
-            noremap = true,
-            buffer = true,
+        "airblade/vim-gitgutter",
+        config = function()
+            vim.g.gitgutter_sign_added = "│"
+            vim.g.gitgutter_sign_modified = "│"
+            vim.g.gitgutter_sign_removed = "│"
+            vim.g.gitgutter_sign_removed_first_line = "│"
+            vim.g.gitgutter_sign_modified_removed = "│"
 
-            -- ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
-            -- ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
+            -- vim.g.gitgutter_sign_added              = '▓'
+            -- vim.g.gitgutter_sign_modified           = '▓'
+            -- vim.g.gitgutter_sign_modified_removed   = '▓'
+            -- vim.g.gitgutter_sign_removed            = '▓'
+            -- vim.g.gitgutter_sign_removed_first_line = '▓'
 
-            ['n <leader>hs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
-            ['n <leader>hu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-            ['n <leader>hr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-            ['n <leader>hR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
-            ['n <leader>hp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
-
-            -- Text objects
-            ['o ih'] = ':<C-U>lua require"gitsigns".text_object()<CR>',
-            ['x ih'] = ':<C-U>lua require"gitsigns".text_object()<CR>'
-          },
-          watch_index = {
-            interval = 1000
-          },
-          sign_priority = 6,
-          update_debounce = 100,
-          status_formatter = nil, -- Use default
-          use_decoration_api = true,
-          use_internal_diff = true,  -- If luajit is present
-        }
-      end
+            vim.g.gitgutter_map_keys = 0
+            vim.g.gitgutter_set_sign_backgrounds = 1
+            vim.g.gitgutter_realtime = 0
+            vim.g.gitgutter_eager = 0
+            vim.g.gitgutter_grep = "rg"
+            vim.g.gitgutter_preview_win_floating = 1
+            -- cool boxes, for reference: ░▒▓
+        end
     }
-
-    -- use {
-    --     "airblade/vim-gitgutter",
-    --     config = function()
-    --         vim.g.gitgutter_sign_added = "│"
-    --         vim.g.gitgutter_sign_modified = "│"
-    --         vim.g.gitgutter_sign_removed = "│"
-    --         vim.g.gitgutter_sign_removed_first_line = "│"
-    --         vim.g.gitgutter_sign_modified_removed = "│"
-
-    --         -- vim.g.gitgutter_sign_added              = '▓'
-    --         -- vim.g.gitgutter_sign_modified           = '▓'
-    --         -- vim.g.gitgutter_sign_modified_removed   = '▓'
-    --         -- vim.g.gitgutter_sign_removed            = '▓'
-    --         -- vim.g.gitgutter_sign_removed_first_line = '▓'
-
-    --         vim.g.gitgutter_map_keys = 0
-    --         vim.g.gitgutter_set_sign_backgrounds = 1
-    --         vim.g.gitgutter_realtime = 0
-    --         vim.g.gitgutter_eager = 0
-    --         vim.g.gitgutter_grep = "rg"
-    --         vim.g.gitgutter_preview_win_floating = 1
-    --         -- cool boxes, for reference: ░▒▓
-    --     end
-    -- }
 
     use {
         "camspiers/animate.vim",
@@ -226,6 +174,7 @@ local function init()
                                  "animate#ease_in_out_sine")
         end
     }
+
     use {
         "camspiers/lens.vim",
         config = function()
@@ -234,6 +183,7 @@ local function init()
             vim.api.nvim_set_var("lens#animate", 0)
         end
     }
+
     use {
         "ntpeters/vim-better-whitespace",
         config = function()
@@ -259,7 +209,7 @@ local function init()
                     numbers = "buffer_id",
                     number_style = "superscript",
                     mappings = false,
-                    buffer_close_icon= '',
+                    buffer_close_icon = '',
                     modified_icon = '●',
                     close_icon = '',
                     left_trunc_marker = "",
@@ -275,7 +225,7 @@ local function init()
         end
     }
 
-    use {"tjdevries/train.nvim", config = function() end}
+    -- use {"tjdevries/train.nvim", config = function() end}
 
     use {
         "kevinhwang91/nvim-hlslens",
@@ -288,44 +238,11 @@ local function init()
         end
     }
 
-    use {
-        "junegunn/vim-peekaboo",
-        config = function() vim.g.peekaboo_compact = 1 end
-    }
-
-    use {"lukas-reineke/indent-blankline.nvim", branch = "lua", config = function()
-      vim.g.indent_blankline_show_first_indent_level = false
-      vim.g.indent_blankline_char = ' '
-      vim.g.indent_blankline_filetype_exclude = { 'help', 'text', 'which_key', 'fzf', "packer", 'yaml', 'NvimTree' }
-      vim.g.indent_blankline_char_highlight_list = {
-        'IndentBlankLine1',
-        'IndentBlankLine2',
-        'IndentBlankLine3',
-        'IndentBlankLine4',
-        'IndentBlankLine5',
-        'IndentBlankLine6',
-        'IndentBlankLine7',
-        'IndentBlankLine8',
-      }
-      vim.g.indent_blankline_use_treesitter = true
-      vim.g.indent_blankline_context_highlight = 'IndentBlankLineContext'
-      vim.g.indent_blankline_show_current_context = true
-    end}
-
-    -- doesn't seem to work?
-    -- use {
-    --   'zegervdv/nrpattern.nvim',
-    --   config = function()
-    --     -- Basic setup
-    --     -- See below for more options
-    --     require"nrpattern".setup()
-    --   end,
-    -- }
-
-    use {"drzel/vim-repo-edit"}
+    use {"drzel/vim-repo-edit", cmd = {'RepoEdit'}}
 
     use {
         "AndrewRadev/multichange.vim",
+        keys = {"sm", "smm"},
         config = function()
             vim.g.multichange_mapping = "sm"
             vim.g.multichange_motion_mapping = "m"
@@ -370,8 +287,8 @@ local function init()
                     {"n", "R", "<plug>(esearch-win-reload)"},
                     {"n", "t", "<plug>(esearch-win-tabopen)"},
                     {"n", "T", "<plug>(esearch-win-tabopen:stay)"},
-                    -- { 'n',  'o',     '<plug>(esearch-win-split)',            }, -- removed default
-                    -- { 'n',  'O',     '<plug>(esearch-win-split:reuse:stay)', }, -- removed default
+                    -- { 'n', 'o', '<plug>(esearch-win-split)',}, -- removed default
+                    -- { 'n', 'O', '<plug>(esearch-win-split:reuse:stay)', }, -- removed default
                     {"n", "s", "<plug>(esearch-win-vsplit)"},
                     {"n", "S", "<plug>(esearch-win-vsplit:reuse:stay)"},
                     {"n", "<cr>", "<plug>(esearch-win-open)"},
@@ -451,7 +368,47 @@ local function init()
         end
     }
 
-    use {"liuchengxu/vim-which-key"}
+    use {"folke/which-key.nvim",
+    config = function()
+      require("which-key").setup {
+        plugins = {
+          marks = true, -- shows a list of your marks on ' and `
+          registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+          -- the presets plugin, adds help for a bunch of default keybindings in Neovim
+          -- No actual key bindings are created
+          presets = {
+            operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
+            motions = true, -- adds help for motions
+            text_objects = true, -- help for text objects triggered after entering an operator
+            windows = true, -- default bindings on <c-w>
+            nav = true, -- misc bindings to work with windows
+            z = true, -- bindings for folds, spelling and others prefixed with z
+            g = true, -- bindings for prefixed with g
+          },
+        },
+        -- add operators that will trigger motion and text object completion
+        -- to enable all native operators, set the preset / operators plugin above
+        operators = { gc = "Comments" },
+        icons = {
+          breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+          separator = "➜", -- symbol used between a key and it's label
+          group = "+", -- symbol prepended to a group
+        },
+        window = {
+          border = "shadow", -- none, single, double, shadow
+          position = "bottom", -- bottom, top
+          margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
+          padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+        },
+        layout = {
+          height = { min = 4, max = 25 }, -- min and max height of the columns
+          width = { min = 20, max = 50 }, -- min and max width of the columns
+          spacing = 3, -- spacing between columns
+        },
+        hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ "}, -- hide mapping boilerplate
+        show_help = false -- show help message on the command line when the popup is visible
+      }
+    end}
 
     use {
         "machakann/vim-sandwich",
@@ -500,7 +457,7 @@ local function init()
 
     use {
         "pechorin/any-jump.vim",
-        cmd = {"AnyJump", "AnyJumpVisual"},
+        cmd = {'AnyJump', 'AnyJumpVisual'},
         config = function()
             vim.g.any_jump_list_numbers = 0
             vim.g.any_jump_references_enabled = 1
@@ -538,6 +495,7 @@ local function init()
 
     use {
         "sbdchd/neoformat",
+        cmd = {'Neoformat'},
         config = function()
             vim.g.neoformat_lua_luaformatter = {exe = "lua-format"}
         end
@@ -548,9 +506,11 @@ local function init()
 
     use {
         "janko-m/vim-test",
+        cmd = {'TestNearest', 'TestFile', 'TestVisit', 'TestLast'},
         config = function()
             vim.api.nvim_set_var("test#preserve_screen", 1)
-            vim.api.nvim_exec([[source $DOTFILES/home/vim/lua/vim-test.vim]], false)
+            vim.api.nvim_exec([[source $DOTFILES/home/vim/lua/vim-test.vim]],
+                              false)
             -- vim.api.nvim_set_var('test#strategy', 'floaterm_custom')
             vim.api.nvim_set_var("test#strategy", "gary_terminal")
             vim.api.nvim_set_var("test#ruby#rspec#options", {
@@ -562,15 +522,15 @@ local function init()
         end
     }
 
-    use {"nathunsmitty/nvim-ale-diagnostic"}
+    -- use {"nathunsmitty/nvim-ale-diagnostic"}
 
-    use {"npxbr/glow.nvim"}
+    use {"npxbr/glow.nvim", cmd = {"Glow"}}
 
     use {"tpope/vim-projectionist"}
 
-    use {"vijaymarupudi/nvim-fzf"}
+    -- use {"vijaymarupudi/nvim-fzf"}
 
-    use {"vijaymarupudi/nvim-fzf-commands"}
+    -- use {"vijaymarupudi/nvim-fzf-commands"}
 
     use {"DanilaMihailov/beacon.nvim"}
 
@@ -582,27 +542,44 @@ local function init()
 
     use {"antoinemadec/FixCursorHold.nvim"}
 
-    use {"euclidianAce/BetterLua.vim"}
+    use {"euclidianAce/BetterLua.vim", ft = 'lua'}
 
     use {"Rasukarusan/nvim-block-paste", config = function() end}
 
     use {"andymass/vim-matchup", config = function() end}
 
-    use {"romainl/vim-cool", config = function() end}
+    use {"romainl/vim-cool", config = function() vim.g.CoolTotalMatches = 1 end}
 
-    use {
-        "nvim-treesitter/nvim-treesitter",
-        run = ":TSUpdate",
-        config = function()
-            require "nvim-treesitter"
-            require"nvim-treesitter.configs".setup {
-                ensure_installed = "maintained",
-                highlight = {enable = true},
-                rainbow = {enable = true}
-            }
-        end,
-        requires = {"p00f/nvim-ts-rainbow"}
-    }
+    -- use {
+    --     "nvim-treesitter/nvim-treesitter",
+    --     run = ":TSUpdate",
+    --     config = function()
+    --         require "nvim-treesitter"
+    --         require"nvim-treesitter.configs".setup {
+    --             ensure_installed = "maintained",
+    --             highlight = {enable = true},
+    --             rainbow = {enable = true},
+    --             refactor = {
+    --                 highlight_current_scope = {enable = false},
+    --                 highlight_definitions = {enable = true},
+    --                 smart_rename = {
+    --                     enable = true,
+    --                     keymaps = {smart_rename = "grr"}
+    --                 },
+    --                 navigation = {
+    --                     enable = true,
+    --                     keymaps = {
+    --                         goto_next_usage = "<a-*>",
+    --                         goto_previous_usage = "<a-#>"
+    --                     }
+    --                 }
+    --             }
+    --         }
+    --     end,
+    --     requires = {
+    --         "p00f/nvim-ts-rainbow", "nvim-treesitter/nvim-treesitter-refactor"
+    --     }
+    -- }
 
     use {
         "hrsh7th/nvim-compe",
@@ -688,16 +665,65 @@ local function init()
 
     use {"hrsh7th/vim-vsnip-integ"}
 
-    use {"ryanoasis/vim-devicons"}
-
     use {
-        "kyazdani42/nvim-web-devicons",
-        config = function() require'nvim-web-devicons'.setup() end
+        'hoob3rt/lualine.nvim',
+        requires = {'kyazdani42/nvim-web-devicons', opt = true},
+        config = function()
+            require('lualine').setup {
+                options = {
+                    theme = 'tokyonight',
+                    icons_enabled = true,
+                    padding = 2,
+                    section_separators = {'', ''},
+                    component_separators = {'', ''}
+                },
+                sections = {
+                    lualine_a = {
+                        {
+                            'branch',
+                            format = function(branch)
+                                return branch:sub(1, 15)
+                            end
+                        }
+                    },
+                    lualine_b = {
+                        {
+                            'filename', {
+                                format = function(filename)
+                                    if string.find(filename, "ee/", nil, true) then
+                                        return "EE"
+                                    else
+                                        return nil
+                                    end
+                                end,
+                                full_path = true,
+                                color = "ErrorMsg"
+                            }
+                        }, {'filename'}
+                    },
+                    lualine_c = {},
+                    lualine_x = {{'diff'}},
+                    lualine_y = {{'diagnostics', sources = {'ale'}}},
+                    lualine_z = {'location'}
+                },
+                inactive_sections = {
+                    lualine_a = {},
+                    lualine_b = {},
+                    lualine_c = {'filename'},
+                    lualine_x = {'location'},
+                    lualine_y = {},
+                    lualine_z = {}
+                },
+                extensions = {'fzf', 'nvim-tree'}
+            }
+        end
     }
 
-    use {"kyazdani42/nvim-tree.lua", config = function()
-      vim.g.nvim_tree_auto_close = 1
-    end}
+    use {
+        "kyazdani42/nvim-tree.lua",
+        cmd = {'NvimTreeToggle', 'NvimTreeFindFile'},
+        config = function() vim.g.nvim_tree_auto_close = 1 end
+    }
 
     use {
         "Shougo/echodoc.vim",
@@ -723,9 +749,15 @@ local function init()
             vim.g.rooter_change_directory_for_non_project_files = "current"
         end
     }
+
+    use {
+        "karb94/neoscroll.nvim",
+        config = function() require('neoscroll').setup() end
+    }
+
     use {
         "foosoft/vim-argwrap",
-        cmd = {"ArgWrap"},
+        cmd = {'ArgWrap'},
         config = function() vim.g.argwrap_tail_indent_braces = "(" end
     }
 
@@ -753,7 +785,7 @@ local function init()
 
     use {
         "voldikss/vim-floaterm",
-        cmd = {"FloatermNew"},
+        cmd = {'FloatermNew', 'FloatermToggle'},
         config = function()
             vim.g.floaterm_width = 0.9
             vim.g.floaterm_height = 0.9
@@ -763,31 +795,41 @@ local function init()
 
     use {
         "rhysd/git-messenger.vim",
-        cmd = {"GitMessenger"},
-        keys = {"<Plug>(git-messenger)"},
+        keys = {'<Plug>(git-messenger)'},
         config = function()
             vim.g.git_messenger_include_diff = "none"
             vim.g.git_messenger_always_into_popup = true
 
             -- can't this move?
             vim.api.nvim_exec([[
-    function! GitMessengerPopup() abort
-    nmap <buffer><C-o> o
-    nmap <buffer><C-i> O
-    nmap <silent><buffer>j :GitMessengerClose<CR>
-    nmap <silent><buffer>k :GitMessengerClose<CR>
-    endfunction
+              function! GitMessengerPopup() abort
+              nmap <buffer><C-o> o
+              nmap <buffer><C-i> O
+              nmap <silent><buffer>j :GitMessengerClose<CR>
+              nmap <silent><buffer>k :GitMessengerClose<CR>
+              endfunction
 
-    augroup GitMessenger
-    autocmd!
-    autocmd FileType gitmessengerpopup call GitMessengerPopup()
-    augroup END
-    ]], false)
+              augroup GitMessenger
+              autocmd!
+              autocmd FileType gitmessengerpopup call GitMessengerPopup()
+              augroup END
+              ]], false)
         end
     }
-    -- use {"tmux-plugins/vim-tmux-focus-events", opt = true, cond = has_tmux}
-    use {"benmills/vimux", opt = true, cond = has_tmux}
-    use {"garymh/vim-tmux-navigator", opt = true, cond = has_tmux}
+
+    use {
+        "garymh/vim-tmux-navigator",
+        -- cmd = {
+        --     "TmuxNavigateLeft", "TmuxNavigateDown", "TmuxNavigateUp",
+        --     "TmuxNavigateRight", "TmuxNavigateNext", "TmuxNavigatePrevious"
+        -- },
+        cond = has_tmux
+    }
+
+    use {'dstein64/vim-startuptime'}
+
+    -- TODO:
+    -- use {"marcushwz/nvim-workbench"}
 end
 
 local plugins = setmetatable({}, {
@@ -802,4 +844,89 @@ return plugins
 -- " use {'datwaft/bubbly.nvim'
 -- vim.g.db_ui_env_variable_url = 'DATABASE_URL'
 -- " use {'kshenoy/vim-signature'
--- " use {'dstein64/vim-startuptime'
+-- use {"ChristianChiarulli/nvcode-color-schemes.vim"}
+-- use {"arzg/vim-colors-xcode"}
+-- use {"atahabaki/archman-vim"}
+-- use {"tjammer/focusedpanic.vim"}
+-- use {"relastle/bluewery.vim"}
+-- use {"levelone/tequila-sunrise.vim"}
+-- use {"challenger-deep-theme/vim"}
+-- use {"benmills/vimux", opt = true, cond = has_tmux}
+
+-- use {"lukas-reineke/indent-blankline.nvim", branch = "lua", config = function()
+--   vim.g.indent_blankline_show_first_indent_level = false
+--   vim.g.indent_blankline_char = ' '
+--   vim.g.indent_blankline_filetype_exclude = { 'help', 'text', 'which_key', 'fzf', "packer", 'yaml', 'NvimTree' }
+--   vim.g.indent_blankline_char_highlight_list = {
+--     'IndentBlankLine1',
+--     'IndentBlankLine2',
+--     'IndentBlankLine3',
+--     'IndentBlankLine4',
+--     'IndentBlankLine5',
+--     'IndentBlankLine6',
+--     'IndentBlankLine7',
+--     'IndentBlankLine8',
+--   }
+--   vim.g.indent_blankline_use_treesitter = true
+--   vim.g.indent_blankline_context_highlight = 'IndentBlankLineContext'
+--   vim.g.indent_blankline_show_current_context = true
+-- end}
+
+-- doesn't seem to work?
+-- use {
+--   'zegervdv/nrpattern.nvim',
+--   config = function()
+--     -- Basic setup
+--     -- See below for more options
+--     require"nrpattern".setup()
+--   end,
+-- }
+
+-- use {
+--   'lewis6991/gitsigns.nvim',
+--   requires = {
+--     'nvim-lua/plenary.nvim'
+--   },
+--   config = function()
+--     require('gitsigns').setup {
+--       signs = {
+--         add          = {hl = 'GitSignsAdd'   , text = '▓', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+--         change       = {hl = 'GitSignsChange', text = '▓', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+--         delete       = {hl = 'GitSignsDelete', text = '▓', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+--         topdelete    = {hl = 'GitSignsDelete', text = '▓', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+--         changedelete = {hl = 'GitSignsChange', text = '▓', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+--       },
+--       numhl = false,
+--       linehl = false,
+--       keymaps = {
+--         -- Default keymap options
+--         noremap = true,
+--         buffer = true,
+
+--         -- ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
+--         -- ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
+
+--         ['n <leader>hs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+--         ['n <leader>hu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
+--         ['n <leader>hr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+--         ['n <leader>hR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
+--         ['n <leader>hp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+
+--         -- Text objects
+--         ['o ih'] = ':<C-U>lua require"gitsigns".text_object()<CR>',
+--         ['x ih'] = ':<C-U>lua require"gitsigns".text_object()<CR>'
+--       },
+--       watch_index = {
+--         interval = 1000
+--       },
+--       sign_priority = 6,
+--       update_debounce = 100,
+--       status_formatter = nil, -- Use default
+--       use_decoration_api = true,
+--       use_internal_diff = true,  -- If luajit is present
+--     }
+--   end
+-- }
+
+-- use {"sagi-z/oonav"}
+

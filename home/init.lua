@@ -3,41 +3,33 @@
 require 'util'
 require 'plugins'
 
-vim.api
-    .nvim_command [[command! PackerInstall packadd packer.nvim | lua require('plugins').install()]]
-vim.api
-    .nvim_command [[command! PackerUpdate packadd packer.nvim | lua require('plugins').update()]]
-vim.api
-    .nvim_command [[command! PackerSync packadd packer.nvim | lua require('plugins').sync()]]
-vim.api
-    .nvim_command [[command! PackerClean packadd packer.nvim | lua require('plugins').clean()]]
-vim.api
-    .nvim_command [[command! PackerCompile packadd packer.nvim | lua require('plugins').compile()]]
-vim.api
-    .nvim_command [[command! PlugInstall packadd packer.nvim | lua require('plugins').install()]]
-vim.api
-    .nvim_command [[command! PlugUpdate packadd packer.nvim | lua require('plugins').update()]]
-vim.api
-    .nvim_command [[command! PlugClean packadd packer.nvim | lua require('plugins').clean()]]
+vim_command [[PackerInstall packadd packer.nvim | lua require('plugins').install()]]
+vim_command [[PackerUpdate packadd packer.nvim  | lua require('plugins').update() ]]
+vim_command [[PackerSync packadd packer.nvim    | lua require('plugins').sync()   ]]
+vim_command [[PackerClean packadd packer.nvim   | lua require('plugins').clean()  ]]
+vim_command [[PackerCompile packadd packer.nvim | lua require('plugins').compile()]]
+vim_command [[PlugInstall packadd packer.nvim   | lua require('plugins').install()]]
+vim_command [[PlugUpdate packadd packer.nvim    | lua require('plugins').update() ]]
+vim_command [[PlugClean packadd packer.nvim     | lua require('plugins').clean()  ]]
 
 vim.api.nvim_command [[ augroup auto_compile ]]
 vim.api.nvim_command [[ autocmd! ]]
 vim.api.nvim_command [[ autocmd BufWritePost plugins.lua PackerCompile ]]
 vim.api.nvim_command [[ augroup END ]]
-vim.cmd [[source $DOTFILES/home/vim/vimscript/packer_compiled.vim]]
 
-vim.o.autoindent = true
+nvim_vsource [[vimscript/packer_compiled.vim]]
+
 vim.o.cmdheight = 1
 vim.o.completeopt = "menuone,noinsert,noselect"
 vim.o.expandtab = true
 vim.o.fillchars = "stlnc:=,vert:│,fold:·,diff:-,eob:·"
-vim.o.foldlevelstart = 20
+vim.o.foldlevelstart = 5
 vim.o.formatprg = "par 79"
 vim.o.hidden = true
 vim.o.ignorecase = true
 vim.o.inccommand = "split"
 vim.o.lazyredraw = true
-vim.o.laststatus = 0
+vim.o.laststatus = 2
 vim.o.list = true
 vim.o.listchars = "nbsp:⦸,trail:•,tab:├─,precedes:«,extends:»"
 vim.o.pumblend = 0
@@ -55,13 +47,12 @@ vim.o.updatetime = 100
 vim.o.virtualedit = "block"
 vim.o.whichwrap = "b,h,l,s,<,>,[,],~"
 vim.o.wildmode = "longest:full,full"
-vim.o.wildoptions = "pum,tagfile"
 vim.o.winblend = 0
 vim.o.wrap = true
 
 if plugin_loaded("nvim-treesitter") then
-  vim.wo.foldmethod="expr"
-  vim.wo.foldexpr="nvim_treesitter#foldexpr()"
+  vim.wo.foldmethod = "expr"
+  vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 end
 
 -- I have no idea why these need to be set with buffer settings
@@ -82,15 +73,15 @@ setplus('formatoptions', 'n')
 setplus('wildignore', ',*.jpg,*.jpeg,*.gif,*.png,*.psd,*.min.js,*.sock')
 setplus('wildignore', ',*/.git/*,*/log/*,*/tmp/*,.keep,.git/*,*/dotbot/*')
 
-require 'folders' -- Setting up backup folders
+require 'folders'  -- Setting up backup folders
 require 'mappings' -- Keymaps and whichkey settings
 
 -- TODO: lua-ify these when nvim supports it
-vim.api.nvim_exec([[source $DOTFILES/home/vim/vimscript/autocommands.vim]], false)
-vim.api.nvim_exec([[source $DOTFILES/home/vim/vimscript/functions.vim]], false)
+nvim_vsource [[vimscript/autocommands.vim]]
+nvim_vsource [[vimscript/functions.vim]]
 
--- vim.api.nvim_command [[colorscheme tequila-sunrise]]
-vim.api.nvim_command [[colorscheme pulumi]]
+vim.api.nvim_command [[colorscheme tokyodark]]
+-- vim.api.nvim_command [[colorscheme tokyonight]]
 vim.api.nvim_command [[syntax sync minlines=256]]
 
 -- providers i don't use:
@@ -99,6 +90,9 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 
 -- disable some built-in plugins i don't use:
-vim.g.loaded_netrwPlugin = 1
-vim.g.loaded_vimballPlugin = 1
-vim.g.loaded_zipPlugin = 1
+local disabled_built_ins = {
+    'gzip', 'man', 'matchit', 'matchparen', 'shada_plugin', 'tarPlugin', 'tar',
+    'zipPlugin', 'zip', 'netrwPlugin'
+}
+
+for i = 1, 10 do vim.g['loaded_' .. disabled_built_ins[i]] = 1 end
