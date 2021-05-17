@@ -7,7 +7,11 @@ function toggle(app, string)
     else
         hide_toolbar(app, string)
     end
+end
 
+function systemKey(key)
+	hs.eventtap.event.newSystemKeyEvent(string.upper(key), true):post()
+	hs.eventtap.event.newSystemKeyEvent(string.upper(key), false):post()
 end
 
 function cleanup_key()
@@ -40,6 +44,7 @@ function show_hide_sicilio()
 end
 
 hs.hotkey.bind(hyper, 'F16', cleanup_key)
-hs.hotkey.bind(hyper, 'right', next_song)
-hs.hotkey.bind(hyper, 'left', prev_song)
+hs.hotkey.bind(hyper, 'right', function() systemKey("NEXT") end)
+hs.hotkey.bind(hyper, 'left', function() systemKey("PREVIOUS") end)
 hs.hotkey.bind(hyper, 'up', show_hide_sicilio)
+hs.hotkey.bind(hyper, 'down', function() systemKey("PLAY") end)
