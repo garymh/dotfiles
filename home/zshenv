@@ -1,12 +1,14 @@
 source $HOME/.zsh/misc/utility.zsh
 
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=10000000
+export SAVEHIST=10000000
+
 export COMPLETION_WAITING_DOTS="true"
 export CPPFLAGS="-I/usr/local/opt/icu4c/include"
 export DOTFILES="$HOME/code/dotfiles"
 export GITLAB_MAIN_BRANCH="master"
 export GPG_TTY=$(tty)
-export HISTFILE="$HOME/.zsh_history"
-export HISTSIZE=10000000
 export HOMEBREW_BAT=1
 export HOMEBREW_BUNDLE_FILE_PATH="$DOTFILES/Brewfile"
 export HOMEBREW_CASK_OPTS="--fontdir=~/Library/Fonts"
@@ -19,14 +21,14 @@ export MY_RUBY_HOME="$HOME/.asdf/shims/ruby"
 export NAVI_PATH="$DOTFILES/home/doc"
 export NEXTWORD_DATA_PATH="$HOME/.config/nextword-data"
 export OCI_DIR=/usr/local/lib
-export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
+# export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
-export SAVEHIST=10000000
 export VIMFILES="$HOME/code/dotfiles/home/vim"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
 export ZSH_AUTOSUGGEST_USE_ASYNC="true"
 export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES=":q gco g rubocop"
 export ZSH_PLUGINS_ALIAS_TIPS_REVEAL=1
+export STARSHIP_LOG=error
 
 if [ "$TERM" = "alacritty" ]; then
   export ZSH_TMUX_AUTOSTART="true"
@@ -39,21 +41,22 @@ export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 
 if _exists go; then export PATH=$PATH:$HOME/code/go/bin; fi
 if _exists cargo; then export PATH=$PATH:$HOME/.cargo/bin; fi
-
-export EDITOR="$VISUAL"
 if _exists nvim; then export VISUAL='nvim'; fi
 
-setopt   EXTENDED_HISTORY   # Write the history file in the ":start:elapsed;command" format.
-setopt   HIST_FIND_NO_DUPS  # Do not display a line previously found.
-setopt   HIST_REDUCE_BLANKS # Remove superfluous blanks before recording entry.
-setopt   SHARE_HISTORY      # Share history between all sessions.
+export EDITOR="$VISUAL"
+
+setopt   appendhistory      # Append history to the history file (no overwriting)
+setopt   sharehistory       # Share history across terminals
+setopt   incappendhistory   # Immediately append to the history file, not just when a term is killed
+setopt   extended_history   # Write the history file in the ":start:elapsed;command" format.
+setopt   hist_find_no_dups  # Do not display a line previously found.
+setopt   hist_reduce_blanks # Remove superfluous blanks before recording entry.
+setopt   share_history      # Share history between all sessions.
 setopt   always_to_end      # always move to the end of the word if completion worked
 setopt   auto_menu          # show completion menu on successive tab press
 setopt   complete_in_word
 unsetopt correct_all        # don't autocorrect when thefuck does it better.
 unsetopt flowcontrol        # gives me back ^-S
-
-
 
 for f in ~/.zsh/private/*.zsh(N); do
   [ -e "$f" ] && source $f || break

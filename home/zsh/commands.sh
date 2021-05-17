@@ -5,7 +5,7 @@ alias fix_audio='sudo killall coreaudiod'
 alias debug_vim="/usr/local/bin/vim -u ~/.vimrc_min"
 alias debug_nvim="nvim -u ~/.vimrc_min"
 alias debug_vimrc="/usr/local/bin/vim -u ~/.vimrc_min ~/.vimrc_min"
-alias debug_nvimrc="nvim -u ~/.vimrc_min ~/.vimrc_min"
+alias debug_nvimrc="nvim -u ~/code/dotfiles/home/min_init.lua ~/code/dotfiles/home/min_init.lua"
 
 alias ezshenv='$VISUAL $HOME_DIR/zshenv'
 alias ekar='$VISUAL $HOME_DIR/karabiner.json'
@@ -25,6 +25,7 @@ alias oc=lh
 
 # alias grbn="git rebase -i HEAD~$1"
 alias branch="git branch --show-current"
+alias bu="bundle update"
 alias combine="git combine-commits"
 alias gac="git add -A && git commit -avm"
 alias gam='git commit --amend -C HEAD' # Commit current staged files and amend it to the previous commit message without changing the commit or being prompted
@@ -99,7 +100,6 @@ alias new_branch="git checkout -b"
 alias please='sudo $SHELL -c "$(fc -ln -1)"'
 alias pubkey="more ~/.ssh/id_ed25519.pub | pbcopy | e_success '=> Public key copied to pasteboard.'"
 alias ref="src"
-alias stage_deploy="cap staging deploy"
 alias x+="+x"
 
 if _exists bat; then
@@ -124,6 +124,7 @@ alias vim='$VISUAL'
 alias rials="rails"
 alias :e='$VISUAL'
 alias v='$VISUAL'
+alias :q='exit'
 
 # zsh global aliases for piping
 alias -g .....='../../../..'
@@ -136,7 +137,6 @@ alias -g G='| grep'
 alias -g H='| head'
 alias -g L="| less"
 alias -g LL="2>&1 | less"
-alias -g M="| most"
 alias -g NUL="> /dev/null 2>&1"
 alias -g S='| sort'
 alias -g T='| tail'
@@ -163,6 +163,7 @@ alias zk="fasd_cd -d dev-kit"
 alias lg="lazygit"
 alias vis="TERM=xterm-256color vis; printf '\033]104\033\\'"
 alias gdks="gdk start"
+alias bundle-id="mdls -name kMDItemCFBundleIdentifier -r"
 
 alias gdkdev='$HOME/code/work/dev-kit/gem/bin/gdk'
 
@@ -182,13 +183,27 @@ function unquarantine() { xattr -d com.apple.quarantine "$@"; }
 function unquarantine_app() { unquarantine "/Applications/$*"; }
 function git_mr_changes() { git diff $(diverged_ref) HEAD; }
 function git_mr_kchanges() { git ksdiff $(diverged_ref) HEAD; }
+function kindlize() {
+        local png="$HOME/code/kindle/kindle.png"
+        # convert -density 300 $1 -resize 25% -quality 90 -rotate 90 -colorspace Gray -flatten -fuzz 1% -trim +repage $png
+        convert -density 300 $1 -flatten -fuzz 1% -trim +repage $png
+        convert $png -resize 800x600 -rotate 90 -colorspace Gray $png
+        dropbox put $png new.png
+
+
+        # /usr/local/bin/convert -density 300 "$1" -quality 90 -colorspace Gray "/Users/gary/code/testbed/big.png"
+        # trim
+        # rotate
+        # /usr/local/bin/convert ~/code/testbed/big.png -rotate 90 ~/code/testbed/out.png
+# ~/.zsh/bin/dropbox put ~/code/testbed/out.png new.png
+}
 
 function glb() {
   local BRANCH
   BRANCH="$(glreview "$1")"
   cd "$HOME/code/work/gdk/gitlab" || exit
   git fetch origin
-  new_branch "$BRANCH" "${2:-origin}\/$BRANCH"
+  new_branch "REVIEW-$BRANCH" "${2:-origin}\/$BRANCH"
   git reset --mixed "$(git merge-base "${2:-origin/$GITLAB_MAIN_BRANCH}" HEAD)"
 }
 
@@ -222,17 +237,3 @@ function search() {
 #  git clone "$*"
 #}
 
-## Local:
-## https://stackoverflow.com/questions/21151178/shell-script-to-check-if-specified-git-branch-exists
-## test if the branch is in the local repository.
-## return 1 if the branch exists in the local, or 0 if not.
-#function is_in_local() {
-#    local branch=${1}
-#    local existed_in_local=$(git branch --list ${branch})
-
-#    if [[ -z ${existed_in_local} ]]; then
-#        echo 0
-#    else
-#        echo 1
-#    fi
-#}

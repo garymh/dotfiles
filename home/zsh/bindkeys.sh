@@ -1,4 +1,4 @@
-
+#!/bin/bash
 
 # Make sure that the terminal is in application mode when zle is active, since
 # only then values from $terminfo are valid
@@ -15,7 +15,11 @@ fi
 
 bindkey -e
 
-bindkey '^U' backward-kill-line
+# bindkey '^U' backward-kill-line
+# bindkey "^[_" redo
+# bindkey '^[^?' backward-kill-word
+# bindkey '^W' backward-kill-word
+# bindkey '^?' backward-delete-char
 
 # Start typing + [Up-Arrow] - fuzzy find history forward
 if [[ -n "${terminfo[kcuu1]}" ]]; then
@@ -49,7 +53,7 @@ for op in \| \< \> \& ; do
 done
 
 # One keystroke to cd ..
-bindkey -s '\eu' '\eq^Ucd ..; ls^M'
+# bindkey -s '\eu' '\eq^Ucd ..; ls^M'
 
 # Let ^W delete to slashes - zsh-users list, 4 Nov 2005
 backward-delete-to-slash() {
