@@ -1,0 +1,33 @@
+{
+  "plugin-urls": {
+    "prefix": ["use"],
+    "body": [
+      "use {\"${VIM:system('pbpaste | sed \"s/https:\\/\\/github.com\\///\"')}\"}"
+    ]
+  },
+  "plugin-urls2": {
+    "prefix": ["plug"],
+    "body": [
+      "use {\"${VIM:system('pbpaste | sed \"s/https:\\/\\/github.com\\///\"')}\"}"
+    ]
+  },
+  "plugin-urls3": {
+    "prefix": ["usef"],
+    "body": [
+      "use {\"${VIM:system('pbpaste | sed \"s/https:\\/\\/github.com\\///\"')}\",",
+      "config = function()",
+      "${0}",
+      "end}"
+    ]
+  },
+  "folds": {
+    "prefix": ["vimf"],
+    "body": [
+      "",
+      "-- ${1} {{{",
+      "${2}",
+      "-- }}} ${1}",
+      ""
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "plugin-urls": {
+    "prefix": ["plug"],
+    "body": [
+      "use {\"${VIM:system('pbpaste | sed \"s/https:\\/\\/github.com\\///\"')}\",",
+        "config = function()",
+        "${0}",
+        "end}"
+    ]
+  },
+  "folds": {
+    "prefix": ["vimf"],
+    "body": [
+      "",
+      "\" ${1} {{{",
+        "${2}",
+        "\" }}} ${1}",
+        ""
+    ]
+  }
+}
