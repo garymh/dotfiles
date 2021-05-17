@@ -77,7 +77,7 @@ call plug#begin()
 " this should be in standard neovim {{{ "
   Plug 'ryanoasis/vim-devicons'
   Plug 'kana/vim-niceblock'
-  Plug 'mhinz/vim-sayonara',    { 'on': 'Sayonara' }
+  Plug 'garymh/vim-sayonara',    { 'on': 'Sayonara' }
   Plug 'takac/vim-commandcaps'
   Plug 'tpope/vim-abolish'
   Plug 'tpope/vim-eunuch'
