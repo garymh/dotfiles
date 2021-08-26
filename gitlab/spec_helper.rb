@@ -1,4 +1,5 @@
-# # require "super_diff/rspec-rails"
+# require 'pry-rescue/rspec'
+# require "super_diff/rspec-rails"
 
 RSpec.configure do |config|
   config.backtrace_exclusion_patterns = [
@@ -10,4 +11,4 @@ RSpec.configure do |config|
   ]
 end
 
-require 'pry-rescue/rspec'
+# require "luna/rspec/formatters/fulldesc"

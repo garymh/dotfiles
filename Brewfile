@@ -1,235 +1,198 @@
-tap "charmbracelet/tap"
-tap "clementtsang/bottom"
-tap "goles/battery"
-tap "heroku/brew"
-tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
-tap "homebrew/cask-versions"
-tap "homebrew/command-not-found"
-tap "homebrew/core"
-tap "homebrew/services"
-# tap "minio/stable"
-tap "muesli/tap"
-tap "rigellute/tap"
 
-brew "aircrack-ng"
 brew "automake"
-brew "bat"
-brew "bottom"
-brew "ccat"
-brew "charmbracelet/tap/glow"
-brew "choose-gui"
-# brew "chruby"
-brew "cmake"
 brew "coreutils"
+brew "asdf"
+brew "icu4c"
+brew "bat"
+brew "gcc"
+brew "btop"
+brew "glib"
+brew "pkg-config"
+brew "python@3.9"
+brew "carthage"
+brew "portaudio"
+brew "cava"
+brew "ccat"
+brew "cmake"
+brew "codespell"
+brew "ctags"
+brew "openldap"
 brew "curl"
 brew "diff-so-fancy"
-brew "dockutil"
-brew "dust"
+brew "direnv"
+brew "docutils"
+brew "dpkg"
 brew "duti"
 brew "exa"
+brew "exiftool"
 brew "fasd"
 brew "fd"
-brew "fzy"
+brew "unbound"
+brew "gnutls"
+brew "harfbuzz"
+brew "ffmpeg"
+brew "pango"
+brew "fontforge"
+brew "fzf"
+brew "geckodriver"
+brew "gh"
+brew "gifsicle"
 brew "git"
 brew "git-delta"
 brew "git-lfs"
-brew "gitlab-runner", restart_service: true
-brew "gnupg", link: false
-# brew "go"
-brew "goles/battery/battery"
+brew "gnu-sed"
+brew "gnupg"
+brew "gobject-introspection"
 brew "gpgme"
 brew "graphicsmagick"
-brew "hashcat"
-brew "heroku/brew/heroku"
-brew "hidapi"
+brew "lua"
 brew "highlight"
 brew "hr"
 brew "htop"
-brew "httpstat"
-brew "ical-buddy"
-brew "ifstat"
-brew "imagemagick"
 brew "iperf3"
-brew "john"
 brew "jq"
 brew "lazygit"
-brew "libassuan"
-brew "libgpg-error"
 brew "libiconv"
-brew "libressl"
-brew "libtermkey"
-brew "libusb"
-brew "libyaml"
-brew "lnav"
-brew "lolcat"
 brew "lsd"
-brew "lua"
-brew "luajit"
+brew "lua-language-server"
 brew "luarocks"
-brew "lv"
-brew "m-cli"
 brew "mackup"
 brew "mas"
-# brew "minio/stable/minio"
-brew "mkcert"
-brew "monolith"
+brew "moar"
 brew "mosh"
-brew "mtr"
-brew "muesli/tap/duf"
-brew "navi"
-brew "ncdu"
-brew "ncurses"
-brew "nginx"
-brew "ninja"
-brew "nmap"
-# brew "node"
-# brew "node@12"
+brew "neofetch"
+brew "neovim", args: ["HEAD"]
+brew "node"
 brew "noti"
-brew "pandoc"
-brew "pastel"
-brew "pdfcrack"
-brew "perl"
-brew "pkg-config"
-brew "portaudio"
-# brew "postgresql"
-brew "procs"
-brew "protobuf"
-brew "pulseaudio"
-brew "python@3.8"
-brew "qt"
+brew "pillow"
+brew "pinentry-mac"
+brew "pipes-sh"
+brew "qt@5"
 brew "re2"
-# brew "redis"
 brew "ripgrep"
-brew "ruby-install"
 brew "runit"
-brew "rust"
-brew "rustup-init"
-brew "sassc"
-brew "sd"
 brew "shellcheck"
-brew "shfmt"
-brew "showkey"
-brew "sl"
-brew "ssh-copy-id", link: true
-brew "telnet"
-brew "terminal-notifier"
+brew "ssh-copy-id"
+brew "starship"
+brew "streamlink"
+brew "subversion"
 brew "the_silver_searcher"
 brew "thefuck"
 brew "tig"
+brew "tmux"
 brew "topgrade"
 brew "trash"
-brew "tree"
-brew "tvnamer"
-brew "urlview"
 brew "vale"
-brew "vifm"
+brew "viu"
+brew "watchman"
 brew "wget"
-brew "whalebrew"
-brew "wifi-password"
-brew "wtfutil"
-# brew "yarn"
-brew "youtube-dl"
+brew "yamllint"
 brew "zsh"
-brew "apparition47/tap/mailtrackerblocker"
-brew "tmux"
-brew "svn"
-brew 'tree-sitter'
+brew "eth-p/software/bat-extras"
+brew "ms-jpq/sad/sad"
+brew "yqrashawn/goku/goku"
+brew "yt-dlp/taps/yt-dlp"
 
-cask "1password"
-cask "1password-cli"
 cask "alacritty"
-cask "brave"
 cask "alfred"
-cask "amethyst"
 cask "appcleaner"
-cask "bartender"
+cask "background-music"
+cask "bettertouchtool"
+cask "brave-browser"
 cask "calibre"
-cask "choosy"
 cask "chromedriver"
+cask "chromium"
 cask "coconutbattery"
-# cask "colorpicker-developer"
 cask "daisydisk"
 cask "discord"
-cask "docker"
-# cask "fantastical"
+cask "dockutil"
+cask "fantastical"
+cask "farrago"
 cask "firefox"
 cask "firefox-developer-edition"
+cask "google-chrome"
 cask "gpg-suite"
 cask "hammerspoon"
-cask "kaleidoscope"
+cask "iina"
 cask "karabiner-elements"
 cask "keyboard-cleaner"
+cask "kitty"
 cask "latest"
 cask "lingon-x"
-cask "macdown"
-cask "macvim"
-cask "monodraw"
+cask "marta"
+cask "mouse-fix"
 cask "muzzle"
-cask "name-mangler"
+cask "neovide"
 cask "notion"
 cask "omnifocus"
-# cask "opera"
+cask "opera"
 cask "pacifist"
 cask "paw"
+cask "pictogram"
 cask "plex-media-player"
-cask "qlimagesize"
-cask "qlmarkdown"
-cask "qlstephen"
-cask "qlvideo"
-cask "quicklook-csv"
-cask "quicklook-json"
-cask "quicklookase"
 cask "selfcontrol"
+cask "slack"
 cask "sloth"
 cask "soulver"
 cask "sourcetree"
 cask "spotify"
+cask "steam"
 cask "superduper"
 cask "suspicious-package"
 cask "swiftbar"
+cask "syntax-highlight"
 cask "tableplus"
 cask "the-unarchiver"
-cask "typora"
 cask "vimr"
-# cask "vivaldi"
 cask "vlc"
-cask "webpquicklook"
+cask "webcatalog"
 cask "zoom"
 
-mas 1107421413
-mas 413969927
-mas 1546729687
-mas 1438243180
-mas 425264550
-mas 1514703160
-mas 682658836
-mas 1448464118
-mas 1514863337
-mas 1458969831
-mas 409183694
-mas 405399194
-mas 1493326487
-mas 1398143805
-mas 409203825
-mas 1439967473
-mas 409201541
-mas 1421915518
-mas 1289583905
-mas 525180431
-mas 1494023538
-mas 1529448980
-mas 1503136033
-mas 1522267256
-mas 1153157709
-mas 1376402589
-mas 1122008420
-mas 1482490089
-mas 1191449274
-mas 1492631819
-mas 1181863013
-mas 1480933944
-mas 1208909162
-mas 533696630
-mas 1320666476
+mas "1Password for Safari", id: 1569813296
+mas "Baking Soda", id: 1601151613
+mas "CARROT Weather", id: 993487541
+mas "ColorSlurp", id: 1287239339
+mas "Dark Reader for Safari", id: 1438243180
+mas "Data Jar", id: 1453273600
+mas "Dropover", id: 1355679052
+mas "Focus for YouTube", id: 1514703160
+mas "GarageBand", id: 682658836
+mas "GIF Brewery 3", id: 1081413713
+mas "GoodNotes", id: 1444383602
+mas "Hand Mirror", id: 1502839586
+mas "Home Assistant", id: 1099568401
+mas "iMovie", id: 408981434
+mas "Jiffy", id: 1502527999
+mas "JSONPeep", id: 1458969831
+mas "Keynote", id: 409183694
+mas "Live Home 3D", id: 1066144116
+mas "Notion Web Clipper", id: 1559269364
+mas "Numbers", id: 409203825
+mas "OctoLinker", id: 1549308269
+mas "Okta Extension App", id: 1439967473
+mas "OpenIn", id: 1547147101
+mas "Pages", id: 409201541
+mas "Pi-hole Remote", id: 1515445551
+mas "PiPifier", id: 1160374471
+mas "Pixelmator Pro", id: 1289583905
+mas "Reeder", id: 1529448980
+mas "Refined GitHub", id: 1519867270
+mas "Service Station", id: 1503136033
+mas "Shareful", id: 1522267256
+mas "Shortery", id: 1594183810
+mas "Silicio", id: 933627574
+mas "Simple Comic", id: 1497435571
+mas "SponsorBlock for YouTube - Skip Sponsorships", id: 1573461917
+mas "SQLPro for SQLite", id: 586001240
+mas "StopTheMadness", id: 1376402589
+mas "Super Agent", id: 1568262835
+mas "Tweaks for Reddit", id: 1524828965
+mas "Twitter", id: 1482454543
+mas "Twitterrific", id: 1289378661
+mas "URL Linker", id: 1289119450
+mas "UTC Time", id: 1538245904
+mas "Vimari", id: 1480933944
+mas "Vinegar", id: 1591303229
+mas "Wipr", id: 1320666476
+mas "Xcode", id: 497799835
+mas "Youtube Master", id: 1630560312

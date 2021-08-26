@@ -1,13 +1,7 @@
-#!/usr/bin/env ruby
-# vi:syntax=ruby
+#!/bin/bash
 
-require_relative 'glhelper'
+# GITLAB_HOME="${GITLAB_HOME:-"$HOME/code/work/gdk/gitlab/"}"
+# open "$(cat "$GITLAB_HOME/.git/MR_URL")"
 
-if on_default_branch?
-  `open "https://gitlab.com/dashboard/merge_requests?assignee_username=garyh"`
-else
-  mrs = JSON.parse(File.read('/tmp/gitlab/MRs.json'))
-  mr  = mrs.find { |i| i["source_branch"] == @branch }
-
-  `open #{mr["web_url"]}`
-end
+# GITLAB_HOME="${GITLAB_HOME:-"$HOME/code/work/gdk/gitlab/"}"
+open "$(cat ".git/MR_URL")"

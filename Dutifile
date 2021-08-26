@@ -24,27 +24,27 @@
 # shell   app can execute the item.
 # none    app cannot open the item, but provides an icon for the given UTI.
 
-abnerworks.Typora net.daringfireball.markdown all
-org.vim.MacVim com.apple.applescript.text all
-org.vim.MacVim com.netscape.javascript-source all
-org.vim.MacVim com.sun.java-source all
-org.vim.MacVim public.c-plus-plus-source all
-org.vim.MacVim public.data all
-org.vim.MacVim public.php-script all
-org.vim.MacVim public.plain-text all
-org.vim.MacVim public.python-script all
-org.vim.MacVim public.ruby-script all
-org.vim.MacVim public.shell-script all
-org.vim.MacVim public.source-code all
-org.vim.MacVim public.unix-executable all
-org.vim.MacVim public.yaml all
-org.vim.MacVim public.xml all
-org.vim.MacVim text/plain all
-org.vim.MacVim .json all
-org.vim.MacVim .zsh all
-at.eggerapps.tabletool public.comma-separated-values-text all
-org.vim.MacVim .zsh all
-org.hammerspoon.Hammerspoon .torrent all
+app.loshadki.OpenIn net.daringfireball.markdown all
+app.loshadki.OpenIn com.apple.applescript.text all
+app.loshadki.OpenIn com.netscape.javascript-source all
+app.loshadki.OpenIn com.sun.java-source all
+app.loshadki.OpenIn org.go.source all
+app.loshadki.OpenIn public.c-plus-plus-source all
+app.loshadki.OpenIn public.data all
+app.loshadki.OpenIn public.php-script all
+app.loshadki.OpenIn public.plain-text all
+app.loshadki.OpenIn public.python-script all
+app.loshadki.OpenIn public.ruby-script all
+app.loshadki.OpenIn public.shell-script all
+app.loshadki.OpenIn public.source-code all
+app.loshadki.OpenIn public.unix-executable all
+app.loshadki.OpenIn public.yaml all
+app.loshadki.OpenIn public.xml all
+app.loshadki.OpenIn text/plain all
+app.loshadki.OpenIn .json all
+app.loshadki.OpenIn .zsh all
+# at.eggerapps.tabletool public.comma-separated-values-text all
+# org.hammerspoon.Hammerspoon .torrent all
 
 org.videolan.vlc .avi all
 org.videolan.vlc .mkv all

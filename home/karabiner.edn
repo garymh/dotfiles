@@ -1,0 +1,277 @@
+; vi: ft=clojure
+{:devices {:topre   [{:vendor_id 2131 :product_id 308}]
+           :pikatea [{:vendor_id 9025 :product_id 32822}]
+           :macbook [{:vendor_id 1452 :product_id 834}]
+           :mouse   [{:vendor_id 5426 :product_id 123}]
+           :macropad [{:vendor_id 1578 :product_id 16770}]}
+
+ :profiles {:Goku {:default true
+                   :sim     50     ;; simultaneous_threshold_milliseconds (def: 50)
+                        ;; keys need to be pressed within this threshold to be considered simultaneous
+                   :delay   500    ;; to_delayed_action_delay_milliseconds (def: 500)
+                        ;; basically it means time after which the key press is count delayed
+                   :alone   500    ;; to_if_alone_timeout_milliseconds (def: 1000)
+                        ;; hold for 995s and single tap registered; hold for 1005s and seen as modifier
+                   :held    100   ;; to_if_held_down_threshold_milliseconds (def: 500)
+                        ;; key is fired twice when 500 ms is elapsed (otherwise seen as a hold command)
+                   }}
+
+ :applications {:firefox     ["^org\\.mozilla\\.firefox"]
+                :firefoxdev  ["^org\\.mozilla\\.firefoxdeveloperedition$"]
+                :firefoxnight ["^org\\.mozilla\\.nightly$"]
+                :finder ["^com\\.apple\\.finder"]
+                :mail        ["^com\\.apple\\.mail"]
+                :onep        ["^com\\.1password\\.1password"]
+                :kitty       ["^net\\.kovidgoyal\\.kitty"]
+                :reeder      ["^com\\.reederapp\\.5\\.macOS"]
+                :safari      ["^com\\.apple\\.Safari"]
+                :omnifocus   ["^com\\.omnigroup\\.OmniFocus3$"]
+                :firefoxes   ["^org\\.mozilla\\.firefox" "^org\\.mozilla\\.firefoxdeveloperedition$", "^org\\.mozilla\\.nightly$"]
+                :terminal    ["^com\\.apple\\.Terminal"]
+                :terminals   ["^io\\.alacritty" "^net\\.kovidgoyal\\.kitty", "^com\\.apple\\.Terminal"]}
+
+ :templates {:launcher    "open -a \"%s.app\""
+             :alfred      "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\"'"
+             :applescript "osascript \"$HOME/iCloud/Internal/custom/applescripts/%s.scpt\""
+             :hammerspoon "osascript -e 'tell application \"Hammerspoon\" to execute lua code \"%s\"'"}
+
+;; main list
+ :main
+ [{:des "fn key -> hyper key or f16 if alone"
+   :rules
+   [:macbook
+    [:##fn nil nil {:alone :##f16 :held :!!left_shift}]
+    [:##left_control :!!left_shift nil {:alone :##f16}]
+    [:##caps_lock :right_control nil {:alone :##f15}]]}
+
+  ; {:des "opt + f16" :rules  [[:!!Of16 :!!Ch]]}
+  ; {:des "space key -> layer key or f18 if alone" :rules [[:##fn :!!left_shift nil {:alone :##f18}]]}
+  ; {:des "return my ⌘-~ to me" :rules                      [[:!Cescape :!Cgrave_accent_and_tilde]]}
+  ; {:des "easier backticks on 65%" :rules                  [[:!Oescape :grave_accent_and_tilde :topre]]}
+  ; {:des "need an escape tho" :rules                       [[:!Oescape :grave_accent_and_tilde :topre]]}
+  ; {:des "caps lock -> control or f16 if alone" :rules     [[:##caps_lock :left_control nil {:alone :##f16}]]}
+  ; {:des "fn key -> hyper key or f18 if alone" :rules      [[:##fn :!!left_shift nil [{:alone :##f18} :macbook]]]}
+  ; {:des "left_control -> hyper key or f18 if alone" :rules[[:##left_control :!!left_shift nil [{:alone :##f18} :macbook]]]}
+
+  {:des "<c-openbracket> stupid macbook" :rules           [[:!Topen_bracket :escape]]}
+  ; {:des "volume down" :rules                              [[:!!hyphen :volume_down]]}
+  ; {:des "volume up" :rules                                [[:!!equal_sign :volume_up]]}
+  ; {:des "mute" :rules                                     [[:!!0 :mute]]}
+  ; {:des "fix right alt" :rules                            [[:##right_alt :##right_command :topre]]}
+  ; {:des "fix right command" :rules                        [[:##right_control :##right_option :topre]]}
+
+  {:des "shift + delete -> forward delete" :rules         [[:!Sdelete_or_backspace :##delete_forward]]}
+
+  {:des "|mail| <c-c> to ⌘⇧c (conversations)" :rules      [[:!Tc :!CSc :mail]]}
+  {:des "|mail| <c-/> to ⌘⌥f" :rules                      [[:!Tslash :!COf :mail]]}
+  {:des "|mail| ⌘return sends" :rules                     [[:!Creturn_or_enter :!CSd :mail]]}
+
+  {:des "|reeder| ⌘1 -> ⌥1" :rules                        [[:!C1 :!O1 :reeder]]}
+  {:des "|reeder| ⌘2 -> ⌥2" :rules                        [[:!C2 :!O2 :reeder]]}
+  {:des "|reeder| ⌘⇧r -> R" :rules                        [[:!CSr :r :reeder]]}
+
+  {:des "|finder| ⌘⇧f -> ⌥⌘l" :rules                      [[:!CSf :!COl :finder]]}
+
+  {:des "|safari| undo close window" :rules               [[:!CSn :!CSt :safari]]}
+  {:des "|safari| undo close tab" :rules                  [[:!CSz :!CSt :safari]]}
+  {:des "|safari| private window" :rules                  [[:!CSp :!CSn :safari]]}
+
+  {:des "|firefoxes| undo close tab" :rules               [[:!SCz :!SCt :firefoxes]]}
+  ; {:des "|firefox-dev| gitlab undo" :rules                [[:!Tbackslash :!Cbackslash :firefox-dev]]}
+
+  {:des "|1password| easier shortcut" :rules              [[:!Cl :!Cf :onep]]}
+
+  {:des "|terminals| vim history fix" :rules              [[:!Ti :f6 :terminals]]}
+
+  {:des "|terminal| ⌥ delete" :rules                      [[:!Odelete_or_backspace :!Tw :terminal]]}
+  {:des "|terminal| ⌘ delete" :rules                      [[:!Cdelete_or_backspace :!Tu :terminals]]}
+  {:des "|terminal| ⌘ return" :rules                      [[:!Creturn_or_enter :!Oreturn_or_enter :terminals]]}
+  {:des "|terminal| ⌘ <- to ctrl-a" :rules                [[:!Cleft_arrow :!Ta :terminal]]}
+  {:des "|terminal| ⌘ -> to ctrl-e" :rules                [[:!Cright_arrow :!Te :terminal]]}
+  {:des "|terminal| ⌘ <- to ctrl-a" :rules                [[:!CTh :!Ta :terminal]]}
+  {:des "|terminal| ⌘ -> to ctrl-e" :rules                [[:!CTl :!Te :terminal]]}
+
+  {:des "|omnifocus| defer to tomorrow" :rules            [[:!Cright_arrow [:applescript "defer-to-tomorrow"] :omnifocus]]}
+
+  {:des "vim ctrl arrow key left" :rules                  [[:!W##h :##left_arrow]]}
+  {:des "vim ctrl arrow key right" :rules                 [[:!W##l :##right_arrow]]}
+  {:des "vim ctrl arrow key up" :rules                    [[:!W##k :##up_arrow]]}
+  {:des "vim ctrl arrow key down" :rules                  [[:!W##j :##down_arrow]]}
+  {:des "vim ctrl arrow key left" :rules                  [[:!T##h :##left_arrow]]}
+  {:des "vim ctrl arrow key right" :rules                 [[:!T##l :##right_arrow]]}
+  {:des "vim ctrl arrow key up" :rules                    [[:!T##k :##up_arrow]]}
+  {:des "vim ctrl arrow key down" :rules                  [[:!T##j :##down_arrow]]}
+
+  ; {:des "clear notifications" :rules                      [[:!!delete_or_backspace [:applescript "notifications/close"]]]}
+  ; {:des "clear notifications" :rules                      [[:f18 [:applescript "notifications/close"]]]}
+  ; {:des "activate notification" :rules                    [[:!!a [:applescript "notifications/activate"]]]}
+  ; {:des "reply to notification" :rules                    [[:!!r [:applescript "notifications/reply"]]]}
+
+  {:des "mousetest?" :rules                               [[:f12 :grave_accent_and_tilde :mouse]]}
+  {:des "mousetest?2" :rules                              [[:f11 :grave_accent_and_tilde :mouse]]}
+
+  ; {:des "sinc keyboard fn?" :rules                        [[:keypad_slash :fn]]}
+
+  {:des "hyper t" :rules      [[:!!t :fn]]}
+  ;             :!!a "mandatory hyper(control command option shift) a "}
+
+  ; {:des "mouse 4" :rules                    [[{:pkey :button4} :f13]]}
+  ; {:des "mouse 5" :rules                    [[{:pkey :button5} :f14]]}
+  ; {:des "simultaneous mouse buttons" :rules [[[{:pkey :button4} {:pkey :button5}] :mission_control]]}
+  ; {:des "mouse 4" :rules                    [[{:pkey :button4} :f13]]}
+  ; {:des "mouse 5" :rules                    [[{:pkey :button5} :f14]]}
+  ; {:des "mouse 3" :rules                    [[{:pkey :button3} :!CTd]]}
+  ; ;; C T O S for left command control optional shift
+  ; {:des "simultaneous test" :rules [[[:j :l] :f19]]}
+  ; {:des "side mouse button 1" :rules                      [[{:pkey :button5} nil nil {:held {:key :f11} :alone {:key :mission_control}}]]}
+
+; {:des "Quit application by holding command-q" :rules [[:!C#Pq nil nil {:held {:key :q :modi :left_command :repeat false}}]]}
+
+  ; {:des "toggle room light" :rules    [[:!!insert "open \"homecontrol://x-callback-url/run-action?action-type=switch-device-status&item-type=device&item-name=Office%20Light&home-name=My%20Home&activation-mode=toggle&authentication-token=Ha6jh1AKTsCTGNt314XkuQ\""]]}
+
+  {:des "a launch mAilspring (reach)" :rules [[{:key :a :modi [:left_shift, :right_shift]} [:launcher "/Applications/Mailspring"]]]}
+  {:des "b launch brave" :rules             [[{:key :b :modi [:left_shift, :right_shift]} [:launcher "/Applications/Brave Browser"]]]}
+  {:des "c launch disCord" :rules           [[{:key :c :modi [:left_shift, :right_shift]} [:launcher "/Applications/Discord"]]]}
+  {:des "d launch firefox dev" :rules       [[{:key :d :modi [:left_shift, :right_shift]} [:launcher "/Applications/Firefox Developer Edition"]]]}
+  {:des "e launch Email" :rules             [[{:key :e :modi [:left_shift, :right_shift]} [:launcher "/System/Applications/Mail"]]]}
+  {:des "f launch firefox" :rules           [[{:key :f :modi [:left_shift, :right_shift]} [:launcher "/Applications/Firefox"]]]}
+  {:des "g launch gitlab local" :rules      [[{:key :g :modi [:left_shift, :right_shift]} [:launcher "/Applications/Safari Technology Preview"]]]}
+  {:des "j Just fullscreen pls" :rules      [[{:key :j :modi [:left_shift, :right_shift]} [:!!f]]]}
+  {:des "k launch kitty" :rules             [[{:key :k :modi [:left_shift, :right_shift]} [:launcher "/Applications/kitty"]]]}
+  {:des "l launch sLack" :rules             [[{:key :l :modi [:left_shift, :right_shift]} [:launcher "/Applications/Slack"]]]}
+  {:des "; launch Finder" :rules            [[{:key :semicolon :modi [:left_shift, :right_shift]} [:launcher "/System/Library/CoreServices/Finder"]]]}
+  {:des "m launch messages" :rules          [[{:key :m :modi [:left_shift, :right_shift]} [:launcher "/System/Applications/Messages"]]]}
+  {:des "o launch omnifocus" :rules         [[{:key :o :modi [:left_shift, :right_shift]} [:launcher "/Applications/Omnifocus"]]]}
+  {:des "p launch sPotify" :rules           [[{:key :p :modi [:left_shift, :right_shift]} [:launcher "/Applications/Spotify"]]]}
+  {:des "r launch reeder" :rules            [[{:key :r :modi [:left_shift, :right_shift]} [:launcher "/Applications/Reeder"]]]}
+  {:des "s launch safari" :rules            [[{:key :s :modi [:left_shift, :right_shift]} [:launcher "/Applications/Safari"]]]}
+  {:des "t launch terminal" :rules          [[{:key :t :modi [:left_shift, :right_shift]} [:launcher "/System/Applications/Utilities/Terminal"]]]}
+  {:des "v launch macVim" :rules            [[{:key :v :modi [:left_shift, :right_shift]} [:launcher "/Applications/VimR"]]]}
+  {:des "shortcat thing" :rules            [[{:key :spacebar :modi [:left_shift, :right_shift]} [:!!spacebar]]]}
+  ; {:des "w launch tWitterrific" :rules      [[{:key :w :modi [:left_shift, :right_shift]} [:launcher "/Applications/Twitterrific"]]]}
+  ; {:des "n launch ff night" :rules          [[{:key :n :modi [:left_shift, :right_shift]} [:launcher "/Applications/Firefox Nightly"]]]}
+
+; {:des "|numpad| *" :rules        [[:keypad_asterisk :vk_consumer_previous]]}
+  ; {:des "|numpad| -" :rules        [[:keypad_hyphen :vk_consumer_next]]}
+
+  ; {:des "|numpad| +" :rules           [[:keypad_plus "shortcuts run \"Toggle Light\""]]}
+  ; {:des "|numpad| 4" :rules           [[:keypad_4 [:applescript "new_finder_window"]]]}
+  ; {:des "|numpad| 8" :rules           [[:keypad_8 "shortcuts run \"Toggle Work Mode\""]]}
+  ; {:des "|numpad| 1" :rules           [[:keypad_1 :!!spacebar]]}
+
+  ; {:des "|numpad| 1" :rules           [[:keypad_1 [:hammerspoon "moveToLeftScreen()"]]]}
+  ; {:des "|numpad| 2" :rules           [[:keypad_2 [:hammerspoon "moveToMiddleScreen()"]]]}
+  ; {:des "|numpad| 1" :rules           [[:keypad_3 [:hammerspoon "moveToRightScreen()"]]]}
+
+  ; {:des "|numpad| 1" :rules           [[:keypad_1 [:alfred "gitlab.linker" "net.deanishe.alfred.firefox-assistant-demo"]]]}
+  ;             :!!a "mandatory hyper(control command option shift) a "}
+
+  {:des "light piktea" :rules        [[:f1 "shortcuts run \"Toggle Light\"" :pikatea]]}
+  {:des "pacman ghost piktea" :rules [[:f2 "shortcuts run \"Pacman Ghost\"" :pikatea]]}
+  {:des "work mode" :rules           [[:f3 [:hammerspoon "useLayout([[work]])"] :pikatea]]}
+  {:des "game mode" :rules           [[:f4 [:hammerspoon "useLayout([[game]])"] :pikatea]]}
+  {:des "chill mode" :rules          [[:f5 [:hammerspoon "useLayout([[chill]])"] :pikatea]]}
+
+  ; {:des "left" :rules           [[:f21 [:hammerspoon "adjust_moom(0,0,5,10)"]]]}
+  ; {:des "up" :rules           [[:f22 [:hammerspoon "adjust_moom(0,5,10,5)"]]]}
+  ; {:des "down" :rules           [[:f23 [:hammerspoon "adjust_moom(0,0,10,5)"]]]}
+  ; {:des "right" :rules           [[:f24 [:hammerspoon "adjust_moom(5,0,5,10)"]]]}
+  ; {:des "max" :rules           [[:f19 [:hammerspoon "hs.grid.maximizeWindow()"]]]}
+
+ ; {:main [{:des "hyper 1 to cleanup personal folder"
+ ;             :rules [[:!!1 "rm -r ~/personal && mkdir ~/personal"]]}]}
+ ;
+ ;    ;; or we can break it into two <to>
+ ;
+ ;    {:main [{:des "hyper 1 to cleanup personal folder"
+ ;             :rules [[:!!1 ["rm -r ~/personal" "mkdir ~/personal"]]]}]}
+; top right button - spacebar/light?
+
+; home
+; end
+; page up
+; page down
+
+; 4      | mon1
+; 6      | mon2
+; 8      | mon3
+; macro1 | macro2
+; prev   | next
+
+  {:des "|numpad| numlock" :rules  [[:keypad_num_lock :1 :macropad]]}
+  {:des "|numpad| /" :rules        [[:keypad_slash :2 :macropad]]}
+  {:des "|numpad| *" :rules        [[:keypad_asterisk :3 :macropad]]}
+  {:des "|numpad| backspace" :rules [[:delete_or_backspace :4 :macropad]]}
+
+  {:des "|numpad| 7" :rules        [[:keypad_7 :q :macropad]]}
+  {:des "|numpad| 8" :rules        [[:keypad_8 :w :macropad]]}
+  {:des "|numpad| 9" :rules        [[:keypad_9 :e :macropad]]}
+  {:des "|numpad| -" :rules        [[:keypad_hyphen :r :macropad]]}
+
+  {:des "|numpad| 4" :rules        [[:keypad_4 :a :macropad]]}
+  {:des "|numpad| 5" :rules        [[:keypad_5 :s :macropad]]}
+  {:des "|numpad| 6" :rules        [[:keypad_6 :d :macropad]]}
+  {:des "|numpad| +" :rules        [[:keypad_plus :f :macropad]]}
+
+  {:des "|numpad| 1" :rules        [[:keypad_1 :z :macropad]]}
+  {:des "|numpad| 2" :rules        [[:keypad_2 :x :macropad]]}
+  {:des "|numpad| 3" :rules        [[:keypad_3 :c :macropad]]}
+
+  {:des "|numpad| 0" :rules        [[:keypad_0 :!O1 :macropad]]}
+  {:des "|numpad| ." :rules        [[:keypad_period :!O2 :macropad]]}
+  {:des "|numpad| enter" :rules    [[:keypad_enter :!Cescape :macropad]]}
+
+  ; {:des "|numpad| 4" :rules        [[:keypad_4 :vk_consumer_previous :macropad]]}
+  ; {:des "|numpad| 5" :rules        [[:keypad_5 :play_or_pause :macropad]]}
+  ; {:des "|numpad| 6" :rules        [[:keypad_6 :vk_consumer_next :macropad]]}
+  ; ; {:des "|numpad| 1" :rules        [[:keypad_1 :vk_consumer_previous :macropad]]}
+  ; ; {:des "|numpad| 2" :rules        [[:keypad_2 :vk_consumer_previous :macropad]]}
+  ; ; {:des "|numpad| 3" :rules        [[:keypad_3 :vk_consumer_previous :macropad]]}
+  ; {:des "|numpad| 4" :rules        [[:keypad_4 :vk_consumer_previous :macropad]]}
+  ; {:des "|numpad| 5" :rules        [[:keypad_5 :play_or_pause :macropad]]}
+  ; {:des "|numpad| 6" :rules        [[:keypad_6 :vk_consumer_next :macropad]]}
+  ; {:des "|numpad| 7" :rules        [[:keypad_7 [:hammerspoon "maximizeToLeftScreen()"] :macropad]]}
+  ; {:des "|numpad| 8" :rules        [[:keypad_8 [:hammerspoon "maximizeToMiddleScreen()"] :macropad]]}
+  ; {:des "|numpad| 9" :rules        [[:keypad_9 [:hammerspoon "maximizeToRightScreen()"] :macropad]]}
+  ; ; {:des "|numpad| 0" :rules        [[:keypad_0 :vk_consumer_previous :macropad]]}
+  ; {:des "|numpad| -" :rules        [[:keypad_hyphen :volume_decrement :macropad]]}
+  ; {:des "|numpad| +" :rules        [[:keypad_plus :volume_increment :macropad]]}
+  ; {:des "|numpad| backspace" :rules[[:delete_or_backspace [:alfred "lyrics" "com.rudzitis.lyrics"] :macropad]]}
+  ; ; {:des "|numpad| /" :rules        [[:keypad_slash :vk_consumer_next :macropad]]}
+  ; ; {:des "|numpad| *" :rules        [[:keypad_asterisk :vk_consumer_next :macropad]]}
+  ; ; {:des "|numpad| ." :rules        [[:keypad_period :vk_consumer_next :macropad]]}
+  ; {:des "|numpad| numlock" :rules  [[:keypad_num_lock [:hammerspoon "hs.reload()"] :macropad]]}
+  ; {:des "|numpad| enter" :rules  [[:keypad_enter [:applescript "insert_pry"] :macropad]]}
+  ]
+
+ ; ;; code won't read cheatsheet section
+ ; ;; ! stand for mandatory
+ ; ;; # stand for optional
+ ; ;; C T O S for left command control optional shift
+ ; ;; F for fn
+ ; ;; need to prefix C T O S F with ! or #
+ ; :cheatsheet {:!Ca "command a" ;; mandatory left_command
+  ;             :!Ta "control a" ;; mandatory left_control
+  ;             :!Oa "option a"
+  ;             :!Sa "shift a"
+  ;             :#Sa "shift a" ;; keycode a, optional left_shift
+  ;             :!CTOa "command control option a"
+  ;             :!Cspacebar "command space"
+  ;             :!Fa "fn a"
+  ;             :##a "keycode a optional any"
+  ;             :!!a "mandatory hyper(control command option shift) a "}
+ }
+;; !  | means mandatory
+    ;; #  | means optional
+    ;; C  | left_command
+    ;; T  | left_control
+    ;; O  | left_option
+    ;; S  | left_shift
+    ;; F  | fn
+    ;; Q  | right_command
+    ;; W  | right_control
+    ;; E  | right_option
+    ;; R  | right_shift
+    ;; P  | caps_lock
+    ;; !! | mandatory command + control + optional + shift (hyper)
+    ;; ## | optional any,w

@@ -3,3 +3,5 @@
 /home/zsh/bundle/*
 *.zwc
 /home/hammerspoon/Spoons
+.lsp
+.clj-kondo

@@ -647,11 +647,11 @@ delete_image_auto() {
 setup
 
 ############# START CONFIG #############
-LOGIN=false  # true if we should authenticate with our own user.
+LOGIN=true  # true if we should authenticate with our own user.
 ALBUM_ID=""
 
 API_CALL_CONNECT_TIMEOUT_SEC=5
-API_CALL_TIMEOUT_SEC=60
+API_CALL_TIMEOUT_SEC=120
 API_CALL_RETRIES=1
 
 LOG_FILE="$CONF_ROOT/log"

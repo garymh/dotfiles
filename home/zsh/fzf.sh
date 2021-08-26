@@ -9,7 +9,8 @@ if [[ -f ~/.fzf.zsh ]]; then
                            --bind 'ctrl-a:select-all+accept'
                            --bind 'ctrl-o:execute[open {}]'
                            --bind 'ctrl-f:page-down'
-                           --bind 'tab:toggle+up'
+                           --bind 'tab:toggle-out'
+                           --bind 'shift-tab:toggle-in'
                            --bind 'ctrl-b:page-up'
                            --bind 'ctrl-y:execute[echo {} | pbcopy]'
                            --prompt='❯ '
@@ -82,6 +83,12 @@ if [[ -f ~/.fzf.zsh ]]; then
       zle reset-prompt
     fi
     cd $working_dir
+  }
+
+  other-gg() {
+    echo
+    git-smart-checkout
+    zle redisplay
   }
 
   fzf-nvim() {

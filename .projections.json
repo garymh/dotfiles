@@ -5,10 +5,4 @@
   "home/zshenv": {
     "alternate": "home/zshrc"
   },
-  "home/vimrc": {
-    "alternate": "home/vim/scripts/plugin_settings.vim"
-  },
-  "home/vim/scripts/plugin_settings.vim": {
-    "alternate": "home/vimrc"
-  },
 }

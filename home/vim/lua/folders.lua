@@ -1,9 +1,7 @@
 -- Borrowed from https://github.com/jamestthompson3/vimConfig/
 
-local home = os.getenv("HOME")
-
 --- Check if a file or directory exists in this path
-function exists(file)
+local function exists(file)
   local ok, err, code = os.rename(file, file)
   if not ok then
     if code == 13 then
@@ -15,13 +13,13 @@ function exists(file)
 end
 
 --- Check if a directory exists in this path
-function isdir(path)
+local function isdir(path)
   -- "/" works on both Unix and Windows
-  return exists(path.."/")
+  return exists(path .. "/")
 end
 
 local function create_backup_dir()
-  local data_dir   = home .. '/.local/share/nvim/'
+  local data_dir   = Home .. '/.local/share/nvim/'
   local backup_dir = data_dir .. 'backup'
   local undo_dir   = data_dir .. 'undo'
   if not isdir(data_dir) then
@@ -43,7 +41,7 @@ if os.getenv("SUDO_USER") then
   vim.o.swapfile    = false
   vim.o.undofile    = false
 else
-  vim.o.backupdir   = home .. "/.local/share/nvim/backup"
+  vim.o.backupdir   = Home .. "/.local/share/nvim/backup"
   vim.o.undofile    = true
   vim.o.backup      = true
   vim.o.writebackup = true

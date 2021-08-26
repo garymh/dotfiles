@@ -1,15 +1,15 @@
 [submodule "dotbot"]
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
-[submodule "dotbot-brewfile"]
-	path = dotbot-brewfile
-	url = https://github.com/sobolevn/dotbot-brewfile.git
-[submodule "dotbot-brew"]
-	path = dotbot-brew
-	url = https://github.com/d12frosted/dotbot-brew.git
+[submodule "dotbot-duti"]
+	path = dotbot-duti
+	url = https://github.com/andrejreznik/dotbot-duti.git
 [submodule "dotbot-pip"]
 	path = dotbot-pip
 	url = https://github.com/sobolevn/dotbot-pip.git
-[submodule "dotbot-duti"]
-	path = dotbot-duti
-	url = https://github.com/andrejreznik/dotbot-duti
+[submodule "dotbot-asdf"]
+	path = dotbot-asdf
+	url = https://github.com/sobolevn/dotbot-asdf.git
+[submodule "dotbot-brewfile"]
+	path = dotbot-brewfile
+	url = https://github.com/sobolevn/dotbot-brewfile.git

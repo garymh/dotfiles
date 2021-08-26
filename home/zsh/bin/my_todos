@@ -1,0 +1,110 @@
+#!/bin/bash
+
+# MILESTONE=${MILESTONE:?"Milestone is not set"}
+
+GLAB=${GLAB:-glab}
+GLFLOW=${GLFLOW:-""}
+if [[ -n "${MILESTONE}" && -z "${MILESTONES}" ]]; then
+  MILESTONES="${MILESTONE}"
+elif [[ -n "${MILESTONE}" && -n "${MILESTONES}" ]]; then
+  MILESTONES="${MILESTONES},${MILESTONE}"
+fi
+
+
+filter_labels(){
+  if [ -z "${LABELS}" ]; then
+    cat
+  else
+    local _labels_exp
+    local _ifs=${IFS}
+    local _l
+    IFS=","
+    for _l in "${LABELS}"
+    do
+      _labels_exp=${_labels_exp:+","}"\"${_l}\""
+    done
+    IFS="${_ifs}"
+    jq --argjson filter "[${_labels_exp}]" '[.[] | .labels as $labels | select($labels | contains($filter))]'
+  fi
+}
+
+filter_milestones(){
+  if [ -z "${MILESTONES}" ]; then
+    cat
+  else
+    local _milestones_exp
+    local _ifs=${IFS}
+    local _l
+    IFS=","
+    for _m in "${MILESTONES}"
+    do
+      _milestones_exp=${_milestones_exp:+","}"\"${_m}\""
+    done
+    IFS="${_ifs}"
+    jq --argjson filter "[${_milestones_exp}]"  '[.[] | .target.milestone.title as $milestone | select($filter | contains([$milestone] ))]'
+  fi
+}
+
+json_full_glab(){
+  ${GLAB} api todos --paginate
+}
+
+json_full_glflow(){
+  ${GLFLOW} api /todos
+}
+
+json_full(){
+  local _cmd
+  if [[ -n "${GLFLOW}" ]]; then
+    _cmd="json_full_glflow"
+  else
+    _cmd="json_full_glab"
+  fi
+
+  if [ "${MILESTONE+set}" == "set" -a -z "${MILESTONE}" ]; then
+    $_cmd | jq '[ .[] | select(.milestone == null)]'
+  elif [ -z "${MILESTONE}" -a -z "${MILESTONES}" ]; then
+    $_cmd
+  else
+    $_cmd | filter_milestones
+  fi
+}
+
+get_json(){
+  local _milestone
+  # if [[ -n "${MILESTONE}" ]]; then
+  #   _milestone="--arg milestone ${MILESTONE}"
+  # else
+  #   _milestone="--arg milestone ."
+  # fi
+
+  json_full \
+    | jq -s $_milestone '[. | flatten | .[] | .target_type as $target_type | .project.path_with_namespace as $project | .target| {"milestone": .milestone.title, "type": $target_type, "title": .title, "url": .web_url, "updated": .updated_at, "reference": .references.full, "project": $project, labels: .labels} ]' \
+    | filter_labels
+    # | jq $_milestone '[.[].target| {"milestone": .milestone.title, "type": .type, "title": .title, "url": .web_url, "updated": .updated_at} | select(.milestone==$milestone or $milestone=="." ) ]'
+}
+
+get_colored_text(){
+  local _lightblue=$'\u001b[1;34m'
+  local _reset=$'\u001b[00m'
+  local _darkgray=$'\u001b[1;30m'
+  local _blue=$'\u001b[0;34m'
+  get_json \
+    | jq \
+      --arg lightblue "$_lightblue" \
+      --arg darkgray "$_darkgray" \
+      --arg reset "$_reset" \
+      --arg blue "$_blue" \
+      -r '.[] | $darkgray+"\(.updated) "+$lightblue+"\(.milestone) "+$darkgray+"\(.type) "+$reset+"\(.title) "+$blue+"\(.url)"+$reset'
+}
+
+cmd=${1:-"text"}
+
+case "${cmd}" in
+  json_full) json_full
+    ;;
+  json) get_json
+    ;;
+  *) get_colored_text
+    ;;
+esac

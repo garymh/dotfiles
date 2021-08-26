@@ -1,99 +1,90 @@
-local cachedWifi  = hs.wifi.currentNetwork()
-local cachedPower = hs.battery.powerSource()
-
-function custom_read_from(file)
-  lines = {}
-  for line in io.lines(file) do lines[#lines + 1] = line end
-  return lines
-end
-
-function custom_max_key(t)
-  max_k, max_v = nil, 0
-  for index, value in pairs(t) do
-    if value > max_v then max_k, max_v = index, value end
-  end
-  return max_k
-end
-
-function predictLocation()
-  hs.execute(
-    "/usr/local/bin/whereami predict_proba > ~/iCloud/Internal/whereami.data")
-  return readLocation()
-end
-
-function readLocation()
-  if readLocationData() == nil then
-    return ""
-  else
-    return custom_max_key(hs.json.decode(readLocationData()))
-  end
-end
-
-function readLocationData()
-  location_data = custom_read_from(os.getenv("HOME") ..
-                                     "/iCloud/Internal/whereami.data")
-  return location_data[1]
-end
-
-function rubyRunner(name, argument)
-  print(" running:/usr/bin/env ruby ~/.hammerspoon/controlplane_actions/" ..
-          name .. ".rb " .. argument)
-  os.execute("/usr/bin/env ruby ~/.hammerspoon/controlplane_actions/" .. name ..
-               ".rb " .. argument)
-end
-
 local secureNetworks = {
-  'WPA Personal Mixed', 'WPA2 Personal', 'WPA Enterprise Mixed'
+  "WPA Personal Mixed",
+  "WPA2 Personal",
+  "WPA Enterprise Mixed",
 }
+local whiteList = { "dandg", "dvorak" }
 
-local whiteList = {'dandg'}
+-- 0 didWake
+-- 1 hs.caffeinate.watcher.systemWillSleep
+-- 2 hs.caffeinate.watcher.systemWillPowerOff
+-- 3 hs.caffeinate.watcher.screensDidSleep
+-- 4 hs.caffeinate.watcher.screensDidWake
+-- 5 hs.caffeinate.watcher.sessionDidResignActive
+-- 6 hs.caffeinate.watcher.sessionDidBecomeActive
+-- 7 hs.caffeinate.watcher.screensaverDidStart
+-- 8 hs.caffeinate.watcher.screensaverWillStop
+-- 9 hs.caffeinate.watcher.screensaverDidStop
+-- 10 hs.caffeinate.watcher.screensDidLock
+-- 11 hs.caffeinate.watcher.screensDidUnlock
+--
+-- 1 system will sleep
+-- 3 screen did sleep
+-- 10 screen did lock
 
-scenarios = {
-  kitchen_table = "home_wifi",
-  dining_room_table = "home_wifi",
-  dining_room_table_front = "home_wifi",
-  bed = "home_wifi",
-  home_desk = "home_desk",
-  kitchen_table = "home_wifi",
-  living_room_couch_r = "home_wifi",
-  ollies_room = "home_wifi"
-}
+-- 0  did wake
+-- 4  screen did wake
+-- 11 screen did unlock
 
 function caffeineChanged(watcher)
-  print("watcher: " .. watcher)
-
-  if watcher == hs.caffeinate.watcher.systemWillSleep then
-    deck = hs.streamdeck.getDevice(1)
-    if deck then
-      deck:reset()
-      deck:setBrightness(0)
-    end
-  end
+  print("WATHCER: " .. watcher)
+  -- if watcher == hs.caffeinate.watcher.systemWillSleep then
+    -- deck = hs.streamdeck.getDevice(1)
+    -- if deck then
+    --   deck:reset()
+    --   deck:setBrightness(0)
+    -- end
+  -- end
+  -- if watcher == hs.caffeinate.watcher.screensDidUnlock then
+    -- deck = hs.streamdeck.getDevice(1)
+    -- if deck then
+    --   initialScreen(deck)
+    -- end
+  -- end
 
   if watcher == hs.caffeinate.watcher.screensDidUnlock then
-    print("screen unlock")
-    if deck then
-      print("updating stream deck")
-      initialScreen(deck)
-    end
+    hs.timer.doAfter(3.5, function()
+      hs.alert("quietly reloading")
+      quietReload()
+    end)
+    -- deck = hs.streamdeck.getDevice(1)
+    -- if deck then
+    --   initialScreen(deck)
+    -- end
   end
-
-  if watcher == hs.caffeinate.watcher.systemDidWake then getLocation() end
 end
 
-function powerChanged()
-  print("power source: " .. hs.battery.powerSource())
-  print("charge left: " .. hs.battery.capacity())
-  print("percentage: " .. hs.battery.percentage())
-  print("the rest:" .. hs.inspect(hs.battery.getAll()))
-  local powerSource = hs.battery.powerSource()
-  if powerSource ~= cachedPower then
-    cachedPower = powerSource
-    getLocation()
+function screenChanged(watcher)
+
+  print("OI")
+  print(hs.inspect(watcher))
+
+  screens         = hs.screen.allScreens()
+  monitors        = tablelength(screens)
+  print("monitor size " .. monitors)
+
+  if hs.settings.get("screens") == nil then
+    print("no monitor value. setting")
+    hs.settings.set("screens", monitors)
+  elseif hs.settings.get("screens") == monitors then
+    print("not reloading")
+    return
+  else
+    hs.settings.set("screens", monitors)
+    print("reloading")
+    hs.timer.doAfter(3.5, function()
+      quietReload()
+    end)
   end
+
+  -- if watcher == hs.caffeinate.watcher.screensDidUnlock then
+  --   print("butt")
+  --   hs.timer.doAfter(3.5, function() hs.reload() end)
+  -- end
 end
 
 function qualityChanged(watcher, message, interface, rssi, rate)
+  hs.alert("link quality changed (see console)")
   print("Link quality rssi: " .. rssi)
   print("Link quality rate: " .. rate)
 end
@@ -101,7 +92,6 @@ end
 function wifiChanged(watcher, message)
   if message == "BSSIDChange" then
     hs.alert("we changed bssids! was this right? check your hammerspoon")
-    getLocation()
   end
 
   wifiName = hs.wifi.currentNetwork()
@@ -110,53 +100,65 @@ function wifiChanged(watcher, message)
   local wifiName = hs.wifi.currentNetwork()
   local security = hs.wifi.interfaceDetails().security
 
-  if not wifiName or hs.fnutils.contains(secureNetworks, security) and
-    hs.fnutils.contains(whiteList, wifiName) then
-    if wifiMenu then wifiMenu:removeFromMenuBar() end
+  if
+    not wifiName
+    or hs.fnutils.contains(secureNetworks, security)
+      and hs.fnutils.contains(whiteList, wifiName)
+  then
+    if wifiMenu then
+      wifiMenu:removeFromMenuBar()
+    end
   else
-    if not wifiMenu then wifiMenu = hs.menubar.newWithPriority(2147483645) end
+    if not wifiMenu then
+      wifiMenu = hs.menubar.newWithPriority(2147483645)
+    end
 
     wifiMenu:setTitle(wifiName)
     wifiMenu:setTooltip(
-      'This WiFi network is not recognized. Consider using a known one.')
+      "This WiFi network is not recognized. Consider using a known one."
+    )
 
     if not hs.fnutils.contains(secureNetworks, security) then
-      wifiMenu:setTitle('Insecure: ' .. wifiName)
+      wifiMenu:setTitle("Insecure: " .. wifiName)
       wifiMenu:setTooltip(
-        'This WiFi network is insecure. Consider using a secure one.')
+        "This WiFi network is insecure. Consider using a secure one."
+      )
     end
-
   end
 end
 
-function getLocation()
-  location = predictLocation()
-  print("we think we're at: " .. location)
-  if location ~= nil then
-    setScenario(scenarios[location])
-  else
-    hs.alert("Unknown location! Please set")
-    setScenario('road')
-  end
-end
+-- local screenwatcher = hs.screen.watcher.new(function()
+--   -- local screens         = hs.screen.allScreens()
+--   -- local monitors        = tablelength(screens)
+--   -- hs.settings.get("screens")
+--
+--   print("oi")
+--   -- if screens_setting == nil then
+--   --   hs.settings.set("screens", table)
+--   --   return
+--   -- elseif screens_setting == monitors then
+--   --   return
+--   -- else
+--   --   hs.reload()
+--   -- end
+-- end)
 
-function setScenario(id)
-  if (hs.settings.get("scenario") == nil or hs.settings.get("scenario") ~= id) and
-    id ~= nil then
-    print("setting scenario:" .. id)
-    hs.settings.set("scenario", id)
-    rubyRunner(id, "")
-  end
-end
+caffeineWatcher = hs.caffeinate.watcher.new(caffeineChanged)
+screenWatcher = hs.screen.watcher.new(screenChanged)
+wifiWatcher = hs.wifi.watcher.new(wifiChanged):watchingFor({
+  "SSIDChange",
+  "BSSIDChange",
+  "countryCodeChange",
+  "linkChange",
+  "modeChange",
+  "powerChange",
+  "scanCacheUpdated",
+})
+qualityWatcher = hs.wifi.watcher.new(qualityChanged):watchingFor({
+  "linkQualityChange",
+})
 
-function usbDevices()
-  devices = hs.usb.attachedDevices()
-  print(hs.inspect(devices))
-end
-
--- powerWatcher    = hs.battery.watcher.new(powerChanged):start()
-caffeineWatcher = hs.caffeinate.watcher.new(caffeineChanged):start()
-wifiWatcher = hs.wifi.watcher.new(wifiChanged):watchingFor(
-                {"BSSIDChange", "SSIDChange"}):start()
-
-getLocation()
+caffeineWatcher:start()
+qualityWatcher:start()
+wifiWatcher:start()
+screenWatcher:start()

@@ -9,6 +9,7 @@ _file_exists() {
 e_header()  { echo -e "\n\033[1m$@\033[0m"; }
 e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
 e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
+e_missing()   { e_error "\"brew install $1\" when you get a minute" }
 
 OS=$($(which uname))
 

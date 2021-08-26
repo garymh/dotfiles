@@ -24,7 +24,7 @@ on run argv
 
   delay 0.02
 
-  tell application "Alacritty"
+  tell application "Kitty"
     activate
   end tell
 end run

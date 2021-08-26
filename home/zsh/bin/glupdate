@@ -1,7 +1,0 @@
-#!/usr/bin/env ruby
-# vi:syntax=ruby
-
-require_relative 'glhelper'
-
-puts "forced update"
-update

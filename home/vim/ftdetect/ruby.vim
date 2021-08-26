@@ -1,1 +1,1 @@
-autocmd BufRead,BufNewFile *.axlsx,Capfile,Gemfile,Brewfile,*pryrc* set ft=ruby
+au BufNewFile,BufRead Dangerifle,Brewfile,.Brewfile set filetype=ruby syntax=brewfile

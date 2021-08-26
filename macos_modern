@@ -237,7 +237,7 @@ defaults write NSGlobalDomain AppleFontSmoothing -int 1
 defaults write com.apple.finder QuitMenuItem -bool true
 
 # Finder: disable window animations and Get Info animations
-defaults write com.apple.finder DisableAllAnimations -bool true
+# defaults write com.apple.finder DisableAllAnimations -bool true
 
 # Set Desktop as the default location for new Finder windows
 # For other paths, use `PfLo` and `file:///full/path/here/`
@@ -375,7 +375,7 @@ defaults write com.apple.dock show-process-indicators -bool true
 #defaults write com.apple.dock static-only -bool true
 
 # Don’t animate opening applications from the Dock
-defaults write com.apple.dock launchanim -bool false
+# defaults write com.apple.dock launchanim -bool false
 
 # Speed up Mission Control animations
 defaults write com.apple.dock expose-animation-duration -float 0.1
@@ -747,7 +747,7 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 ###############################################################################
 
 # Bypass the annoyingly slow t.co URL shortener
-defaults write com.tapbots.TweetbotMac OpenURLsDirectly -bool true
+# defaults write com.tapbots.TweetbotMac OpenURLsDirectly -bool true
 
 ###############################################################################
 # Kill affected applications                                                  #
@@ -779,17 +779,18 @@ for app in "Activity Monitor" \
 done
 echo "Done. Note that some of these changes require a logout/restart to take effect."
 # Setting the font (default is `Menlo`):
-defaults write org.n8gray.QLColorCode font "Fixedsys Excelsior"
-
-# Setting the font size (default is `10`):
-defaults write org.n8gray.QLColorCode fontSizePoints 14
-
-# http://www.andre-simon.de/dokuwiki/doku.php?id=theme_examples
-# there are themes!!!
-defaults write org.n8gray.QLColorCode hlTheme darkblue
-defaults write org.n8gray.QLColorCode rtfRender true
-defaults write org.n8gray.QLColorCode extraHLFlags '-l --kw-case=lower'
+# defaults write org.n8gray.QLColorCode font "Fixedsys Excelsior"
+#
+# # Setting the font size (default is `10`):
+# defaults write org.n8gray.QLColorCode fontSizePoints 14
+#
+# # http://www.andre-simon.de/dokuwiki/doku.php?id=theme_examples
+# # there are themes!!!
+# defaults write org.n8gray.QLColorCode hlTheme darkblue
+# defaults write org.n8gray.QLColorCode rtfRender true
+# defaults write org.n8gray.QLColorCode extraHLFlags '-l --kw-case=lower'
 
 # no more animations!
-defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool NO
+# defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool NO
 
+# defaults write com.tapbots.TweetbotMac OpenURLsDirectly YES

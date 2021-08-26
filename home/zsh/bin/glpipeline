@@ -1,0 +1,4 @@
+#!/bin/bash
+
+GITLAB_HOME="${GITLAB_HOME:-"$HOME/code/work/gdk/gitlab/"}"
+open "$(cat "$GITLAB_HOME/.git/MR_URL")/pipelines"

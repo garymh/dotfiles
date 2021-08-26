@@ -1,63 +1,73 @@
 source $HOME/.zsh/misc/utility.zsh
 
-export HISTFILE="$HOME/.zsh_history"
-export HISTSIZE=10000000
-export SAVEHIST=10000000
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
+export GF_BRANCH_SKIP_REMOTE_BRANCHES="yes"
 export COMPLETION_WAITING_DOTS="true"
-export CPPFLAGS="-I/usr/local/opt/icu4c/include"
 export DOTFILES="$HOME/code/dotfiles"
-export GITLAB_MAIN_BRANCH="master"
 export GPG_TTY=$(tty)
 export HOMEBREW_BAT=1
 export HOMEBREW_BUNDLE_FILE_PATH="$DOTFILES/Brewfile"
 export HOMEBREW_CASK_OPTS="--fontdir=~/Library/Fonts"
 export HOMEBREW_DISPLAY_INSTALL_TIMES=1
+# export HOMEBREW_NO_INSTALL_FROM_API=1
 export HOMEBREW_NO_ANALYTICS=1
 export HOME_DIR="$DOTFILES/home"
-export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
-export LDFLAGS="-L/usr/local/opt/icu4c/lib"
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 export MY_RUBY_HOME="$HOME/.asdf/shims/ruby"
 export NAVI_PATH="$DOTFILES/home/doc"
 export NEXTWORD_DATA_PATH="$HOME/.config/nextword-data"
-export OCI_DIR=/usr/local/lib
-# export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
+# export OCI_DIR="/usr/local/lib"
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
+export STARSHIP_LOG="error"
 export VIMFILES="$HOME/code/dotfiles/home/vim"
+export XDG_CONFIG_HOME="$HOME/.config"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
 export ZSH_AUTOSUGGEST_USE_ASYNC="true"
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES=":q gco g rubocop"
 export ZSH_PLUGINS_ALIAS_TIPS_REVEAL=1
-export STARSHIP_LOG=error
 
-if [ "$TERM" = "alacritty" ]; then
-  export ZSH_TMUX_AUTOSTART="true"
+export GITLAB_MAIN_BRANCH="master" # this will eventually be "main"
+export GITLAB_HOME="$HOME/code/work/gdk/gitlab"
+export CLI_HOME="$HOME/code/work/cli"
+export GDK_ROOT="$HOME/code/work/gdk"
+export GDK_DEV_HOME="$HOME/code/work/devkit"
+export PAGER="less"
+export LESS="FrX"
+
+export GOPATH="$HOME/code/work"
+export GOBIN="$HOME/code/work/bin"
+export PATH=$PATH:$GOPATH/bin;
+# export PATH=$PATH:$HOME/.local/share/neovim/bin
+
+if _exists cargo; then export PATH=$PATH:$HOME/.cargo/bin; fi
+export PATH="$PATH:$HOME/.local/share/neovim/bin"
+if _exists nvim; then
+  export VISUAL='nvim'
+else
+  export VISUAL='vim'
 fi
 
-export PATH="/usr/local/bin:$PATH"
-export PATH=$HOME_DIR/zsh/bin:$PATH
-export PATH="/usr/local/sbin:$PATH"
-export PATH="$HOME/Library/Python/3.9/bin:$PATH"
-
-if _exists go; then export PATH=$PATH:$HOME/code/go/bin; fi
-if _exists cargo; then export PATH=$PATH:$HOME/.cargo/bin; fi
-if _exists nvim; then export VISUAL='nvim'; fi
-
 export EDITOR="$VISUAL"
-
-setopt   appendhistory      # Append history to the history file (no overwriting)
-setopt   sharehistory       # Share history across terminals
-setopt   incappendhistory   # Immediately append to the history file, not just when a term is killed
-setopt   extended_history   # Write the history file in the ":start:elapsed;command" format.
-setopt   hist_find_no_dups  # Do not display a line previously found.
-setopt   hist_reduce_blanks # Remove superfluous blanks before recording entry.
-setopt   share_history      # Share history between all sessions.
-setopt   always_to_end      # always move to the end of the word if completion worked
-setopt   auto_menu          # show completion menu on successive tab press
-setopt   complete_in_word
-unsetopt correct_all        # don't autocorrect when thefuck does it better.
-unsetopt flowcontrol        # gives me back ^-S
 
 for f in ~/.zsh/private/*.zsh(N); do
   [ -e "$f" ] && source $f || break
 done
+
+# # If you need to have openssl@1.1 first in your PATH, run:
+# export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
+#
+# # For compilers to find openssl@1.1 you may need to set:
+# export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
+# export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
+#
+# # For pkg-config to find openssl@1.1 you may need to set:
+# export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig"
+# export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@3)"
+
+
+# export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
+# export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"

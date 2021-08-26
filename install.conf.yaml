@@ -1,0 +1,112 @@
+- defaults:
+    clean:
+        force: true
+    link:
+        create: true
+        relink: true
+
+- clean: ['~', '~/.config']
+
+- link:
+    ~/.ctags: home/ctags
+    ~/.agignore: home/agignore
+    ~/.rgignore: home/agignore
+    ~/.fdignore: home/agignore
+    ~/.batconfig: home/batconfig
+    ~/.ignore: home/agignore
+    ~/.gemrc: home/gemrc
+    ~/.gitconfig: home/gitconfig
+    ~/.bundle/config: home/bundle_config
+    ~/.gitignore_global: home/gitignore_global
+    ~/.gitattributes: home/gitattributes
+    ~/.gitmessage: home/gitmessage
+    ~/.rspec: home/rspec
+    ~/.pryrc: home/pryrc
+    ~/.tidyrc: home/tidyrc
+    ~/.tool-versions: home/tool-versions
+    ~/.solargraph.yml: home/solargraph.yml
+    ~/.vale.ini: home/vale.ini
+    ~/.config/nvim/init.lua: home/vim/init.lua
+    ~/.zshenv: home/zshenv
+    ~/.zshrc: home/zshrc
+    ~/.zsh: home/zsh/
+    ~/.inputrc: home/inputrc
+    ~/.config/ripgrep/config: home/ripgreprc
+    ~/.config/luaformatter/config.yaml: home/luaformatter.yaml
+    ~/.config/starship.toml: home/starship.toml
+    ~/.mackup: home/mackup
+    ~/.config/nvim/autoload: home/vim/autoload/
+    ~/.config/nvim/ftdetect: home/vim/ftdetect/
+    ~/.config/nvim/ftplugin: home/vim/ftplugin/
+    ~/.config/nvim/after: home/vim/after/
+    ~/.config/nvim/syntax: home/vim/syntax/
+    ~/.config/nvim/lua: home/vim/lua/
+    ~/.config/nvim/spell: home/vim/spell/
+    ~/iCloud:
+      path: "~/Library/Mobile Documents/com~apple~CloudDocs"
+      if: '[ `uname` = Darwin ]'
+    ~/.zsh/private:
+      path: ~/iCloud/Internal/private
+      if: '[ `uname` = Darwin ]'
+    ~/.mackup.cfg:
+      path: ~/iCloud/Mackup/mackup.cfg
+      if: '[ `uname` = Darwin ]'
+    ~/.ssh:
+      path: home/zsh/private/ssh/
+      if: '[ `uname` = Darwin ]'
+    ~/.gnupg:
+      path: home/zsh/private/gnupg/
+      if: '[ `uname` = Darwin ]'
+    ~/.netrc:
+      path: home/zsh/private/netrc
+      if: '[ `uname` = Darwin ]'
+    ~/.hammerspoon:
+      path: home/hammerspoon/
+      if: '[ `uname` = Darwin ]'
+    ~/.gitconfig.work:
+      path: home/zsh/private/gitconfig.work
+      if: '[ `uname` = Darwin ]'
+    ~/.config/kitty:
+      path: home/kitty
+      if: '[ `uname` = Darwin ]'
+    ~/.config/karabiner.edn:
+      path: home/karabiner.edn
+      if: '[ `uname` = Darwin ]'
+    ~/.gitconfig.local:
+      path: home/zsh/private/gitconfig.local
+      if: '[ `uname` = Darwin ]'
+    ~/code/work/gdk/gitlab/.git/hooks/post-checkout:
+      force: true
+      path: ~/code/gldb/post-checkout
+    ~/code/work/gdk/gitlab/spec/support/helpers/gary_spec_helper.rb: gitlab/spec_helper.rb
+    ~/code/work/gdk/gitlab/config/initializers/gary_hacks.rb: gitlab/hacks.rb
+
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]
+  - ["touch ~/.hushlogin", "Hushing login"]
+  - ["touch ~/.rm_recycle", "Enabling recycling"]
+  - ["./npm_modules.sh", "Installing npm modules"]
+  - ["./dockutil_init.sh", "Fixing up Dock"]
+  - ["./hide_folders.sh", "Hiding macos folders"]
+
+- duti:
+    file: Dutifile
+
+- pip:
+    file: requirements.txt
+    binary: /opt/homebrew/bin/pip3
+    user: true
+    stderr: true
+
+- asdf:
+  - plugin: direnv
+  - plugin: golang
+  - plugin: nodejs
+  - plugin: ruby
+
+- defaults:
+    brewfile:
+      stdout: true
+      stderr: true
+      include: ['tap', 'brew', 'cask', 'mas']
+# make bootstrap with asdf?

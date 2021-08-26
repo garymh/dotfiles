@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+# vi:syntax=ruby
+
+require_relative 'gldb'
+
+args = ARGV[0].split('/')
+
+mr_number = args.map do |glorp|
+  glorp if glorp.to_i.is_a?(Numeric) && glorp.to_i.nonzero?
+end.compact.last
+
+mr = MergeRequest.find_by(iid: mr_number)
+
+unless mr
+  MergeRequest.updater(@config, 'reviewRequestedMergeRequests')
+  mr = MergeRequest.find_by(iid: mr_number)
+end
+
+puts mr.source_branch
