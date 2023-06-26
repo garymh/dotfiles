@@ -2,21 +2,18 @@
 
 gem_path = ENV['GEM_PATH'] ? ENV["GEM_PATH"] : `gem environment gempath`
 
-global_gemset = gem_path.split(':').last
-all_global_gem_paths = Dir.glob("#{global_gemset}/gems/*")
-all_global_gem_paths.each do |p|
-  gem_path = "#{p}/lib"
-  $LOAD_PATH << gem_path
+if defined?(::Bundler)
+  current_gemset = gem_path
+  $LOAD_PATH.concat(Dir.glob("#{current_gemset}/gems/*/lib")) if current_gemset
 end
 
+require 'rb-readline'
 require 'jazz_fingers'
 require 'amazing_print'
+
 JazzFingers.setup!
+
 Pry.editor = ENV['VISUAL']
-begin
-  require 'pry-coolline'
-rescue StandardError
-end
 
 class Array
   def first!
@@ -26,7 +23,6 @@ class Array
   end
 end
 
-
 Pry::Commands.block_command 'trace', 'caller omitting any third party code' do
   _pry_.input = StringIO.new 'caller.grep(Regexp.new(Dir.pwd)).map { |path| path.gsub "#{Dir.pwd}/", "" }'
 end
@@ -34,19 +30,6 @@ end
 def perdy(thing)
   Gitlab::Json.parse(Gitlab::Json.pretty_generate(thing))
 end
-
-# Pry.config do |config|
-#   config.theme                     = "tomorrow"
-#   config.color                     = true
-#   config.ls.heading_color          = :magenta
-#   config.ls.public_method_color    = :green
-#   config.ls.protected_method_color = :yellow
-#   config.ls.private_method_color   = :white
-#   config.prompt_name               = File.basename(Dir.pwd)
-#   config.editor                    = "nvim"
-# end
-
-# Pry.input.basic_word_break_characters = " \t\n\"\\'`><=;|&{(."
 
 if defined?(PryByebug)
   Pry.commands.alias_command 'c', 'continue'
@@ -85,8 +68,6 @@ end
 def lorem
   "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 end
-
-Pry.config.history_file = "~/.irb_history"
 
 Pry::Commands.block_command('cheat', 'Display Cheatsheet') do
   puts 'Shortcuts:'
@@ -208,4 +189,10 @@ class Object
   end
 end
 
+Pry.config.history_file = "~/.irb_history"
 
+if defined?(RbReadline)
+  def RbReadline.rl_reverse_search_history(sign, key)
+    rl_insert_text `bat --language ruby --style plain --force-colorization #{Pry.config.history_file} | fzf --no-sort --ansi | tr '\n' ' '`
+  end
+end
