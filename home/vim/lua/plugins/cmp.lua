@@ -1,21 +1,23 @@
 local M = {
   "hrsh7th/nvim-cmp",
   version = false,
-  event = "InsertEnter",
+  -- event = "InsertEnter, CmdlineEnter",
+  -- TODO: cmp needs to load in the command line but isn't
   dependencies = {
-    'hrsh7th/cmp-buffer',
     'L3MON4D3/LuaSnip',
     'onsails/lspkind.nvim',
-    "rafamadriz/friendly-snippets",
-    "saadparwaiz1/cmp_luasnip",
-
-    "hrsh7th/cmp-emoji",
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-nvim-lua",
-    "hrsh7th/cmp-path",
+    'rafamadriz/friendly-snippets',
+    'saadparwaiz1/cmp_luasnip',
     "petertriho/cmp-git",
 
-    "nvim-lua/plenary.nvim",
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-emoji',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-nvim-lua',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+
+    'nvim-lua/plenary.nvim',
     -- -- TODO:     use "amarakon/nvim-cmp-fonts"
   },
 }
@@ -153,7 +155,6 @@ function M.config()
     },
   })
 
-
   local types = require("luasnip.util.types")
 
   ls.config.setup({
@@ -200,6 +201,22 @@ function M.config()
     })
   })
 
+    -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'cmdline' },
+      { name = 'path' }
+    })
+  })
 
   require("luasnip.loaders.from_vscode").lazy_load()
 

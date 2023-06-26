@@ -62,8 +62,8 @@ local function filetypeLoader(type)
   end
 end
 
-vim.api.nvim_create_user_command("EditFileTypeDetect", filetypeLoader("ftdetect"), {})
-vim.api.nvim_create_user_command("EditFileTypePlugin", filetypeLoader("ftplugin"), {})
+vim.api.nvim_create_user_command("FileTypeDetect", filetypeLoader("ftdetect"), {})
+vim.api.nvim_create_user_command("FileTypePlugin", filetypeLoader("ftplugin"), {})
 
 NvimVsource([[lua/kitty_navigator.vim]])
 
