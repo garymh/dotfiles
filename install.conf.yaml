@@ -30,11 +30,12 @@
     ~/.zshenv: home/zshenv
     ~/.zshrc: home/zshrc
     ~/.zsh: home/zsh/
-    ~/.inputrc: home/inputrc
+    ~/.mackup: home/mackup
+
     ~/.config/ripgrep/config: home/ripgreprc
     ~/.config/luaformatter/config.yaml: home/luaformatter.yaml
     ~/.config/starship.toml: home/starship.toml
-    ~/.mackup: home/mackup
+
     ~/.config/nvim/autoload: home/vim/autoload/
     ~/.config/nvim/ftdetect: home/vim/ftdetect/
     ~/.config/nvim/ftplugin: home/vim/ftplugin/
@@ -42,6 +43,7 @@
     ~/.config/nvim/syntax: home/vim/syntax/
     ~/.config/nvim/lua: home/vim/lua/
     ~/.config/nvim/spell: home/vim/spell/
+
     ~/iCloud:
       path: "~/Library/Mobile Documents/com~apple~CloudDocs"
       if: '[ `uname` = Darwin ]'
@@ -75,9 +77,14 @@
     ~/.gitconfig.local:
       path: home/zsh/private/gitconfig.local
       if: '[ `uname` = Darwin ]'
+
     ~/code/work/gdk/gitlab/.git/hooks/post-checkout:
       force: true
       path: ~/code/gldb/post-checkout
+    ~/code/work/cli/.git/hooks/post-checkout:
+      force: true
+      path: ~/code/gldb/post-checkout
+
     ~/code/work/gdk/gitlab/spec/support/helpers/gary_spec_helper.rb: gitlab/spec_helper.rb
     ~/code/work/gdk/gitlab/config/initializers/gary_hacks.rb: gitlab/hacks.rb
 
