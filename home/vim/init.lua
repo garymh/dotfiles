@@ -34,6 +34,7 @@ else
 end
 vim.opt.runtimepath:prepend(lazypath)
 
+---@diagnostic disable-next-line: param-type-mismatch, missing-parameter
 require("lazy").setup("plugins", {
   change_detection = {
     enabled = true,
