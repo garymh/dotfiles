@@ -30,6 +30,7 @@
   delete-local-branch    = branch -D
   delete-merged-branches = "!delete-merged-branches"
   discard                = checkout --
+  edit                   = !$EDITOR $(git status --porcelain | awk '{print $2}')
   explode                = !git reset --hard HEAD && git clean -d -f
   fuckthis               = !git reset --hard HEAD && git clean -d -f
   ksdiff                 = difftool
