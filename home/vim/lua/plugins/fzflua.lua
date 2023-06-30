@@ -11,29 +11,30 @@ function M.config()
   local actions = require("fzf-lua.actions")
 
   fzflua.setup({
+    "borderless_full",
     global_resume = true,
     global_resume_query = true,
     winopts = {
-      -- split = "belowright new",
+      -- -- split = "belowright new",
       height = 0.7,
       width = 1.0,
       row = 0.9,
       col = 0.0,
-      border = "thicc",
-      fullscreen = false,
+      -- border = "thicc",
+      -- fullscreen = false,
       preview = {
-        border = "border",
-        wrap = "nowrap",
-        hidden = "nohidden",
-        vertical = "down:45%",
-        horizontal = "right:50%",
-        layout = "flex",
-        flip_columns = 80,
-        title = false,
-        scrollbar = "float",
-        scrolloff = "-2",
-        scrollchars = { "█", "" },
-        delay = 100,
+      --   border = "border",
+      --   wrap = "nowrap",
+      --   hidden = "nohidden",
+      --   vertical = "down:45%",
+        horizontal = "right:40%",
+      --   layout = "flex",
+      --   flip_columns = 80,
+      --   title = false,
+      --   scrollbar = "float",
+      --   scrolloff = "-2",
+      --   scrollchars = { "█", "" },
+        delay = 200,
         winopts = {
           number = true,
           relativenumber = false,
@@ -554,6 +555,9 @@ function M.config()
   -- s_nmap("<c-s-p>", gitFilesPlusOld)
   s_nmap("<m-k>", fzflua.buffers)
   s_nmap("<c-s-k>", fzflua.tabs)
+
+  s_nmap("<space>f", fzflua.builtin, {}, "FZF builtings")
+
   s_nmap("<space>C", fzflua.git_bcommits, {}, "git commits for this buffer")
   s_nmap("<space>F", fzflua.filetypes, {}, "change vim filetype")
   s_nmap("<space>R", fzflua.command_history, {}, "vim command history")
