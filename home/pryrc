@@ -4,7 +4,11 @@ gem_path = ENV['GEM_PATH'] ? ENV["GEM_PATH"] : `gem environment gempath`
 
 if defined?(::Bundler)
   current_gemset = gem_path
-  $LOAD_PATH.concat(Dir.glob("#{current_gemset}/gems/*/lib")) if current_gemset
+  if current_gemset
+    current_gemset.split(":").each do |path|
+      $LOAD_PATH.concat(Dir.glob("#{path}/gems/*/lib"))
+    end
+  end
 end
 
 require 'rb-readline'
@@ -12,6 +16,8 @@ require 'jazz_fingers'
 require 'amazing_print'
 
 JazzFingers.setup!
+
+require 'pry-coolline'
 
 Pry.editor = ENV['VISUAL']
 
@@ -64,6 +70,19 @@ Pry::Commands.command "caller_method" do |depth|
     output.puts [file, line, method]
   end
 end
+
+# Pry.config do |config|
+#   config.theme                     = "tomorrow"
+#   config.color                     = true
+#   config.ls.heading_color          = :magenta
+#   config.ls.public_method_color    = :green
+#   config.ls.protected_method_color = :yellow
+#   config.ls.private_method_color   = :white
+#   config.prompt_name               = File.basename(Dir.pwd)
+#   config.editor                    = "nvim"
+# end
+
+# Pry.input.basic_word_break_characters = " \t\n\"\\'`><=;|&{(."
 
 def lorem
   "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
@@ -191,8 +210,9 @@ end
 
 Pry.config.history_file = "~/.irb_history"
 
-if defined?(RbReadline)
-  def RbReadline.rl_reverse_search_history(sign, key)
-    rl_insert_text `bat --language ruby --style plain --force-colorization #{Pry.config.history_file} | fzf --no-sort --ansi | tr '\n' ' '`
-  end
-end
+# Pry.input.basic_word_break_characters = " \t\n\"\\'`><=;|&{(."
+# if defined?(RbReadline)
+#   def RbReadline.rl_reverse_search_history(sign, key)
+#     rl_insert_text `bat --language ruby --style plain --force-colorization #{Pry.config.history_file} | fzf --no-sort --ansi | tr '\n' ' '`
+#   end
+# end
