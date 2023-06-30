@@ -117,3 +117,7 @@
       stderr: true
       include: ['tap', 'brew', 'cask', 'mas']
 # make bootstrap with asdf?
+
+
+# https://github.com/anishathalye/dotbot/wiki/Plugins
+# https://github.com/asdf-vm/asdf-plugins
