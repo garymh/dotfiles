@@ -98,6 +98,42 @@ return {
   },
 
   {
+    "harrisoncramer/gitlab.nvim",
+    dependencies = {
+      "rcarriga/nvim-notify",
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim"
+    },
+    enabled = false,
+    build = function() require("gitlab").build() end, -- Builds the Go binary
+    config = function()
+      require("gitlab").setup({
+        base_branch = "master",
+        port = 20136,                     -- The port of the Go server, which runs in the background
+        keymaps = {
+          popup = {                       -- The popup for comment creation, editing, and replying
+            exit = "<Esc>",
+            perform_action = "<leader>s", -- Once in normal mode, does action
+          },
+          discussion_tree = {             -- The discussion tree that holds all comments
+            jump_to_location = "o",
+            edit_comment = "e",
+            delete_comment = "dd",
+            reply_to_comment = "r",
+            toggle_node = "t",
+          },
+          dialogue = { -- The confirmation dialogue for deleting comments
+            focus_next = { "j", "<Down>", "<Tab>" },
+            focus_prev = { "k", "<Up>", "<S-Tab>" },
+            close = { "<Esc>", "<C-c>" },
+            submit = { "<CR>", "<Space>" },
+          }
+        }
+      })
+    end
+  },
+
+  {
     "justinmk/vim-gtfo",
     keys = {
       { "got", desc = "go to current directory in terminal" },
@@ -227,16 +263,16 @@ return {
     version = false,
     config = function()
       require("mini.bracketed").setup({
-        buffer     = { suffix = "",  options = {} },
-        comment    = { suffix = "",  options = {} },
-        conflict   = { suffix = "",  options = {} },
-        diagnostic = { suffix = "",  options = {} },
-        file       = { suffix = "",  options = {} },
+        buffer     = { suffix = "", options = {} },
+        comment    = { suffix = "", options = {} },
+        conflict   = { suffix = "", options = {} },
+        diagnostic = { suffix = "", options = {} },
+        file       = { suffix = "", options = {} },
         indent     = { suffix = "i", options = {} },
-        jump       = { suffix = "",  options = {} },
-        location   = { suffix = "",  options = {} },
+        jump       = { suffix = "", options = {} },
+        location   = { suffix = "", options = {} },
         oldfile    = { suffix = "r", options = {} },
-        quickfix   = { suffix = "",  options = {} },
+        quickfix   = { suffix = "", options = {} },
         treesitter = { suffix = "t", options = {} },
         undo       = { suffix = "u", options = {} },
         window     = { suffix = "w", options = {} },
@@ -277,7 +313,7 @@ return {
     "AckslD/muren.nvim",
     config = true,
     cmd = { "MurenToggle", "MurenOpen" },
-  -- investigate this?
+    -- investigate this?
   },
 
   {
@@ -302,9 +338,9 @@ return {
   },
 
   { "kana/vim-niceblock" },
-  { "kevinhwang91/nvim-bqf",       ft = "qf" },
+  { "kevinhwang91/nvim-bqf",        ft = "qf" },
   { "m4xshen/smartcolumn.nvim" },
-  { "shortcuts/no-neck-pain.nvim", cmd = "NoNeckPain" },
+  { "shortcuts/no-neck-pain.nvim",  cmd = "NoNeckPain" },
   { "stsewd/gx-extended.vim" },
   { "tpope/vim-abolish" },
   { "tpope/vim-apathy" },
