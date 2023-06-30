@@ -36,6 +36,8 @@ s_nmap("Z", "za")
 s_nmap("a", "zza")
 s_nmap("c", "zzc")
 -- s_nmap("gV", "`[v`]", {}, "go to last visual selection")
+s_nmap("gp", [['`[' . strpart(getregtype(), 0, 1) . '`]']], { expr = true }, "Go to last paste")
+
 s_nmap("gm", [[<CMD>silent exec "!$HOME/code/dotfiles/home/zsh/bin/glmr"<CR>]], {}, "go to current GitLab MR",
   "go to current GitLab MR")
 s_nmap("i", "zzi")
@@ -70,6 +72,7 @@ s_nmap("~", "<CMD>FloatermToggle!<CR>", noremap)
 s_nmap("<M-`>", "<CMD>FloatermToggle!<CR>", noremap)
 s_tmap("<M-`>", "<C-\\><C-n><CMD>FloatermToggle!<CR>", noremap)
 s_tmap("<S-TAB>", "<C-\\><C-n><CMD>wincmd w<CR>", noremap)
+s_tmap("jk", "<C-\\><C-n>", noremap)
 
 s_nmap("<leader>ss", "<CMD>source %<CR>", {}, "source this file")
 s_nmap("<leader>%", SetCwd, noremap, "set working directory root")
