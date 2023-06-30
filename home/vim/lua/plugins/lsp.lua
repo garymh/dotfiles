@@ -132,7 +132,7 @@ function M.config()
           staticcheck = true,
         },
       }
-      init_options = {
+      Init_options = {
         usePlaceholders = true,
       }
     end
@@ -177,7 +177,7 @@ function M.config()
       flags = lsp_flags,
       capabilities = vim.lsp.protocol.make_client_capabilities(),
       settings = settings,
-      init_options == init_options or {}
+      init_options == Init_options or {}
     })
 
     lspconfig.util.default_config = vim.tbl_deep_extend("force", lspconfig.util.default_config, {
@@ -194,9 +194,6 @@ function M.config()
       local client = vim.lsp.get_client_by_id(ev.data.client_id)
       local buffer = ev.buf
       local saga = require("lspsaga")
-
-      -- may have to disable this
-      -- client.server_capabilities.semanticTokensProvider = nil
 
       -- start ruby LSP hack
       if client.name == "ruby_ls" then
@@ -274,7 +271,9 @@ function M.config()
       s_vmap("<localleader>ca", "<CMD>Lspsaga code_action<CR>", {}, "[LSP] code actions")
       s_nmap("<localleader>e", "<CMD>Lspsaga show_line_diagnostics<CR>", {}, "[LSP] line diagnostics")
       s_vmap("<localleader>e", "<CMD>Lspsaga show_line_diagnostics<CR>", {}, "[LSP] line diagnostics")
+
       s_nmap("K", "<CMD>Lspsaga hover_doc<CR>", {})
+
       s_nmap("gd", "<CMD>Lspsaga goto_definition<CR>", {}, "[LSP] definition")
       s_nmap("gD", vim.lsp.buf.declaration, {}, "[LSP] declaration")
       s_nmap("gT", "<CMD>Lspsaga goto_definition<CR>", {}, "[LSP] type definition")
@@ -282,6 +281,7 @@ function M.config()
       s_nmap("gh", "<CMD>Lspsaga lsp_finder<CR>", {}, "[LSP] finder (see all)")
       s_nmap("gr", "<CMD>Lspsaga rename<CR>", {}, "[LSP] rename for file")
       s_nmap("gR", "<CMD>Lspsaga rename ++project<CR>", {}, "[LSP] rename for project")
+
       s_nmap("<space><space>", "<cmd>Lspsaga outline<CR>", {}, "[LSP] outline")
     end,
   })

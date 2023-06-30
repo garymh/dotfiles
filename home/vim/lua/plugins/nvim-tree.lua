@@ -3,47 +3,48 @@ local M = {
   -- cmd = { "NvimTreeOpen", "NvimTreeToggle", "NvimTreeFindFile" },
   -- keys = { "<space>a" }
 }
---
+
 function M.config()
+
   require("nvim-tree").setup({
-    disable_netrw = true,
-    hijack_netrw = true,
-    open_on_tab = false,
+    disable_netrw  = true,
+    hijack_netrw   = true,
+    open_on_tab    = false,
     select_prompts = true,
-    hijack_cursor = true,
-    update_cwd = false,
+    hijack_cursor  = true,
+    update_cwd     = false,
     diagnostics = {
       enable = false,
       icons = {
-        hint = "",
-        info = "",
+        hint    = "",
+        info    = "",
         warning = "",
-        error = "",
+        error   = "",
       },
     },
     update_focused_file = {
-      enable = true,
-      update_cwd = true,
+      enable      = true,
+      update_cwd  = true,
       ignore_list = {},
     },
     system_open = {
-      cmd = nil,
+      cmd  = nil,
       args = {},
     },
     filters = {
       dotfiles = false,
-      custom = {},
+      custom   = {},
     },
     view = {
-      adaptive_size = true,
+      adaptive_size    = true,
       hide_root_folder = false,
-      side = "left",
-      mappings = {
+      side             = "left",
+      mappings         = {
         custom_only = false,
-        list = {},
+        list        = {},
       },
     },
-  })
+  }, {})
 
   s_nmap("<space>a", vim.cmd.NvimTreeToggle, {}, "nvim Tree" )
 end
