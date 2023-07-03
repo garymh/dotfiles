@@ -8,29 +8,16 @@ require("utility")
 vim.g.mapleader      = ","
 vim.g.maplocalleader = "\\"
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if vim.fn.has('nvim-0.9.0dev') == 1 then
-  if not vim.uv.fs_stat(lazypath) then
-    vim.fn.system({
-      "git",
-      "clone",
-      "--filter=blob:none",
-      "--single-branch",
-      "https://github.com/folke/lazy.nvim.git",
-      lazypath,
-    })
-  end
-else
-  if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({
-      "git",
-      "clone",
-      "--filter=blob:none",
-      "--single-branch",
-      "https://github.com/folke/lazy.nvim.git",
-      lazypath,
-    })
-  end
+local lazypath       = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--single-branch",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
+  })
 end
 vim.opt.runtimepath:prepend(lazypath)
 
