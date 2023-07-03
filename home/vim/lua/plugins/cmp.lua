@@ -8,7 +8,7 @@ local M = {
     'onsails/lspkind.nvim',
     'rafamadriz/friendly-snippets',
     'saadparwaiz1/cmp_luasnip',
-    "petertriho/cmp-git",
+    'petertriho/cmp-git',
 
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-emoji',
@@ -18,9 +18,19 @@ local M = {
     'hrsh7th/cmp-cmdline',
 
     'nvim-lua/plenary.nvim',
-    -- -- TODO:     use "amarakon/nvim-cmp-fonts"
   },
 }
+
+local function only_one_entry(cmp)
+  local entries = cmp.get_entries()
+
+  local count = 0
+  for _ in pairs(entries) do
+    count = count + 1
+  end
+
+  return count == 1
+end
 
 local function select_next(cmp, fallback)
   if cmp.visible() then
@@ -42,17 +52,7 @@ local function tab(cmp, ls, fallback)
   if ls.expand_or_locally_jumpable() then
     ls.expand_or_jump()
   elseif cmp.visible() then
-    -- P("1")
-    -- local entry = cmp.get_selected_entry()
-    -- if not entry then
-    --   cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-    -- if has_words_before() then
-    --   P("2")
-    --   cmp.confirm({ select = true })
-    -- else
-    --   P("3")
     cmp.confirm({ select = true })
-    -- end
   else
     fallback()
   end
@@ -119,6 +119,33 @@ function M.config()
       completeopt = "menu,menuone",
     },
 
+    --  menu	    Use a popup menu to show the possible completions.  The
+    --    menu is only shown when there is more than one match and
+    --    sufficient colors are available.  |ins-completion-menu|
+    --
+    --  menuone  Use the popup menu also when there is only one match.
+    --    Useful when there is additional information about the
+    --    match, e.g., what file it comes from.
+    --
+    --  longest  Only insert the longest common text of the matches.  If
+    --    the menu is displayed you can use CTRL-L to add more
+    --    characters.  Whether case is ignored depends on the kind
+    --    of completion.  For buffer text the 'ignorecase' option is
+    --    used.
+    --
+    --  preview  Show extra information about the currently selected
+    --    completion in the preview window.  Only works in
+    --    combination with "menu" or "menuone".
+    --
+    -- noinsert  Do not insert any text for a match until the user selects
+    --    a match from the menu. Only works in combination with
+    --    "menu" or "menuone". No effect if "longest" is present.
+    --
+    -- noselect  Do not select a match in the menu, force the user to
+    --    select one from the menu. Only works in combination with
+    --    "menu" or "menuone".
+    --
+
     snippet = {
       expand = function(args)
         ls.lsp_expand(args.body)
@@ -132,17 +159,6 @@ function M.config()
     },
 
     formatting = {
-      -- format = lspkind.cmp_format({
-      --   mode = 'symbol',
-      --   menu = ({
-      --     buffer = "buf",
-      --     nvim_lsp = "lsp",
-      --     luasnip = "snip",
-      --     nvim_lua = "lua",
-      --   }),
-      --   maxwidth = 50,
-      --   ellipsis_char = '...',
-      -- })
       fields = { "kind", "abbr", "menu" },
       format = function(entry, vim_item)
         local kind = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
@@ -158,12 +174,12 @@ function M.config()
   local types = require("luasnip.util.types")
 
   ls.config.setup({
-    -- history = true,
-    -- enable_autosnippets = true,
-    updateevents = "TextChanged,TextChangedI",
+    history             = true,
+    enable_autosnippets = true,
+    updateevents        = "TextChanged,TextChangedI",
     region_check_events = "InsertEnter",
     delete_check_events = "TextChanged,InsertEnter",
-    ext_opts = {
+    ext_opts            = {
       [types.choiceNode] = {
         active = {
           virt_text = { { "●", "GitSignsChange" } },
@@ -179,6 +195,7 @@ function M.config()
 
   cmp.setup.filetype("gitcommit", {
     sources = cmp.config.sources({
+      { name = "luasnip" },
       { name = "git" },
       { name = "buffer" },
     })
@@ -201,17 +218,47 @@ function M.config()
     })
   })
 
-    -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
   cmp.setup.cmdline({ '/', '?' }, {
-    mapping = cmp.mapping.preset.cmdline(),
+    completion = {
+      completeopt = "menu,menuone,noselect",
+    },
+    mapping = {
+      ["<tab>"] = {
+        c = function()
+          if cmp.visible() then
+            if only_one_entry(cmp) then
+              cmp.select_next_item()
+              cmp.confirm()
+            else
+              cmp.select_next_item()
+            end
+          end
+        end
+      },
+    },
     sources = {
       { name = 'buffer' }
     }
   })
 
-  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
   cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
+    completion = {
+      completeopt = "menu,menuone,noselect",
+    },
+    mapping = {
+      ["<tab>"] = {
+        c = function()
+          if cmp.visible() then
+            if only_one_entry(cmp) then
+              cmp.select_next_item()
+              cmp.confirm()
+            else
+              cmp.select_next_item()
+            end
+          end
+        end
+      }
+    },
     sources = cmp.config.sources({
       { name = 'cmdline' },
       { name = 'path' }
@@ -219,31 +266,6 @@ function M.config()
   })
 
   require("luasnip.loaders.from_vscode").lazy_load()
-
-  -- local s = ls.snippet
-  -- local f = ls.function_node
-  -- local i = ls.insert_node
-  -- local extras = require("luasnip.extras")
-  --
-  -- ls.add_snippets("all", {
-  --   s({ trig = "date" }, {
-  --     f(function()
-  --       return string.format(string.gsub(vim.bo.commentstring, "%%s", " %%s"), os.date())
-  --     end, {}),
-  --   }),
-  --   s({ trig = "modeline" }, {
-  --     f(function()
-  --       return " " .. string.format(string.gsub(vim.bo.commentstring, "%%s", " %%s"), "vim: ft=")
-  --     end, {}),
-  --     i(1),
-  --   }),
-  --   s({ trig = "todo" }, {
-  --     f(function()
-  --       return " " .. string.format(string.gsub(vim.bo.commentstring, "%%s", " %%s"), "TODO: ")
-  --     end, {}),
-  --     i(1),
-  --   }),
-  -- })
 end
 
 return M
