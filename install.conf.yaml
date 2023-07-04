@@ -29,6 +29,7 @@
     ~/.config/nvim/init.lua: home/vim/init.lua
     ~/.zshenv: home/zshenv
     ~/.zshrc: home/zshrc
+    ~/.zimrc: home/zimrc
     ~/.zsh: home/zsh/
     ~/.mackup: home/mackup
 

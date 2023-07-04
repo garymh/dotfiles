@@ -3,24 +3,9 @@ typeset -F4 SECONDS=0
 WORDCHARS=${WORDCHARS//[\/]}
 
 if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+  FPATH="$(brew --prefix)/share/zsh-completions:$FPATH"
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-  # if _exists glab; then
-  #   glab completion -s zsh > "$(brew --prefix)/share/zsh/site-functions/_glab"
-  # fi
-  # ^^ i dont think we have to keep remaking this
 fi
-
-# if _exists fasd
-# then
-#   fasd_cache="${HOME}/.cache/fasd-init-cache"
-#   if [[ "$commands[fasd]" -nt "$fasd_cache" || ! -s "$fasd_cache" ]]; then
-#     fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install \
-#       zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
-#   fi
-#   source "$fasd_cache"
-#   unset fasd_cache
-# fi
 
 # ------------------
 # Initialize modules
@@ -69,10 +54,6 @@ fi
 
 for f ($DOTFILES/home/zsh/*.sh) { source $f }
 
-# if _file_exists /usr/local/bin/rubocop-daemon-wrapper/rubocop; then
-#   export PATH="/usr/local/bin/rubocop-daemon-wrapper:$PATH"
-# fi
-
 export HISTFILE="$HOME/.zsh_history"
 export SAVEHIST=100000000
 export HISTFILESIZE=1000000000
@@ -103,18 +84,11 @@ echo ""
 [ -f ~/.asdf/asdf.sh ] && source ~/.asdf/asdf.sh
 
 source "$HOME/code/fzf-widgets/init.zsh"
+
 export PATH=$HOME_DIR/zsh/bin:$PATH
 export PATH=$PATH:$HOME/.spicetify
-
-# # https://gitlab.com/gitlab-org/gitlab-development-kit/-/issues/1413
-# export PATH="/opt/homebrew/opt/icu4c/bin:$PATH"
-# export PATH="/opt/homebrew/opt/icu4c/sbin:$PATH"
-# export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
-# export PATH="/opt/homebrew/bin:$PATH"
-# export PATH="/opt/homebrew/sbin:$PATH"
-
-# export PATH="$HOME/.asdf/shims:$PATH"
-# source $HOME/.config/broot/launcher/bash/br
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
 
 export GEM_PATH="$(gem environment gempath)"
 
