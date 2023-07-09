@@ -5,7 +5,7 @@ local M = {
     "theHamsta/nvim-dap-virtual-text",
     "leoluz/nvim-dap-go",
   },
-  enabled = true,
+  enabled = false,
   -- keys = { "<F1>", "<F2>", "<F3>", "<F4>" },
 }
 
