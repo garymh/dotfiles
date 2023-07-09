@@ -9,7 +9,7 @@ local M = {
     "nvim-telescope/telescope-ui-select.nvim",
     "tsakirist/telescope-lazy.nvim",
     -- "aaronhallaert/ts-advanced-git-search.nvim",
-    -- "kyazdani42/nvim-web-devicons",
+    -- "nvim-tree/nvim-web-devicons",
   },
   enabled = false,
 }

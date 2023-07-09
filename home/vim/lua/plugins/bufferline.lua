@@ -1,8 +1,14 @@
 local M = {
   "willothy/nvim-cokeline",
   event        = "VeryLazy",
-  dependencies = { "kyazdani42/nvim-web-devicons" },
-  enabled      = true,
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  enabled      = function()
+    if vim.fn.has('nvim-0.9.0dev') == 1 then
+      return true
+    else
+      return false
+    end
+  end,
 }
 
 function M.config()

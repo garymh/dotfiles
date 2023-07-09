@@ -1,7 +1,7 @@
 local M = {
   "ibhagwan/fzf-lua",
   dependencies = {
-    "kyazdani42/nvim-web-devicons",
+    "nvim-tree/nvim-web-devicons",
   },
   enabled = true,
 }

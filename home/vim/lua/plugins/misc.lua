@@ -73,7 +73,7 @@ return {
 
   {
     "ghillb/cybu.nvim",
-    requires = { "nvim-tree/nvim-web-devicons", "nvim-lua/plenary.nvim" }, -- optional for icon support
+    dependencies = { "nvim-tree/nvim-web-devicons", "nvim-lua/plenary.nvim" },
     enabled = true,
     config = function()
       local ok, cybu = pcall(require, "cybu")
@@ -82,11 +82,11 @@ return {
       end
       cybu.setup({
         position = {
-          relative_to       = "editor",   -- win, editor, cursor
+          relative_to       = "editor",    -- win, editor, cursor
           anchor            = "topcenter", -- topleft, topcenter, topright, centerleft, center, centerright, bottomleft, bottomcenter, bottomright
-          vertical_offset   = 2,          -- vertical offset from anchor in lines
-          horizontal_offset = 0,          -- vertical offset from anchor in columns
-          max_win_height    = 7,          -- height of cybu window in lines
+          vertical_offset   = 2,           -- vertical offset from anchor in lines
+          horizontal_offset = 0,           -- vertical offset from anchor in columns
+          max_win_height    = 7,           -- height of cybu window in lines
           max_win_width     = 0.99,
         },
         display_time = 500, -- time the cybu window is displayed
@@ -283,7 +283,9 @@ return {
 
   {
     "lukas-reineke/headlines.nvim",
+    dependencies = "nvim-treesitter/nvim-treesitter",
     ft = "markdown",
+    enabled = true,
     opts = function()
       vim.cmd([[highlight Headline1 guibg=#5C2E33]])
       vim.cmd([[highlight Headline2 guibg=#333C2D]])
@@ -337,22 +339,23 @@ return {
     end,
   },
 
-  { "kana/vim-niceblock" },
   { "kevinhwang91/nvim-bqf",        ft = "qf" },
-  { "m4xshen/smartcolumn.nvim" },
   { "shortcuts/no-neck-pain.nvim",  cmd = "NoNeckPain" },
+  { "Rasukarusan/nvim-block-paste", cmd = { "Block" } },
+  { "m4xshen/smartcolumn.nvim",     opts = {} },
+  { "fladson/vim-kitty",            ft = "kitty" },
+
+  { "kana/vim-niceblock" },
   { "stsewd/gx-extended.vim" },
+
   { "tpope/vim-abolish" },
   { "tpope/vim-apathy" },
   { "tpope/vim-eunuch" },
-  { "Rasukarusan/nvim-block-paste", cmd = { "Block" } },
-
   { "tpope/vim-repeat" },
   { "tpope/vim-rsi" },
   -- TODO: this was disabled?
 
   { "duggiefresh/vim-easydir" },
-  { "fladson/vim-kitty",            ft = "kitty" },
   { "itchyny/vim-highlighturl" },
 
   -- {

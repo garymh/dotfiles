@@ -12,7 +12,7 @@ local M = {
       "glepnir/lspsaga.nvim",
       opt = true,
       event = "LspAttach",
-      requires = {
+      dependencies = {
         { "nvim-tree/nvim-web-devicons" },
         { "nvim-treesitter/nvim-treesitter" },
       },

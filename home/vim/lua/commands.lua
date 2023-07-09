@@ -67,12 +67,12 @@ vim.api.nvim_create_user_command("FileTypePlugin", filetypeLoader("ftplugin"), {
 
 NvimVsource([[lua/kitty_navigator.vim]])
 
-s_nmap("<C-left>", "<CMD>KittyNavigateLeft<CR>", {}, "Kitty navigate")
+s_nmap("<C-left>",  "<CMD>KittyNavigateLeft<CR>",  {}, "Kitty navigate")
 s_nmap("<C-right>", "<CMD>KittyNavigateRight<CR>", {}, "Kitty navigate")
-s_nmap("<C-up>", "<CMD>KittyNavigateUp<CR>", {}, "Kitty navigate")
-s_nmap("<C-down>", "<CMD>KittyNavigateDown<CR>", {}, "Kitty navigate")
-s_nmap("<C-8>", "<CMD>KittyNavigatePrev<CR>", {}, "Kitty navigate")
-s_nmap("<C-9>", "<CMD>KittyNavigateNext<CR>", {}, "Kitty navigate")
+s_nmap("<C-up>",    "<CMD>KittyNavigateUp<CR>",    {}, "Kitty navigate")
+s_nmap("<C-down>",  "<CMD>KittyNavigateDown<CR>",  {}, "Kitty navigate")
+s_nmap("<C-8>",     "<CMD>KittyNavigatePrev<CR>",  {}, "Kitty navigate")
+s_nmap("<C-9>",     "<CMD>KittyNavigateNext<CR>",  {}, "Kitty navigate")
 
 function Google(pat, lucky)
   local fn = vim.fn
@@ -83,7 +83,6 @@ function Google(pat, lucky)
 end
 
 -- https://vi.stackexchange.com/questions/31206
--- https://vi.stackexchange.com/a/36950/7339
 function FlashCursorline()
   local cursorline_state = lua
   print(vim.opt.cursorline:get())
@@ -103,13 +102,13 @@ function BracketMotion(motion, count)
   local commands = ""
 
   if motion == "down" then
-    bracket = "}"
+    bracket   = "}"
     direction = "j"
-    commands = "Wn"
+    commands  = "Wn"
   else
-    bracket = "{"
+    bracket   = "{"
     direction = "k"
-    commands = "Wnb"
+    commands  = "Wnb"
   end
 
   if vim.fn.foldclosed("search('^$', " .. commands .. ")") then
