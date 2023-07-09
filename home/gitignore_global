@@ -93,3 +93,5 @@ config/metrics
 ee/config/metrics
 
 .projections.json
+.gitlab.nvim
+logs
