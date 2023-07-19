@@ -92,7 +92,8 @@ min_time_to_notify = 45000
 style = "bg:#4F6591"
 format = "[ $path ]($style)"
 truncation_length = 3
-truncation_symbol = "…/"
+truncation_symbol = ""
+# truncation_symbol = "…/"
 # truncation_length = 3
 # format = "[ $path ]($style)[$read_only]($read_only_style) "
 # style = "fg:white bg:black bold"
@@ -101,8 +102,11 @@ truncation_symbol = "…/"
 # folder_style = "fg:blue bg:black"
 
 [directory.substitutions]
-"gitlab" = " "
+"gitlab-development-kit" = "󰵮 "
+"gdk" = "󰵮 "
+"gitlab" = ""
 "cli" = ""
+"dotfiles" = ""
 
 [env_var]
 symbol = ''
