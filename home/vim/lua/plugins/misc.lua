@@ -346,7 +346,35 @@ return {
   { "fladson/vim-kitty",            ft = "kitty" },
 
   { "kana/vim-niceblock" },
-  { "stsewd/gx-extended.vim" },
+
+  {
+    "mrshmllow/open-handlers.nvim",
+    lazy = false,
+    cond = vim.ui.open ~= nil,
+    config = function()
+      local oh = require("open-handlers")
+
+      local function git_url(path)
+        local match = string.match(path, "([A-Z,a-z,0-9,_.-]+/+[A-Z,a-z,0-9,_.-]+)")
+        if match then
+          return oh.native("https://github.com/" .. match)
+        end
+
+        return nil, nil
+      end
+
+      oh.setup({
+        handlers = {
+          git_url,
+          oh.issue,
+          oh.commit,
+          oh.native
+        },
+      })
+    end,
+  },
+
+
 
   { "tpope/vim-abolish" },
   { "tpope/vim-apathy" },
