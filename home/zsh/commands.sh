@@ -18,10 +18,13 @@ alias evim='$VISUAL $HOME_DIR/vim/init.lua'
 alias egit='$VISUAL $HOME_DIR/gitconfig'
 alias zshrc='$VISUAL $HOME_DIR/zshrc'
 alias ekitty='$VISUAL $HOME_DIR/kitty/kitty.conf'
+alias ewez='$VISUAL $HOME/.config/wezterm/wezterm.lua'
 alias ealacritty='$VISUAL $DOTFILES/home/alacritty/alacritty.yml'
 alias egoku='$VISUAL $HOME/.config/karabiner.edn'
 
-# alias grbn="git rebase -i HEAD~$1"
+alias grbn="git rebase -i HEAD~$1"
+alias wip="LEFTHOOK=0 git add -A && git commit -avm \"wip\""
+alias unwip="git reset --mixed HEAD~"
 alias folder-sizes="du -sh * | sort -hr | head"
 alias branch="git branch --show-current"
 alias bu="bundle update"
@@ -82,6 +85,10 @@ else
 	alias rm="rm -i"
 fi
 
+alias .....='cd ../../../..'
+alias ....='cd ../../..'
+alias ...='cd ../..'
+
 alias oo='open .'
 alias plistbuddy="/usr/libexec/PlistBuddy"
 alias cask="brew install --cask"
@@ -91,7 +98,6 @@ if _exists btop; then
 	alias cpu="btop"
 	alias htop="btop"
 	alias top="btop"
-	alias rm=trash
 else
 	e_missing btop
 fi
@@ -173,9 +179,10 @@ alias amend="git commit --amend"
 alias ammend="amend"
 alias cont="git rebase --continue"
 alias zg="cd $GITLAB_HOME"
-alias zc="z cli"
+alias zc="cd $CLI_HOME"
 alias zd="z dotfiles"
 alias zk="z devkit"
+alias zh="cd ~"
 alias lg="lazygit"
 alias gdks="gdk start"
 alias bundle-id="mdls -name kMDItemCFBundleIdentifier -r"
@@ -268,6 +275,7 @@ function video_to_gif() {
 alias mov_to_gif='video_to_gif'
 
 alias gdkthin="gdk stop rails-web && GITLAB_RAILS_RACK_TIMEOUT_ENABLE_LOGGING=false PUMA_SINGLE_MODE=true gdk rails s"
+
 function okimdone() {
 	branch=$(git branch --show-current)
 	git clean -fd
@@ -280,18 +288,18 @@ function glreview() {
 	url="$(get_git_url "$1")"
 	branch="$(get_branch "$1")"
 	project="$(get_project "$1")"
-	git fetch "$url" "$branch"
-	git checkout -b "$project-$branch" FETCH_HEAD
-	git reset --mixed "$(git merge-base "${2:-origin/$(git-origin-head)}" HEAD)"
-}
 
-function gdkreview() {
-	cd "$GDK_DEV_HOME" || exit
-	git fetch origin
-	local branch
-	branch="$(get_branch "$1")"
-	new_branch "$branch" "${2:-origin}/$branch"
-	git reset --mixed "$(git merge-base "${2:-origin/main}" HEAD)"
+  if [[ $url == "git@gitlab.com:gitlab-org/gitlab.git" ]]; then
+    echo "canon"
+    git fetch origin
+    git checkout -b "$project-review-$branch" "origin/$branch"
+  else
+    echo "fork"
+    git fetch "$url" "$branch"
+    git checkout -b "$project-review-$branch" FETCH_HEAD
+  fi
+
+	git reset --mixed "$(git merge-base "${2:-origin/$(git-origin-head)}" HEAD)"
 }
 
 function new_mr() {

@@ -71,7 +71,6 @@ vim.g.esearch = {
 --   ]],
 --   true)
 
-s_nmap("<F55>", "<Plug>(esearch)")
 s_nmap("<m-f>", "<Plug>(esearch)")
 s_nmap("<leader>f", "<Plug>(operator-esearch-prefill)", {}, "project search (object)" )
 
