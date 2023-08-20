@@ -1,5 +1,6 @@
 local M = {
   "neovim/nvim-lspconfig",
+  enabled = true,
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
@@ -9,7 +10,7 @@ local M = {
     "WhoIsSethDaniel/toggle-lsp-diagnostics.nvim",
     "yorickpeterse/nvim-dd",
     {
-      "glepnir/lspsaga.nvim",
+      "nvimdev/lspsaga.nvim",
       opt = true,
       event = "LspAttach",
       dependencies = {
@@ -98,12 +99,20 @@ function M.config()
   })
 
   local servers = {
+    "cssls",
+    "docker_compose_language_service",
+    "dockerls",
+    "graphql",
+    "pylsp",
+    "sqlls",
+    "yamlls",
+
     "gopls",   -- Golang
     "html",    -- HTML
     "jsonls",  -- JSON
     "bashls",  -- Bash
     "clojure_lsp",
-    "ruby_ls", -- ruby
+    -- "ruby_ls", -- ruby
     "vimls",   -- Vimscript
     "lua_ls",  -- Lua
     -- "clangd", - doesnt work with QMK
@@ -191,47 +200,7 @@ function M.config()
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
     callback = function(ev)
-      local client = vim.lsp.get_client_by_id(ev.data.client_id)
-      local buffer = ev.buf
       local saga = require("lspsaga")
-
-      -- start ruby LSP hack
-      if client.name == "ruby_ls" then
-        local diagnostic_handler = function()
-          local params = vim.lsp.util.make_text_document_params(buffer)
-
-          client.request(
-            'textDocument/diagnostic',
-            { textDocument = params },
-            function(err, result)
-              if err then
-                local err_msg = string.format("ruby-lsp - diagnostics error - %s", vim.inspect(err))
-                vim.lsp.log.error(err_msg)
-              end
-              if not result then return end
-
-              vim.lsp.diagnostic.on_publish_diagnostics(
-                nil,
-                vim.tbl_extend('keep', params, { diagnostics = result.items }),
-                { client_id = client.id }
-              )
-            end
-          )
-        end
-
-        diagnostic_handler() -- to request diagnostics when attaching the client to the buffer
-
-        local ruby_group = vim.api.nvim_create_augroup('ruby_ls', { clear = false })
-        vim.api.nvim_create_autocmd(
-          { 'BufEnter', 'BufWritePre', 'InsertLeave', 'TextChanged' },
-          {
-            buffer = buffer,
-            callback = diagnostic_handler,
-            group = ruby_group,
-          }
-        )
-      end
-      -- end lsp hack
 
       saga.setup({
         lightbulb = {
@@ -249,7 +218,7 @@ function M.config()
         },
         symbol_in_winbar = {
           in_custom = true,
-          enable = true,
+          enable = false,
           separator = "> ",
           show_file = false,
           click_support = false,
