@@ -4,7 +4,7 @@ local M = {
   dependencies = {
     "RRethy/nvim-treesitter-endwise",
     "nvim-treesitter/nvim-treesitter-textobjects",
-    "https://gitlab.com/HiPhish/nvim-ts-rainbow2",
+    "git@gitlab.com:HiPhish/rainbow-delimiters.nvim.git",
     { "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" },
   },
   event = "BufReadPost",
@@ -84,11 +84,6 @@ function M.config()
         node_incremental = "<Enter>",
         node_decremental = "<BS>",
       },
-    },
-    rainbow = {
-      enable = true,
-      query = "rainbow-parens",
-      strategy = require("ts-rainbow.strategy.global"),
     },
     textobjects = {
       move = {
@@ -221,74 +216,64 @@ function M.config()
   vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
   -- vim.treesitter.language.register("bash", "zsh")
+
+  -- This module contains a number of default definitions
+
+  if vim.fn.has('nvim-0.9.0dev') == 1 then
+    local rainbow_delimiters = require 'rainbow-delimiters'
+
+    vim.g.rainbow_delimiters = {
+      strategy = {
+        [''] = rainbow_delimiters.strategy['global'],
+        vim = rainbow_delimiters.strategy['local'],
+      },
+      query = {
+        [''] = 'rainbow-delimiters',
+        lua = 'rainbow-blocks',
+      },
+      highlight = {
+        'RainbowDelimiterRed',
+        'RainbowDelimiterYellow',
+        'RainbowDelimiterBlue',
+        'RainbowDelimiterOrange',
+        'RainbowDelimiterGreen',
+        'RainbowDelimiterViolet',
+        'RainbowDelimiterCyan',
+      },
+    }
+  end
 end
 
 return M
 
-
--- ! ➜ Next diagnostic issue
--- % ➜ Next unmatched group
--- ' ➜ Next marker?
--- ( ➜ Next (
--- - ➜ Next marker?
--- < ➜ Next <
--- = ➜ Next marker?
--- B ➜ last buffer
--- C ➜ <Plug>(unimpaired-string-decode)
--- I ➜ Indent last
--- M ➜ Next method end
--- P ➜ put above?
--- Q ➜ last quickfix item
--- R ➜ Oldfile last
--- U ➜ Undo last
--- W ➜ Window last
--- Y ➜ Yank last
--- [ ➜ Next function end
--- ` ➜ Next marker?
--- b ➜ next buffer
--- c ➜ next git hunk
--- e ➜ exchange below
--- f ➜ next file
--- i ➜ Indent forward
--- m ➜ Next method start
--- n ➜ next TODO/FIX/WARN
--- o ➜ +Turn off...
--- p ➜ put below?
--- q ➜ next quickfix item
--- r ➜ Oldfile forward
--- s ➜ Next misspelled word
--- w ➜ Window forward
--- { ➜ Next {
-
-
-        -- @assignment.inner
-      -- @assignment.lhs
-      -- @assignment.outer
-      -- @assignment.rhs
-      -- @attribute.inner
-      -- @attribute.outer
-      -- @block.inner
-      -- @block.outer
-      -- @call.inner
-      -- @call.outer
-      -- @class.inner
-      -- @class.outer
-      -- @comment.inner
-      -- @comment.outer
-      -- @conditional.inner
-      -- @conditional.outer
-      -- @frame.inner
-      -- @frame.outer
-      -- @function.inner
-      -- @function.outer
-      -- @loop.inner
-      -- @loop.outer
-      -- @number.inner
-      -- @parameter.inner
-      -- @parameter.outer
-      -- @regex.inner
-      -- @regex.outer
-      -- @return.inner
-      -- @return.outer
-      -- @scopename.inner
-      -- @statement.outer
+-- @assignment.inner
+-- @assignment.lhs
+-- @assignment.outer
+-- @assignment.rhs
+-- @attribute.inner
+-- @attribute.outer
+-- @block.inner
+-- @block.outer
+-- @call.inner
+-- @call.outer
+-- @class.inner
+-- @class.outer
+-- @comment.inner
+-- @comment.outer
+-- @conditional.inner
+-- @conditional.outer
+-- @frame.inner
+-- @frame.outer
+-- @function.inner
+-- @function.outer
+-- @loop.inner
+-- @loop.outer
+-- @number.inner
+-- @parameter.inner
+-- @parameter.outer
+-- @regex.inner
+-- @regex.outer
+-- @return.inner
+-- @return.outer
+-- @scopename.inner
+-- @statement.outer
