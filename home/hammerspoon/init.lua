@@ -20,6 +20,14 @@ SafariTech       = "/Applications/Safari Technology Preview.app"
 Safari           = "com.apple.Safari"
 GitLabStandalone = "com.webcatalog.juli.gitlab"
 
+local function setAudiosourceBarTitle(_)
+  hs.shortcuts.run("Set Correct Soundsource Preset")
+end
+
+local audioWatcher = hs.audiodevice.watcher
+audioWatcher.setCallback(setAudiosourceBarTitle)
+audioWatcher.start()
+
 function tablelength(T)
   local count = 0
   for _ in pairs(T) do
@@ -106,6 +114,30 @@ Install:andUse("SendToOmniFocus", {
   ["repo"] = "gary",
 })
 
+function applicationWatcher(appName, eventType, appObject)
+  if (eventType == hs.application.watcher.activated) then
+    if (appName == "Mail") then
+      local applescript = [[
+            use AppleScript version "2.4"
+            use scripting additions
+            use framework "Foundation"
+            use framework "ScriptingBridge"
+
+            tell application "Mail"
+            tell mailbox "Junk" of account "iCloud"
+            set read status of messages whose read status is false to true
+            end tell
+            end tell
+          ]]
+
+      hs.osascript.applescript(applescript)
+    end
+  end
+end
+
+local appWatcher = hs.application.watcher.new(applicationWatcher)
+appWatcher:start()
+
 -- Install:andUse("MicMute", {
 --   hotkeys = { toggle = { {}, "pad0" } },
 --   ["repo"] = "gary",
@@ -124,12 +156,12 @@ function omnifocusContext(paths, flagTables)
 
   if hs.fnutils.contains(paths, good_path) then
     if hs.fs.displayName(good_path) == nil then
-    print("REMOVING WORK MODE")
-    hs.execute("shortcuts run \"Home Mode\"")
-  else
-    print("ADDING WORK MODE")
-    hs.execute("shortcuts run \"Work Mode\"")
-  end
+      print("REMOVING WORK MODE")
+      hs.execute("shortcuts run \"Home Mode\"")
+    else
+      print("ADDING WORK MODE")
+      hs.execute("shortcuts run \"Work Mode\"")
+    end
   else
   end
 end
@@ -137,7 +169,7 @@ end
 local myWatcher = hs.pathwatcher.new(
   os.getenv("HOME") .. "/Library/Mobile Documents/iCloud~is~workflow~my~workflows/Documents/Automation",
   omnifocusContext
-  ):start()
+):start()
 
 
 -- TODO:
@@ -156,4 +188,4 @@ local myWatcher = hs.pathwatcher.new(
 -- http://www.hammerspoon.org/Spoons/PushToTalk.html
 -- http://www.hammerspoon.org/Spoons/Caffeine.html
 -- http://www.hammerspoon.org/Spoons/HSKeybindings.html
--- http://www.hammerspoon.org/Spoons/ModalMgr.html
+-- http://www.hammerspoon.org/Spoons/ModalMgr.htm{
