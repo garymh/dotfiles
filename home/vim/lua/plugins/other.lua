@@ -18,6 +18,7 @@ local M = {
 
 function M.config()
   require("other-nvim").setup({
+    rememberBuffers = false,
     mappings = {
       "rails",
       "golang",
