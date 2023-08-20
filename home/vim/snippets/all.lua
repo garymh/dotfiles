@@ -13,7 +13,8 @@ local rep = extras.rep
 -- local r = ls.restore_node
 -- local events = require("luasnip.util.events")
 -- local ai = require("luasnip.nodes.absolute_indexer")
--- local fmt = require("luasnip.extras.fmt").fmt
+local fmt = require("luasnip.extras.fmt").fmt
+local fmta = require("luasnip.extras.fmt").fmta
 -- local m = extras.m
 -- local l = extras.l
 -- local postfix = require("luasnip.extras.postfix").postfix
@@ -175,11 +176,95 @@ ls.add_snippets("all", {
 --     rep(1),
 --   }),
 -- })
+--
 
--- set keybinds for both INSERT and VISUAL.
--- vim.api.nvim_set_keymap("i", "<C-n>", "<Plug>luasnip-next-choice", {})
--- vim.api.nvim_set_keymap("s", "<C-n>", "<Plug>luasnip-next-choice", {})
--- vim.api.nvim_set_keymap("i", "<C-p>", "<Plug>luasnip-prev-choice", {})
--- vim.api.nvim_set_keymap("s", "<C-p>", "<Plug>luasnip-prev-choice", {})
--- imap("<c-u>", require("luasnip.extras.select_choice"))
-vim.keymap.set("n", "<leader>sn", "<cmd>source ~/.config/nvim/lua/snippets.lua<CR>", {}, "Edit snippets file")
+local merge_request_template = [[
+## What does this MR do and why?
+
+<>
+<>
+<>
+## MR acceptance checklist
+
+This checklist encourages us to confirm any changes have been analyzed to reduce risks in quality, performance, reliability, security, and maintainability.
+
+* [x] I have evaluated the [MR acceptance checklist](https://docs.gitlab.com/ee/development/code_review.html#acceptance-checklist) for this MR.
+
+/assign me
+/label ~"devops::create" ~"group::code review" ~"backend"
+]]
+
+
+local cli_template = [[
+## Description
+
+<>
+
+## Related Issues
+
+## How has this been tested?
+
+## Screenshots (if appropriate):
+
+### Types of changes
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+- [ ] Documentation
+- [ ] Chore (Related to CI or Packaging to platforms)
+- [ ] Test gap
+
+/label ~"devops::create" ~"group::code review" ~"Category:GitLab CLI" ~"cli"
+]]
+
+
+local screenshot_section = [[
+## Screenshots or screen recordings
+
+| Before | After  |
+| ------ | ------ |
+|        |        |
+]]
+
+local validate_section = [[
+## How to set up and validate locally
+
+1. <>
+]]
+
+-- local label_section = [[
+-- ]]
+
+
+ls.add_snippets("markdown", {
+  s({ trig = "template", desc = "Standard GitLab MR template" },
+    c(1, {
+      fmta(
+        merge_request_template,
+        { i(1),
+          c(2, { fmta(screenshot_section, { }, {}), nil }),
+          c(3, { fmta(validate_section, { i(1) }, {}), nil }),
+        },
+        {}
+      ),
+      fmta(cli_template, { i(1) }, {})
+    })
+  ),
+})
+
+-- vim.keymap.set("n", "<leader>sn", "<cmd>source ~/.config/nvim/lua/snippets.lua<CR>", {}, "Edit snippets file")
+vim.keymap.set("i", "<Right>", function()
+  if require('luasnip').choice_active() then
+    require('luasnip').change_choice(1)
+  end
+end)
+vim.keymap.set("i", "<Left>", function()
+  if require('luasnip').choice_active() then
+    require('luasnip').change_choice(-1)
+  end
+end)
+vim.keymap.set("i", "<c-s>", function()
+  if require('luasnip').choice_active() then
+    require('luasnip.extras.select_choice')()
+  end
+end)
