@@ -7,6 +7,11 @@ if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
 
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
+
+# export GEM_PATH="$(gem environment gempath)"
+
 # ------------------
 # Initialize modules
 # ------------------
@@ -77,19 +82,9 @@ unsetopt FLOWCONTROL        # gives me back ^-S
 autoload -U select-word-style
 select-word-style bash
 
-echo ""
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 [ -f ~/.asdf/asdf.sh ] && source ~/.asdf/asdf.sh
 
-source "$HOME/code/fzf-widgets/init.zsh"
-
-export PATH=$HOME_DIR/zsh/bin:$PATH
-export PATH=$PATH:$HOME/.spicetify
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/opt/homebrew/sbin:$PATH"
-
-export GEM_PATH="$(gem environment gempath)"
-
+echo ""
 e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"
+export PATH=$PATH:/Users/gary/.spicetify
