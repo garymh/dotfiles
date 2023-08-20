@@ -66,7 +66,7 @@ require("lazy").setup("plugins", {
 
 vim.opt.linebreak = true
 vim.opt.wrap      = true
-vim.opt.cmdheight = 0
+vim.opt.cmdheight = 1
 vim.opt.expandtab = true
 vim.opt.fillchars = {
   stlnc     = "·",
@@ -87,7 +87,7 @@ vim.opt.foldlevelstart = 99
 vim.opt.hidden         = true
 vim.opt.ignorecase     = true
 vim.opt.inccommand     = "split"
-vim.opt.laststatus     = 0
+vim.opt.laststatus     = 3
 vim.opt.list           = false
 vim.opt.pumblend       = 0
 vim.opt.pumheight      = 10
