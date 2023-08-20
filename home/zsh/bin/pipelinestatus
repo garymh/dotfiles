@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# shellcheck disable=2001
+
+# pipelinestatus accepts a URL to a GitLab CI Pipeline run and continuously
+# monitors its status every 10 seconds until it finishes.
+#
+# If the pipeline fails or is canceled, the script will exit with status 1,
+# otherwise, it will exit with status 0.
+#
+# NOTE: Requires a read-only access token stored in $GITLAB_PAT_RO
+#
+# Example:
+#
+#  $ pipelinestatus "<pipeline url>" && say "Pipeline finished" || say "Pipeline failed"
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+clear_line() {
+    echo -en "\033[1K\r"
+}
+
+log() {
+  echo -en "$(date +"%H:%M:%S"): $1"
+}
+
+if [ "${1:-}" = "" ]; then
+  echo "usage: $(basename "$0") https://gitlab.com/<project>/-/pipelines/<id>"
+  exit 1
+fi
+
+project=$(echo "$1" | sed 's#.*gitlab.com/\(.*\)/-/.*#\1#')
+pipeline=$(echo "$1" | sed 's#.*gitlab.com/.*/-/pipelines/\([[:digit:]]*\)#\1#')
+
+if [ "${project:-}" = "" ]; then
+  echo "failed to extract project path from pipeline URL"
+  exit 1
+fi
+
+if [ "${pipeline:-}" = "" ]; then
+  echo "failed to extract pipeline ID from pipeline URL"
+  exit 1
+fi
+
+api_url="https://gitlab.com/api/v4/projects/${project//\//%2F}/pipelines/$pipeline"
+
+while true; do
+  status=$(curl --retry 3 --retry-delay 10 --silent --show-error --fail -H "PRIVATE-TOKEN: $GITLAB_PAT_RO" "$api_url" | jq -e -r ".status")
+
+  clear_line
+
+  if [[ "$status" == "failed" || "$status" == "canceled" ]]; then
+    log "$status\n"
+    exit 1
+  fi
+
+  if [[ "$status" == "success" || "$status" == "skipped" ]]; then
+    log "$status\n"
+    exit 0
+  fi
+
+  log "$status..."
+
+  sleep 10
+done
