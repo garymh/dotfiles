@@ -4,9 +4,13 @@ hs.grid.MARGINX    = 0
 hs.grid.MARGINY    = 0
 hs.window.animationDuration = 0
 
-left_screen  = hs.screen.find("50FB033E-6ABD-4B3F-954B-F6DC671A41D7")
-right_screen = hs.screen.find("02E82278-2E73-4C70-857D-264290C437B9")
-main_screen  = hs.screen.find("3B89892E-7540-410A-A7C3-FFE3824A5AED")
+-- NOTE: these will change with every new mac setup. they're only unique
+-- for a specific installation. if you're having window moving bugs, it's
+-- probably because you need to regenerate them
+left_screen  = hs.screen.find("F1E65064-8DFF-407B-87A5-260F6540951E")
+main_screen  = hs.screen.find("8E66BA58-0DB8-4BBA-9632-D850BD0EE956")
+right_screen = hs.screen.find("B4417C73-5875-4A7B-9767-53C90F2D6ED2")
+
 macbook      = hs.screen.find("D6D7DC9E-D30E-BFC2-E110-F85B28FF2D3E")
 
 function onMacbook()

@@ -44,6 +44,7 @@
     ~/.config/nvim/syntax: home/vim/syntax/
     ~/.config/nvim/lua: home/vim/lua/
     ~/.config/nvim/spell: home/vim/spell/
+    ~/.config/nvim/snippets: home/vim/snippets/
 
     ~/iCloud:
       path: "~/Library/Mobile Documents/com~apple~CloudDocs"
@@ -99,6 +100,8 @@
   - ["./npm_modules.sh", "Installing npm modules"]
   - ["./dockutil_init.sh", "Fixing up Dock"]
   - ["./hide_folders.sh", "Hiding macos folders"]
+  - ["sudo chmod 600 ~/.ssh/id_ed25519"]
+  - ["sudo chmod 600 ~/.ssh/id_ed25519.pub"]
 
 - duti:
     file: Dutifile
