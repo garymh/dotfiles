@@ -69,6 +69,9 @@
     ~/.gitconfig.work:
       path: home/zsh/private/gitconfig.work
       if: '[ `uname` = Darwin ]'
+    ~/.config/wezterm/wezterm.lua:
+      path: home/wezterm.lua
+      if: '[ `uname` = Darwin ]'
     ~/.config/kitty:
       path: home/kitty
       if: '[ `uname` = Darwin ]'

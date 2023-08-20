@@ -43,6 +43,7 @@ function action_key()
     or name == "nvim-qt"
     or name == "Firefox"
     or name == "kitty"
+    or name == "WezTerm"
     or name == "Alacritty"
     or name == "Neovide"
     or name == "Firefox Developer Edition"

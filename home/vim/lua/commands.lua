@@ -65,15 +65,6 @@ end
 vim.api.nvim_create_user_command("FileTypeDetect", filetypeLoader("ftdetect"), {})
 vim.api.nvim_create_user_command("FileTypePlugin", filetypeLoader("ftplugin"), {})
 
-NvimVsource([[lua/kitty_navigator.vim]])
-
-s_nmap("<C-left>",  "<CMD>KittyNavigateLeft<CR>",  {}, "Kitty navigate")
-s_nmap("<C-right>", "<CMD>KittyNavigateRight<CR>", {}, "Kitty navigate")
-s_nmap("<C-up>",    "<CMD>KittyNavigateUp<CR>",    {}, "Kitty navigate")
-s_nmap("<C-down>",  "<CMD>KittyNavigateDown<CR>",  {}, "Kitty navigate")
-s_nmap("<C-8>",     "<CMD>KittyNavigatePrev<CR>",  {}, "Kitty navigate")
-s_nmap("<C-9>",     "<CMD>KittyNavigateNext<CR>",  {}, "Kitty navigate")
-
 function Google(pat, lucky)
   local fn = vim.fn
   local query = '"' .. fn.substitute(pat, '["\n]', " ", "g") .. '"'

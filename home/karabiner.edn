@@ -28,7 +28,7 @@
                 :omnifocus   ["^com\\.omnigroup\\.OmniFocus3$"]
                 :firefoxes   ["^org\\.mozilla\\.firefox" "^org\\.mozilla\\.firefoxdeveloperedition$", "^org\\.mozilla\\.nightly$"]
                 :terminal    ["^com\\.apple\\.Terminal"]
-                :terminals   ["^io\\.alacritty" "^net\\.kovidgoyal\\.kitty", "^com\\.apple\\.Terminal"]}
+                :terminals   ["^io\\.alacritty" "^net\\.kovidgoyal\\.kitty", "^com\\.apple\\.Terminal", "^com\\.github\\.wez\\.wezterm"]}
 
  :templates {:launcher    "open -a \"%s.app\""
              :alfred      "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\"'"
@@ -137,7 +137,7 @@
   {:des "f launch firefox" :rules           [[{:key :f :modi [:left_shift, :right_shift]} [:launcher "/Applications/Firefox"]]]}
   {:des "g launch gitlab local" :rules      [[{:key :g :modi [:left_shift, :right_shift]} [:launcher "/Applications/Safari Technology Preview"]]]}
   {:des "j Just fullscreen pls" :rules      [[{:key :j :modi [:left_shift, :right_shift]} [:!!f]]]}
-  {:des "k launch kitty" :rules             [[{:key :k :modi [:left_shift, :right_shift]} [:launcher "/Applications/kitty"]]]}
+  {:des "k launch wezterm" :rules             [[{:key :k :modi [:left_shift, :right_shift]} [:launcher "/Applications/WezTerm"]]]}
   {:des "l launch sLack" :rules             [[{:key :l :modi [:left_shift, :right_shift]} [:launcher "/Applications/Slack"]]]}
   {:des "; launch Finder" :rules            [[{:key :semicolon :modi [:left_shift, :right_shift]} [:launcher "/System/Library/CoreServices/Finder"]]]}
   {:des "m launch messages" :rules          [[{:key :m :modi [:left_shift, :right_shift]} [:launcher "/System/Applications/Messages"]]]}
