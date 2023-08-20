@@ -69,6 +69,8 @@ function shift_action_key()
     app:selectMenuItem("Sync")
   elseif name == "Safari" then
     hs.eventtap.keyStroke({ "ctrl" }, "e")
+  elseif name == "Firefox" then
+    hs.eventtap.keyStroke({ "alt" }, "t")
   elseif name == "Firefox Developer Edition" then
     hs.eventtap.keyStroke({ "alt", "cmd" }, "i")
   elseif name == "kitty" then
