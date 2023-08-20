@@ -619,6 +619,8 @@ function M.config()
     railsCustomDirFinder("Rails EE worker specs", "ee/spec/workers/ee/", "*.rb")
   end, {}, "edit GitLab EE worker specs")
 
+  vim.cmd("FzfLua register_ui_select")
+
 -- s_nmap("<F55>", "<Plug>(esearch)")
   -- s_nmap("<m-f>", "<CMD>FzfLua live_grep_resume<CR>")
   -- s_nmap("gs", "<CMD>FzfLua grep_cword<CR>")
