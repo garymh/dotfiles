@@ -39,7 +39,7 @@ function M.config()
       ["<leader>f"] = "Project search...",
       ["<leader>y"] = "System clipboard..",
     },
-    key_labels = { },
+    key_labels = {},
     icons = {
       breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
       separator  = "➜", -- symbol used between a key and it's label
@@ -231,6 +231,21 @@ function M.config()
     ["\\"] = {
     },
   }, { mode = "v" })
+
+  function ClearReg()
+    print('Clearing registers')
+    vim.cmd [[
+    let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
+    for r in regs
+    call setreg(r, [])
+    endfor
+]]
+  end
+
+  --Make it so i can call ClearReg as a command
+  vim.api.nvim_create_user_command('ClearReg', function()
+    ClearReg()
+  end, {})
 end
 
 return M
