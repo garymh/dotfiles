@@ -114,7 +114,7 @@ Install:andUse("SendToOmniFocus", {
   ["repo"] = "gary",
 })
 
-function applicationWatcher(appName, eventType, appObject)
+function ApplicationWatcher(appName, eventType, appObject)
   if (eventType == hs.application.watcher.activated) then
     if (appName == "Mail") then
       local applescript = [[
@@ -135,8 +135,8 @@ function applicationWatcher(appName, eventType, appObject)
   end
 end
 
-local appWatcher = hs.application.watcher.new(applicationWatcher)
-appWatcher:start()
+AppWatcher = hs.application.watcher.new(ApplicationWatcher)
+AppWatcher:start()
 
 -- Install:andUse("MicMute", {
 --   hotkeys = { toggle = { {}, "pad0" } },
