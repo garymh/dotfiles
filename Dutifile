@@ -24,31 +24,33 @@
 # shell   app can execute the item.
 # none    app cannot open the item, but provides an icon for the given UTI.
 
-app.loshadki.OpenIn net.daringfireball.markdown all
-app.loshadki.OpenIn com.apple.applescript.text all
-app.loshadki.OpenIn com.netscape.javascript-source all
-app.loshadki.OpenIn com.sun.java-source all
-app.loshadki.OpenIn org.go.source all
-app.loshadki.OpenIn public.c-plus-plus-source all
-app.loshadki.OpenIn public.data all
-app.loshadki.OpenIn public.php-script all
-app.loshadki.OpenIn public.plain-text all
-app.loshadki.OpenIn public.python-script all
-app.loshadki.OpenIn public.ruby-script all
-app.loshadki.OpenIn public.shell-script all
-app.loshadki.OpenIn public.source-code all
-app.loshadki.OpenIn public.unix-executable all
-app.loshadki.OpenIn public.yaml all
-app.loshadki.OpenIn public.xml all
-app.loshadki.OpenIn text/plain all
-app.loshadki.OpenIn .json all
-app.loshadki.OpenIn .zsh all
+app.loshadki.OpenIn.v4 net.daringfireball.markdown all
+app.loshadki.OpenIn.v4 com.apple.applescript.text all
+app.loshadki.OpenIn.v4 com.netscape.javascript-source all
+app.loshadki.OpenIn.v4 com.sun.java-source all
+app.loshadki.OpenIn.v4 org.go.source all
+app.loshadki.OpenIn.v4 public.c-plus-plus-source all
+app.loshadki.OpenIn.v4 public.data all
+app.loshadki.OpenIn.v4 public.php-script all
+app.loshadki.OpenIn.v4 public.plain-text all
+app.loshadki.OpenIn.v4 public.python-script all
+app.loshadki.OpenIn.v4 public.ruby-script all
+app.loshadki.OpenIn.v4 public.shell-script all
+app.loshadki.OpenIn.v4 public.source-code all
+app.loshadki.OpenIn.v4 public.unix-executable all
+app.loshadki.OpenIn.v4 public.yaml all
+app.loshadki.OpenIn.v4 public.xml all
+app.loshadki.OpenIn.v4 text/plain all
+app.loshadki.OpenIn.v4 .json all
+app.loshadki.OpenIn.v4 .zsh all
 # at.eggerapps.tabletool public.comma-separated-values-text all
 # org.hammerspoon.Hammerspoon .torrent all
 
-org.videolan.vlc .avi all
-org.videolan.vlc .mkv all
-org.videolan.vlc .mp4 all
+app.loshadki.OpenIn.v4 .avi all
+app.loshadki.OpenIn.v4 .mkv all
+app.loshadki.OpenIn.v4 .mp4 all
+app.loshadki.OpenIn.v4 .m4v all
+app.loshadki.OpenIn.v4 .mov all
 
 # bundle id URL scheme
 com.reederapp.mac feed
