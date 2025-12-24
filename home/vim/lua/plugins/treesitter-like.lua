@@ -8,6 +8,7 @@ return {
       ensure_install = {
         'bash',
         'comment',
+        'clojure',
         'css',
         'diff',
         'fish',
