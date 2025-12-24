@@ -1,0 +1,114 @@
+# vim: set filetype=ghostty :
+
+font-family = FixedsysExcelsiorIIIb Nerd Font
+
+custom-shader = shaders/cursor_blaze_no_trail.glsl
+
+font-feature = -calt
+font-feature = -dlig
+font-feature = -liga
+font-feature = cv03
+font-feature = cv04
+font-feature = ss05
+font-feature = zero
+
+font-size = 20
+font-thicken = true
+
+# keybind = cmd+shift+f=toggle_fullscreen
+# ❯ kitten show_key
+keybind = cmd+shift+grave_accent=toggle_quick_terminal
+keybind = cmd+shift+t=undo
+keybind = cmd+left=text:\x01
+keybind = cmd+right=text:\x05
+keybind = opt+right=esc:f
+keybind = opt+left=esc:b
+keybind = opt+delete=esc:d
+keybind = cmd+backspace=text:\x15
+keybind = super+d=new_split:down
+keybind = super+shift+d=new_split:right
+keybind = global:cmd+escape=toggle_quick_terminal
+keybind = ctrl+enter=text:\r
+keybind = shift+enter=text:\n
+
+adjust-cell-height                = 5%
+adjust-cell-width                 = 3%
+clipboard-read                    = allow
+clipboard-write                   = allow
+confirm-close-surface             = false
+cursor-opacity                    = 0.5
+quick-terminal-animation-duration = 0.1
+quick-terminal-position           = right
+quick-terminal-size               = 45%,50%
+theme                             = Rose Pine Moon
+window-padding-balance            = true
+window-padding-x                  = 10
+window-padding-y                  = 10
+window-theme                      = system
+window-vsync                      = false
+
+# custom-shader = shaders/animated-gradient-shader.glsl
+# custom-shader = shaders/bettercrt.glsl
+# custom-shader = shaders/bloom.glsl
+# custom-shader = shaders/crt.glsl
+# custom-shader = shaders/cubes.glsl
+# custom-shader = shaders/cursor_blaze.glsl
+# custom-shader = shaders/cursor_smear.glsl
+# custom-shader = shaders/cursor_smear_fade.glsl
+# custom-shader = shaders/debug_cursor_animated.glsl
+# custom-shader = shaders/debug_cursor_static.glsl
+# custom-shader = shaders/dither.glsl
+# custom-shader = shaders/drunkard.glsl
+# custom-shader = shaders/ghostty_wrapper.glsl
+# custom-shader = shaders/glitchy.glsl
+# custom-shader = shaders/glow-rgbsplit-twitchy.glsl
+# custom-shader = shaders/gradient-background.glsl
+# custom-shader = shaders/inside-the-matrix.glsl
+# custom-shader = shaders/just-snow.glsl
+# custom-shader = shaders/matrix-hallway.glsl
+# custom-shader = shaders/mnoise.glsl
+# custom-shader = shaders/negative.glsl
+# custom-shader = shaders/retro-terminal.glsl
+# custom-shader = shaders/smoke-and-ghost.glsl
+# custom-shader = shaders/sparks-from-fire.glsl
+# custom-shader = shaders/spotlight.glsl
+# custom-shader = shaders/starfield-colors.glsl
+# custom-shader = shaders/starfield.glsl
+# custom-shader = shaders/tft.glsl
+# custom-shader = shaders/underwater.glsl
+# custom-shader = shaders/water.glsl
+# custom-shader = shaders/WIP.glsl
+
+# font-family = 0xProto
+# font-family = Berkeley Mono
+# font-family = Lotion
+# font-family = Luculent
+# font-family = CommitMono-gary
+# font-family = D2CodingLigature Nerd Font Mono
+# font-family = Departure Mono
+# font-family = EnvyCodeR Nerd Font Mono
+# font-family = SF Mono
+# font-family = Hack Nerd Font Propo
+# font-family = Hermit
+# font-family = IBM Plex Mono
+# font-family = Input Mono Condensed
+# font-family = IntelOne Mono
+# font-family = Iosevka Comfy
+# font-family = Iosevka Comfy Wide
+# font-family = IosevkaTermSlab Nerd Font Mono
+# font-family = Ioveska Comfy Wide Motion Duo
+# font-family = Lemonade
+# font-family = Liberation Mono
+# font-family = Maple Mono
+# font-family = Maple Mono NF
+# font-family = Monaspace Argon Var
+# font-family = Monaspace Radon
+# font-family = Necto Mono
+# font-family = Recursive
+# font-family = Iosevka SS08
+# font-family = SpaceMono Nerd Font Mono
+# font-family = VictorMono Nerd Font
+# font-family = Vulf Mono
+# font-family = cozette
+# font-family = m PLUS 1 Code
+# font-family = Adwaita Mono

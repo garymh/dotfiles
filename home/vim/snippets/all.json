@@ -1,0 +1,10 @@
+{
+  "TODO": {
+    "body": "$LINE_COMMENT TODO: ${1:look at this}",
+    "prefix": "todo"
+  },
+  "fp": {
+    "body": "fmt.Println(\"${1}\")",
+    "prefix": "fp"
+  }
+}

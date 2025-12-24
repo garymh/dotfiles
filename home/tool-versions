@@ -1,7 +1,19 @@
-nodejs 18.16.1
-direnv latest
-ruby 3.2.2
-golang 1.20.5
-yarn latest
-rust latest
 caddy latest
+direnv 2.35.0
+gcloud 428.0.0
+gitleaks 8.16.4
+go 1.24.4
+golangci-lint 1.64.5
+markdownlint-cli2 0.14.0
+minio 2022-07-15T03-44-22Z
+mockery 2.43.0
+nodejs 20.12.2 18.16.1
+poetry 1.8.3
+python 3.10.14
+redis 7.0.14
+ruby latest
+rust nightly
+shellcheck 0.10.0
+vale 3.7.1 2.29.6
+yarn 1.22.19
+yq 4.44.3

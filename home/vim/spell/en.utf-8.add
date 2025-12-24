@@ -30,6 +30,7 @@ config
 context
 ctrl
 cursor_shape
+def
 enum
 etag
 foldmethod
@@ -54,6 +55,7 @@ rebased
 rebases
 refactor
 rubocop
+setup
 sidekiq
 sql
 stderr
@@ -62,3 +64,6 @@ stdout
 tmux
 unix
 zinit
+LspAttach
+exit
+WARN

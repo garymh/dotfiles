@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+
+cd "$HOME/code/BetterDiscord"
+git pull
+pnpm build
+pnpm install
+pnpm inject
+
+killall Discord
+sleep 3
+open /Applications/Discord.app

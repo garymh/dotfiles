@@ -1,222 +1,102 @@
 local M = {
-  "willothy/nvim-cokeline",
-  event        = "VeryLazy",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  enabled      = function()
-    if vim.fn.has('nvim-0.9.0dev') == 1 then
-      return true
-    else
-      return false
-    end
-  end,
+  "rebelot/heirline.nvim",
+  dependencies = { "Zeioth/heirline-components.nvim" },
+  event = "VeryLazy",
 }
 
 function M.config()
-  local get_hex  = require('cokeline/utils').get_hex
-  local mappings = require('cokeline/mappings')
+  local conditions          = require("heirline.conditions")
+  local utils               = require("heirline.utils")
+  local heirline            = require("heirline")
+  local heirline_components = require "heirline-components.all"
 
-  local comments_fg = get_hex('Comment', 'fg')
-  local errors_fg   = get_hex('DiagnosticError', 'fg')
-  local warnings_fg = get_hex('DiagnosticWarn', 'fg')
+  local FileNameBlock       = {
+    init = function(self)
+      self.filename = vim.api.nvim_buf_get_name(0)
+    end,
+  }
 
-  local red    = vim.g.terminal_color_1
-  local yellow = vim.g.terminal_color_3
+  local FileIcon            = {
+    init = function(self)
+      local filename = self.filename
+      local extension = vim.fn.fnamemodify(filename, ":e")
+      self.icon, self.icon_color = require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
+    end,
+    provider = function(self)
+      return self.icon and (self.icon .. " ")
+    end,
+    hl = function(self)
+      return { fg = self.icon_color }
+    end
+  }
 
-  local rhs_components = {
-    branch = {
-      text = function()
-        if vim.b.gitsigns_head then
-          return "  " .. vim.b.gitsigns_head:sub(1, 20) .. " "
-        else
-          return ""
-        end
-      end,
-      fg = "#B4BDC3",
-      bg = "#65435E",
-      style = function()
-        return 'bold,underline'
+  local FileName            = {
+    provider = function(self)
+      local filename = vim.fn.fnamemodify(self.filename, ":.")
+      if filename == "" then return "[No Name]" end
+      if not conditions.width_percent_below(#filename, 0.25) then
+        filename = vim.fn.pathshorten(filename)
       end
-    }
+      return filename
+    end,
+    hl = { fg = utils.get_highlight("Directory").fg },
   }
 
-  local components = {
-    space = {
-      text       = ' ',
-      truncation = { priority = 1 }
+  local FileFlags           = {
+    {
+      condition = function() return vim.bo.modified end,
+      provider = "[+]",
+      hl = { fg = "green" },
     },
-
-    two_spaces = {
-      text       = '  ',
-      truncation = { priority = 1 },
-    },
-
-
-    ee = {
-      text = function(buffer)
-        if string.find(buffer.path, "ee/", nil, true) then
-          return "EE"
-        else
-          return ""
-        end
+    {
+      condition = function()
+        return not vim.bo.modifiable or vim.bo.readonly
       end,
-
-      fg = function(buffer)
-        if buffer.is_focused then
-          return "#ffffff"
-        else
-          return nil
-        end
-      end,
-
-      bg = function(buffer)
-        if buffer.is_focused then
-          return get_hex('ErrorMsg', 'fg')
-        else
-          return nil
-        end
-      end,
-      style = 'bold',
-      -- truncation = { priority = 1 },
-    },
-    separator = {
-      text = function(buffer)
-        return buffer.index ~= 1 and '▏' or ''
-      end,
-      truncation = { priority = 1 }
-    },
-
-    devicon = {
-      text = function(buffer)
-        return
-            (mappings.is_picking_focus() or mappings.is_picking_close())
-            and buffer.pick_letter .. ' '
-            or buffer.devicon.icon
-      end,
-      fg = function(buffer)
-        return
-            (mappings.is_picking_focus() and yellow)
-            or (mappings.is_picking_close() and red)
-            or buffer.devicon.color
-      end,
-      style = function(_)
-        return
-            (mappings.is_picking_focus() or mappings.is_picking_close())
-            and 'italic,bold'
-            or nil
-      end,
-      truncation = { priority = 1 }
-    },
-
-    index = {
-      text = function(buffer)
-        return buffer.index .. ': '
-      end,
-      truncation = { priority = 1 }
-    },
-
-    unique_prefix = {
-      text = function(buffer)
-        return buffer.unique_prefix
-      end,
-      fg = comments_fg,
-      style = 'italic',
-      truncation = {
-        priority = 3,
-        direction = 'left',
-      },
-    },
-
-    filename = {
-      text = function(buffer)
-        return buffer.filename
-      end,
-      style = function(buffer)
-        return
-            ((buffer.is_focused and buffer.diagnostics.errors ~= 0)
-              and 'bold,underline')
-            or (buffer.is_focused and 'bold')
-            or (buffer.diagnostics.errors ~= 0 and 'underline')
-            or nil
-      end,
-      truncation = {
-        priority = 2,
-        direction = 'left',
-      },
-    },
-
-    diagnostics = {
-      text = function(buffer)
-        return
-            (buffer.diagnostics.errors ~= 0 and '  ' .. buffer.diagnostics.errors)
-            or (buffer.diagnostics.warnings ~= 0 and '  ' .. buffer.diagnostics.warnings)
-            or ''
-      end,
-      fg = function(buffer)
-        return
-            (buffer.diagnostics.errors ~= 0 and errors_fg)
-            or (buffer.diagnostics.warnings ~= 0 and warnings_fg)
-            or nil
-      end,
-      truncation = { priority = 1 },
-    },
-
-    close_or_unsaved = {
-      text = function(buffer)
-        return buffer.is_modified and '●' or ''
-      end,
-      fg = function(buffer)
-        return buffer.is_modified and "#BAD761" or nil
-      end,
-      delete_buffer_on_left_click = true,
-      truncation = { priority = 1 },
+      provider = "",
+      hl = { fg = "orange" },
     },
   }
 
-  require('cokeline').setup({
-    show_if_buffers_are_at_least = 2,
+  local FileNameModifer     = {
+    hl = function()
+      if vim.bo.modified then
+        return { fg = "cyan", bold = true, force = true }
+      end
+    end,
+  }
 
-    buffers = {
-      -- filter_valid = function(buffer) return buffer.type ~= 'terminal' end,
-      -- filter_visible = function(buffer) return buffer.type ~= 'terminal' end,
-      new_buffers_position = 'next',
+  FileNameBlock             = utils.insert(FileNameBlock, FileIcon, utils.insert(FileNameModifer, FileName), FileFlags,
+    { provider = '%<' }
+  )
+
+  heirline_components.init.subscribe_to_events()
+  heirline.load_colors(heirline_components.hl.get_colors())
+
+  heirline.setup({
+    statusline   = nil,
+    winbar       = {
+      heirline_components.component.fill(),
+      heirline_components.component.git_branch(),
+      FileNameBlock,
+      heirline_components.component.git_diff(),
+      heirline_components.component.breadcrumbs(),
+      heirline_components.component.fill(),
     },
+    statuscolumn = {
+      init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
+      heirline_components.component.foldcolumn(),
+      heirline_components.component.numbercolumn(),
+      heirline_components.component.signcolumn(),
+    } or nil,
 
-    -- rendering = {
-    --   max_buffer_width = 30,
-    -- },
-
-    default_hl = {
-      fg = function(buffer)
-        return
-            buffer.is_focused
-            and get_hex('normal', 'fg')
-            or get_hex('comment', 'fg')
+    opts         = {
+      disable_winbar_cb = function(args)
+        return conditions.buffer_matches({
+          buftype = { "nofile", "prompt", "help", "quickfix" },
+          filetype = { "^git.*", "fzf" },
+        }, args.buf)
       end,
-      bg = function(buffer)
-        return
-            buffer.is_focused
-            and get_hex('BufferLineDuplicateSelected', 'fg')
-            or get_hex('ColorColumn', 'fg')
-      end,
     },
-
-    components = {
-      components.space,
-      components.devicon,
-      -- components.index,
-      -- components.unique_prefix,
-      components.filename,
-      components.space,
-      components.ee,
-      components.diagnostics,
-      -- components.two_spaces,
-      components.space,
-      components.close_or_unsaved,
-    },
-
-    rhs = {
-      rhs_components.branch
-    }
   })
 end
 

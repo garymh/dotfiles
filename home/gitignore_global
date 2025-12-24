@@ -89,9 +89,15 @@ Gemfile.private
 Gemfile.private.lock
 vendor
 devgems
-config/metrics
-ee/config/metrics
+# config/metrics
+# ee/config/metrics
+.gitlab/*/Gary.md
 
 .projections.json
 .gitlab.nvim
 logs
+
+Gemfile.local
+Gemfile.local.lock
+cover.cov
+.claude

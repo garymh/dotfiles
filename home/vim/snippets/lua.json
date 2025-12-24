@@ -1,0 +1,17 @@
+{
+  "config": {
+    "body": [
+      "config = function()",
+      "  ${1}",
+      "end"
+    ],
+    "prefix": "config"
+  },
+  "key": {
+    "body": [
+      "[\"$1\"] = { $2 },",
+      "$3"
+    ],
+    "prefix": "key"
+  }
+}

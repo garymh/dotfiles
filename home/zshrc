@@ -1,64 +1,18 @@
 typeset -F4 SECONDS=0
-# Remove path separator from WORDCHARS.
-WORDCHARS=${WORDCHARS//[\/]}
 
-if type brew &>/dev/null; then
-  FPATH="$(brew --prefix)/share/zsh-completions:$FPATH"
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/opt/homebrew/sbin:$PATH"
+source $HOME/.ziminit
 
-# export GEM_PATH="$(gem environment gempath)"
-
-# ------------------
-# Initialize modules
-# ------------------
-
-ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
-# Download zimfw plugin manager if missing.
-if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
-  if (( ${+commands[curl]} )); then
-    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
-        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
-  else
-    mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
-        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
-  fi
-fi
-
-# Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
-if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
-  source ${ZIM_HOME}/zimfw.zsh init -q
-fi
-
-# Initialize modules.
-source ${ZIM_HOME}/init.zsh
-
-zstyle ':zim:input' double-dot-expand yes
-
-# ------------------------------
-# Post-init module configuration
-# ------------------------------
-#
-# zsh-history-substring-search
-
-zmodload -F zsh/terminfo +p:terminfo
-# Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
-for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
-for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
-for key ('k') bindkey -M vicmd ${key} history-substring-search-up
-for key ('j') bindkey -M vicmd ${key} history-substring-search-down
-unset key
-# }}} End configuration added by Zim install
-
-if [[ $(zsh --version | awk '{print $2}') > 5.0.7 ]]; then
-  eval "$(starship init zsh)"
-fi
-
+# my stuff
 for f ($DOTFILES/home/zsh/*.sh) { source $f }
 
+# options ----------------
 export HISTFILE="$HOME/.zsh_history"
 export SAVEHIST=100000000
 export HISTFILESIZE=1000000000
@@ -67,7 +21,6 @@ export HISTTIMEFORMAT="[%F %T] "
 
 setopt APPEND_HISTORY       # Immediately append to the history file, not just when a term is killed
 setopt EXTENDED_HISTORY     # Write the history file in the ":start:elapsed;command" format.
-setopt HIST_IGNORE_ALL_DUPS # Do not display a line previously found.
 setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
 setopt HIST_FIND_NO_DUPS
 setopt SHARE_HISTORY        # Share history between all sessions.
@@ -81,10 +34,47 @@ unsetopt FLOWCONTROL        # gives me back ^-S
 
 autoload -U select-word-style
 select-word-style bash
+# --------------------------
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.asdf/asdf.sh ] && source ~/.asdf/asdf.sh
+hash -d gitlab=~/code/work/gdk/gitlab
+hash -d devkit=~/code/work/devkit
+hash -d cli=~/code/work/cli
+hash -d dotfiles=~/code/dotfiles
 
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace)
+
+if command -v glab > /dev/null 2>&1; then
+   source <(glab completion -s zsh); compdef _glab glab
+fi
+
+if command -v vivid > /dev/null 2>&1; then
+  export LS_COLORS="$(vivid generate molokai)"
+fi
+
+sh $HOME/code/dotfiles/home/zsh/misc/thisisfine.sh
 echo ""
+
+if _exists nvim; then
+  export VISUAL='nvim'
+else
+  export VISUAL='vim'
+fi
+export EDITOR="$VISUAL"
+export GIT_EDITOR="$VISUAL"
+
 e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"
-export PATH=$PATH:/Users/gary/.spicetify
+
+zstyle ':zim:plugins:alias-finder' autoload yes
+
+# Added by GDK bootstrap
+eval "$(/opt/homebrew/bin/mise activate zsh)"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/gary/.lmstudio/bin"
+# End of LM Studio CLI section
+

@@ -82,4 +82,26 @@ local function fullscreen()
   win:toggleFullScreen(true)
 end
 
-hs.hotkey.bind(hyper, "f", function() fullscreen() end)
+local function mute_firefox_tab()
+  local old_app   = hs.application.frontmostApplication()
+  local firefoxen = hs.application.applicationsForBundleID("org.mozilla.firefox")
+  local firefox   = firefoxen[1]
+
+  firefox:activate()
+  hs.timer.usleep(60000)
+
+  hs.eventtap.event.newKeyEvent(hs.keycodes.map.ctrl, true):post()
+   hs.eventtap.event.newKeyEvent("m", true):post()
+   hs.eventtap.event.newKeyEvent("m", false):post()
+   hs.eventtap.event.newKeyEvent(hs.keycodes.map.ctrl, false):post()
+
+
+  old_app:activate()
+end
+
+hs.hotkey.bind(hyper, "f", function()
+  fullscreen()
+end)
+hs.hotkey.bind(hyper, "n", function()
+  mute_firefox_tab()
+end)

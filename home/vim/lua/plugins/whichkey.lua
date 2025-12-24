@@ -1,251 +1,211 @@
-local M = { "folke/which-key.nvim", }
+local M = {
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  enabled = true,
+}
 
 function M.config()
-  local presets = require("which-key.plugins.presets")
   local whichkey = require("which-key")
 
-  local ignore_keys = { "a(", "a)", "i(", "i)", 'a"', 'i"', "a'", "i'", "a>", "i>", "a[", "i[", "a]", "i]", "a`", "i`",
-    "a{", "i{", "a}", "i}", "a<", "i<", "aB", "iB", "ab", "ib" }
-
-  for _, keybinding in ipairs(ignore_keys) do
-    presets.objects[keybinding] = nil
-  end
-
   whichkey.setup({
-    plugins = {
-      marks = true,       -- shows a list of your marks on ' and `
-      registers = true,   -- shows your registers on " in NORMAL or <C-r> in INSERT mode
-      spelling = {
-        enabled = false,  -- enabling this will show WhichKey when pressing z= to select spelling suggestions
-        suggestions = 20, -- how many suggestions should be shown in the list?
-      },
-      presets = {
-        operators = true,    -- adds help for operators like d, y, ... and registers them for motion / text object completion
-        motions = true,      -- adds help for motions
-        text_objects = true, -- help for text objects triggered after entering an operator
-        windows = true,      -- default bindings on <c-w>
-        nav = true,          -- misc bindings to work with windows
-        z = true,            -- bindings for folds, spelling and others prefixed with z
-        g = true,            -- bindings for prefixed with g
-      },
-    },
-    operators = {
-      gc            = "Comments",
-      gy            = "Duplicate and comment",
-      ga            = "Align",
-      sa            = "Add surround to...",
-      ["??"]        = "Google search..",
-      ["?!"]        = "Google lucky search..",
-      ["<leader>f"] = "Project search...",
-      ["<leader>y"] = "System clipboard..",
-    },
-    key_labels = {},
-    icons = {
-      breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
-      separator  = "➜", -- symbol used between a key and it's label
-      group      = "+", -- symbol prepended to a group
-    },
-    window = {
-      border   = "none",         -- none, single, double, shadow
-      position = "bottom",       -- bottom, top
-      margin   = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
-      padding  = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
-    },
-    layout = {
-      height  = { min = 4, max = 25 },                                            -- min and max height of the columns
-      width   = { min = 20, max = 50 },                                           -- min and max width of the columns
-      spacing = 3,                                                                -- spacing between columns
-      align   = "left",                                                           -- align columns left, center or right
-    },
-    ignore_missing = false,                                                       -- enable this to hide mappings for which you didn't specify a label
-    hidden = { "<silent>", "<CMD>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
-    show_help = false,                                                            -- show help message on the command line when the popup is visible
-    triggers = "auto",                                                            -- automatically setup triggers
-    triggers_blacklist = {
-      i = { "j", "k" },
-      v = { "j", "k" },
+    preset = "helix",
+    sort = { "alphanum", "order" },
+    -- win = {
+    --   no_overlap = true,
+    --   border = "double",
+    -- },
+    triggers = {
+      { "<auto>",  mode = "nxsot" },
+      { "yo",      mode = { "n" } },
+      { "<space>", mode = { "n" } },
     },
   })
 
-  local ignore = [[which_key_ignore]]
-
-  whichkey.register({
-    g = {
-      name  = "+goto",
-      ["*"] = ignore,
-      ["#"] = ignore,
-      d     = [[definition]],
-      D     = [[declaration]],
-      g     = [[top]],
-      I     = [[implementation]],
-      l     = [[git...]],
-      o     = [[open files...]],
-      c     = {
-        name = "+comment",
-        c    = [[comment line]],
-      },
+  whichkey.add({
+    {
+      mode = { "o", "v" }, -- NORMAL and VISUAL mode
+      { "a(", hidden = true },
+      { "a)", hidden = true },
+      { "i(", hidden = true },
+      { "i)", hidden = true },
+      { 'a"', hidden = true },
+      { 'i"', hidden = true },
+      { "a'", hidden = true },
+      { "i'", hidden = true },
+      { "a>", hidden = true },
+      { "i>", hidden = true },
+      { "a[", hidden = true },
+      { "i[", hidden = true },
+      { "a]", hidden = true },
+      { "i]", hidden = true },
+      { "a`", hidden = true },
+      { "i`", hidden = true },
+      { "a{", hidden = true },
+      { "i{", hidden = true },
+      { "a}", hidden = true },
+      { "i}", hidden = true },
+      { "a<", hidden = true },
+      { "i<", hidden = true },
+      { "aB", hidden = true },
+      { "iB", hidden = true },
+      { "ab", hidden = true },
+      { "ib", hidden = true },
+      { "P",  hidden = true },
+      { "p",  hidden = true },
+      { "H",  hidden = true },
+      { "L",  hidden = true },
+      { "j",  hidden = true },
+      { "k",  hidden = true },
+      { "/",  hidden = true },
+      { "<",  hidden = true },
+      { ">",  hidden = true },
     },
 
-    y = {
-      name = "+yank",
-      ["o"] = {
-        name = "+toggles",
-        ["+"] = ignore,
-        ["-"] = ignore,
-        ["_"] = ignore,
-        ["|"] = ignore,
-        b = "background (dark/light)",
-        c = "cursor line",
-        d = "diffs",
-        h = "highlight search",
-        i = "ignorecase",
-        l = "list chars",
-        n = "absolute numbers",
-        p = ignore,
-        r = "relative numbers",
-        s = "spelling",
-        u = "cursor column",
-        v = "virtualedit",
-        w = "word wrapping",
-        x = "cursor line + cursor column",
-      },
-    },
+    { "<leader>",   group = "leader" },
+    { "<space>",    group = "spacebar" },
 
-    z = {
-      name = "+spelling/folds",
-    },
+    { "<space>e",   desc = "Edit..." },
+    { "<space>ee",  desc = "In EE..." },
+    { "<space>et",  desc = "Specs..." },
+    { "<space>ete", desc = "In EE..." },
 
-    ["<leader>"] = {
-      name = "+leader",
-    },
+    -- { "!",          hidden = true },
+    { "[",          group = "leftbrakcet" },
+    { "[!",         desc = "Prev Diagnostic Issue" },
+    { "[%",         desc = "Prev Unmatched Group" },
+    { "[<C-L>",     hidden = true },
+    { "[<C-Q>",     hidden = true },
+    { "[<C-T>",     hidden = true },
+    { "[<space>",   hidden = true },
+    { "[A",         hidden = true },
+    { "[B",         hidden = true },
+    { "[C",         hidden = true },
+    { "[L",         hidden = true },
+    { "[Q",         hidden = true },
+    { "[a",         hidden = true },
+    { "[e",         hidden = true },
+    { "[f",         desc = "Prev File in Directory" },
+    { "[l",         hidden = true },
+    { "[n",         desc = "Git Conflict Marker" },
+    { "[o",         group = "Turn on..." },
+    { "[o+",        desc = "Cursor Line and Column" },
+    { "[o-",        desc = "Cursor Line" },
+    { "[o_",        desc = "Cursor Line" },
+    { "[ob",        desc = "Light Background" },
+    { "[oc",        desc = "Cursor Line" },
+    { "[od",        desc = "Diff This" },
+    { "[oh",        desc = "Search" },
+    { "[oi",        desc = "Ignore Case" },
+    { "[ol",        desc = "List Characters" },
+    { "[on",        desc = "Numbers" },
+    { "[op",        desc = "Paste Mode" },
+    { "[or",        desc = "Relative Numbers" },
+    { "[os",        desc = "Spelling" },
+    { "[ou",        desc = "Cursor Column" },
+    { "[ov",        desc = "Virtual Edit" },
+    { "[ow",        desc = "Wrap" },
+    { "[ox",        desc = "Cursor Line and Column" },
+    { "[o|",        desc = "Cursor Column" },
+    { "[q",         hidden = true },
+    { "[r",         hidden = true },
+    { "[s",         desc = "Prev Misspelled Word" },
+    { "[t",         desc = "Prev Tab" },
+    { "[x",         hidden = true },
 
-    ["<space>"] = {
-      name = "+spacebar",
-      e    = [[Edit...]],
-      ee   = [[in EE...]],
-      et   = [[Specs...]],
-      ete  = [[in EE...]]
-    },
+    { "\\",         group = "localleader" },
+    { "\\p",        desc = "Pry..." },
+    { "\\s",        desc = "Sideways..." },
 
-    ["\\"] = {
-      name = "+localleader",
-      c = [[Code Actions]],
-      p = [[pry...]],
-      s = [[Sideways...]]
-    },
+    { ",",          group = "leader" },
+    { ",b",         group = "buffer" },
+    { ",c",         group = "code" },
+    { ",d",         group = "?peek" },
+    { ",g",         group = "git" },
+    { ",h",         group = "uhh idk" },
 
-    ["["] = {
-      name        = "+leftbrakcet",
-      ["!"]       = [[prev diagnostic issue]],
-      ["%"]       = [[prev unmatched group]],
-      ["<C-L>"]   = ignore,
-      ["<C-Q>"]   = ignore,
-      ["<C-T>"]   = ignore,
-      ["<space>"] = ignore,
-      A           = ignore,
-      B           = ignore,
-      C           = ignore,
-      L           = ignore,
-      Q           = ignore,
-      a           = ignore,
-      e           = ignore,
-      f           = [[prev file in directory]],
-      l           = ignore,
-      n           = [[git conflict marker]],
-      q           = ignore,
-      r           = ignore,
-      s           = [[prev misspelled word]],
-      t           = [[prev tab]],
-      x           = ignore,
-      o           = {
-        name = [[Turn on...]],
-        ["+"] = [[cursor line and column]],
-        ["-"] = [[cursor line]],
-        ["_"] = [[cursor line]],
-        ["|"] = [[cursor column]],
-        b = [[light background]],
-        c = [[cursor line]],
-        d = [[diff this]],
-        h = [[search]],
-        i = [[ignore case]],
-        l = [[list characters]],
-        n = [[numbers]],
-        p = [[paste mode]],
-        r = [[relative numbers]],
-        s = [[spelling]],
-        u = [[cursor column]],
-        v = [[virtual edit]],
-        w = [[wrap]],
-        x = [[cursor line and column]],
-      },
-    },
+    { "]",          group = "rightbracket" },
+    { "]!",         desc = "Next Diagnostic Issue" },
+    { "]%",         desc = "Next Unmatched Group" },
+    { "]<C-L>",     hidden = true },
+    { "]<C-Q>",     hidden = true },
+    { "]<C-T>",     hidden = true },
+    { "]<space>",   hidden = true },
+    { "]A",         hidden = true },
+    { "]B",         hidden = true },
+    { "]C",         hidden = true },
+    { "]L",         hidden = true },
+    { "]Q",         hidden = true },
+    { "]a",         hidden = true },
+    { "]e",         hidden = true },
+    { "]f",         desc = "Next File in Directory" },
+    { "]l",         hidden = true },
+    { "]n",         desc = "Git Conflict Marker" },
+    { "]o",         group = "Turn off..." },
+    { "]o+",        desc = "Cursor Line and Column" },
+    { "]o-",        desc = "Cursor Line" },
+    { "]o_",        desc = "Cursor Line" },
+    { "]ob",        desc = "Light Background" },
+    { "]oc",        desc = "Cursor Line" },
+    { "]od",        desc = "Diff This" },
+    { "]oh",        desc = "Search" },
+    { "]oi",        desc = "Ignore Case" },
+    { "]ol",        desc = "List Characters" },
+    { "]on",        desc = "Numbers" },
+    { "]op",        desc = "Paste Mode" },
+    { "]or",        desc = "Relative Numbers" },
+    { "]os",        desc = "Spelling" },
+    { "]ou",        desc = "Cursor Column" },
+    { "]ov",        desc = "Virtual Edit" },
+    { "]ow",        desc = "Wrap" },
+    { "]ox",        desc = "Cursor Line and Column" },
+    { "]o|",        desc = "Cursor Column" },
+    { "]q",         hidden = true },
+    { "]r",         hidden = true },
+    { "]s",         desc = "Next Misspelled Word" },
+    { "]t",         desc = "Next Tab" },
+    { "]x",         hidden = true },
 
-    ["]"] = {
-      name        = [[+rightbracket]],
-      ["!"]       = [[next diagnostic issue]],
-      ["%"]       = [[next unmatched group]],
-      ["<C-L>"]   = ignore,
-      ["<C-Q>"]   = ignore,
-      ["<C-T>"]   = ignore,
-      ["<space>"] = ignore,
-      A           = ignore,
-      B           = ignore,
-      C           = ignore,
-      L           = ignore,
-      Q           = ignore,
-      a           = ignore,
-      e           = ignore,
-      f           = [[next file in directory]],
-      l           = ignore,
-      n           = [[git conflict marker]],
-      q           = ignore,
-      r           = ignore,
-      s           = [[next misspelled word]],
-      t           = [[next tab]],
-      x           = ignore,
-      o           = {
-        name = [[Turn off...]],
-        ["+"] = [[cursor line and column]],
-        ["-"] = [[cursor line]],
-        ["_"] = [[cursor line]],
-        ["|"] = [[cursor column]],
-        b = [[light background]],
-        c = [[cursor line]],
-        d = [[diff this]],
-        h = [[search]],
-        i = [[ignore case]],
-        l = [[list characters]],
-        n = [[numbers]],
-        p = [[paste mode]],
-        r = [[relative numbers]],
-        s = [[spelling]],
-        u = [[cursor column]],
-        v = [[virtual edit]],
-        w = [[wrap]],
-        x = [[cursor line and column]],
-      },
-    },
+    { "g",          group = "goto" },
+    { "g#",         hidden = true },
+    { "g*",         hidden = true },
+    { "gc",         group = "comment" },
+    { "gcc",        desc = "Comment Line" },
+    { "gl",         desc = "Git..." },
+    { "go",         desc = "Open Files..." },
+    { "gO",         desc = "LSP: Document Symbols" },
+    { "gr",         group = "LSP" },
+    { "gra",        desc = "LSP: Code Actions" },
+    { "gri",        desc = "LSP: Go to Implementation" },
+    { "grn",        desc = "LSP: Rename" },
+    { "grr",        desc = "LSP: Go to References" },
+    { "y",          group = "yank" },
+    -- { "yp",         group = "yank path" },
+
+    -- { "yo",         "<Plug>(unimpaired-toggle)",         group = "toggles" },
+    -- { "yo+",        hidden = true },
+    -- { "yo-",        hidden = true },
+    -- { "yo_",        hidden = true },
+    -- { "yob",        desc = "background (dark/light)" },
+    -- { "yoc",        desc = "cursor line" },
+    -- { "yod",        desc = "diffs" },
+    -- { "yoh",        desc = "highlight search" },
+    -- { "yoi",        desc = "ignorecase" },
+    -- { "yol",        desc = "list chars" },
+    -- { "yon",        desc = "absolute numbers" },
+    -- { "yop",        hidden = true },
+    -- { "yor",        desc = "relative numbers" },
+    -- { "yos",        desc = "spelling" },
+    -- { "you",        desc = "cursor column" },
+    -- { "yov",        desc = "virtualedit" },
+    -- { "yow",        desc = "word wrapping" },
+    -- { "yox",        desc = "cursor line + cursor column" },
+    -- { "yo|",        hidden = true },
+    { "z",          group = "spelling/folds" },
   })
 
-  whichkey.register({
-    ["\\"] = {
-    },
-  }, { mode = "v" })
-
-  function ClearReg()
-    print('Clearing registers')
-    vim.cmd [[
-    let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
-    for r in regs
-    call setreg(r, [])
-    endfor
-]]
-  end
-
-  --Make it so i can call ClearReg as a command
-  vim.api.nvim_create_user_command('ClearReg', function()
-    ClearReg()
-  end, {})
+  s_nmap("<leader>?", function()
+    require("which-key").show({ global = false })
+  end, "Buffer Local Keymaps (which-key)")
 end
 
 return M

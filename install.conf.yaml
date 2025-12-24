@@ -1,9 +1,19 @@
 - defaults:
     clean:
-        force: true
+      force: true
     link:
-        create: true
-        relink: true
+      create: true
+      relink: true
+    brewfile:
+        stdout: true
+    brew:
+        stderr: true
+        stdout: true
+
+- sudo:
+    - shell: 
+      - ["chmod 600 ~/.ssh/id_ed25519", Fixing permissions (1/2)]
+      - ["chmod 600 ~/.ssh/id_ed25519.pub", Fixing permissions (2/2)]
 
 - clean: ['~', '~/.config']
 
@@ -15,34 +25,32 @@
     ~/.batconfig: home/batconfig
     ~/.ignore: home/agignore
     ~/.gemrc: home/gemrc
+    ~/.default-gems: home/default-gems
     ~/.gitconfig: home/gitconfig
     ~/.bundle/config: home/bundle_config
     ~/.gitignore_global: home/gitignore_global
-    ~/.gitattributes: home/gitattributes
     ~/.gitmessage: home/gitmessage
     ~/.rspec: home/rspec
-    ~/.pryrc: home/pryrc
     ~/.tidyrc: home/tidyrc
     ~/.tool-versions: home/tool-versions
-    ~/.solargraph.yml: home/solargraph.yml
     ~/.vale.ini: home/vale.ini
     ~/.config/nvim/init.lua: home/vim/init.lua
-    ~/.zshenv: home/zshenv
+    ~/.zprofile: home/zprofile
     ~/.zshrc: home/zshrc
     ~/.zimrc: home/zimrc
     ~/.zsh: home/zsh/
     ~/.mackup: home/mackup
 
     ~/.config/ripgrep/config: home/ripgreprc
+    ~/.config/ghostty/config: home/ghostty
     ~/.config/luaformatter/config.yaml: home/luaformatter.yaml
-    ~/.config/starship.toml: home/starship.toml
-
     ~/.config/nvim/autoload: home/vim/autoload/
     ~/.config/nvim/ftdetect: home/vim/ftdetect/
     ~/.config/nvim/ftplugin: home/vim/ftplugin/
     ~/.config/nvim/after: home/vim/after/
     ~/.config/nvim/syntax: home/vim/syntax/
     ~/.config/nvim/lua: home/vim/lua/
+    ~/.config/nvim/lsp: home/vim/lsp/
     ~/.config/nvim/spell: home/vim/spell/
     ~/.config/nvim/snippets: home/vim/snippets/
 
@@ -70,61 +78,38 @@
     ~/.gitconfig.work:
       path: home/zsh/private/gitconfig.work
       if: '[ `uname` = Darwin ]'
-    ~/.config/wezterm/wezterm.lua:
-      path: home/wezterm.lua
-      if: '[ `uname` = Darwin ]'
-    ~/.config/kitty:
-      path: home/kitty
-      if: '[ `uname` = Darwin ]'
     ~/.config/karabiner.edn:
       path: home/karabiner.edn
       if: '[ `uname` = Darwin ]'
     ~/.gitconfig.local:
       path: home/zsh/private/gitconfig.local
       if: '[ `uname` = Darwin ]'
-
     ~/code/work/gdk/gitlab/.git/hooks/post-checkout:
       force: true
       path: ~/code/gldb/post-checkout
     ~/code/work/cli/.git/hooks/post-checkout:
       force: true
       path: ~/code/gldb/post-checkout
-
     ~/code/work/gdk/gitlab/spec/support/helpers/gary_spec_helper.rb: gitlab/spec_helper.rb
     ~/code/work/gdk/gitlab/config/initializers/gary_hacks.rb: gitlab/hacks.rb
 
+- install-brew: true
+
+- brewfile:
+    - Brewfile
+    - ~/code/work/gdk/Brewfile
+
+- brew:
+    - mise
+
 - shell:
-  - [git submodule update --init --recursive, Installing submodules]
-  - ["touch ~/.hushlogin", "Hushing login"]
-  - ["touch ~/.rm_recycle", "Enabling recycling"]
-  - ["./npm_modules.sh", "Installing npm modules"]
-  - ["./dockutil_init.sh", "Fixing up Dock"]
-  - ["./hide_folders.sh", "Hiding macos folders"]
-  - ["sudo chmod 600 ~/.ssh/id_ed25519"]
-  - ["sudo chmod 600 ~/.ssh/id_ed25519.pub"]
+    - ["touch ~/.hushlogin", "Hushing login"]
+    - ["touch ~/.rm_recycle", "Enabling recycling"]
+    - ["./npm_modules.sh", "Installing npm modules"]
+    - ["./dockutil_init.sh", "Fixing up Dock"]
+    - ["./hide_folders.sh", "Hiding macos folders"]
 
 - duti:
     file: Dutifile
 
-- pip:
-    file: requirements.txt
-    binary: /opt/homebrew/bin/pip3
-    user: true
-    stderr: true
-
-- asdf:
-  - plugin: direnv
-  - plugin: golang
-  - plugin: nodejs
-  - plugin: ruby
-
-- defaults:
-    brewfile:
-      stdout: true
-      stderr: true
-      include: ['tap', 'brew', 'cask', 'mas']
-# make bootstrap with asdf?
-
-
-# https://github.com/anishathalye/dotbot/wiki/Plugins
-# https://github.com/asdf-vm/asdf-plugins
+# TODO: https://github.com/tg44/heptapod/tree/main/rules

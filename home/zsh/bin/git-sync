@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# git-sync: pull, prune, trim all branches.
+# requires: (optional) git-trim
+
+set -euo pipefail
+
+CURRENT=$(git branch --show-current)
+
+do-ff() {
+        local INPUT_REMOTE="${1}"
+        local LOCAL REMOTE UPSTREAM
+        git branch --list --format "%(refname:short):%(upstream:remotename):%(upstream:short)" \
+        | while IFS=":" read -r LOCAL REMOTE UPSTREAM
+        do
+                if [ "${LOCAL}" == "${CURRENT}" ]; then
+                        continue
+                fi
+                if [ "${REMOTE}" != "${INPUT_REMOTE}" ]; then
+                        continue
+                fi
+                if [ -z "${UPSTREAM}" ]; then
+                        continue
+                fi
+                if ! git show-ref --quiet "${UPSTREAM}"; then
+                        continue
+                fi
+                if ! git merge-base --is-ancestor "${LOCAL}" "${UPSTREAM}"; then
+                        echo "Not possible to fast-forward branch '${LOCAL}' to '${UPSTREAM}'"
+                        continue
+                fi
+                git branch --force "${LOCAL}" "${UPSTREAM}"
+        done
+}
+
+git fetch --all --prune
+
+for REMOTE in $(git remote); do
+        do-ff "${REMOTE}"
+done
+
+if [ -n "${CURRENT}" ]; then
+        UPSTREAM=$(git branch --list --format "%(upstream:short)" "${CURRENT}")
+        if [ -n "${UPSTREAM}" ]; then
+                echo "Fast-forward branch '${CURRENT}' to '${UPSTREAM}'"
+                git merge --ff-only "${UPSTREAM}" || true
+        fi
+fi
+
+if which git-trim >/dev/null; then
+        echo "git trim"
+        git trim --no-update
+fi

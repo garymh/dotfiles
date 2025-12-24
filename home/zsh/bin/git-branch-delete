@@ -1,0 +1,5 @@
+#!/bin/bash
+
+git branch --no-color | fzf -m | xargs -I {} git branch -D '{}'
+
+git remote update origin --prune

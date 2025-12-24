@@ -1,199 +1,178 @@
 if [[ -f ~/.fzf.zsh ]]; then
-  export FZF_DEFAULT_COMMAND='fd --type f --color=always --hidden -L'
-  export FZF_DEFAULT_OPTS="--ansi
-                           --info=inline
-                           --multi --reverse
-                           --header '? - toggle preview, <C-f/b> pages, <C-o> opens, <C-y> copies, <C-a> all+confirm'
-                           --preview-window='right:50%:hidden'
-                           --bind '?:toggle-preview'
-                           --bind 'ctrl-a:select-all+accept'
-                           --bind 'ctrl-o:execute[open {}]'
-                           --bind 'ctrl-f:page-down'
-                           --bind 'tab:toggle-out'
-                           --bind 'shift-tab:toggle-in'
-                           --bind 'ctrl-b:page-up'
-                           --bind 'ctrl-y:execute[echo {} | pbcopy]'
-                           --prompt='❯ '
-                           --pointer='❯'
-                           --marker='✔'"
 
-              # fzf exports $FZF_PREVIEW_LINES and $FZF_PREVIEW_COLUMNS so that they represent the exact size of the preview  window.  (It  also  overrides
-              # $LINES  and $COLUMNS with the same values but they can be reset by the default shell, so prefer to refer to the ones with FZF_PREVIEW_ pre-
-              # fix.)
+  _fzf_git_branches_checkout() {
+    _fzf_git_check || return
+
+    local default_branch
+    default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+    if [[ -z $default_branch ]]; then
+      if git show-ref --verify --quiet refs/heads/main; then
+        default_branch="main"
+      elif git show-ref --verify --quiet refs/heads/master; then
+        default_branch="master"
+      else
+        default_branch="main" # Final fallback
+      fi
+    fi
+
+    local branch
+    branch=$(
+      bash "$__fzf_git" --list branches |
+        FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS" fzf --ansi \
+          --border-label '🌲 Branches (checkout on enter)' \
+          --header $'CTRL-G (checkout '$default_branch') ╱ CTRL-O (browser) ╱ ALT-A (all branches)' \
+          --header-lines 2 \
+          --tiebreak begin \
+          --preview-window down,border-top,40% \
+          --color hl:underline,hl+:underline \
+          --no-hscroll \
+          --bind 'ctrl-/:change-preview-window(down,70%|hidden|)' \
+          --bind "ctrl-g:execute(git checkout $default_branch)+abort" \
+          --bind "ctrl-o:execute-silent:bash \"$__fzf_git\" --list branch {}" \
+          --bind "alt-a:change-border-label(🌳 All branches)+reload:bash \"$__fzf_git\" --list all-branches" \
+          --preview "git log --oneline --graph --date=short --color=always --pretty='format:%C(auto)%cd %h%d %s' \$(cut -c3- <<< {} | cut -d' ' -f1) --" |
+        sed 's/^\* //' | awk '{print $1}'
+    )
+
+    if [[ -n $branch ]]; then
+      echo "Checking out branch: $branch"
+      git checkout "$branch"
+    fi
+  }
+
+  # Create widget
+  fzf-git-branches-checkout-widget() {
+    _fzf_git_branches_checkout
+    zle reset-prompt
+  }
+  zle -N fzf-git-branches-checkout-widget
+
+  bindkey -M emacs '^g^g' fzf-git-branches-checkout-widget
+  bindkey -M vicmd '^g^g' fzf-git-branches-checkout-widget
+  bindkey -M viins '^g^g' fzf-git-branches-checkout-widget
+
+  zle -N fzf-file-widget
+  bindkey '^P' fzf-file-widget
+
+  export FZF_DEFAULT_OPTS="--multi
+  --ansi
+  --bind 'ctrl-a:select-all+accept'
+  --bind 'ctrl-o:execute[open {}]'
+  --bind 'ctrl-f:page-down'
+  --bind 'ctrl-d:change-prompt(Directories> )+reload(find * -type d)'
+  --bind 'ctrl-g:change-prompt(Files> )+reload(find * -type f)'
+  --bind 'ctrl-y:execute-silent(echo {} | pbcopy)+abort'"
+
+  export FZF_CTRL_T_OPTS="
+  $FZF_CTRL_T_OPTS
+  --bind 'enter:execute(${EDITOR:-nvim} {} < /dev/tty > /dev/tty)+abort'
+  "
 
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-  export FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS --preview '~/.vim/plugged/fzf.vim/bin/preview.sh {} | head -200' --select-1 --exit-0"
-  export FZF_ALT_C_COMMAND='fd --type d . --color=always --hidden'
-  export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -100'"
 
   # Use ~~ as the trigger sequence instead of the default **
   export FZF_COMPLETION_TRIGGER='~~'
 
   # Options to fzf command
-  export FZF_COMPLETION_OPTS='+c -x'
+  export FZF_COMPLETION_OPTS='--border --info=inline'
 
-  rake_fzf() {
-    local inst=$(rake -T | fzf -m --preview '' | cut -d ' ' -f 2 | perl -pe 'if(!eof){s/\n/ /}')
+  # Options for path completion (e.g. vim **<TAB>)
+  export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
 
-    if [[ $inst ]]; then
-      rake $inst
-    fi
+  # Options for directory completion (e.g. cd **<TAB>)
+  export FZF_COMPLETION_DIR_OPTS='--walker dir,follow'
+
+  #   # --color header:italic
+  #   # --header '? preview / <C-d> dirs / <C-g> files / <C-o> open / <C-y> copy'
+  #   # --header-border=sharp
+  #   # --info=inline
+  #   export FZF_DEFAULT_COMMAND='fd --type f --color=always --hidden -L'
+  #   export FZF_DEFAULT_OPTS="--multi
+  #     --ansi
+  #     --scheme=path
+  #     --bind '?:toggle-preview'
+  #     --bind 'ctrl-a:select-all+accept'
+  #     --bind 'ctrl-o:execute[open {}]'
+  #     --bind 'ctrl-f:page-down'
+  #     --bind 'ctrl-/:change-preview-window(down|hidden|)'
+  #     --bind 'ctrl-d:change-prompt(Directories> )+reload(find * -type d)'
+  #     --bind 'ctrl-g:change-prompt(Files> )+reload(find * -type f)'
+  #     --bind 'tab:toggle-out'
+  #     --bind 'shift-tab:toggle-in'
+  #     --bind 'ctrl-b:page-up'
+  #     --bind 'ctrl-y:execute-silent(echo {} | pbcopy)+abort'"
+  #
+  #   # ---------------------------
+  #
+  #
+  #   # Advanced customization of fzf options via _fzf_comprun function
+  #   # - The first argument to the function is the name of the command.
+  #   # - You should make sure to pass the rest of the arguments ($@) to fzf.
+  #   _fzf_comprun() {
+  #     local command=$1
+  #     shift
+  #
+  #     case "$command" in
+  #     cd) fzf --preview 'tree -C {} | head -200' "$@" ;;
+  #     export | unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
+  #     ssh) fzf --preview 'dig {}' "$@" ;;
+  #     *) fzf --preview 'bat -n --color=always {}' "$@" ;;
+  #     esac
+  #   }
+  #   # ---------------------------
+  #
+
+  ikill() {
+    (
+      date
+      ps -ef
+    ) |
+      fzf --bind='ctrl-r:reload(date; ps -ef)' \
+        --header=$'Press CTRL-R to reload\n\n' --header-lines=2 \
+        --preview='echo {}' --preview-window=down,3,wrap \
+        --layout=reverse --height=80% | awk '{print $2}' | xargs kill -9
   }
 
-  _fzf_compgen_path() {
-    fd --hidden . "$1"
+  rfv() {
+    rg --color=always --line-number --no-heading --smart-case "${*:-}" |
+      fzf --ansi \
+        --color "hl:-1:underline,hl+:-1:underline:reverse" \
+        --delimiter : \
+        --preview 'bat --color=always {1} --highlight-line {2}' \
+        --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+        --bind 'enter:become($EDITOR {1} +{2})'
   }
 
-  _fzf_compgen_dir() {
-    fd --type d --hidden . "$1"
+  rfv2() {
+    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+    INITIAL_QUERY="${*:-}"
+    fzf --ansi --disabled --query "$INITIAL_QUERY" \
+      --bind "start:reload:$RG_PREFIX {q}" \
+      --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+      --delimiter : \
+      --preview 'bat --color=always {1} --highlight-line {2}' \
+      --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+      --bind 'enter:become($EDITOR {1} +{2})'
   }
 
-  brewfzf() {
-    local inst=$(brew search | eval "fzf --inline-info -m --no-preview --header='[brew:$1]'")
-
-    if [[ $inst ]]; then
-      for prog in $(echo $inst)
-      do brew $1 $prog
-      done
-    fi
+  rfv3() {
+    # Switch between Ripgrep mode and fzf filtering mode (CTRL-T)
+    rm -f /tmp/rg-fzf-{r,f}
+    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+    INITIAL_QUERY="${*:-}"
+    fzf --ansi --disabled --query "$INITIAL_QUERY" \
+      --bind "start:reload:$RG_PREFIX {q}" \
+      --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+      --bind 'ctrl-t:transform:[[ ! $FZF_PROMPT =~ ripgrep ]] &&
+      echo "rebind(change)+change-prompt(1. ripgrep> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r" ||
+      echo "unbind(change)+change-prompt(2. fzf> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"' \
+      --color "hl:-1:underline,hl+:-1:underline:reverse" \
+      --prompt '1. ripgrep> ' \
+      --delimiter : \
+      --header 'CTRL-T: Switch between ripgrep/fzf' \
+      --preview 'bat --color=always {1} --highlight-line {2}' \
+      --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+      --bind 'enter:become($EDITOR {1} +{2})'
   }
 
-  bip() { brewfzf install }
-  bhome() { brewfzf home }
-
-  # find path
-  fp() {
-    local loc=$(echo $PATH | sed -e $'s/:/\\\n/g' | eval "fzf --header='[find:path]'")
-
-    if [[ -d $loc ]]; then
-      echo "$(rg --files $loc | rev | cut -d"/" -f1 | rev)" | eval "fzf --header='[find:exe] => ${loc}' >/dev/null"
-      fp
-    fi
-  }
-
-  fzf-dotf() {
-    local working_dir=$(pwd)
-    cd $DOTFILES
-    local out=$(eval $FZF_CTRL_T_COMMAND | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" fzf -m "$@")
-
-    if [ -f "$out" ]; then
-      $VISUAL "$out" < /dev/tty
-    elif [ -d "$out" ]; then
-      open "$out"
-      zle reset-prompt
-    fi
-    cd $working_dir
-  }
-
-  other-gg() {
-    echo
-    git-smart-checkout
-    zle redisplay
-  }
-
-  fzf-nvim() {
-  local out=$(eval $FZF_CTRL_T_COMMAND | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" fzf -m "$@")
-
-    if [ -f "$out" ]; then
-      $VISUAL "$out" < /dev/tty
-    elif [ -d "$out" ]; then
-      open "$out"
-      zle reset-prompt
-    fi
-  }
-
-  zle     -N   other-gg
-  bindkey '^g^g' other-gg
-  # bindkey '^g^g' fzf-git-checkout-branch
-  # bindkey '^g^d' fzf-git-delete-branches
-
-  zle     -N   fzf-dotf
-  bindkey '^F' fzf-dotf
-
-  zle     -N   fzf-nvim
-  bindkey '^P' fzf-nvim
-
-  is_in_git_repo() {
-    git rev-parse HEAD > /dev/null 2>&1
-  }
-
-  fzf-down() {
-    fzf --height 50% --min-height 20 --border --bind ctrl-/:toggle-preview "$@"
-  }
-
-  _gf() {
-    is_in_git_repo || return
-    git -c color.status=always status --short |
-    fzf-down -m --ansi --nth 2..,.. \
-      --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1})' |
-    cut -c4- | sed 's/.* -> //'
-  }
-
-  _gg() {
-    is_in_git_repo || return
-    git branch --sort=-committerdate --color=always | grep -v '/HEAD\s' | sort |
-    fzf-down --ansi --tac --preview-window right:70% \
-      --preview 'git log --oneline --graph --date=short --color=always --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1)' |
-    sed 's/^..//' | cut -d' ' -f1 |
-    sed 's#^remotes/##'
-  }
-
-  _gt() {
-    is_in_git_repo || return
-    git tag --sort -version:refname |
-    fzf-down --multi --preview-window right:70% \
-      --preview 'git show --color=always {}'
-  }
-
-  _gh() {
-    is_in_git_repo || return
-    git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph --color=always |
-    fzf-down --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
-      --header 'Press CTRL-S to toggle sort' \
-      --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always' |
-    grep -o "[a-f0-9]\{7,\}"
-  }
-
-  _gr() {
-    is_in_git_repo || return
-    git remote -v | awk '{print $1 "\t" $2}' | uniq |
-    fzf-down --tac \
-      --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" {1}' |
-    cut -d$'\t' -f1
-  }
-
-  _gs() {
-    is_in_git_repo || return
-    git stash list | fzf-down --reverse -d: --preview 'git show --color=always {1}' |
-    cut -d: -f1
-  }
-
-  join-lines() {
-  local item
-  while read item; do
-    echo -n "${(q)item} "
-  done
-}
-
-  () {
-    local c
-    for c in $@; do
-      eval "fzf-g$c-widget() { local result=\$(_g$c | join-lines); zle reset-prompt; LBUFFER+=\$result }"
-      eval "zle -N fzf-g$c-widget"
-      eval "bindkey '^g^$c' fzf-g$c-widget"
-    done
-  } f t r h s
-
-  fzf-gg-widget() {
-    local result=$(_gg)
-
-    if [[ $result == "" ]]; then
-    else
-      git checkout $result
-    fi
-    zle reset-prompt;
-  }
-
-  zle -N fzf-gg-widget
-  bindkey '^g^g' fzf-gg-widget
 fi

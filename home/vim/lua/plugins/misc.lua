@@ -1,361 +1,429 @@
-vim.api.nvim_create_user_command("PlugUpdate", "<CMD>Lazy update<CR>", { desc = "Search projects folder" })
-
 s_nmap("<space>l", vim.cmd.Lazy, {}, "Lazy plugins")
 
--- local w = vim.loop.new_fs_event()
--- local watchedFile = "/path/foo.bar"
---
--- local function executeOnFileChange()
--- 	-- DO SOMETHING
--- 	if w then
--- 		w:stop() -- prevent multiple executions
--- 		StartWatching()
--- 	end
--- end
---
--- function StartWatching()
--- 	if w then w:start(watchedFile, {}, vim.schedule_wrap(executeOnFileChange)) end
--- end
---
--- StartWatching()
+HighlightDuration = 300
 
 return {
+  -- ./blink-cmp.lua
+
+  -- ./bufferline.lua
+
+  -- ./colors.lua
+
+  -- ./comment.lua
+
+  -- ./conform.lua
+
+  -- ./debugprint.lua
+
+  -- ./easy-align.lua
+
+  -- ./edgy.lua
+
+  -- ./flash.lua
+
+  -- ./fzflua.lua
+
+  -- ./gitlab.lua
+
+  -- ./gitsigns.lua
+
+  -- ./golang.lua
+
+  -- ./gui.lua
+
+  -- ./lastplace.lua
+
+  -- ./markdown.lua
+
+  -- ./mini.lua
+
+  -- ./mason_lsp.lua
+
+  -- ./neotest.lua
+
+  -- ./other.lua
+
+  -- ./sideways.lua
+
+  -- ./snacks.lua
+
+  -- ./splitjoin.lua
+
+  -- ./surround.lua
+
+  -- ./switch.lua
+
+  -- ./todo-comments.lua
+
+  -- ./treesitter-like.lua
+
+  -- ./unimpaired.lua
+
+  -- ./whichkey.lua
+
+  {
+    "max397574/better-escape.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("better_escape").setup()
+    end,
+  },
+
+  {
+    "ghostty",
+    dir = "/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/",
+    lazy = false,
+  },
+
+  {
+    "kevinhwang91/nvim-fundo",
+    event = { "BufReadPre" },
+    dependencies = "kevinhwang91/promise-async",
+    build = function()
+      require("fundo").install()
+    end,
+    opts = {},
+  },
+
+  {
+    "iamyoki/buffer-reopen.nvim",
+    opts = {},
+    config = function()
+      require("buffer-reopen").setup()
+
+      vim.keymap.del({ "n" }, "<leader>bt")
+      vim.keymap.del({ "n" }, "<C-S-t>")
+      s_nmap("<space><space>", "<CMD>BufferHistory reopen<CR>", "undo close last bueffer")
+    end,
+  },
+
+  {
+    "jake-stewart/auto-cmdheight.nvim",
+    lazy = false,
+    enabled = false, -- noice.vim blocks the need
+    opts = {},
+  },
+
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    enabled = true,
+    config = function()
+      require("nvim-autopairs").setup({
+        enabled = false,
+        --   return true
+        -- end,                        -- control if auto-pairs should be enabled when attaching to a buffer
+        -- disable_filetype = { "TelescopePrompt", "spectre_panel", "snacks_picker_input" },
+        -- disable_in_macro = true,    -- disable when recording or executing a macro
+        -- disable_in_visualblock = false, -- disable when insert after visual block mode
+        -- disable_in_replace_mode = true,
+        -- ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=],
+        -- enable_moveright = true,
+        -- enable_afterquote = true,     -- add bracket pairs after quote
+        -- enable_check_bracket_line = true, --- check bracket in same line
+        -- enable_bracket_in_quote = true, --
+        -- enable_abbr = false,          -- trigger abbreviation
+        -- break_undo = true,            -- switch for basic rule break undo sequence
+        -- check_ts = false,
+        -- map_cr = true,
+        -- map_bs = true, -- map the <BS> key
+        -- map_c_h = false, -- Map the <C-h> key to delete a pair
+        -- map_c_w = false, -- map <c-w> to delete a pair if possible
+      })
+    end,
+  },
+
+  {
+    "duqcyxwd/stringbreaker.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("string-breaker").setup()
+    end,
+  },
+
+  {
+    "gbprod/substitute.nvim",
+    keys = {
+      {
+        "s",
+        function()
+          require("substitute").operator()
+        end,
+        desc = "sub operator",
+        noremap = true,
+        mode = "n",
+      },
+      {
+        "_",
+        function()
+          require("substitute").line()
+        end,
+        desc = "sub line",
+        noremap = true,
+        mode = "n",
+      },
+      {
+        "s",
+        function()
+          require("substitute").visual()
+        end,
+        desc = "sub visual",
+        noremap = true,
+        mode = "x",
+      },
+      --
+      -- { "sx",  function() require("substitute.exchange").operator() end, desc = "substitute exchange", noremap = true, mode = "n", },
+      -- { "sxx", function() require("substitute.exchange").line() end,     desc = "substitute line",     noremap = true, mode = "n", },
+      -- { "sxc", function() require("substitute.exchange").cancel() end,   desc = "substitute cancel",   noremap = true, mode = "n", },
+      -- { "X",   function() require("substitute.exchange").visual() end,   desc = "substitute visual",   noremap = true, mode = "x", },
+    },
+    opts = {},
+    config = function()
+      require("substitute").setup({
+        on_substitute = require("yanky.integration").substitute(),
+      })
+    end,
+  },
+
+  { "jparise/vim-graphql", ft = "graphql" },
+
   {
     "andymass/vim-matchup",
     event = "BufReadPost",
     opts = function()
-      vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+      vim.g.matchup_matchparen_nomode    = "i" -- disables highlighting in insert mode
+      -- z%: jump inside match
+    end,
+  },
+
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    enabled = true,
+    opts = {
+      cmdline = {
+        format = {
+          cmdline = { icon = " ", lang = "vim" },
+          search_down = { kind = "search", icon = "    ", lang = "regex" },
+          search_up = { kind = "search", icon = "    ", lang = "regex" },
+          lua = { icon = " ", lang = "lua" },
+          help = { icon = "" },
+          input = { view = "cmdline_input", icon = " 󰥻  " },
+        },
+      },
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+        },
+      },
+      presets = {
+        bottom_search = false,
+        command_palette = true,
+        long_message_to_split = true,
+      },
+    },
+    dependencies = { "MunifTanjim/nui.nvim" },
+  },
+
+  {
+    "MagicDuck/grug-far.nvim",
+    cmd = "GrugFar",
+    keys = {
+      {
+        "<m-g>",
+        function()
+          require("grug-far").grug_far({ prefills = { flags = vim.fn.expand("%") } })
+        end,
+        mode = "n",
+        desc = "Grug finder",
+      },
+    },
+    config = function()
+      -- there is also ~/code/dotfiles/home/vim/ftplugin/grug-far.lua
+      require("grug-far").setup({
+        windowCreationCommand = "new",
+        keymaps = {
+          abort                      = { n = "<localleader>b" },
+          applyNext                  = { n = "<localleader>j" },
+          applyPrev                  = { n = "<localleader>k" },
+          close                      = { n = "<localleader>c" },
+          gotoLocation               = { n = "<enter>" },
+          help                       = { n = "g?" },
+          historyAdd                 = { n = "<localleader>a" },
+          historyOpen                = { n = "<localleader>t" },
+          openLocation               = { n = "<localleader>o" },
+          openNextLocation           = { n = "<down>" },
+          openPrevLocation           = { n = "<up>" },
+          pickHistoryEntry           = { n = "<enter>" },
+          previewLocation            = { n = "<localleader>i" },
+          qflist                     = { n = "<localleader>q" },
+          refresh                    = { n = "<localleader>f" },
+          replace                    = { n = "<localleader>r" },
+          swapEngine                 = { n = "<localleader>e" },
+          swapReplacementInterpreter = { n = "<localleader>x" },
+          syncLine                   = { n = "<localleader>l" },
+          syncLocations              = { n = "<localleader>s" },
+          toggleShowCommand          = { n = "<localleader>p" },
+        },
+      })
+
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("grug-far-keymap", { clear = true }),
+        pattern = { "grug-far" },
+        callback = function()
+          -- jump back to search input by hitting left arrow in normal mode:
+          vim.keymap.set("n", "<left>", function()
+            vim.api.nvim_win_set_cursor(vim.fn.bufwinid(0), { 2, 0 })
+          end, { buffer = true })
+        end,
+      })
+
+      -- :lua require('grug-far').grug_far({ prefills = { search = vim.fn.expand("<cword>") } })
+      -- Launch with the current file as a flag, which limits search/replace to it
+      --
+      -- :lua require('grug-far').grug_far({ prefills = { flags = vim.fn.expand("%") } })
+      -- Launch with the current visual selection, searching only current file
+      --
+      -- :<C-u>lua require('grug-far').with_visual_selection({ prefills = { flags = vim.fn.expand("%") } })
+      -- require('grug-far').grug_far({ prefills = { search = vim.fn.expand("<cword>") } })
+      -- nmap("<m-f>", function() require("grug-far").grug_far({ prefills = { flags = "--ignore-case" } }) end)
+
+      -- vim.keymap("n", )
     end,
   },
 
   {
     "gbprod/yanky.nvim",
+    enabled = true,
     dependencies = { "kkharji/sqlite.lua" },
     config = function()
       require("yanky").setup({
+        preserve_cursor_position = {
+          enabled = true,
+        },
+        textobj = {
+          enabled = true,
+        },
         ring = {
           storage = "sqlite",
         },
         highlight = {
           on_put = true,
           on_yank = true,
-          timer = 300,
-        },
-        system_clipboard = {
-          sync_with_ring = true,
-        },
-        preserve_cursor_position = {
-          enabled = true,
+          timer = HighlightDuration,
         },
       })
       s_nmap("p", "<Plug>(YankyPutAfter)")
       s_nmap("P", "<Plug>(YankyPutBefore)")
 
-      s_nmap("<down>", "<Plug>(YankyCycleForward)")
-      s_nmap("<up>", "<Plug>(YankyCycleBackward)")
+      s_nmap("]y", "<Plug>(YankyCycleForward)", "Next paste")
+      s_nmap("[y", "<Plug>(YankyCycleBackward)", "Last paste")
 
-      s_nmap("]p", "<Plug>(YankyPutIndentAfterLinewise)", {}, "something with paste? fix me")
-      s_nmap("[p", "<Plug>(YankyPutIndentBeforeLinewise)", {}, "something with paste? fix me")
-      s_nmap("]P", "<Plug>(YankyPutIndentAfterLinewise)", {}, "something with paste? fix me")
-      s_nmap("[P", "<Plug>(YankyPutIndentBeforeLinewise)", {}, "something with paste? fix me")
+      vim.keymap.set({ "n", "x" }, "y", "<Plug>(YankyYank)")
 
-      s_nmap(">p", "<Plug>(YankyPutIndentAfterShiftRight)", {}, "something with paste? fix me")
-      s_nmap("<p", "<Plug>(YankyPutIndentAfterShiftLeft)", {}, "something with paste? fix me")
-      s_nmap(">P", "<Plug>(YankyPutIndentBeforeShiftRight)", {}, "something with paste? fix me")
-      s_nmap("<P", "<Plug>(YankyPutIndentBeforeShiftLeft)", {}, "something with paste? fix me")
+      vim.keymap.set({ "o" }, "P", function()
+        require("yanky.textobj").last_put()
+      end, { desc = "last put" })
 
-      s_nmap("=p", "<Plug>(YankyPutAfterFilter)", {}, "something with paste? fix me")
-      s_nmap("=P", "<Plug>(YankyPutBeforeFilter)", {}, "something with paste? fix me")
+      s_nmap("=p", "<Plug>(YankyPutAfterFilter)", "paste with autoindent below")
+      s_nmap("=P", "<Plug>(YankyPutBeforeFilter)", "paste with autoindent above")
 
       vim.cmd([[hi YankyYanked guifg=#FFFFFF guibg=#FF9509]])
     end,
   },
 
   {
-    "ghillb/cybu.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons", "nvim-lua/plenary.nvim" },
-    enabled = true,
-    config = function()
-      local ok, cybu = pcall(require, "cybu")
-      if not ok then
-        return
-      end
-      cybu.setup({
-        position = {
-          relative_to       = "editor",    -- win, editor, cursor
-          anchor            = "topcenter", -- topleft, topcenter, topright, centerleft, center, centerright, bottomleft, bottomcenter, bottomright
-          vertical_offset   = 2,           -- vertical offset from anchor in lines
-          horizontal_offset = 0,           -- vertical offset from anchor in columns
-          max_win_height    = 7,           -- height of cybu window in lines
-          max_win_width     = 0.99,
-        },
-        display_time = 500, -- time the cybu window is displayed
-      })
-
-      s_nmap("[b", "<Plug>(CybuPrev)", {}, "prev buffer")
-      s_nmap("]b", "<Plug>(CybuNext)", {}, "next buffer")
-    end,
-  },
-
-  {
-    "harrisoncramer/gitlab.nvim",
-    dependencies = {
-      "rcarriga/nvim-notify",
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim"
-    },
-    enabled = false,
-    build = function() require("gitlab").build() end, -- Builds the Go binary
-    config = function()
-      require("gitlab").setup({
-        base_branch = "master",
-        port = 20136,                     -- The port of the Go server, which runs in the background
-        keymaps = {
-          popup = {                       -- The popup for comment creation, editing, and replying
-            exit = "<Esc>",
-            perform_action = "<leader>s", -- Once in normal mode, does action
-          },
-          discussion_tree = {             -- The discussion tree that holds all comments
-            jump_to_location = "o",
-            edit_comment = "e",
-            delete_comment = "dd",
-            reply_to_comment = "r",
-            toggle_node = "t",
-          },
-          dialogue = { -- The confirmation dialogue for deleting comments
-            focus_next = { "j", "<Down>", "<Tab>" },
-            focus_prev = { "k", "<Up>", "<S-Tab>" },
-            close = { "<Esc>", "<C-c>" },
-            submit = { "<CR>", "<Space>" },
-          }
-        }
-      })
-    end
-  },
-
-  {
     "justinmk/vim-gtfo",
     keys = {
       { "got", desc = "go to current directory in terminal" },
-      { "gof", desc = "go to current file in Finder" },
       { "goT", desc = "go to current working directory in terminal" },
+      { "gof", desc = "go to current file in Finder" },
       { "goF", desc = "go to current working file in Finder" },
     },
-  },
-
-  {
-    "rcarriga/nvim-notify",
-    event = "VeryLazy",
     config = function()
-      local notify = require("notify")
-
-      local base = require("notify.render.base")
-      local function gary_render(bufnr, notif, highlights)
-        local namespace = base.namespace()
-        local icon = notif.icon
-        local title = notif.title[1]
-
-        local prefix
-        if type(title) == "string" and #title > 0 then
-          prefix = string.format("%s %s:", icon, title)
-        else
-          prefix = string.format("%s", icon)
-        end
-        notif.message[1] = string.format("%s %s", prefix, notif.message[1])
-
-        vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, notif.message)
-
-        local icon_length = vim.str_utfindex(icon)
-        local prefix_length = vim.str_utfindex(prefix)
-
-        vim.api.nvim_buf_set_extmark(bufnr, namespace, 0, 0, {
-          hl_group = highlights.icon,
-          end_col = icon_length + 1,
-          priority = 50,
-        })
-        vim.api.nvim_buf_set_extmark(bufnr, namespace, 0, icon_length + 1, {
-          hl_group = highlights.title,
-          end_col = prefix_length + 1,
-          priority = 50,
-        })
-        vim.api.nvim_buf_set_extmark(bufnr, namespace, 0, prefix_length + 1, {
-          hl_group = highlights.body,
-          end_line = #notif.message,
-          priority = 50,
-        })
-      end
-
-      notify.setup {
-        background_colour = "NotifyBackground",
-        fps = 60,
-        icons = {
-          DEBUG = " ",
-          ERROR = " ",
-          INFO  = " ",
-          TRACE = " ✎",
-          WARN  = " "
-        },
-        level = 2,
-        minimum_width = 30,
-        render = gary_render,
-        stages = "fade",
-        timeout = 700,
-        top_down = false
-      }
-
-      vim.notify = notify
-    end
-  },
-
-  {
-    "liangxianzhe/floating-input.nvim",
-    config = function()
-      require("floating-input").setup()
+      vim.g["gtfo#terminals"] = { ["mac"] = "ghostty" }
     end,
   },
 
   {
-    "foosoft/vim-argwrap",
-    keys = {
-      { "<localleader><localleader>", "<CMD>ArgWrap<CR>", desc = "toggle argument wrap" },
+    "chrisgrieser/nvim-scissors",
+    cmd = { "Esnippets", "Asnippet" },
+    config = function()
+      local scissors = require("scissors")
+
+      scissors.setup({
+        snippetDir = vim.fn.stdpath("config") .. "/snippets",
+        editSnippetPopup = {
+          height = 0.95,
+          width = 0.95,
+          keymaps = {
+            saveChanges = "<leader>w",
+          },
+        },
+        jsonFormatter = "jq",
+      })
+
+      User("Esnippets", function()
+        scissors.editSnippet()
+      end, {})
+      User("Asnippet", function()
+        scissors.addNewSnippet()
+      end, {})
+
+      s_vmap("<leader>n", function()
+        scissors.addNewSnippet()
+      end, {}, "Add Snippet")
+    end,
+  },
+
+  -- this doesn't quite work yet, keep getting this:
+  -- AutoFixReturn: No valid return definition found
+  {
+    "Jay-Madden/auto-fix-return.nvim",
+    event = "VeryLazy",
+    enabled = false,
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
     },
-  },
-
-  {
-    "m-demare/hlargs.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    event = "VeryLazy",
-    enabled = true,
-    opts = function()
-      require("hlargs").setup({
-        excluded_argnames = {
-          usages = {
-            lua = { "self", "use" },
-          },
-        },
-      })
+    config = function()
+      require("auto-fix-return").setup({})
     end,
   },
-
   {
-    "HampusHauffman/block.nvim",
-    cond = vim.fn.has('nvim-0.10.0dev') == 1,
-    event = "VeryLazy",
-    config = function()
-      require("block").setup({
-        automatic = true,
-      })
-    end
+    "kevinhwang91/nvim-bqf",
+    ft = "qf",
+    -- config = function()
+    --   s_nmap("<space>q", vim.cmd.cclose, "close quickfix")
+    --   require("bqf").setup({
+    --     func_map = {
+    --       stoggleup = "",
+    --       -- stoggledown = "",
+    --     },
+    --   })
+    -- end,
   },
-
-  {
-    'jinh0/eyeliner.nvim',
-    config = function()
-      require 'eyeliner'.setup {
-        highlight_on_key = true, -- show highlights only after keypress
-        dim = true               -- dim all other characters if set to true (recommended!)
-      }
-    end
-  },
-
-  {
-    "echasnovski/mini.bracketed",
-    version = false,
-    config = function()
-      require("mini.bracketed").setup({
-        buffer     = { suffix = "", options = {} },
-        comment    = { suffix = "", options = {} },
-        conflict   = { suffix = "", options = {} },
-        diagnostic = { suffix = "", options = {} },
-        file       = { suffix = "", options = {} },
-        indent     = { suffix = "i", options = {} },
-        jump       = { suffix = "", options = {} },
-        location   = { suffix = "", options = {} },
-        oldfile    = { suffix = "r", options = {} },
-        quickfix   = { suffix = "", options = {} },
-        treesitter = { suffix = "t", options = {} },
-        undo       = { suffix = "u", options = {} },
-        window     = { suffix = "w", options = {} },
-        yank       = { suffix = "y", options = {} },
-      })
-    end,
-  },
-
-  {
-    "lukas-reineke/headlines.nvim",
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    ft = "markdown",
-    enabled = true,
-    opts = function()
-      vim.cmd([[highlight Headline1 guibg=#5C2E33]])
-      vim.cmd([[highlight Headline2 guibg=#333C2D]])
-      vim.cmd([[highlight Headline3 guibg=#2C414E]])
-      vim.cmd([[highlight Headline4 guibg=#1E2717]])
-      vim.cmd([[highlight Headline5 guibg=#2B2725]])
-      vim.cmd([[highlight Headline6 guibg=#0F1C1E]])
-      vim.cmd([[highlight CodeBlock guibg=#1c1c1c]])
-      vim.cmd([[highlight Dash guibg=#D19A66 gui=bold]])
-
-      require("headlines").setup({
-        markdown = {
-          headline_highlights = {
-            "Headline1",
-            "Headline2",
-            "Headline3",
-            "Headline4",
-            "Headline5",
-            "Headline6",
-          },
-        },
-      })
-    end,
-  },
-
-  {
-    "AckslD/muren.nvim",
-    config = true,
-    cmd = { "MurenToggle", "MurenOpen" },
-    -- investigate this?
-  },
-
-  {
-    'tzachar/highlight-undo.nvim',
-    config = function()
-      require('highlight-undo').setup({
-        hlgroup = 'HighlightUndo',
-        duration = 300,
-        keymaps = {
-          { 'n', 'u',     'undo', {} },
-          { 'n', '<C-r>', 'redo', {} },
-        }
-      })
-    end
-  },
-
-  {
-    "lewis6991/spaceless.nvim",
-    opts = function()
-      require("spaceless").setup()
-    end,
-  },
-
-  { "kevinhwang91/nvim-bqf",        ft = "qf" },
-  { "shortcuts/no-neck-pain.nvim",  cmd = "NoNeckPain" },
-  { "Rasukarusan/nvim-block-paste", cmd = { "Block" } },
-  { "m4xshen/smartcolumn.nvim",     opts = {} },
-  { "fladson/vim-kitty",            ft = "kitty" },
-
-  { "kana/vim-niceblock" },
 
   {
     "mrshmllow/open-handlers.nvim",
-    lazy = false,
     cond = vim.ui.open ~= nil,
     config = function()
       local oh = require("open-handlers")
 
       local function git_url(path)
-        local match = string.match(path, "([A-Z,a-z,0-9,_.-]+/+[A-Z,a-z,0-9,_.-]+)")
+        local match = string.match(path, "^([^/][A-Z,a-z,0-9,_.-]+/+[A-Z,a-z,0-9,_.-]+)")
+        if match then
+          return oh.native("https://github.com/" .. match)
+        end
+
+        return nil, nil
+      end
+
+      local function github_url(path)
+        local match = string.match(path, "^github.com/([^/][A-Z,a-z,0-9,_.-]+/+[A-Z,a-z,0-9,_.-]+)")
         if match then
           return oh.native("https://github.com/" .. match)
         end
@@ -364,58 +432,111 @@ return {
       end
 
       oh.setup({
-        handlers = {
-          git_url,
-          oh.issue,
-          oh.commit,
-          oh.native
-        },
+        handlers = { github_url, git_url, oh.issue, oh.commit, oh.native },
       })
     end,
   },
 
-
-
   { "tpope/vim-abolish" },
-  { "tpope/vim-apathy" },
   { "tpope/vim-eunuch" },
   { "tpope/vim-repeat" },
   { "tpope/vim-rsi" },
-  -- TODO: this was disabled?
 
-  { "duggiefresh/vim-easydir" },
-  { "itchyny/vim-highlighturl" },
+  -- TODO: look into?
 
   -- {
-  --   "ckolkey/ts-node-action",
-  --   dependencies = { "nvim-treesitter" },
+  --   "m4xshen/hardtime.nvim",
+  --   lazy = false,
+  --   dependencies = { "MunifTanjim/nui.nvim" },
+  --   opts = function(_, opts)
+  --     opts.restriction_mode = "hint"
+  --     opts.hints = {
+  --       ["v[{}]"] = {
+  --         message = function(keys)
+  --           return "Try to select with motions instead of " .. keys
+  --         end,
+  --         length = 3,
+  --       },
+  --     }
+  --
+  --     opts.restricted_keys = opts.restricted_keys or {}
+  --     opts.restricted_keys["gj"] = false
+  --     opts.restricted_keys["gk"] = false
+  --     opts.restricted_keys["j"] = false
+  --     opts.restricted_keys["k"] = false
+  --   end,
+  -- },
+
+
+  -- {
+  -- 	"cenk1cenk2/jq.nvim",
+  -- 	dependencies = {
+  -- 		"nvim-lua/plenary.nvim",
+  -- 		"MunifTanjim/nui.nvim",
+  -- 		"grapp-dev/nui-components.nvim",
+  -- 	},
+  -- },
+
+  -- alt: https://github.com/j-morano/buffer_manager.nvim
+  -- https://github.com/cbochs/grapple.nvim
+  -- {
+  --   "otavioschwanck/arrow.nvim",
+  --   opts = {
+  --     show_icons = true,
+  --     leader_key = ";",
+  --   },
+  -- },
+
+  -- "aidancz/buvvers.nvim",
+  -- come back when https://github.com/neovim/neovim/issues/29365
+  -- is fixed
+
+  -- {
+  --   "Forest-nvim/maple.nvim",
   --   enabled = false,
   --   config = function()
-  --     -- local helpers = require("ts-node-action.helpers")
-  --     require("ts-node-action").setup({
-  --       -- ["*"] = {
-  --       --   ["string"] = function(node)
-  --       --     local text = helpers.node_text(node)
-  --       --     return [["hi"]]
-  --       --   end,
-  --       -- },
+  --     require("maple").setup({
+  --       -- TODO: config
   --     })
-  --     -- vim.keymap.set({ "n" }, "<leader>-", require("ts-node-action").debug, { desc = "Trigger Node Action" })
   --   end,
   -- },
+  --
+  -- {
+  --   "esmuellert/vscode-diff.nvim",
+  --   dependencies = { "MunifTanjim/nui.nvim" },
+  -- },
+  --
 
   -- {
-  --   "rareitems/printer.nvim",
+  --   'nvim-mini/mini.keymap',
+  --   version = false,
   --   config = function()
-  --     require("printer").setup({ keymap = "gp" })
+  --     -- local map_combo = require('mini.keymap').map_combo
+  --
+  --     -- local action = '<BS><BS><Esc>[s1z=gi<Right>'
+  --     -- require('mini.keymap').map_combo('i', 'kk', action)
+  --
+  --     local action = function() vim.cmd('nohlsearch') end
+  --     require('mini.keymap').map_combo({ 'n', 'i', 'x', 'c' }, '<Esc><Esc>', action)
   --   end,
   -- },
 
-  -- {
-  --   "gbprod/stay-in-place.nvim",
-  --   opts = function()
-  --     require("stay-in-place").setup({})
-  --   end,
-  -- },
+  -- { "tpope/vim-apathy" },
+  -- { "kana/vim-niceblock" },
+  -- { "rbong/vim-buffest" },
+  -- edit registers as buffers
+  -- "voxelprismatic/rabbit.nvim",
 
+  -- https://github.com/EggbertFluffle/beepboop.nvim
+  -- https://github.com/KabbAmine/lazyList.vim
+  -- https://github.com/Makaze/watch.nvim
+  -- https://github.com/Nutlope/aicommits
+  -- https://github.com/arminveres/md-pdf.nvim
+  -- https://github.com/ecthelionvi/NeoComposer.nvim
+  -- https://github.com/folke/trouble.nvim
+  -- https://github.com/j-morano/buffer_manager.nvim
+  -- https://github.com/jay-babu/mason-nvim-dap.nvim
+  -- https://github.com/jokajak/keyseer.nvim
+  -- https://github.com/mrjones2014/op.nvim
+  -- https://github.com/yujinyuz/gitpad.nvim
 }

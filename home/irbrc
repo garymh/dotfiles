@@ -1,0 +1,44 @@
+Reline::Face.force_truecolor if defined?(Reline::Face)
+
+IRB.conf[:EVAL_HISTORY] = 10
+
+# IRB.conf[:USE_AUTOCOMPLETE] = false
+
+class Object
+  def ims
+    (methods - Object.instance_methods).sort
+  end
+end
+
+module AutoloadPrettyPrint
+  def pp(*args)
+    require 'pp' unless defined?(super)
+    super
+    nil
+  end
+end
+
+include AutoloadPrettyPrint
+
+class Object
+  def o
+    pp self
+    self
+  end
+end
+
+(IRB.conf[:PROMPT] ||= {}).merge!({ IRBTOOLS: {
+                                    PROMPT_I: '>> ', # normal
+                                    PROMPT_N: '|  ',    # indenting
+                                    PROMPT_C: ' > ',    # continuing a statement
+                                    PROMPT_S: '%l> ',   # continuing a string
+                                    RETURN: "=> %s \n",
+                                    AUTO_INDENT: true
+                                  } })
+
+IRB.conf[:COMMAND_ALIASES] = {
+  "$": :show_source,
+  "@": :whereami
+}
+IRB.conf[:SAVE_HISTORY] = 1_000_000_000_000_000
+IRB.conf[:PROMPT_MODE] = :IRBTOOLS

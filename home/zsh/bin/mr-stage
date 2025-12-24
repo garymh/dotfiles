@@ -1,0 +1,20 @@
+#!/bin/bash
+
+cd $GITLAB_HOME
+last='-'
+while true; do
+  workflow=$(glab mr view $MR_ID | rg '(workflow::\w*)' -r '$1' -o)
+  if [ "$workflow" != "$last" ]; then
+    date=$(date)
+    message="workflow label changed at $date from $last to $workflow"
+    echo $message | tee /tmp/monitor-workflow-labels.log
+    osascript -e "display notification \"$message\""
+    last=$workflow
+  fi
+  sleep 60
+done
+
+
+watch --interval 10 --chgexit --beep "glab api /projects/278964/merge_requests/$(glab mr view $MR_ID) | jq -r '.labels[] | select(startswith(\"workflow::\"))'"
+gitlab-review-424629-only-include-sbom_occurrences-with-cvs-enabled
+

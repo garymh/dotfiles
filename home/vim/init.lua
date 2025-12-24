@@ -1,5 +1,5 @@
 -- hello, you look nice today :)
-if vim.fn.has('nvim-0.9.0dev') == 1 then
+if vim.loader then
   vim.loader.enable()
 end
 
@@ -9,30 +9,32 @@ vim.g.mapleader      = ","
 vim.g.maplocalleader = "\\"
 
 local lazypath       = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
+
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({
     "git",
     "clone",
     "--filter=blob:none",
-    "--single-branch",
-    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazyrepo,
     lazypath,
   })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out,                            "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
+
 vim.opt.runtimepath:prepend(lazypath)
 
----@diagnostic disable-next-line: param-type-mismatch, missing-parameter
 require("lazy").setup("plugins", {
-  change_detection = {
-    enabled = true,
-    notify = false,
-  },
-  ui = {
-    size = { width = 0.99, height = 0.99 },
-  },
-  install = {
-    colorscheme = { "monokai-pro", },
-  },
+  change_detection = { enabled = true, notify = false },
   performance = {
     rtp = {
       disabled_plugins = {
@@ -64,59 +66,64 @@ require("lazy").setup("plugins", {
   },
 })
 
-vim.opt.linebreak = true
-vim.opt.wrap      = true
-vim.opt.cmdheight = 1
-vim.opt.expandtab = true
-vim.opt.fillchars = {
-  stlnc     = "·",
-  fold      = "·",
-  diff      = "-",
-  eob       = "·",
-  horiz     = "━",
-  horizup   = "┻",
-  horizdown = "┳",
-  vert      = "┃",
-  vertleft  = "┫",
-  vertright = "┣",
-  verthoriz = "╋",
+vim.opt.linebreak      = true
+vim.opt.wrap           = true
+vim.opt.expandtab      = true
+vim.opt.fillchars      = {
+  stlnc     = icons["stlnc"],
+  fold      = icons["fold"],
+  diff      = icons["diff"],
+  eob       = icons["eob"],
+  horiz     = icons["horiz"],
+  horizup   = icons["horizup"],
+  horizdown = icons["horizdown"],
+  vert      = icons["vert"],
+  vertleft  = icons["vertleft"],
+  vertright = icons["vertright"],
+  verthoriz = icons["verthoriz"],
+  foldsep   = icons["foldsep"],
+  foldopen  = icons["foldopen"],
+  foldclose = icons["foldclose"],
 }
 
-
-vim.opt.foldlevelstart = 99
-vim.opt.hidden         = true
+vim.opt.foldenable     = true
+vim.opt.foldlevel      = 99
+vim.opt.foldmethod     = "expr"
+vim.opt.foldtext       = ""
+vim.opt.foldcolumn     = "auto"
+vim.opt.formatoptions  = "jcrqlnt"
 vim.opt.ignorecase     = true
 vim.opt.inccommand     = "split"
 vim.opt.laststatus     = 3
 vim.opt.list           = false
-vim.opt.pumblend       = 0
-vim.opt.pumheight      = 10
-vim.opt.report         = 0
 vim.opt.number         = true
+vim.opt.pumblend       = 50
+vim.opt.pumheight      = 10
 vim.opt.relativenumber = true
+vim.opt.report         = 0
+vim.opt.scrolloff      = 8
 vim.opt.shiftround     = true
 vim.opt.shiftwidth     = 2
 vim.opt.showcmd        = false
-vim.opt.showmode       = false
-vim.opt.signcolumn     = "yes:1"
-vim.opt.smartcase      = true
-vim.opt.smartindent    = true
-vim.opt.spell          = true
-vim.opt.spelllang      = "en_us"
-vim.opt.synmaxcol      = 180
-vim.opt.tabstop        = 2
-vim.opt.termguicolors  = true
-vim.opt.timeoutlen     = 300
-vim.opt.updatetime     = 300
-vim.opt.virtualedit    = "block"
-vim.opt.whichwrap      = "b,h,l,s,<,>,[,],~"
-vim.opt.wildmode       = "longest:full,full"
-vim.opt.winblend       = 0
-vim.opt.wrap           = false
-
+vim.opt.showmode       = true
 vim.opt.shortmess:append("AI")
+vim.opt.smartcase     = true
+vim.opt.smartindent   = true
+vim.opt.spell         = true
+vim.opt.spelllang     = "en_us"
+vim.opt.synmaxcol     = 180
+vim.opt.tabstop       = 2
+vim.opt.termguicolors = true
+vim.opt.timeoutlen    = 300
+vim.opt.updatetime    = 300
+vim.opt.virtualedit   = "block"
+vim.opt.whichwrap     = "b,h,l,s,<,>,[,],~"
+vim.opt.wildmode      = "longest:full,full"
+vim.opt.winblend      = 0
+vim.opt.winborder     = "bold"
+vim.opt.wrap          = true
 
-vim.opt.wildignore = {
+vim.opt.wildignore    = {
   ".DS_Store",
   "*.jpg",
   "*.jpeg",
@@ -132,14 +139,23 @@ vim.opt.wildignore = {
   "./dotbot/*",
 }
 
-vim.opt.formatoptions:append({ "j", "n" })
-
-require("folders")      -- setting up backup folders
-require("commands")     -- neat functions
-require("mappings")     -- basic keymaps
-require("autocommands") -- color overrides, misc
-require("operators")    -- custom operators
+for _, mod in ipairs({
+  "folders",
+  "commands",
+  "mappings",
+  "autocommands",
+  "operators",
+}) do
+  require(mod)
+end
 
 vim.g.loaded_python_provider = 0
 vim.g.loaded_ruby_provider   = 0
 vim.g.loaded_perl_provider   = 0
+
+if Nv10 then
+  vim.opt.smoothscroll = true
+end
+if vim.g.neovide then
+  require("neovide")
+end

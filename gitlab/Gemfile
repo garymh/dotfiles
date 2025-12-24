@@ -1,8 +1,0 @@
-# vi: ft=ruby
-# frozen_string_literal: true
-
-gemfile = File.read(File.expand_path('../Gemfile', __dir__))
-
-instance_eval gemfile.gsub('vendor/gems', '../vendor/gems')
-
-# gem "super_diff"

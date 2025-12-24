@@ -1,9 +1,6 @@
-local M = {
-  "kylechui/nvim-surround",
-}
+local M = { "kylechui/nvim-surround" }
 
--- https://github.com/smjonas/duplicate.nvim
-
+-- https://github.com/echasnovski/mini.surround
 function M.config()
   require("nvim-surround").setup({
     highlight = {
@@ -17,6 +14,12 @@ function M.config()
         change = {
           target = "(%[%[)().-(%]%])()",
         },
+      },
+      ["F"] = {
+        add = function() return { { "function() " }, { " end" } } end,
+      },
+      ["s"] = {
+        add = function() return { { "string(" }, { ")" } } end,
       },
       ["l"] = {
         add = function()

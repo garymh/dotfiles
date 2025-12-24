@@ -52,8 +52,10 @@ app.loshadki.OpenIn.v4 .mp4 all
 app.loshadki.OpenIn.v4 .m4v all
 app.loshadki.OpenIn.v4 .mov all
 
+app.loshadki.OpenIn.v4 .stl all
+app.loshadki.OpenIn.v4 .3mf all
+
 # bundle id URL scheme
 com.reederapp.mac feed
 
 # last line must be blank
-

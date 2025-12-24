@@ -6,9 +6,13 @@ spaceship_git_branch() {
 
   git_current_branch="${git_current_branch#heads/}"
   git_current_branch="${git_current_branch/.../}"
-  git_current_branch="${git_current_branch[1,15]}"
+  git_current_branch="${git_current_branch[1, 15]}"
 
   spaceship::section \
     "$SPACESHIP_GIT_BRANCH_COLOR" \
     "$SPACESHIP_GIT_BRANCH_PREFIX${git_current_branch}$SPACESHIP_GIT_BRANCH_SUFFIX"
 }
+
+export FZF_COMPLETION_TRIGGER=''
+bindkey '^F' fzf-completion
+bindkey '^I' $fzf_default_completion

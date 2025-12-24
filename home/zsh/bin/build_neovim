@@ -1,10 +1,9 @@
-# cd $HOME/code/neovim
-# git pull
-# make clean
-# rm -r build/  # clear the CMake cache
-# export MACOSX_DEPLOYMENT_TARGET=10.14
-# export CMAKE_INSTALL_PREFIX=/usr/local
-# make CMAKE_BUILD_TYPE=Release
-# make install
+cd $HOME/code/neovim
+git pull
+make clean
+rm -r build/  # clear the CMake cache
+make CMAKE_BUILD_TYPE=Debug
+make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.neovim"
+make install
 
-brew upgrade neovim --fetch-HEAD
+# brew upgrade neovim --fetch-HEAD

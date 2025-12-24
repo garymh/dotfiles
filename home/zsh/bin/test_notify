@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+msg="$1"
+title="$2"
+
+printf "\e]777;notify;%s;%s\e\\" \
+  "${title}" \
+  "${msg}"

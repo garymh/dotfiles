@@ -1,0 +1,27 @@
+{
+    "diagnostics.globals": [
+        "Augroup",
+        "Nv10",
+        "Nv9",
+        "User",
+        "cmap",
+        "icons",
+        "nmap",
+        "nxmap",
+        "omap",
+        "s_cmap",
+        "s_imap",
+        "s_map",
+        "s_nmap",
+        "s_omap",
+        "s_oxmap",
+        "s_tmap",
+        "s_vmap",
+        "s_xmap",
+        "tools",
+        "vim",
+        "vmap",
+        "xmap",
+        "s_noxmap"
+    ]
+}

@@ -13,19 +13,15 @@
   # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
   precomposeunicode = false
 
-[pager]
-    diff   = delta
-    log    = delta
-    reflog = delta
-    show   = delta
-
+	untrackedCache = true
 [alias]
+  fresh                  = remote update --prune
+  changes                = "!git log --oneline --invert-grep --grep=\"Merge branch\" --invert-grep --grep="chore" $(git describe --tags --abbrev=0)..main"
+  abbrev                 = !bash -c 'git rev-parse --short ${1-`echo HEAD`}' -
   abbrev-ref             = rev-parse --abbrev-ref HEAD
   amend                  = commit -a --amend
   back-to-origin         = !git reset --hard origin/`git symbolic-ref --short HEAD`
   back-to-security       = !git reset --hard security/`git symbolic-ref --short HEAD`
-  mr-changes             = !git diff `git merge-base master HEAD`
-  kmr-changes            = !git ksdiff `git merge-base master HEAD`
   co                     = checkout
   delete-local-branch    = branch -D
   delete-merged-branches = "!delete-merged-branches"
@@ -33,28 +29,33 @@
   edit                   = !$EDITOR $(git status --porcelain | awk '{print $2}')
   explode                = !git reset --hard HEAD && git clean -d -f
   fuckthis               = !git reset --hard HEAD && git clean -d -f
+  kmr-changes            = !git ksdiff `git merge-base master HEAD`
   ksdiff                 = difftool
   mr                     = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
+  mr-changes             = !git diff `git merge-base master HEAD`
   ours                   = "!f() { git co --ours $@ && git add $@; }; f"
   remotes                = remote -v
-  rename-local-branch    = branch -m
   remove-local-branch    = branch -D
+  rename-local-branch    = branch -m
   rmfiles                = clean -fdx
   rspec                  = !git_rspec "$@"
   set-security-upstream  = !git branch --set-upstream-to=security/`git symbolic-ref --short HEAD`
   set-upstream           = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
   stashes                = stash list
   theirs                 = "!f() { git co --theirs $@ && git add $@; }; f"
-  vim-status             = "!f() { vim_status; }; f"
-  vim-untracked-status   = "!f() { vim_untracked_status; }; f"
   uncommit               = reset --mixed HEAD~
   undo                   = reset --mixed HEAD~
+  ; cb = !git checkout $(git branch | fzf | tr -d "[:space:]")
   unpushed               = rebase -i @{u}
-  unundo                 = reset 'HEAD@{1}'
   unstage                = reset -- $1
+  unundo                 = reset 'HEAD@{1}'
   up                     = !git pull --rebase --prune $@ && git submodule update --init --recursive
   update-submodules      = submodule update --init --recursive
   url                    = "!glmr"
+  vim-status             = "!f() { vim_status; }; f"
+  vim-untracked-status   = "!f() { vim_untracked_status; }; f"
+
+  ; git log -LN,M:/path/to-file
 
 [color]
   branch      = auto
@@ -66,6 +67,9 @@
 [gc]
   reflogExpire            = 200
   reflogExpireUnreachable = 90
+
+[fetch]
+  prune = true
 
 [web]
   browser = open
@@ -87,11 +91,15 @@
 
 [includeIf "gitdir:~/code/work/"]
   path     = ~/.gitconfig.work
-	fsmonitor = true
+  fsmonitor = true
 
 [rebase]
   autoStash = true
   autosquash = true
+	instructionFormat = %<|(120) %s (%ar) <%an>
+
+[stash]
+  showIncludeUntracked = true
 
 [apply]
   whitespace = nowarn
@@ -101,7 +109,8 @@
 
 [push]
   default = current
-	; autoSetupRemote = true
+	autoSetupRemote = true
+  ; autoSetupRemote = true
 
 [pull]
   default = current
@@ -117,7 +126,7 @@
   enabled = true
 
 [interactive]
-    diffFilter = delta --color-only --features=interactive
+  diffFilter = delta --color-only --features=interactive
 
 [delta]
   features = unobtrusive-line-numbers decorations
@@ -129,57 +138,76 @@
   ; hyperlinks = true
   theme = Sublime Snazzy
 
-
 [delta "unobtrusive-line-numbers"]
-    line-numbers = true
-    line-numbers-minus-style = "#444444"
-    line-numbers-zero-style = "#444444"
-    line-numbers-plus-style = "#444444"
-    line-numbers-left-format = "{nm:>4}┊"
-    line-numbers-right-format = "{np:>4}│"
-    line-numbers-left-style = blue
-    line-numbers-right-style = blue
+  line-numbers = true
+  line-numbers-minus-style = "#444444"
+  line-numbers-zero-style = "#444444"
+  line-numbers-plus-style = "#444444"
+  line-numbers-left-format = "{nm:>4}┊"
+  line-numbers-right-format = "{np:>4}│"
+  line-numbers-left-style = blue
+  line-numbers-right-style = blue
 
 [delta "interactive"]
-    keep-plus-minus-markers = false
+  keep-plus-minus-markers = false
 
 [delta "decorations"]
-    commit-decoration-style = blue ol
-    commit-style = raw
-    file-style = omit
-    hunk-header-decoration-style = blue box
-    hunk-header-file-style = red
-    hunk-header-line-number-style = "#067a00"
-    hunk-header-style = file line-number syntax
+  commit-decoration-style = blue ol
+  commit-style = raw
+  file-style = omit
+  hunk-header-decoration-style = blue box
+  hunk-header-file-style = red
+  hunk-header-line-number-style = "#067a00"
+  hunk-header-style = file line-number syntax
 
-[diff]
-	tool = Kaleidoscope
-[difftool]
-	prompt = false
-[difftool "meld"]
-  trustExitCode = true
-  cmd = open -W -a Meld --args \"$LOCAL\" \"$REMOTE\"
-[merge]
-	tool = Kaleidoscope
-[mergetool]
-	prompt = false
-[mergetool "meld"]
-  trustExitCode = true
-  cmd = meld --auto-merge \"$LOCAL\" \"$BASE\" \"$REMOTE\" --output=\"$MERGED\"
-[difftool "Kaleidoscope"]
-	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
-[mergetool "Kaleidoscope"]
-	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-	trustExitCode = true
-
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [commit]
-	template = .git/commit-msg
+  template = .git/commit-msg
 
 [features]
   manyfiles = true
+[init]
+	defaultBranch = main
+
+# git blame -w -C -C -C
+# git diff --word-diff
+; $ git config --global rerere.enabled true
+; $ git config --global rerere.autoUpdate true
+; $ git config --global branch.sort -committerdate
+; $ git config --global alias.fpush push --force-with-lease
+;
+; $ git config gpg.format ssh
+; $ git config user.signingKey ~/.ssh/id_rsa.pub
+[maintenance]
+	repo = /Users/gary/code/work/gitlab-development-kit/gitlab
+	repo = /Users/gary/code/work/gitlab-development-kit
+	repo = /Users/gary/code/work/gdk
+	repo = /Users/gary/code/work/gdk/gitlab
+[diff]
+	tool = Kaleidoscope
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[difftool]
+	prompt = false
+	trustExitCode = true
+[merge]
+	tool = Kaleidoscope
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustExitCode = true
+[mergetool]
+	prompt = false
+
+# [diff]
+#   tool = nvimdiff
+# [difftool]
+#     prompt = false
+# [difftool "nvimdiff"]
+#     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+# [merge]
+#     tool = nvimdiff
+# [mergetool]
+#     prompt = true
+# [mergetool "nvimdiff"]
+#     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\" \"$MERGED\" -c 'wincmd w' -c 'wincmd J'"
+[github]
+	user = n/a
