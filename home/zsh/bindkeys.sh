@@ -125,3 +125,22 @@ bindkey ' ' magic-space                               # [Space] - don't do histo
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '\C-x\C-e' edit-command-line
+
+# tips from https://gist.github.com/elliottminns/09a598082d77f795c88e93f7f73dba61
+alias -s md=bat
+alias -s go='$EDITOR'
+alias -s txt=bat
+alias -s log=bat
+alias -s js='$EDITOR'
+alias -s html=open
+
+# Clear screen but keep current command buffer
+function clear-screen-and-scrollback() {
+  echoti civis >"$TTY"
+  printf '%b' '\e[H\e[2J\e[3J' >"$TTY"
+  echoti cnorm >"$TTY"
+  zle redisplay
+}
+
+zle -N clear-screen-and-scrollback
+bindkey '^X^O' clear-screen-and-scrollback
