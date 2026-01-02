@@ -86,6 +86,7 @@ alias -g G='| grep'
 alias -g L="| less"
 alias -g LL="2>&1 | less"
 alias -g NUL="> /dev/null 2>&1"
+alias -g NE="2> /dev/null"
 alias -g S='| sort'
 alias -g T='| tail'
 alias -g F='| fzf'
