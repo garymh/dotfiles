@@ -1,9 +1,0 @@
-cd $HOME/code/neovim
-git pull
-make clean
-rm -r build/  # clear the CMake cache
-make CMAKE_BUILD_TYPE=Debug
-make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.neovim"
-make install
-
-# brew upgrade neovim --fetch-HEAD

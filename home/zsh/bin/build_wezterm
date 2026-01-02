@@ -1,1 +1,0 @@
-brew upgrade --cask wezterm-nightly --no-quarantine --greedy-latest
