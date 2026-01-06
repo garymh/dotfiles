@@ -35,7 +35,6 @@ return {
         'python',
         'query',
         'regex',
-        'ruby',
         'scss',
         'svelte',
         'toml',
@@ -47,7 +46,10 @@ return {
         'xml',
         'yaml',
       },
-      allow_vim_regex = {},
+      allow_vim_regex = {
+        "csv",
+        "ruby"
+      },
     },
     dependencies = {
       {
@@ -62,46 +64,13 @@ return {
     branch = "main",
     event = "BufReadPost",
     config = function(_, opts)
-      local ts = require('nvim-treesitter')
+      local ns              = vim.api.nvim_create_namespace "treesitter.start"
+      local tso             = require("nvim-treesitter-textobjects")
+      local ts              = require("nvim-treesitter")
 
-      --
-      -- local group = vim.api.nvim_create_augroup('TreesitterSetup', { clear = true })
-      --
-      -- local ignore_filetypes = {
-      --   'checkhealth',
-      --   'lazy',
-      --   'mason',
-      --   'snacks_dashboard',
-      --   'snacks_notif',
-      --   'snacks_win',
-      -- }
-      --
-      -- vim.api.nvim_create_autocmd('FileType', {
-      --   group = group,
-      --   desc = 'Enable treesitter highlighting and indentation',
-      --   callback = function(event)
-      --     if vim.tbl_contains(ignore_filetypes, event.match) then
-      --       return
-      --     end
-      --
-      --     local lang = vim.treesitter.language.get_lang(event.match) or event.match
-      --     local buf = event.buf
-      --
-      --     pcall(vim.treesitter.start, buf, lang)
-      --
-      --     vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-      --     vim.wo.foldmethod = 'expr'
-      --     vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-      --
-      --     ts.install({ lang })
-      --   end,
-      -- })
-
-      local parsers_loaded = {}
+      local parsers_loaded  = {}
       local parsers_pending = {}
-      local parsers_failed = {}
-
-      local ns = vim.api.nvim_create_namespace "treesitter.start"
+      local parsers_failed  = {}
 
       ---@param lang string
       local function start(lang)
@@ -150,7 +119,7 @@ return {
             start(lang)
           else
             table.insert(parsers_pending, {
-              lang = lang,
+              lang  = lang,
               winnr = vim.api.nvim_get_current_win(),
               bufnr = event.buf,
             })
@@ -159,42 +128,10 @@ return {
       })
 
       vim.api.nvim_create_user_command("TSInstallAll", function()
-        require("nvim-treesitter").install(opts.ensure_install)
+        ts.install(opts.ensure_install)
       end, {})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      require("nvim-treesitter-textobjects").setup {}
-
-      -- @assignment.inner @assignment.lhs @assignment.outer @assignment.rhs
-      -- @attribute.inner @attribute.outer
-      -- @block.inner @block.outer
-      -- @call.inner @call.outer
-      -- @class.inner @class.outer
-      -- @comment.inner @comment.outer
-      -- @conditional.inner @conditional.outer
-      -- @frame.inner @frame.outer
-      -- @function.inner @function.outer
-      -- @loop.inner @loop.outer
-      -- @number.inner
-      -- @parameter.inner @parameter.outer
-      -- @regex.inner @regex.outer
-      -- @return.inner @return.outer
-      -- @scopename.inner
-      -- @statement.outer
+      tso.setup {}
 
       local ts_move = require("nvim-treesitter-textobjects.move")
       local ts_swap = require("nvim-treesitter-textobjects.swap")
@@ -225,12 +162,12 @@ return {
         vim.g.rainbow_delimiters = {
           strategy = {
             [""] = rainbow_delimiters.strategy["global"],
-            vim = rainbow_delimiters.strategy["local"],
+            vim  = rainbow_delimiters.strategy["local"],
             help = nil,
           },
           query = {
             [""] = "rainbow-delimiters",
-            lua = "rainbow-blocks",
+            lua  = "rainbow-blocks",
           },
           highlight = {
             "RainbowDelimiterRed",
@@ -247,7 +184,7 @@ return {
   },
 
   {
-    "Wansmer/sibling-swap.nvim", -- this is much better than stock treesitter's
+    "Wansmer/sibling-swap.nvim",
     dependencies = { "nvim-treesitter" },
     keys = {
       { "<C-.>",    desc = "sibling swap: left" },
@@ -305,7 +242,7 @@ return {
           { "r", desc = "return" },
           { "t", desc = "tag" },
           { "u", desc = "use/call" },
-          { "v", desc = "value" },
+          { "w", desc = "value" },
           { "{", desc = "{} block" },
           { "}", desc = "{} with ws" },
           { '"', desc = '" string' },
@@ -314,7 +251,6 @@ return {
           { "y", desc = "rhs" },
           { "!", desc = "diagnostic" },
           { "/", desc = "regex" },
-          { "z", desc = "something?" },
         }
 
         local ret = { mode = { "o", "x" } }
@@ -350,10 +286,9 @@ return {
         sort     = { prefix = "" },
       })
 
-      local extra = require("mini.extra")
-      local ai = require("mini.ai")
+      local ai              = require("mini.ai")
       local spec_treesitter = ai.gen_spec.treesitter
-      local gen_ai_spec = extra.gen_ai_spec
+      local gen_ai_spec     = require("mini.extra").gen_ai_spec
 
       ai.setup({
         custom_textobjects = {
@@ -364,12 +299,9 @@ return {
 
           S = { { '%u[%l%d]+%f[^%l%d]', '%f[%S][%l%d]+%f[^%l%d]', '%f[%P][%l%d]+%f[^%l%d]', '^[%l%d]+%f[^%l%d]', }, '^().*()$' },
 
-          U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
+          U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }),
 
-          -- a = spec_treesitter({ i = "@custom_capture", a = "@custom_capture" }),
-          -- TODO: add this
-
-          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
+          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
 
           e = gen_ai_spec.buffer(),
 
@@ -382,7 +314,7 @@ return {
 
           h = spec_treesitter({ i = "@call.inner", a = "@call.outer" }),
 
-          o = spec_treesitter({ -- code block
+          o = spec_treesitter({
             a = { "@block.outer", "@conditional.outer", "@loop.outer" },
             i = { "@block.inner", "@conditional.inner", "@loop.inner" },
           }),
@@ -391,8 +323,8 @@ return {
 
           u = ai.gen_spec.function_call(),
 
-          v = spec_treesitter({
-            i = { "@assignment.lhs", "@key.inner" },
+          w = spec_treesitter({
+            i = { "@assignment.rhs", "@key.inner" },
             a = { "@assignment.outer", "@key.inner" },
           }),
 
@@ -401,7 +333,6 @@ return {
           y = spec_treesitter({ i = { "@assignment.rhs" }, a = { "@assignment.rhs" } }),
 
           z = spec_treesitter({ i = { "@statement.outer" }, a = { "@statement.outer" } }),
-          -- could this include line breaks?
 
           ["-"] = gen_ai_spec.line(),
 
@@ -416,14 +347,6 @@ return {
       s_oxmap("L", "$", "endofline")
       vim.keymap.set({ "x", "o" }, "K", "g]j", { remap = true, desc = "end of brace" })
       vim.keymap.set({ "x", "o" }, "Q", "g]q", { remap = true, desc = "end of quote" })
-
-      require("mini.operators").setup({
-        multiply = { prefix = "yd" },
-        evaluate = { prefix = "g=" },
-        exchange = { prefix = "gX", reindent_linewise = true },
-        replace  = { prefix = "" },
-        sort     = { prefix = "" },
-      })
     end,
   },
 
@@ -444,130 +367,29 @@ return {
       s_omap("aO", [[:call TextObjWordBasedColumn("aW")<CR>]], "around WORD in column")
       s_vmap("iO", [[:<C-U>call TextObjWordBasedColumn("iW")<CR>]], "inner WORD in column")
 
-      local textobjs = require("various-textobjs")
-      textobjs.setup({
+      require("various-textobjs").setup({
         keymaps = {
           useDefaults = false,
         },
       })
 
       s_nmap("dsi", function()
-        -- select inner indentation
-        textobjs.indentation(true, true)
+        require("various-textobjs").indentation(true, true)
 
         local notOnIndentedLine = vim.fn.mode():find("V") == nil
         if notOnIndentedLine then return end
 
         vim.cmd.normal({ ">", bang = true })
 
-        -- delete surrounding lines
-        local endBorderLn = vim.api.nvim_buf_get_mark(0, ">")[1] + 1
+        local endBorderLn   = vim.api.nvim_buf_get_mark(0, ">")[1] + 1
         local startBorderLn = vim.api.nvim_buf_get_mark(0, "<")[1] - 1
-        vim.cmd(tostring(endBorderLn) .. " delete") -- delete end first so line index is not shifted
+        vim.cmd(tostring(endBorderLn) .. " delete")
         vim.cmd(tostring(startBorderLn) .. " delete")
       end, "Delete surrounding indentation")
 
       s_oxmap("g;", "<cmd>lua require('various-textobjs').lastChange()<CR>", "last change")
-
       s_oxmap("i|", "<cmd>lua require('various-textobjs').column()<CR>", "column")
       s_oxmap("iC", "<cmd>lua require('various-textobjs').multiCommentedLines()<CR>", "commented lines")
     end,
   },
 }
-
--- -- "David-Kunz/markid",
-
-
--- s_oxmap("iv", "<cmd>lua require('various-textobjs').value('inner')<CR>", "inner value")
--- s_oxmap("av", "<cmd>lua require('various-textobjs').value('outer')<CR>", "outer value")
---
--- s_oxmap("ik", "<cmd>lua require('various-textobjs').key('inner')<CR>", "inner key")
--- s_oxmap("ak", "<cmd>lua require('various-textobjs').key('outer')<CR>", "outer key")
--- s_oxmap("im", "<cmd>lua require('various-textobjs').chainMember('inner')<CR>", "inner member")
--- s_oxmap("am", "<cmd>lua require('various-textobjs').chainMember('outer')<CR>", "outer member")
--- s_oxmap("ii", "<cmd>lua require('various-textobjs').indentation('inner', 'inner')<CR>", "inner indentation")
--- s_oxmap("ai", "<cmd>lua require('various-textobjs').indentation('outer', 'inner')<CR>", "around indentation")
--- s_oxmap("iI", "<cmd>lua require('various-textobjs').indentation('inner', 'inner')<CR>", "inner Indentation")
--- s_oxmap("aI", "<cmd>lua require('various-textobjs').indentation('outer', 'outer')<CR>", "around Indentation")
-
--- s_oxmap("iU", "<cmd>lua require('various-textobjs').greedyOuterIndentation('inner')<CR>", "inner OUTindentation")
--- s_oxmap("aU", "<cmd>lua require('various-textobjs').greedyOuterIndentation('outer')<CR>", "around OUTindentation")
-
--- s_oxmap("is", "<cmd>lua require('various-textobjs').subword('inner')<CR>", "inner subword")
--- s_oxmap("as", "<cmd>lua require('various-textobjs').subword('outer')<CR>", "award subword")
-
--- s_oxmap("J", "<cmd>lua require('various-textobjs').toNextClosingBracket()<CR>", "to next bracket")
--- s_oxmap("Q", "<cmd>lua require('various-textobjs').toNextQuotationMark()<CR>", "to next quote")
--- MiniIndentscope.textobject|
-
--- s_oxmap("as", "<cmd>lua require('various-textobjs').subword('outer')<CR>", "award subword")
---
--- s_oxmap("J", "<cmd>lua require('various-textobjs').toNextClosingBracket()<CR>", "to next bracket")
--- s_oxmap("Q", "<cmd>lua require('various-textobjs').toNextQuotationMark()<CR>", "to next quote")
---
--- s_oxmap("g;", "<cmd>lua require('various-textobjs').lastChange()<CR>", "last change")
---
--- s_oxmap("i-", "<cmd>lua require('various-textobjs').lineCharacterwise('inner')<CR>", "line characterwise")
--- s_oxmap("a-", "<cmd>lua require('various-textobjs').lineCharacterwise('outer')<CR>", "line characterwise")
---
--- s_oxmap("i|", "<cmd>lua require('various-textobjs').column()<CR>", "column")
--- s_oxmap("iC", "<cmd>lua require('various-textobjs').multiCommentedLines()<CR>", "commented lines")
---
--- s_oxmap("iv", "<cmd>lua require('various-textobjs').value('inner')<CR>", "inner value")
--- s_oxmap("av", "<cmd>lua require('various-textobjs').value('outer')<CR>", "outer value")
---
--- s_oxmap("ik", "<cmd>lua require('various-textobjs').key('inner')<CR>", "inner key")
--- s_oxmap("ak", "<cmd>lua require('various-textobjs').key('outer')<CR>", "outer key")
---
--- s_oxmap("iu", "<cmd>lua require('various-textobjs').url()<CR>", "url")
--- s_oxmap("au", "<cmd>lua require('various-textobjs').url()<CR>", "url")
---
--- s_oxmap("im", "<cmd>lua require('various-textobjs').chainMember('inner')<CR>", "inner member")
--- s_oxmap("am", "<cmd>lua require('various-textobjs').chainMember('outer')<CR>", "outer member")
-
--- s_omap("io", [[:call TextObjWordBasedColumn("iw")<CR>]], "inner word in column")
--- s_omap("ao", [[:call TextObjWordBasedColumn("aw")<CR>]], "around word in column")
--- s_vmap("io", [[:<C-U>call TextObjWordBasedColumn("iw")<CR>]], "inner word in column")
--- s_vmap("ao", [[:<C-U>call TextObjWordBasedColumn("aw")<CR>]], "around word in column")
--- s_omap("iO", [[:call TextObjWordBasedColumn("iW")<CR>]], "inner WORD in column")
--- s_omap("aO", [[:call TextObjWordBasedColumn("aW")<CR>]], "around WORD in column")
--- s_vmap("iO", [[:<C-U>call TextObjWordBasedColumn("iW")<CR>]], "inner WORD in column")
--- k = function()
--- if vim.bo.filetype == "help" then
--- 	dd("yo")
--- elseif vim.bofiletype == "lua" then
--- 	dd("yo")
--- else
-
--- ["ac"] = { query = "@conditional.outer", desc = "[TS] outer [c]onditional" },
--- ["ad"] = { query = "@assignment.inner", desc = "[TS] Outside a function" },
--- ["ad"] = { query = "@assignment.inner", desc = "[TS] Outside a function" },
--- ["ah"] = { query = "@assignment.outer", desc = "[TS] Outside a function" },
--- ["ah"] = { query = "@assignment.outer", desc = "[TS] Outside a function" },
--- ["al"] = { query = "@call.outer",        desc = "[TS] outer cal[l]" },
--- ["ar"] = { query = "@block.outer", desc = "[TS] Outside a block" },
--- ["ic"] = { query = "@conditional.inner", desc = "[TS] inner [c]onditional" },
--- ["il"] = { query = "@call.inner",        desc = "[TS] inner cal[l]" },
--- ["iq"] = { query = "@loop.inner",        desc = "[TS] inner loop" },
--- ["ir"] = { query = "@block.inner", desc = "[TS] Inside a block" },
--- ["aq"] = treesitterObject("@loop.outer",      "outer loop"),
---
--- ["aa"] = treesitterObject("@parameter.outer", "outside a function parameter"),
--- ["ia"] = treesitterObject("@parameter.inner", "inside a function parameter"),
---
--- ["aE"] = treesitterObject("@custom_capture.outer", "outside a function parameter"),
--- ["iE"] = treesitterObject("@custom_capture.inner", "inside a function parameter"),
---
--- ["af"] = treesitterObject("@function.outer", "inside a function"),
--- ["if"] = treesitterObject("@function.inner", "outside a function"),
---
--- -- ["in"] = treesitterObject("@number.inner",    "that thing"),
---
--- ["ix"] = treesitterObject("@assignment.lhs", "key value left"),
--- ["iy"] = treesitterObject("@assignment.rhs", "key value right"),
--- local hi_words = require('mini.extra').gen_highlighter.words
--- require('mini.hipatterns').setup({
---   highlighters = {
---     todo = hi_words({ 'TODO', 'Todo', 'todo' }, 'MiniHipatternsTodo'),
---   },
--- })
