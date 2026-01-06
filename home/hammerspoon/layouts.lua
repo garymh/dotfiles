@@ -75,6 +75,12 @@ function killApps(table)
   end
 end
 
+function CheckCaffeine()
+  if hs.host.idleTime() >= 600 then
+    caffeineOff()
+  end
+end
+
 function useLayout(layout)
   hs.notify.show("Switching to: " .. layout, "", "", "")
 
@@ -89,7 +95,6 @@ function useLayout(layout)
       { "Firefox Developer Edition", nil, right_screen, bot75,   nil, nil },
       { "Mimestream",                nil, right_screen, top25,   nil, nil },
     }
-
   elseif layout == "superwork" then
     -- normalDesktop()
     caffeineOff()
@@ -102,10 +107,8 @@ function useLayout(layout)
       { "Mimestream",                nil, right_screen, top25,   nil, nil },
     }
     local killed_apps = { "Firefox", "Messages", "Mail" }
-
   elseif layout == "meeting" then
     -- meetingDesktop()
-
   elseif layout == "game" then
     -- normalDesktop()
     caffeineOn()
@@ -117,7 +120,6 @@ function useLayout(layout)
       { "Reeder",   nil, left_screen,  center30, nil, nil },
     }
     local killed_apps = { "Mimestream", "SwiftBar", "Firefox Developer Edition" }
-
   elseif layout == "chill" then
     -- normalDesktop()
     caffeineOff()
