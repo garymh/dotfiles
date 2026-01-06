@@ -31,13 +31,11 @@ return {
 
   -- ./gui.lua
 
-  -- ./lastplace.lua
-
   -- ./markdown.lua
 
-  -- ./mini.lua
-
   -- ./mason_lsp.lua
+
+  -- ./mini.lua
 
   -- ./neotest.lua
 
@@ -93,7 +91,7 @@ return {
 
       vim.keymap.del({ "n" }, "<leader>bt")
       vim.keymap.del({ "n" }, "<C-S-t>")
-      s_nmap("<space><space>", "<CMD>BufferHistory reopen<CR>", "undo close last bueffer")
+      s_nmap("<space><space>", "<CMD>BufferHistory reopen<CR>", "undo close last buffer")
     end,
   },
 
