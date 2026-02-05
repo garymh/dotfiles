@@ -1,9 +1,9 @@
 _exists() {
-  command -v $1 > /dev/null 2>&1
+    command -v $1 > /dev/null 2>&1
 }
 
 _file_exists() {
-  [ -e $1 ]
+    [ -e $1 ]
 }
 
 e_header()  { echo -e "\n\033[1m$@\033[0m"; }
@@ -14,17 +14,17 @@ e_missing()   { e_error "\"brew install $1\" when you get a minute" }
 OS=$($(which uname))
 
 _macos() {
-  if [[ $OS = 'Darwin' ]]; then
-    return 0
-  else
-    return 1
-  fi
+    if [[ $OS = 'Darwin' ]]; then
+        return 0
+    else
+        return 1
+    fi
 }
 
 _linux() {
-  if [[ $OS = 'Linux' ]]; then
-    return 0
-  else
-    return 1
-  fi
+    if [[ $OS = 'Linux' ]]; then
+        return 0
+    else
+        return 1
+    fi
 }

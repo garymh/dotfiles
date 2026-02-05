@@ -28,7 +28,7 @@ alias ealacritty='$VISUAL $DOTFILES/home/alacritty/alacritty.yml'
 alias egoku='$VISUAL $HOME/.config/karabiner.edn'
 
 citest() {
-  gotestsum --jsonfile test-output.log --no-summary=skipped --junitfile ./coverage.xml --format short -- -coverprofile=./coverage.txt -covermode=atomic ./pkg/... ./internal/... ./commands/... ./cmd/...
+    gotestsum --jsonfile test-output.log --no-summary=skipped --junitfile ./coverage.xml --format short -- -coverprofile=./coverage.txt -covermode=atomic ./pkg/... ./internal/... ./commands/... ./cmd/...
 }
 
 alias folder-sizes="du -sh * | sort -hr | head"
@@ -39,9 +39,9 @@ alias copy-branch='git rev-parse --abbrev-ref HEAD | pbcopy'
 
 # File Download (from Prezto)
 if _exists curl; then
-  alias get='curl --continue-at - --location --progress-bar --remote-name --remote-time'
+    alias get='curl --continue-at - --location --progress-bar --remote-name --remote-time'
 elif _exists wget; then
-  alias get='wget --continue --progress=bar --timestamping'
+    alias get='wget --continue --progress=bar --timestamping'
 fi
 
 alias oo='open .'
@@ -65,6 +65,9 @@ alias please='sudo $SHELL -c "$(fc -ln -1)"'
 alias pubkey="more ~/.ssh/id_ed25519.pub | pbcopy | e_success 'Public key copied to pasteboard.'"
 alias ref="exec zsh"
 alias path='sed "s/:/\n/g" <<< \"$PATH\"'
+
+alias clip='yt-dlp -f "bestaudio[ext=m4a]"'
+alias rubo='rubocop -A'
 
 # typos
 alias cfd="cdf"
@@ -101,24 +104,24 @@ alias -g RES='RAILS_ENV=staging'
 
 # work!
 function super_bundle() {
-  gemfile=$BUNDLE_GEMFILE
+    gemfile=$BUNDLE_GEMFILE
 
-  if [ -z "$gemfile" ]; then
-    gemfile=$(command bundle config gemfile --parseable | sed -e 's/^gemfile=//')
-  fi
+    if [ -z "$gemfile" ]; then
+        gemfile=$(command bundle config gemfile --parseable | sed -e 's/^gemfile=//')
+    fi
 
-  if [ -r "$gemfile" ] && [ -r Gemfile ] &&
+    if [ -r "$gemfile" ] && [ -r Gemfile ] &&
     [ "$gemfile" != Gemfile ] &&
     [[ $1 =~ ^(install|update)$ ]]; then
-    BUNDLE_GEMFILE=Gemfile command bundle "$@"
-    cp Gemfile.lock "${gemfile}.lock"
-  fi
+        BUNDLE_GEMFILE=Gemfile command bundle "$@"
+        cp Gemfile.lock "${gemfile}.lock"
+    fi
 
-  command bundle "$@"
+    command bundle "$@"
 }
 
 logcmd() {
-  echo "$*" | tee >(cat) | zsh
+    echo "$*" | tee >(cat) | zsh
 }
 
 alias -g DUO="logcmd"
@@ -127,6 +130,9 @@ alias -g DUO="logcmd"
 alias be="bundle exec"
 alias bu="bundle update"
 alias harness="scripts/security-harness"
+
+alias ber='bundle exec rspec'
+alias berf='bundle exec rspec --fail-fast'
 
 alias zg='cd $GITLAB_HOME'
 alias zc='cd $CLI_HOME'
@@ -138,16 +144,16 @@ alias zh="cd ~"
 alias bundle-id="mdls -name kMDItemCFBundleIdentifier -r"
 
 function fix_key_permissions() { # after reinstalling macos
-  chmod 600 ~/.ssh/id_ed25519
-  chmod 600 ~/.ssh/id_ed25519.pub
+    chmod 600 ~/.ssh/id_ed25519
+    chmod 600 ~/.ssh/id_ed25519.pub
 }
 
 test-changes() {
-  bundle exec rspec "$(git diff --name-only "$@" | grep -e '_spec.rb$')"
+    bundle exec rspec "$(git diff --name-only "$@" | grep -e '_spec.rb$')"
 }
 
 cop() {
-  bundle exec rubocop "$(git diff --name-only '$@' | grep -e '.rb$')"
+    bundle exec rubocop "$(git diff --name-only '$@' | grep -e '.rb$')"
 }
 
 function unquarantine() { xattr -d com.apple.quarantine "$@"; }
@@ -159,7 +165,7 @@ function unquarantine_app() { unquarantine "/Applications/$*"; }
 # e_missing()   { e_error "\"brew install $1\" when you get a minute" }
 
 function gotest() {
-  go test -json -v "${1:-./...}" 2>&1 | tee /tmp/gotest.log | gotestfmt
+    go test -json -v "${1:-./...}" 2>&1 | tee /tmp/gotest.log | gotestfmt
 }
 
 function h() { cd ~/"$1" || exit; }
@@ -167,15 +173,15 @@ function c() { cd ~/code/"$1" || exit; }
 function cw() { cd ~/code/work/"$1" || exit; }
 
 function search() {
-  e_header "find . -iname \"*$1*\""
-  sudo find . -iname "*$1*"
+    e_header "find . -iname \"*$1*\""
+    sudo find . -iname "*$1*"
 }
 
 function update-withexeditor() {
-  npm install -g withexeditorhost &&
+    npm install -g withexeditorhost &&
     (cd "$(npm -g root)/withexeditorhost" && npm run setup)
 }
 
 function update-spotify() {
-  spicetify update && spicetify apply
+    spicetify update && spicetify apply
 }

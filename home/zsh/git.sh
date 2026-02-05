@@ -50,11 +50,11 @@ alias gp="git push"
 alias gpf="git push --force"
 
 copy-hooks() {
-  cp ~/code/gldb/post-checkout ~/code/work/gdk/gitlab/.git/hooks/post-checkout
-  cp ~/code/gldb/post-checkout ~/code/work/cli/.git/hooks/post-checkout
+    cp ~/code/gldb/post-checkout ~/code/work/gdk/gitlab/.git/hooks/post-checkout
+    cp ~/code/gldb/post-checkout ~/code/work/cli/.git/hooks/post-checkout
 }
 
 function grbm() {
-  git fetch origin
-  git rebase "origin/$(git origin-head)"
+    git fetch origin
+    git rebase "origin/$(git origin-head)"
 }

@@ -10,10 +10,10 @@ alias cont="git rebase --continue"
 alias lg="lazygit"
 
 function diverged_commit() {
-  git merge-base "$(main_branch)" "$(git rev-parse --abbrev-ref HEAD)"
+    git merge-base "$(main_branch)" "$(git rev-parse --abbrev-ref HEAD)"
 }
 function main_branch() {
-  git remote show origin | sed -n '/HEAD branch/s/.*: //p'
+    git remote show origin | sed -n '/HEAD branch/s/.*: //p'
 }
 # # function diverged_commit() { git log $(main_branch)..$(git abbrev-ref) --oneline | tail -1 | awk '{ print $1 }'; }
 # # function diverged_ref() { git rev-parse $(diverged_commit)^; }
