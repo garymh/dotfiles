@@ -69,6 +69,7 @@ require("lazy").setup("plugins", {
 vim.opt.linebreak      = true
 vim.opt.wrap           = true
 vim.opt.expandtab      = true
+vim.opt.cmdheight      = 0
 vim.opt.fillchars      = {
   stlnc     = icons["stlnc"],
   fold      = icons["fold"],
