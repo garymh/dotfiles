@@ -32,3 +32,8 @@ vendor
 locale
 *.css
 *.ts
+changelogs
+public
+doc-locale
+doc
+CHANGELOG.md
