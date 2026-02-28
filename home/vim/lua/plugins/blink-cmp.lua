@@ -2,7 +2,7 @@ Snacks = _G.Snacks
 
 return {
   "saghen/blink.cmp",
-  build = "cargo build --release",
+  version = '1.*',
   opts = {
     keymap = { preset = "super-tab" },
 
@@ -44,6 +44,7 @@ return {
         draw = {
           padding = { 2, 2 },
           columns = { { "kind_icon", "label", gap = 2 }, { "source_name" } },
+          treesitter = { "lsp" },
           components = {
             label = {
               text = function(ctx)
@@ -58,13 +59,14 @@ return {
       },
       documentation = {
         auto_show = true,
-        auto_show_delay_ms = 500,
+        auto_show_delay_ms = 200,
       }
     },
 
     sources = {
-      default = { "lazydev", "lsp", "path", "snippets", "buffer" },
-
+      per_filetype = {
+        lua = { inherit_defaults = true, "lazydev" },
+      },
       providers = {
         lazydev = {
           name = "LazyDev",
@@ -75,7 +77,11 @@ return {
     },
   },
 
-  opts_extend = { "sources.default" },
+  opts_extend = {
+    "sources.completion.enabled_providers",
+    "sources.compat",
+    "sources.default"
+  },
 
   dependencies = {
     {
