@@ -1,3 +1,5 @@
+# vim: set ft=zsh:
+
 typeset -U PATH path
 
 source $HOME/.zsh/misc/utility.zsh
@@ -15,6 +17,7 @@ export GDK_ROOT="$HOME/code/work/gdk"
 export GDK_DEV_HOME="$HOME/code/work/devkit"
 export GITLAB_HOME="$GDK_ROOT/gitlab"
 
+export OPENCODE_DISABLE_SHARE="true"
 export HOMEBREW_NO_INSTALL_FROM_API=1
 export NEOVIDE_FRAME="transparent"
 export NEOVIDE_FORK=1

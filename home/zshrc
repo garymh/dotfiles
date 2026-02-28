@@ -78,4 +78,7 @@ eval "$(mise activate zsh --shims)"
 
 . "$HOME/.local/share/bob/env/env.sh"
 
+# opencode
+export PATH=$HOME/.opencode/bin:$PATH
+
 e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"
