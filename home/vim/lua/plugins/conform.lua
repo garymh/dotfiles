@@ -35,15 +35,16 @@ function M.config()
 
   conform.setup({
     formatters_by_ft = {
-      lua = { lsp_format = "prefer" },
-      go = { "gofumpt", "goimports", lsp_format = "fallback" },
-      json = { "jq" },
+      lua        = { lsp_format = "prefer" },
+      go         = { "gofumpt", "goimports", lsp_format = "fallback" },
+      edn        = { "zprint" },
+      json       = { "jq" },
       javascript = { "prettier" },
-      yaml = { "yamlfmt" },
-      sh = { "shfmt" },
-      zsh = { "shfmt" },
-      ruby = { "rubocop" },
-      ["_"] = { "trim_newlines", "trim_whitespace", "squeeze_blanks" },
+      yaml       = { "yamlfmt" },
+      sh         = { "beautysh" },
+      zsh        = { "beautysh" },
+      ruby       = { "rubocop" },
+      ["_"]      = { "trim_newlines", "trim_whitespace", "squeeze_blanks" },
     },
     default_format_opts = {
       lsp_format = "fallback",
