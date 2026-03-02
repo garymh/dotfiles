@@ -22,21 +22,21 @@ local function dispatch(map, app, name)
   return true
 end
 
-function action_key()
+local function action_key()
   local name = app():name()
   if dispatch(cfg.action, app, name) then return end
 
   hs.alert("Unknown application")
 end
 
-function shift_action_key()
+local function shift_action_key()
   local name = app():name()
   if dispatch(cfg.shift_action, app, name) then return end
 
   hs.alert("Unknown application")
 end
 
-function hide_application()
+local function hide_application()
   app():hide()
 end
 

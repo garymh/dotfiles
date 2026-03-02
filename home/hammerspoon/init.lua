@@ -20,27 +20,6 @@ SafariTech       = "/Applications/Safari Technology Preview.app"
 Safari           = "com.apple.Safari"
 GitLabStandalone = "com.webcatalog.juli.gitlab"
 
-local function setAudiosourceBarTitle(_) hs.shortcuts.run("Set Correct Soundsource Preset") end
-
-local audioWatcher = hs.audiodevice.watcher
-audioWatcher.setCallback(setAudiosourceBarTitle)
-audioWatcher.start()
-
-function tablelength(T)
-  local count = 0
-  for _ in pairs(T) do
-    count = count + 1
-  end
-  return count
-end
-
-function showOrHide(application)
-  if hs.application.frontmostApplication() == hs.application(application) then
-    hs.application(application):hide()
-  else
-    hs.application.launchOrFocus(application)
-  end
-end
 
 hs.allowAppleScript(true)
 hs.application.enableSpotlightForNameSearches(true)
@@ -125,11 +104,6 @@ Install:andUse("SendToOmniFocus", {
   ["repo"] = "gary",
 })
 
--- Install:andUse("MicMute", {
---   hotkeys = { toggle = { {}, "pad0" } },
---   ["repo"] = "gary",
--- })
-
 local cameras = hs.camera.allCameras()
 local webcam = cameras[2] -- Build in MacBook FaceTime HD Camera
 if webcam then
@@ -153,60 +127,6 @@ else
 end
 
 Install:andUse("Caffeine", {})
-
-function omnifocusContext(paths, flagTables)
-  good_path = "/Users/gary/Library/Mobile Documents/iCloud~is~workflow~my~workflows/Documents/Automation/Work"
-
-  if hs.fnutils.contains(paths, good_path) then
-    if hs.fs.displayName(good_path) == nil then
-      print("REMOVING WORK MODE")
-      hs.execute('shortcuts run "Home Mode"')
-    else
-      print("ADDING WORK MODE")
-      hs.execute('shortcuts run "Work Mode"')
-    end
-  else
-  end
-end
-
--- hs.loadSpoon("BonjourLauncher")
--- smb = {
--- 	image = hs.image.imageFromName("NSNetwork"),
--- 	label = "SMB",
--- 	type = "_smb._tcp.",
--- 	text = "%name%",
--- 	subText = "smb://%hostname%:%port%",
--- 	url = "smb://%hostname%:%port%",
--- }
-
-local myWatcher = hs.pathwatcher
-    .new(
-      os.getenv("HOME") .. "/Library/Mobile Documents/iCloud~is~workflow~my~workflows/Documents/Automation",
-      omnifocusContext
-    )
-    :start()
-
--- TODO:
--- Global show/hide hammerspoon dock icon
--- can grid be simplified?
--- hskeybindings
--- ksheet
--- http://www.hammerspoon.org/Spoons/PersonalHotspot.html
--- http://www.hammerspoon.org/Spoons/WiFiTransitions.html
--- http://www.hammerspoon.org/Spoons/USBDeviceActions.html
--- http://www.hammerspoon.org/Spoons/WinWin.html
--- http://www.hammerspoon.org/Spoons/WindowHalfsAndThirds.html
--- http://www.hammerspoon.org/Spoons/WindowScreenLeftAndRight.html
--- http://www.hammerspoon.org/Spoons/VolumeScroll.html
--- http://www.hammerspoon.org/Spoons/ReloadConfiguration.html
--- http://www.hammerspoon.org/Spoons/PushToTalk.html
--- http://www.hammerspoon.org/Spoons/Caffeine.html
--- http://www.hammerspoon.org/Spoons/HSKeybindings.html
--- http://www.hammerspoon.org/Spoons/ModalMgr.htm{
-
-IsDocked = function()
-  return hs.fnutils.some(hs.usb.attachedDevices(), function(device) return device.productName == "TS4 USB2.0 HUB" end)
-end
 
 function caffeineOff()
   spoon.Caffeine:start()
@@ -234,3 +154,21 @@ function useLayout(layout)
     caffeineOff()
   end
 end
+
+-- TODO:
+-- Global show/hide hammerspoon dock icon
+-- can grid be simplified?
+-- hskeybindings
+-- ksheet
+-- http://www.hammerspoon.org/Spoons/PersonalHotspot.html
+-- http://www.hammerspoon.org/Spoons/WiFiTransitions.html
+-- http://www.hammerspoon.org/Spoons/USBDeviceActions.html
+-- http://www.hammerspoon.org/Spoons/WinWin.html
+-- http://www.hammerspoon.org/Spoons/WindowHalfsAndThirds.html
+-- http://www.hammerspoon.org/Spoons/WindowScreenLeftAndRight.html
+-- http://www.hammerspoon.org/Spoons/VolumeScroll.html
+-- http://www.hammerspoon.org/Spoons/ReloadConfiguration.html
+-- http://www.hammerspoon.org/Spoons/PushToTalk.html
+-- http://www.hammerspoon.org/Spoons/Caffeine.html
+-- http://www.hammerspoon.org/Spoons/HSKeybindings.html
+-- http://www.hammerspoon.org/Spoons/ModalMgr.htm{

@@ -1,4 +1,10 @@
-local vim = hs
+local function setAudiosourceBarTitle(_)
+  hs.shortcuts.run("Set Correct Soundsource Preset")
+end
+
+local audioWatcher = hs.audiodevice.watcher
+audioWatcher.setCallback(setAudiosourceBarTitle)
+audioWatcher.start()
 
 local zoomWallpaper = {
   enabled = true,
@@ -147,6 +153,10 @@ local function uiCallback(_element, event, watcher, app)
   end
 end
 
+local isDocked = function()
+  return hs.fnutils.some(hs.usb.attachedDevices(), function(device) return device.productName == "TS4 USB2.0 HUB" end)
+end
+
 function ApplicationWatcher(appName, eventType, appObject)
   -- if IsDocked() == false then return end
 
@@ -168,7 +178,7 @@ function ApplicationWatcher(appName, eventType, appObject)
       hs.osascript.applescript(applescript)
     end
 
-    if IsDocked() == false then return end
+    if isDocked() == false then return end
 
     if appName == "Firefox Developer Edition" then
       dostuff(appObject, "GitLab")

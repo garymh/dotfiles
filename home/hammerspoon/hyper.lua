@@ -1,12 +1,12 @@
-function hide_toolbar(app, string)
+local function hide_toolbar(app, string)
   app:selectMenuItem("Hide " .. string)
 end
 
-function show_toolbar(app, string)
+local function show_toolbar(app, string)
   app:selectMenuItem("Show " .. string)
 end
 
-function toggle(app, string)
+local function toggle(app, string)
   if show_toolbar(app, string) then
     show_toolbar(app, string)
   else
@@ -14,12 +14,12 @@ function toggle(app, string)
   end
 end
 
-function systemKey(key)
+local function systemKey(key)
   hs.eventtap.event.newSystemKeyEvent(string.upper(key), true):post()
   hs.eventtap.event.newSystemKeyEvent(string.upper(key), false):post()
 end
 
-function cleanup_key()
+local function cleanup_key()
   local app = hs.application.frontmostApplication()
   local name = app:name()
   if name == "Mail" then
@@ -34,7 +34,7 @@ function cleanup_key()
   end
 end
 
-function show_hide_sicilio()
+local function show_hide_sicilio()
   if hs.application("Silicio") == nil then
     hs.application.launchOrFocus("Silicio")
   else
@@ -76,9 +76,5 @@ local function mute_firefox_tab()
   old_app:activate()
 end
 
-hs.hotkey.bind(hyper, "f", function()
-  fullscreen()
-end)
-hs.hotkey.bind(hyper, "n", function()
-  mute_firefox_tab()
-end)
+hs.hotkey.bind(hyper, "f", function() fullscreen() end)
+hs.hotkey.bind(hyper, "n", function() mute_firefox_tab() end)
