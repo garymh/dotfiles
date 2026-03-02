@@ -154,9 +154,10 @@ vim.g.loaded_python_provider = 0
 vim.g.loaded_ruby_provider   = 0
 vim.g.loaded_perl_provider   = 0
 
-if Nv10 then
+if Nv10() then
   vim.opt.smoothscroll = true
 end
-if vim.g.neovide then
+
+if InNeovide() then
   require("neovide")
 end

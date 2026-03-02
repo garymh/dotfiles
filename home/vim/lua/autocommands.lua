@@ -8,6 +8,16 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
+if InGui() == false then
+  require("vim._extui").enable {
+    enable = true,
+    msg = {
+      target = "cmd",
+      timeout = 4000,
+    },
+  }
+end
+
 vim.api.nvim_create_autocmd('BufReadPost', {
   group = Augroup("lastposition"),
   callback = function(args)

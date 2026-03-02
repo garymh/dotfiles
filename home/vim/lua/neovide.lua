@@ -16,6 +16,8 @@ vim.keymap.set("n", "<D-->", function() change_scale_factor(1 / 1.25) end)
 vim.keymap.set("i", "<D-=>", function() change_scale_factor(1.25) end)
 vim.keymap.set("i", "<D-->", function() change_scale_factor(1 / 1.25) end)
 
+
+vim.g.neovide_cursor_short_animation_length  = 0.01
 vim.g.neovide_cursor_animation_length        = 0.01
 vim.g.neovide_cursor_trail_length            = 0.005
 vim.g.neovide_cursor_trail_size              = 0.1

@@ -11,6 +11,14 @@ function Nv10() return vim.fn.has("nvim-0.10") == 1 end
 
 function Nv11() return vim.fn.has("nvim-0.11") == 1 end
 
+function Nv12() return vim.fn.has("nvim-0.12") == 1 end
+
+function InNeovide() return vim.g.neovide == true end
+
+function InVimr() return vim.fn.exists("g:gui_vimr") == 1 end
+
+function InGui() return InVimr() or InNeovide() end
+
 function Notifier(text) vim.notify(text) end
 
 function Augroup(name) return vim.api.nvim_create_augroup("gary_" .. name, { clear = true }) end
@@ -81,25 +89,13 @@ end
 
 s_nmap("<C-]>", "<C-]>", "check definition")
 
-function _G.plugin_is_loaded(name)
-  local Config = require("lazy.core.config")
-  return Config.plugins[name] and Config.plugins[name]._.loaded
+
+function _G.has(plugin)
+  return get_plugin(plugin) ~= nil
 end
 
-function _G.plugin_on_load(name, fn)
-  if _G.plugin_is_loaded(name) then
-    fn(name)
-  else
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "LazyLoad",
-      callback = function(event)
-        if event.data == name then
-          fn(name)
-          return true
-        end
-      end,
-    })
-  end
+function _G.get_plugin(name)
+  return require("lazy.core.config").spec.plugins[name]
 end
 
 local borders = {
