@@ -7,7 +7,7 @@ local function show_toolbar(app, string)
 end
 
 local function toggle(app, string)
-  if show_toolbar(app, string) then
+  if app:findMenuItem("Show " .. string) then
     show_toolbar(app, string)
   else
     hide_toolbar(app, string)
@@ -38,18 +38,18 @@ local function show_hide_sicilio()
   if hs.application("Silicio") == nil then
     hs.application.launchOrFocus("Silicio")
   else
-    hs.eventtap.keyStroke(hyper, "5")
+    hs.eventtap.keyStroke(Hyper, "5")
   end -- Silicio has its own show/hide thats bound to this key
 end
 
-hs.hotkey.bind(hyper, "F15", cleanup_key)
-hs.hotkey.bind(hyper, "right", function() systemKey("NEXT") end)
-hs.hotkey.bind(hyper, "left", function() systemKey("PREVIOUS") end)
-hs.hotkey.bind(hyper, "up", show_hide_sicilio)
-hs.hotkey.bind(hyper, "down", function() systemKey("PLAY") end)
+hs.hotkey.bind(Hyper, "F15", cleanup_key)
+hs.hotkey.bind(Hyper, "right", function() systemKey("NEXT") end)
+hs.hotkey.bind(Hyper, "left", function() systemKey("PREVIOUS") end)
+hs.hotkey.bind(Hyper, "up", show_hide_sicilio)
+hs.hotkey.bind(Hyper, "down", function() systemKey("PLAY") end)
 
-hs.hotkey.bind(hyper, "F1", function() systemKey("BRIGHTNESS_DOWN") end)
-hs.hotkey.bind(hyper, "F2", function() systemKey("BRIGHTNESS_UP") end)
+hs.hotkey.bind(Hyper, "F1", function() systemKey("BRIGHTNESS_DOWN") end)
+hs.hotkey.bind(Hyper, "F2", function() systemKey("BRIGHTNESS_UP") end)
 
 local function fullscreen()
   local win = hs.window.focusedWindow()
@@ -76,5 +76,5 @@ local function mute_firefox_tab()
   old_app:activate()
 end
 
-hs.hotkey.bind(hyper, "f", function() fullscreen() end)
-hs.hotkey.bind(hyper, "n", function() mute_firefox_tab() end)
+hs.hotkey.bind(Hyper, "f", function() fullscreen() end)
+hs.hotkey.bind(Hyper, "n", function() mute_firefox_tab() end)
