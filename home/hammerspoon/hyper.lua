@@ -34,18 +34,6 @@ function cleanup_key()
   end
 end
 
-function next_song()
-  hs.spotify.next()
-end
-
-function prev_song()
-  hs.spotify.previous()
-end
-
-function play_pause()
-  hs.spotify.playpause()
-end
-
 function show_hide_sicilio()
   if hs.application("Silicio") == nil then
     hs.application.launchOrFocus("Silicio")
@@ -55,23 +43,13 @@ function show_hide_sicilio()
 end
 
 hs.hotkey.bind(hyper, "F15", cleanup_key)
-hs.hotkey.bind(hyper, "right", function()
-  systemKey("NEXT")
-end)
-hs.hotkey.bind(hyper, "left", function()
-  systemKey("PREVIOUS")
-end)
+hs.hotkey.bind(hyper, "right", function() systemKey("NEXT") end)
+hs.hotkey.bind(hyper, "left", function() systemKey("PREVIOUS") end)
 hs.hotkey.bind(hyper, "up", show_hide_sicilio)
-hs.hotkey.bind(hyper, "down", function()
-  systemKey("PLAY")
-end)
+hs.hotkey.bind(hyper, "down", function() systemKey("PLAY") end)
 
-hs.hotkey.bind(hyper, "F1", function()
-  systemKey("BRIGHTNESS_DOWN")
-end)
-hs.hotkey.bind(hyper, "F2", function()
-  systemKey("BRIGHTNESS_UP")
-end)
+hs.hotkey.bind(hyper, "F1", function() systemKey("BRIGHTNESS_DOWN") end)
+hs.hotkey.bind(hyper, "F2", function() systemKey("BRIGHTNESS_UP") end)
 
 local function fullscreen()
   local win = hs.window.focusedWindow()
@@ -91,10 +69,9 @@ local function mute_firefox_tab()
   hs.timer.usleep(60000)
 
   hs.eventtap.event.newKeyEvent(hs.keycodes.map.ctrl, true):post()
-   hs.eventtap.event.newKeyEvent("m", true):post()
-   hs.eventtap.event.newKeyEvent("m", false):post()
-   hs.eventtap.event.newKeyEvent(hs.keycodes.map.ctrl, false):post()
-
+  hs.eventtap.event.newKeyEvent("m", true):post()
+  hs.eventtap.event.newKeyEvent("m", false):post()
+  hs.eventtap.event.newKeyEvent(hs.keycodes.map.ctrl, false):post()
 
   old_app:activate()
 end
