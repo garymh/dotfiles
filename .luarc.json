@@ -22,6 +22,8 @@
         "vim",
         "vmap",
         "xmap",
-        "s_noxmap"
+        "s_noxmap",
+        "hs",
+        "spoon"
     ]
 }
