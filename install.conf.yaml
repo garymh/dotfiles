@@ -5,27 +5,27 @@
       create: true
       relink: true
     brewfile:
-        stdout: true
+      stdout: true
     brew:
-        stderr: true
-        stdout: true
+      stderr: true
+      stdout: true
 
 - sudo:
-    - shell: 
-      - ["chmod 600 ~/.ssh/id_ed25519", Fixing permissions (1/2)]
-      - ["chmod 600 ~/.ssh/id_ed25519.pub", Fixing permissions (2/2)]
+    - shell:
+        - ["chmod 600 ~/.ssh/id_ed25519", Fixing permissions (1/2)]
+        - ["chmod 600 ~/.ssh/id_ed25519.pub", Fixing permissions (2/2)]
 
-- clean: ['~', '~/.config']
+- clean: ["~", "~/.config"]
 
 - link:
     ~/.ctags: home/ctags
-    ~/.agignore: home/agignore
     ~/.rgignore: home/agignore
     ~/.fdignore: home/agignore
     ~/.batconfig: home/batconfig
     ~/.ignore: home/agignore
     ~/.gemrc: home/gemrc
     ~/.default-gems: home/default-gems
+    ~/.irbrc: home/irbrc
     ~/.gitconfig: home/gitconfig
     ~/.bundle/config: home/bundle_config
     ~/.gitignore_global: home/gitignore_global
@@ -48,7 +48,6 @@
     ~/.config/nvim/ftdetect: home/vim/ftdetect/
     ~/.config/nvim/ftplugin: home/vim/ftplugin/
     ~/.config/nvim/after: home/vim/after/
-    ~/.config/nvim/syntax: home/vim/syntax/
     ~/.config/nvim/lua: home/vim/lua/
     ~/.config/nvim/lsp: home/vim/lsp/
     ~/.config/nvim/spell: home/vim/spell/
@@ -56,34 +55,34 @@
 
     ~/iCloud:
       path: "~/Library/Mobile Documents/com~apple~CloudDocs"
-      if: '[ `uname` = Darwin ]'
+      if: "[ `uname` = Darwin ]"
     ~/.zsh/private:
       path: ~/iCloud/Internal/private
-      if: '[ `uname` = Darwin ]'
+      if: "[ `uname` = Darwin ]"
     ~/.mackup.cfg:
       path: ~/iCloud/Mackup/mackup.cfg
-      if: '[ `uname` = Darwin ]'
+      if: "[ `uname` = Darwin ]"
     ~/.ssh:
       path: home/zsh/private/ssh/
-      if: '[ `uname` = Darwin ]'
+      if: "[ `uname` = Darwin ]"
     ~/.gnupg:
       path: home/zsh/private/gnupg/
-      if: '[ `uname` = Darwin ]'
+      if: "[ `uname` = Darwin ]"
     ~/.netrc:
       path: home/zsh/private/netrc
-      if: '[ `uname` = Darwin ]'
+      if: "[ `uname` = Darwin ]"
     ~/.hammerspoon:
       path: home/hammerspoon/
-      if: '[ `uname` = Darwin ]'
+      if: "[ `uname` = Darwin ]"
     ~/.gitconfig.work:
       path: home/zsh/private/gitconfig.work
-      if: '[ `uname` = Darwin ]'
+      if: "[ `uname` = Darwin ]"
     ~/.config/karabiner.edn:
       path: home/karabiner.edn
-      if: '[ `uname` = Darwin ]'
+      if: "[ `uname` = Darwin ]"
     ~/.gitconfig.local:
       path: home/zsh/private/gitconfig.local
-      if: '[ `uname` = Darwin ]'
+      if: "[ `uname` = Darwin ]"
     ~/code/work/gdk/gitlab/.git/hooks/post-checkout:
       force: true
       path: ~/code/gldb/post-checkout
@@ -91,7 +90,6 @@
       force: true
       path: ~/code/gldb/post-checkout
     ~/code/work/gdk/gitlab/spec/support/helpers/gary_spec_helper.rb: gitlab/spec_helper.rb
-    ~/code/work/gdk/gitlab/config/initializers/gary_hacks.rb: gitlab/hacks.rb
 
 - install-brew: true
 
@@ -111,5 +109,4 @@
 
 - duti:
     file: Dutifile
-
 # TODO: https://github.com/tg44/heptapod/tree/main/rules
