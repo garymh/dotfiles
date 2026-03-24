@@ -15,7 +15,6 @@ end
 require("hyper")
 require("actions")
 require("watchers")
-require("callbacks")
 
 hs.loadSpoon("SpoonInstall")
 spoon.SpoonInstall.use_syncinstall = true
@@ -28,9 +27,23 @@ Install.repos["gary"] = {
 }
 
 Install:andUse("SendToOmniFocus", {
-  config = { quickentrydialog = true, notifications = false },
+  config = { quickentrydialog = false, notifications = true },
   hotkeys = { send_to_omnifocus = { Hyper, "o" } },
   ["repo"] = "gary",
+})
+
+local function ofScript(app)
+  return os.getenv('HOME') .. '/.hammerspoon/scripts/' .. app .. '-to-omnifocus.applescript'
+end
+
+spoon.SendToOmniFocus:registerApplication('Safari', {
+  as_scriptfile = ofScript("safari"),
+  itemname = 'page',
+})
+
+spoon.SendToOmniFocus:registerApplication('Mail', {
+  as_scriptfile = ofScript("Mail"),
+  itemname = 'message',
 })
 
 Install:andUse("Caffeine", {})
@@ -38,7 +51,10 @@ Install:andUse("Caffeine", {})
 require("layout")
 
 if hs.settings.get("quietReload") ~= true then
-  Install:andUse("FadeLogo", { config = { default_run = 1.0 }, start = true })
+  Install:andUse("FadeLogo", {
+    config = { default_run = 1.0 },
+    start = true,
+  })
 else
   hs.settings.clear("quietReload")
 end
