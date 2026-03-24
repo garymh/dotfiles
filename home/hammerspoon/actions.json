@@ -24,7 +24,7 @@
     "Ghostty":                   { "type": "keystroke", "mods": [],              "key": "escape" },
     "Alacritty":                 { "type": "keystroke", "mods": [],              "key": "escape" },
     "Neovide":                   { "type": "keystroke", "mods": [],              "key": "escape" },
-    "Firefox Developer Edition": { "type": "keystroke", "mods": [],              "key": "escape" },
+    "Firefox Developer Edition": { "type": "keystroke", "mods": ["ctrl"],        "key": "/" },
     "goneovim":                  { "type": "keystroke", "mods": [],              "key": "escape" },
     "Neovim":                    { "type": "keystroke", "mods": [],              "key": "escape" },
     "VimR":                      { "type": "keystroke", "mods": [],              "key": "escape" },
