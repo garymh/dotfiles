@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env /Users/gary/.local/share/mise/shims/ruby
 
 Dir.chdir "#{ENV['HOME']}/code/gldb"
 

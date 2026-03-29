@@ -49,9 +49,10 @@ function pipeline-fails() {
 }
 
 alias mglab='make -C ~/code/work/cli && $HOME/code/work/cli/bin/glab'
-alias glab='$HOME/code/work/cli/bin/glab'
 
 alias gdkdev='$HOME/code/work/devkit/gem/bin/gdk'
+
+alias gmc="glab mr checkout"
 
 alias gdks="gdk start"
 alias gdkr='gdk restart'
