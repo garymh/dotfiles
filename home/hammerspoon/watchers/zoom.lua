@@ -8,18 +8,17 @@ local zoomWallpaper = {
 local function getWallpaper()
   local output, status = hs.execute("/opt/homebrew/bin/wallpaper get", false)
   if status then
-    return output:gsub("%s+$", "")
+    return output:match("([^\n]+)")
   end
   return nil
 end
 
 local function setWallpaper(path)
-  for i, scr in ipairs(hs.screen.allScreens()) do
-    if scr then
-      print(hs.inspect(scr))
-      print(path)
-    end
-    scr:desktopImageURL(path)
+  local plain = path:gsub("^file://", "")
+  local encoded = plain:gsub(" ", "%%20")
+  local url = "file://" .. encoded
+  for _, scr in ipairs(hs.screen.allScreens()) do
+    scr:desktopImageURL(url)
   end
 end
 
