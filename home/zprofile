@@ -15,6 +15,7 @@ export GITLAB_MAIN_BRANCH="master" # this will eventually be "main"
 export CLI_HOME="$HOME/code/work/cli"
 export GDK_ROOT="$HOME/code/work/gdk"
 export GDK_DEV_HOME="$HOME/code/work/devkit"
+export WORKTREE_PATH="$GDK_ROOT/gitlab-workspaces"
 export GITLAB_HOME="$GDK_ROOT/gitlab"
 
 export OPENCODE_DISABLE_SHARE="true"
@@ -49,15 +50,15 @@ export PAGER="bat"
 export LESS="FrX"
 
 excludes=(
-  :q
-  gco
-  g
-  rubocop
-  rials
-  gac
-  gmm
-  got
-  eivm
+    :q
+    gco
+    g
+    rubocop
+    rials
+    gac
+    gmm
+    got
+    eivm
 )
 
 export ZSH_FAST_ALIAS_TIPS_EXCLUDES="$excludes"
@@ -80,5 +81,9 @@ export PATH="$PATH:$HOME/.yarn/bin"
 if _exists cargo; then export PATH=$PATH:$HOME/.cargo/bin; fi
 
 for f in ~/.zsh/private/*.zsh(N); do
-  [ -e "$f" ] && source $f || break
+    [ -e "$f" ] && source $f || break
 done
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :

@@ -59,9 +59,6 @@ if command -v vivid > /dev/null 2>&1; then
     export LS_COLORS="$(vivid generate molokai)"
 fi
 
-sh $HOME/code/dotfiles/home/zsh/misc/thisisfine.sh
-echo ""
-
 if _exists nvim; then
     export VISUAL='nvim'
 else
@@ -81,4 +78,12 @@ eval "$(mise activate zsh --shims)"
 # opencode
 export PATH=$HOME/.opencode/bin:$PATH
 
-e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"
+# worktrunk
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+if [[ -z "${GHOSTTY_QUICK_TERMINAL}" ]]; then
+    sh $HOME/code/dotfiles/home/zsh/misc/thisisfine.sh
+    echo ""
+    e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"
+fi
+
