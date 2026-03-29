@@ -1,7 +1,5 @@
 # vim: set filetype=ghostty :
 
-font-family = FixedsysExcelsiorIIIb Nerd Font
-
 custom-shader = shaders/cursor_blaze_no_trail.glsl
 
 font-feature = -calt
@@ -11,9 +9,6 @@ font-feature = cv03
 font-feature = cv04
 font-feature = ss05
 font-feature = zero
-
-font-size = 20
-font-thicken = true
 
 # keybind = cmd+shift+f=toggle_fullscreen
 # ❯ kitten show_key
@@ -31,8 +26,6 @@ keybind = global:cmd+escape=toggle_quick_terminal
 keybind = ctrl+enter=text:\r
 keybind = shift+enter=text:\n
 
-adjust-cell-height                = 5%
-adjust-cell-width                 = 3%
 clipboard-read                    = allow
 clipboard-write                   = allow
 confirm-close-surface             = false
@@ -46,6 +39,14 @@ window-padding-x                  = 10
 window-padding-y                  = 10
 window-theme                      = system
 window-vsync                      = false
+notify-on-command-finish          = unfocused
+window-inherit-working-directory  = false
+tab-inherit-working-directory     = true
+split-inherit-working-directory   = true
+progress-style                    = true
+
+keybind = ctrl+shift+f=toggle_fullscreen
+keybind = chain=toggle_window_decorations
 
 # custom-shader = shaders/animated-gradient-shader.glsl
 # custom-shader = shaders/bettercrt.glsl
@@ -108,7 +109,17 @@ window-vsync                      = false
 # font-family = Iosevka SS08
 # font-family = SpaceMono Nerd Font Mono
 # font-family = VictorMono Nerd Font
-# font-family = Vulf Mono
+font-family = Vulf Mono
 # font-family = cozette
 # font-family = m PLUS 1 Code
 # font-family = Adwaita Mono
+# font-family = FixedsysExcelsiorIIIb Nerd Font
+# font-family = Iosvmata
+# font-family = Dispatch Mono
+# font-family = 3270 Condensed
+
+font-size             = 20
+font-thicken          = true
+font-thicken-strength = 255
+adjust-cell-height    = 1%
+adjust-cell-width     = 1%
