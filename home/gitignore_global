@@ -87,7 +87,6 @@ gary_hacks.rb
 gary_spec_helper.rb
 Gemfile.private
 Gemfile.private.lock
-vendor
 devgems
 # config/metrics
 # ee/config/metrics
@@ -101,3 +100,5 @@ Gemfile.local
 Gemfile.local.lock
 cover.cov
 .claude
+sandboxes
+gitlab-workspaces
