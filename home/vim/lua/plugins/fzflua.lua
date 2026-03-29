@@ -208,8 +208,8 @@ function M.config()
 
   local CLI_dir = "~/code/work/cli/"
 
-  s_nmap("<space>t", function() patternFind("CLI Go Test files", CLI_dir, "*_test.go") end, "edit CLI test files")
-  s_nmap("<space>m", function() patternFind("CLI Go files", CLI_dir, "*.go", "*_test.go") end, "edit CLI files")
+  s_nmap("<space>ect", function() patternFind("CLI Go Test files", CLI_dir, "*_test.go") end, "edit CLI test files")
+  s_nmap("<space>ecm", function() patternFind("CLI Go files", CLI_dir, "*.go", "*_test.go") end, "edit CLI files")
 
   s_nmap("<space>em", function() pattern("Rails models", "app/models/", "*.rb") end, "edit GitLab models")
   s_nmap("<space>eem", function() pattern("Rails EE models", "ee/app/models/ee/", "*.rb") end, "edit GitLab EE models")

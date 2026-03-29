@@ -189,19 +189,18 @@ local M = {
       refresh = 50,
     },
 
-
-    terminal = {},
-    toggle   = {},
-    win      = {},
-    words    = {},
-    styles   = {
+    terminal     = {},
+    toggle       = {},
+    win          = {},
+    words        = {},
+    styles       = {
       notification = {
         wo = {
           wrap = true,
         }, -- Wrap notifications
       },
     },
-    zen      = {},
+    zen          = {},
   },
 
   keys = {
@@ -443,28 +442,51 @@ local M = {
         Snacks.toggle.option("wrap", { name = "Wrap" }):map("yow")
 
         Snacks.toggle({
-          name = "Precognition",
-          get = function() return require("precognition").is_visible end,
-          set = function() require("precognition").toggle() end,
-        }):map("yop")
-
-        Snacks.toggle({
-          name = "Precognition",
-          get = function() return require("precognition").is_visible end,
-          set = function() require("precognition").toggle() end,
-        }):map("yop")
-
-        Snacks.toggle({
           name = "Auto Format",
           get = function() return not vim.b.disable_autoformat end,
           set = function(state) vim.b.disable_autoformat = not state end,
         }):map("yof")
 
         Snacks.toggle({
-          name = "Reader mode",
-          get = function() return require("markview").state.enable end,
-          set = function() vim.cmd.Markview() end,
+          name = "Markdown view",
+          get = function()
+            local state = require("markview.state")
+            local attached = state.get_attached_buffers()
+            if #attached == 0 then
+              return state.get_buffer_state(-1, true).enable
+            else
+              return state.get_buffer_state(attached[1], false).enable
+            end
+          end,
+          set = function(state)
+            local markview = require("markview")
+            if state then
+              markview.commands.Enable()
+            else
+              markview.commands.Disable()
+            end
+          end,
         }):map("yom")
+
+        Snacks.toggle({
+          name = "QuickFix List",
+          get = function()
+            for _, win in pairs(vim.fn.getwininfo()) do
+              if win["quickfix"] == 1 then
+                return true
+              end
+            end
+            return false
+          end,
+          set = function(open)
+            if open then
+              vim.cmd("copen")
+              vim.api.nvim_feedkeys([['"]], "im", false)
+            else
+              vim.cmd("cclose")
+            end
+          end,
+        }):map("yoq")
 
         vim.api.nvim_create_user_command("Notifications", Snacks.notifier.show_history, {})
       end,

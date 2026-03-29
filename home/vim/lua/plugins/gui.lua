@@ -3,12 +3,11 @@ return {
     "sarrisv/readermode.nvim",
     cmd = { "ReaderMode" },
     opts = {}
-
   },
 
   {
     "rasulomaroff/reactive.nvim",
-    enabled = true,
+    enabled = false,
     config = function()
       require("reactive").add_preset({
         name = "custom",
@@ -17,6 +16,13 @@ return {
             winhl = {
               -- overwrites StatusLine highlight group in insert mode
             }
+          },
+          ic = {
+            hl = {
+              CursorLine = { bg = "#0A2222" },
+              CursorLineNr = { bg = "black" },
+              Cursor = { fg = '#00ff00', bg = '#ff00ff' },
+            },
           },
           n = {
             -- hl is global and winhl is only for the current window
@@ -254,20 +260,6 @@ return {
     end,
   },
 
-  -- lazy.nvim
-  {
-    "chrisgrieser/nvim-dr-lsp",
-    event = "LspAttach",
-    opts = {},
-    config = function()
-      require("dr-lsp").setup {
-        highlightCursorWordReferences = {
-          enable = true,
-        },
-      }
-    end
-  },
-
   {
     "tzachar/highlight-undo.nvim",
     event = "VeryLazy",
@@ -282,78 +274,6 @@ return {
   },
 
   {
-    "tris203/precognition.nvim",
-    event = "VeryLazy",
-    opts = {
-      -- startVisible = false,
-      startVisible = true,
-      showBlankVirtLine = false,
-      highlightColor = { link = "Comment" },
-      hints = {
-        Caret = { text = "^", prio = 0 },
-        Dollar = { text = "$", prio = 0 },
-        MatchingPair = { text = "%", prio = 0 },
-        Zero = { text = "0", prio = 0 },
-        w = { text = "w", prio = 0 },
-        b = { text = "b", prio = 0 },
-        e = { text = "e", prio = 0 },
-        W = { text = "W", prio = 0 },
-        B = { text = "B", prio = 0 },
-        E = { text = "E", prio = 0 },
-      },
-      gutterHints = {
-        G = { text = "G", prio = 10 },
-        gg = { text = "gg", prio = 9 },
-        ["[m"] = { text = "[m", prio = 10 },
-        ["]m"] = { text = "]m", prio = 9 },
-        PrevParagraph = { text = "{", prio = 0 },
-        NextParagraph = { text = "}", prio = 0 },
-      },
-      -- showBlankVirtLine = true,
-      -- highlightColor = { link = "Comment" },
-      -- hints = {
-      --      Caret = { text = "^", prio = 2 },
-      --      Dollar = { text = "$", prio = 1 },
-      --      MatchingPair = { text = "%", prio = 5 },
-      --      Zero = { text = "0", prio = 1 },
-      --      w = { text = "w", prio = 10 },
-      --      b = { text = "b", prio = 9 },
-      --      e = { text = "e", prio = 8 },
-      --      W = { text = "W", prio = 7 },
-      --      B = { text = "B", prio = 6 },
-      --      E = { text = "E", prio = 5 },
-      -- },
-      -- gutterHints = {
-      --     G = { text = "G", prio = 10 },
-      --     gg = { text = "gg", prio = 9 },
-      --     PrevParagraph = { text = "{", prio = 8 },
-      --     NextParagraph = { text = "}", prio = 8 },
-      -- },
-      -- disabled_fts = {
-      --     "startify",
-      -- },
-    },
-    config = function()
-      local vanilla_motions = require("precognition.motions").get_motions()
-
-      require("precognition.motions").register_motions({
-        next_word_boundary = function(line_content, cursorcol, linelen, big_word)
-          -- using the plugin custom implementation for the "W" motion
-          if (big_word) then
-            return plugin_custom_motion_logic(line_content, cursorcol, linelen, big_word)
-
-            -- calling the default for the "w" motion
-            -- useful the cases in which the plugin does not implement custom motions
-          else
-            return vanilla_motions.next_word_boundary(line_content, cursorcol, linelen, big_word)
-          end
-        end
-      })
-    end
-  },
-  -- TODO: config
-
-  {
     "jinh0/eyeliner.nvim",
     event = "VeryLazy",
     config = function()
@@ -364,4 +284,5 @@ return {
     end,
     enabled = false,
   },
+
 }

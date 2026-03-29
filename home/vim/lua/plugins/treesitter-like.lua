@@ -95,7 +95,7 @@ return {
           end
           for _, data in ipairs(parsers_pending) do
             if vim.api.nvim_win_is_valid(data.winnr) and vim.api.nvim_buf_is_valid(data.bufnr) then
-              vim._with({ win = data.winnr, buf = data.bufnr }, function()
+              vim._with({ buf = data.bufnr }, function()
                 if start(data.lang) then
                   parsers_loaded[data.lang] = true
                 else
@@ -207,74 +207,75 @@ return {
   {
     "nvim-mini/mini.nvim",
     version = false,
+    dependencies = {
+      "folke/which-key.nvim",
+    },
     enabled = true,
     opts = function()
-      _G.plugin_on_load("which-key.nvim", function()
-        local objects = {
-          { " ", desc = "whitespace" },
-          { "'", desc = "' string" },
-          { "(", desc = "() block" },
-          { ")", desc = "() block with ws" },
-          { "-", desc = "line" },
-          { "<", desc = "<> block" },
-          { ">", desc = "<> block with ws" },
-          { "?", desc = "user prompt" },
-          { "D", desc = "date" },
-          { "F", desc = "other? function" },
-          { "L", desc = "to end of line" },
-          { "S", desc = "subword" },
-          { "U", desc = "function call" },
-          { "[", desc = "[] block" },
-          { "]", desc = "[] block with ws" },
-          { "_", desc = "underscore" },
-          { "`", desc = "` string" },
-          { "a", desc = "argument" },
-          { "b", desc = ")]} block" },
-          { "c", desc = "class" },
-          { "e", desc = "entire buffer" },
-          { "f", desc = "function" },
-          { "i", desc = "indent" },
-          { "j", desc = "any bracket" },
-          { "k", desc = "key" },
-          { "#", desc = "number(s)" },
-          { "o", desc = "block, conditional, loop" },
-          { "q", desc = "quote `\"'" },
-          { "r", desc = "return" },
-          { "t", desc = "tag" },
-          { "u", desc = "use/call" },
-          { "w", desc = "value" },
-          { "{", desc = "{} block" },
-          { "}", desc = "{} with ws" },
-          { '"', desc = '" string' },
-          { "o", desc = "loop" },
-          { "x", desc = "lhs" },
-          { "y", desc = "rhs" },
-          { "!", desc = "diagnostic" },
-          { "/", desc = "regex" },
-        }
+      local objects = {
+        { " ", desc = "whitespace" },
+        { "'", desc = "' string" },
+        { "(", desc = "() block" },
+        { ")", desc = "() block with ws" },
+        { "-", desc = "line" },
+        { "<", desc = "<> block" },
+        { ">", desc = "<> block with ws" },
+        { "?", desc = "user prompt" },
+        { "D", desc = "date" },
+        { "F", desc = "other? function" },
+        { "L", desc = "to end of line" },
+        { "S", desc = "subword" },
+        { "U", desc = "function call" },
+        { "[", desc = "[] block" },
+        { "]", desc = "[] block with ws" },
+        { "_", desc = "underscore" },
+        { "`", desc = "` string" },
+        { "a", desc = "argument" },
+        { "b", desc = ")]} block" },
+        { "c", desc = "class" },
+        { "e", desc = "entire buffer" },
+        { "f", desc = "function" },
+        { "i", desc = "indent" },
+        { "j", desc = "any bracket" },
+        { "k", desc = "key" },
+        { "#", desc = "number(s)" },
+        { "o", desc = "block, conditional, loop" },
+        { "q", desc = "quote `\"'" },
+        { "r", desc = "return" },
+        { "t", desc = "tag" },
+        { "u", desc = "use/call" },
+        { "w", desc = "value" },
+        { "{", desc = "{} block" },
+        { "}", desc = "{} with ws" },
+        { '"', desc = '" string' },
+        { "o", desc = "loop" },
+        { "x", desc = "lhs" },
+        { "y", desc = "rhs" },
+        { "!", desc = "diagnostic" },
+        { "/", desc = "regex" },
+      }
 
-        local ret = { mode = { "o", "x" } }
-        local mappings = {
-          around      = "a",
-          inside      = "i",
-          around_next = "an",
-          inside_next = "in",
-          around_last = "al",
-          inside_last = "il",
-          goto_left   = 'g[',
-          goto_right  = 'g]',
-        }
-        for name, prefix in pairs(mappings) do
-          name = name:gsub("^around_", ""):gsub("^inside_", "")
-          ret[#ret + 1] = { prefix, group = name }
-          for _, obj in ipairs(objects) do
-            local desc = obj.desc
-            if prefix:sub(1, 1) == "i" then desc = desc:gsub(" with ws", "") end
-            ret[#ret + 1] = { prefix .. obj[1], desc = obj.desc }
-          end
+      local ret = { mode = { "o", "x" } }
+      local mappings = {
+        around      = "a",
+        inside      = "i",
+        around_next = "an",
+        inside_next = "in",
+        around_last = "al",
+        inside_last = "il",
+        goto_left   = 'g[',
+        goto_right  = 'g]',
+      }
+      for name, prefix in pairs(mappings) do
+        name = name:gsub("^around_", ""):gsub("^inside_", "")
+        ret[#ret + 1] = { prefix, group = name }
+        for _, obj in ipairs(objects) do
+          local desc = obj.desc
+          if prefix:sub(1, 1) == "i" then desc = desc:gsub(" with ws", "") end
+          ret[#ret + 1] = { prefix .. obj[1], desc = obj.desc }
         end
-        require("which-key").add(ret, { notify = false })
-      end)
+      end
+      require("which-key").add(ret, { notify = false })
     end,
 
     config = function()
