@@ -9,7 +9,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 })
 
 if InGui() == false and Nv12() then
-  require("vim._extui").enable {
+  require("vim._core.ui2").enable {
     enable = true,
     msg = {
       target = "cmd",
