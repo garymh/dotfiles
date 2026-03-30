@@ -68,9 +68,6 @@
     ~/.gnupg:
       path: home/zsh/private/gnupg/
       if: "[ `uname` = Darwin ]"
-    ~/.netrc:
-      path: home/zsh/private/netrc
-      if: "[ `uname` = Darwin ]"
     ~/.hammerspoon:
       path: home/hammerspoon/
       if: "[ `uname` = Darwin ]"
