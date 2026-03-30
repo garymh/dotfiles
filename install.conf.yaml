@@ -103,10 +103,10 @@
 - shell:
     - ["touch ~/.hushlogin", "Hushing login"]
     - ["touch ~/.rm_recycle", "Enabling recycling"]
-    - ["./npm_modules.sh", "Installing npm modules"]
-    - ["./dockutil_init.sh", "Fixing up Dock"]
-    - ["./hide_folders.sh", "Hiding macos folders"]
+    - ["./scripts/npm_modules.sh", "Installing npm modules"]
+    - ["./scripts/macos/dockutil_init.sh", "Fixing up Dock"]
+    - ["./scripts/macos/hide_folders.sh", "Hiding macos folders"]
 
 - duti:
-    file: Dutifile
+    file: scripts/macos/Dutifile
 # TODO: https://github.com/tg44/heptapod/tree/main/rules

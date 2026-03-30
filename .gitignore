@@ -1,3 +1,4 @@
+.DS_Store
 /home/zsh/private/*
 !/home/zsh/private/.keep
 /home/zsh/bundle/*
