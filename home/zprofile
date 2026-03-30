@@ -83,7 +83,3 @@ if _exists cargo; then export PATH=$PATH:$HOME/.cargo/bin; fi
 for f in ~/.zsh/private/*.zsh(N); do
     [ -e "$f" ] && source $f || break
 done
-
-# Added by OrbStack: command-line tools and integration
-# This won't be added again if you remove it.
-source ~/.orbstack/shell/init.zsh 2>/dev/null || :

@@ -11,20 +11,7 @@ e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
 e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
 e_missing()   { e_error "\"brew install $1\" when you get a minute" }
 
-OS=$($(which uname))
+OS=$(uname)
 
-_macos() {
-    if [[ $OS = 'Darwin' ]]; then
-        return 0
-    else
-        return 1
-    fi
-}
-
-_linux() {
-    if [[ $OS = 'Linux' ]]; then
-        return 0
-    else
-        return 1
-    fi
-}
+_macos() { [[ $OS = Darwin ]] }
+_linux() { [[ $OS = Linux ]] }

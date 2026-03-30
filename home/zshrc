@@ -17,11 +17,9 @@ source $HOME/.ziminit
 for f ($DOTFILES/home/zsh/*.sh) { source $f }
 
 # options ----------------
-export HISTFILE="$HOME/.zsh_history"
-export SAVEHIST=100000000
-export HISTFILESIZE=1000000000
-export HISTSIZE=1000000000
-export HISTTIMEFORMAT="[%F %T] "
+HISTFILE="$HOME/.zsh_history"
+SAVEHIST=100000000
+HISTSIZE=1000000000
 
 setopt APPEND_HISTORY       # Immediately append to the history file, not just when a term is killed
 setopt EXTENDED_HISTORY     # Write the history file in the ":start:elapsed;command" format.
@@ -47,39 +45,45 @@ hash -d dotfiles=~/code/dotfiles
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
-source <(carapace _carapace)
 
-if command -v glab > /dev/null 2>&1; then
-    source <(glab completion -s zsh); compdef _glab glab
+_zsh_cache="$HOME/.cache/zsh"
+[[ -d $_zsh_cache ]] || mkdir -p $_zsh_cache
+
+[[ $_zsh_cache/carapace.zsh -nt ${commands[carapace]} ]] || carapace _carapace > $_zsh_cache/carapace.zsh
+source $_zsh_cache/carapace.zsh
+
+if _exists glab; then
+    [[ $_zsh_cache/glab.zsh -nt ${commands[glab]} ]] || glab completion -s zsh > $_zsh_cache/glab.zsh
+    source $_zsh_cache/glab.zsh; compdef _glab glab
 fi
 
-if command -v vivid > /dev/null 2>&1; then
-    export LS_COLORS="$(vivid generate molokai)"
+if _exists vivid; then
+    [[ $_zsh_cache/vivid_colors.zsh -nt ${commands[vivid]} ]] || vivid generate molokai > $_zsh_cache/vivid_colors.zsh
+    export LS_COLORS="$(< $_zsh_cache/vivid_colors.zsh)"
 fi
 
-if _exists nvim; then
-    export VISUAL='nvim'
-else
-    export VISUAL='vim'
+_exists nvim && export VISUAL='nvim' || export VISUAL='vim'
+
+if _exists wt; then
+    [[ $_zsh_cache/wt.zsh -nt ${commands[wt]} ]] || command wt config shell init zsh > $_zsh_cache/wt.zsh
+    source $_zsh_cache/wt.zsh
 fi
+
+_exists bob && . "$HOME/.local/share/bob/env/env.sh"
+
 export EDITOR="$VISUAL"
 export GIT_EDITOR="$VISUAL"
 
 zstyle ':zim:plugins:alias-finder' autoload yes
 
-# Added by GDK bootstrap
-# eval "$(/opt/homebrew/bin/mise activate zsh)"
-eval "$(mise activate zsh --shims)"
+[[ $_zsh_cache/mise.zsh -nt ${commands[mise]} ]] || mise activate zsh --shims > $_zsh_cache/mise.zsh
+source $_zsh_cache/mise.zsh
 
-. "$HOME/.local/share/bob/env/env.sh"
-
-# opencode
 export PATH=$HOME/.opencode/bin:$PATH
 
-# worktrunk
-if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
 if [[ -z "${GHOSTTY_QUICK_TERMINAL}" ]]; then
     sh $HOME/code/dotfiles/home/zsh/misc/thisisfine.sh
