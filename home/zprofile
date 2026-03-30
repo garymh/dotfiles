@@ -7,8 +7,12 @@ source $HOME/.zsh/misc/utility.zsh
 # https://github.com/golang/go/issues/68248#issuecomment-2197894974
 export GOEXPERIMENT=rangefunc
 
-export PATH="/opt/homebrew/bin:$PATH"
-if _exists brew; then eval "$(brew shellenv)"; fi
+export HOMEBREW_PREFIX="/opt/homebrew"
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+export HOMEBREW_REPOSITORY="/opt/homebrew"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+[ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}"
+export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
 
 export DOTFILES="$HOME/code/dotfiles"
 export GITLAB_MAIN_BRANCH="master" # this will eventually be "main"
@@ -24,7 +28,6 @@ export NEOVIDE_FRAME="transparent"
 export NEOVIDE_FORK=1
 export GF_BRANCH_SKIP_REMOTE_BRANCHES="yes"
 export COMPLETION_WAITING_DOTS="true"
-export GPG_TTY=$(tty)
 export HOMEBREW_BAT=1
 export HOMEBREW_BUNDLE_FILE_PATH="$DOTFILES/Brewfile"
 export HOMEBREW_DOWNLOAD_CONCURRENCY="auto"
@@ -41,44 +44,20 @@ export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
 export STARSHIP_LOG="error"
 export VIMFILES="$HOME/code/dotfiles/home/vim"
 export XDG_CONFIG_HOME="$HOME/.config"
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
-export ZSH_AUTOSUGGEST_USE_ASYNC="true"
-export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 export GLAB_PAGER="bat"
 export PAGER="bat"
 export LESS="FrX"
 
-excludes=(
-    :q
-    gco
-    g
-    rubocop
-    rials
-    gac
-    gmm
-    got
-    eivm
-)
-
-export ZSH_FAST_ALIAS_TIPS_EXCLUDES="$excludes"
-
-# for gdk
-# export LDFLAGS="-L/opt/homebrew/opt/icu4c@77/lib"
-# export CPPFLAGS="-I/opt/homebrew/opt/icu4c@77/include"
-# export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c@77/lib/pkgconfig"
-#
-
-export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig:/opt/homebrew/opt/openssl@3/lib/pkgconfig"
-export LDFLAGS="-L$(brew --prefix icu4c)/lib -L/opt/homebrew/opt/openssl@3/lib"
-export CPPFLAGS="-I$(brew --prefix icu4c)/include -I/opt/homebrew/opt/openssl@3/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c/lib/pkgconfig:/opt/homebrew/opt/openssl@3/lib/pkgconfig"
+export LDFLAGS="-L/opt/homebrew/opt/icu4c/lib -L/opt/homebrew/opt/openssl@3/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/icu4c/include -I/opt/homebrew/opt/openssl@3/include"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$GOBIN"
 export PATH="$HOME_DIR/zsh/bin:$PATH"
 export PATH="$PATH:$HOME/.spicetify"
 export PATH="$PATH:$HOME/.yarn/bin"
 
-if _exists cargo; then export PATH=$PATH:$HOME/.cargo/bin; fi
+_dir_exists $HOME/.cargo/bin && export PATH="$PATH:$HOME/.cargo/bin"
 
 for f in ~/.zsh/private/*.zsh(N); do
     [ -e "$f" ] && source $f || break

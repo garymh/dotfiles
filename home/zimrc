@@ -9,13 +9,9 @@ zmodule input
 zmodule termtitle
 zmodule skywind3000/z.lua --cmd 'eval "$(lua {}/z.lua --init zsh enhanced once)"'
 zmodule zshzoo/macos
-
-zmodule romkatv/powerlevel10k --use degit
-
+zmodule joke/zim-starship
 zmodule day50-dev/Zummoner
-
 zmodule duration-info
-
 zmodule fzf
 zmodule joke/zim-mise
 zmodule magic-enter
@@ -36,10 +32,6 @@ if [[ -d /opt/homebrew/share/zsh ]] && [[ $(uname) == Darwin ]] ; then
 fi
 
 zmodule completion
-
-# zmodule decayofmind/zsh-fast-alias-tips
-# this needs to run make build! (somehow?)
-zmodule shanwker1223/zim-alias-finder
 
 zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-history-substring-search

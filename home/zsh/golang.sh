@@ -1,6 +1,6 @@
 #!/usr/local/bin/bash
 
-alias branches='git branches'
+alias gbr='git branches'
 alias grho="git back-to-origin"
 alias gpf="git push --force"
 alias gpfs="git push security --force"

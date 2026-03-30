@@ -1,93 +1,111 @@
 typeset -F4 SECONDS=0
 
 skip_global_compinit=1
-typeset -g POWERLEVEL9K_DISABLE_DETECT_SSH=true
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# always loads
+# aliases, functions, env — safe for scripts/non-TTY shells
 
-source $HOME/.ziminit
+for f ($DOTFILES/home/zsh/commands.sh $DOTFILES/home/zsh/git.sh $DOTFILES/home/zsh/gitlab.sh $DOTFILES/home/zsh/golang.sh $DOTFILES/home/zsh/overload.sh) {
+    source $f
+}
 
-# my stuff
-for f ($DOTFILES/home/zsh/*.sh) { source $f }
-
-# options ----------------
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=100000000
 HISTSIZE=1000000000
 
-setopt APPEND_HISTORY       # Immediately append to the history file, not just when a term is killed
-setopt EXTENDED_HISTORY     # Write the history file in the ":start:elapsed;command" format.
-setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
+setopt APPEND_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_REDUCE_BLANKS
 setopt HIST_FIND_NO_DUPS
-setopt SHARE_HISTORY        # Share history between all sessions.
-
-setopt ALWAYS_TO_END        # always move to the end of the word if completion worked
-setopt AUTO_MENU            # show completion menu on successive tab press
-setopt COMPLETE_IN_WORD     # trigger autocompletion within word
-
-unsetopt CORRECT_ALL        # don't autocorrect when thefuck does it better.
-unsetopt FLOWCONTROL        # gives me back ^-S
-
-autoload -U select-word-style
-select-word-style bash
-# --------------------------
+setopt SHARE_HISTORY
 
 hash -d gitlab=~/code/work/gdk/gitlab
 hash -d devkit=~/code/work/devkit
 hash -d cli=~/code/work/cli
 hash -d dotfiles=~/code/dotfiles
 
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
-zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
-
-_zsh_cache="$HOME/.cache/zsh"
-[[ -d $_zsh_cache ]] || mkdir -p $_zsh_cache
-
-[[ $_zsh_cache/carapace.zsh -nt ${commands[carapace]} ]] || carapace _carapace > $_zsh_cache/carapace.zsh
-source $_zsh_cache/carapace.zsh
-
-if _exists glab; then
-    [[ $_zsh_cache/glab.zsh -nt ${commands[glab]} ]] || glab completion -s zsh > $_zsh_cache/glab.zsh
-    source $_zsh_cache/glab.zsh; compdef _glab glab
-fi
-
-if _exists vivid; then
-    [[ $_zsh_cache/vivid_colors.zsh -nt ${commands[vivid]} ]] || vivid generate molokai > $_zsh_cache/vivid_colors.zsh
-    export LS_COLORS="$(< $_zsh_cache/vivid_colors.zsh)"
-fi
-
 _exists nvim && export VISUAL='nvim' || export VISUAL='vim'
-
-if _exists wt; then
-    [[ $_zsh_cache/wt.zsh -nt ${commands[wt]} ]] || command wt config shell init zsh > $_zsh_cache/wt.zsh
-    source $_zsh_cache/wt.zsh
-fi
-
-_exists bob && . "$HOME/.local/share/bob/env/env.sh"
-
 export EDITOR="$VISUAL"
 export GIT_EDITOR="$VISUAL"
 
-zstyle ':zim:plugins:alias-finder' autoload yes
-
-[[ $_zsh_cache/mise.zsh -nt ${commands[mise]} ]] || mise activate zsh --shims > $_zsh_cache/mise.zsh
-source $_zsh_cache/mise.zsh
+_exists bob && . "$HOME/.local/share/bob/env/env.sh"
 
 export PATH=$HOME/.opencode/bin:$PATH
 
-source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+# tty only
+# plugins, completions, keybindings, fzf, prompt — skip for agents/scripts
 
-if [[ -z "${GHOSTTY_QUICK_TERMINAL}" ]]; then
-    sh $HOME/code/dotfiles/home/zsh/misc/thisisfine.sh
-    echo ""
-    e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"
+if [[ -t 0 ]] && [[ -t 1 ]]; then
+    source $HOME/.ziminit
+
+    source $DOTFILES/home/zsh/fzf.sh
+    source $DOTFILES/home/zsh/bindkeys.sh
+    source $DOTFILES/home/zsh/_after_zsh.sh
+
+    setopt ALWAYS_TO_END
+    setopt AUTO_MENU
+    setopt COMPLETE_IN_WORD
+
+    unsetopt CORRECT_ALL
+    unsetopt FLOWCONTROL
+
+    autoload -U select-word-style
+    select-word-style bash
+
+    export GPG_TTY=$(tty)
+
+    export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
+    export ZSH_AUTOSUGGEST_USE_ASYNC="true"
+    export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+    export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+    excludes=(
+        :q
+        gco
+        g
+        rubocop
+        rials
+        gac
+        gmm
+        got
+        eivm
+    )
+    export ZSH_FAST_ALIAS_TIPS_EXCLUDES="$excludes"
+
+    export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+    zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+
+    _zsh_cache="$HOME/.cache/zsh"
+    _dir_exists $_zsh_cache || mkdir -p $_zsh_cache
+
+    [[ $_zsh_cache/carapace.zsh -nt ${commands[carapace]} ]] || carapace _carapace > $_zsh_cache/carapace.zsh
+    source $_zsh_cache/carapace.zsh
+
+    if _exists glab; then
+        [[ $_zsh_cache/glab.zsh -nt ${commands[glab]} ]] || glab completion -s zsh > $_zsh_cache/glab.zsh
+        source $_zsh_cache/glab.zsh; compdef _glab glab
+    fi
+
+    if _exists vivid; then
+        [[ $_zsh_cache/vivid_colors.zsh -nt ${commands[vivid]} ]] || vivid generate molokai > $_zsh_cache/vivid_colors.zsh
+        export LS_COLORS="$(< $_zsh_cache/vivid_colors.zsh)"
+    fi
+
+    if _exists wt; then
+        [[ $_zsh_cache/wt.zsh -nt ${commands[wt]} ]] || command wt config shell init zsh > $_zsh_cache/wt.zsh
+        source $_zsh_cache/wt.zsh
+    fi
+
+    zstyle ':zim:plugins:alias-finder' autoload yes
+
+    [[ $_zsh_cache/mise.zsh -nt ${commands[mise]} ]] || mise activate zsh --shims > $_zsh_cache/mise.zsh
+    source $_zsh_cache/mise.zsh
+
+    source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+
+    if [[ -z "${GHOSTTY_QUICK_TERMINAL}" ]]; then
+        sh $HOME/code/dotfiles/home/zsh/misc/thisisfine.sh
+        echo ""
+        e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"
+    fi
 fi
-

@@ -1,0 +1,88 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+${custom.gitlab}\
+${custom.gitlab-cli}\
+$git_state\
+$git_status\
+$cmd_duration\
+$line_break\
+$python\
+${custom.sudo}\
+$character"""
+
+# right_format = """
+# ${custom.gitlab}\
+# ${custom.gitlab-cli}\
+# """
+
+[directory]
+style = "blue"
+
+[character]
+success_symbol = "[❯](purple)"
+error_symbol = "[❯](red)"
+vimcmd_symbol = "[❮](green)"
+
+[git_branch]
+format = "[$branch]($style)"
+style = "bright-black"
+truncation_length = 35
+truncation_symbol = '…   '
+only_attached = false
+always_show_remote = false
+disabled = false
+
+[git_status]
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
+style = "cyan"
+conflicted = "​"
+untracked = "​"
+modified = "​"
+staged = "​"
+renamed = "​"
+deleted = "​"
+stashed = "≡"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bright-black"
+
+[cmd_duration]
+format = "[$duration]($style) "
+style = "yellow"
+
+[python]
+format = "[$virtualenv]($style) "
+style = "bright-black"
+detect_extensions = []
+detect_files = []
+
+[custom.gitlab-cli]
+command = "~/.zsh/bin/glnumbers"
+description = "Show current GitLab CLI references"
+symbol = ""
+when = '[[ -f bin/glab ]] && ~/.zsh/bin/glnumbers'
+style = "bg:#7759C2 fg:#FCA326"
+disabled = false
+format = '  [ $symbol  ($output) ]($style)'
+
+[custom.gitlab]
+command = "~/.zsh/bin/glnumbers"
+description = "Show current GitLab references"
+symbol = ""
+when = "[[ -f GITALY_SERVER_VERSION ]] && ~/.zsh/bin/glnumbers"
+style = "bg:#7759C2 fg:#FCA326"
+disabled = false
+format = '  [ $symbol  ($output) ]($style)'
+
+[custom.sudo]
+description = "valid sudo timestamp marker"
+command = "echo -n '!'"
+format = "[$symbol$output]($style) "
+style = "bold fg:bright-red"
+when = "sudo -vn &>/dev/null"

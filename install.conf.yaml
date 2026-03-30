@@ -41,6 +41,7 @@
     ~/.zsh: home/zsh/
     ~/.mackup: home/mackup
 
+    ~/.config/starship.toml: home/starship.toml
     ~/.config/ripgrep/config: home/ripgreprc
     ~/.config/ghostty/config: home/ghostty
     ~/.config/luaformatter/config.yaml: home/luaformatter.yaml
