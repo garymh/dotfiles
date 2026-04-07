@@ -4,9 +4,6 @@ typeset -U PATH path
 
 source $HOME/.zsh/misc/utility.zsh
 
-# https://github.com/golang/go/issues/68248#issuecomment-2197894974
-export GOEXPERIMENT=rangefunc
-
 export HOMEBREW_PREFIX="/opt/homebrew"
 export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
 export HOMEBREW_REPOSITORY="/opt/homebrew"
