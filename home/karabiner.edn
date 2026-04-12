@@ -31,6 +31,8 @@
                 :kitty        ["^net\\.kovidgoyal\\.kitty"]
                 :reeder       ["^com\\.reederapp\\.5\\.macOS"]
                 :safari       ["^com\\.apple\\.Safari"]
+                :helium       ["^net\\.imput\\.helium"]
+                :brave        ["^com\\.brave\\.Browser\\.beta$"]
                 :neovide      ["^com\\.neovide\\.neovide"]
                 :omnifocus    ["^com\\.omnigroup\\.OmniFocus3$"]
                 :firefoxes    ["^org\\.mozilla\\.firefox",
@@ -126,6 +128,8 @@
   {:des "|safari| undo close window" :rules               [[:!CSn :!CSt :safari]]}
   {:des "|safari| undo close tab" :rules                  [[:!CSz :!CSt :safari]]}
   {:des "|safari| private window" :rules                  [[:!CSp :!CSn :safari]]}
+  {:des "|helium| private window" :rules                  [[:!CSp :!CSn :helium]]}
+  {:des "|brave| private window" :rules                   [[:!CSp :!CSn :brave]]}
 
   {:des "|ghostty| alt+f" :rules                          [[:!CSf :!Of :ghostty]]}
   {:des "|ghostty| alt+g" :rules                          [[:!CSg :!Og :ghostty]]}
