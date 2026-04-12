@@ -1,4 +1,4 @@
-vim.api.nvim_create_autocmd("ColorScheme", {
+vim.api.nvim_create_autocmd("ColorScheme", { -- consistent git colors for my sanity
   pattern = "*",
   group = Augroup("colorscheme_group"),
   callback = function()
@@ -29,51 +29,6 @@ vim.api.nvim_create_autocmd('BufReadPost', {
     end
   end,
 })
-
--- vim.api.nvim_create_autocmd("BufEnter", {
---   pattern = "*.txt",
---   group = Augroup("vimrchelp"),
---   callback = function()
---     local buftype = vim.api.nvim_buf_get_option(0, "buftype")
---
---     if buftype == "help" then
---       vim.cmd("wincmd o")
---       vim.opt_local.number = nil
---       vim.opt_local.buflisted = true
---     end
---   end,
--- })
-
--- vim.api.nvim_create_autocmd("BufEnter", {
---   pattern = "*",
---   group = Augroup("buffer_management"),
---   callback = function()
---     if vim.tbl_count(vim.fn.getbufinfo({ buflisted = 1 })) > 1 then
---       vim.opt.showtabline = 2
---     else
---       vim.opt.showtabline = 0
---     end
---   end,
--- })
-
--- trying to remove
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = "*",
---   group = Augroup("grabbag"),
---   callback = function() vim.opt_local.formatoptions:remove({ "c", "r", "o" }) end,
--- })
-
-local ns = vim.api.nvim_create_namespace("toggle_hlsearch")
-local function toggle_hlsearch(char)
-  if vim.fn.mode() == "n" then
-    local keys = { "<CR>", "n", "N", "*", "#", "?", "/" }
-    local new_hlsearch = vim.tbl_contains(keys, vim.fn.keytrans(char))
-
-    if vim.opt.hlsearch:get() ~= new_hlsearch then vim.opt.hlsearch = new_hlsearch end
-  end
-end
-
-vim.on_key(toggle_hlsearch, ns)
 
 -- http://www.lazyvim.org/configuration/general
 -- Auto create dir when saving a file, in case some intermediate directory does not exist
