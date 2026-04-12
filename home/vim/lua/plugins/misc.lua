@@ -174,10 +174,9 @@ return {
   {
     "andymass/vim-matchup",
     event = "BufReadPost",
-    opts = function()
+    init = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
-      vim.g.matchup_matchparen_nomode    = "i" -- disables highlighting in insert mode
-      -- z%: jump inside match
+      vim.g.matchup_matchparen_nomode    = "i"
     end,
   },
 
