@@ -98,10 +98,11 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
 
     zstyle ':zim:plugins:alias-finder' autoload yes
 
-    [[ $_zsh_cache/mise.zsh -nt ${commands[mise]} ]] || mise activate zsh --shims > $_zsh_cache/mise.zsh
-    source $_zsh_cache/mise.zsh
-
     source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+
+    # mise needs to be last
+    [[ $_zsh_cache/mise.zsh -nt ${commands[mise]} ]] || mise activate zsh > $_zsh_cache/mise.zsh
+    source $_zsh_cache/mise.zsh
 
     if [[ -z "${GHOSTTY_QUICK_TERMINAL}" ]]; then
         sh $HOME/code/dotfiles/home/zsh/misc/thisisfine.sh
