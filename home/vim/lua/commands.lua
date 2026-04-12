@@ -87,3 +87,52 @@ local typo_commands = {
 for _, cmd in ipairs(typo_commands) do
   UserCommand(cmd[1], cmd[2], cmd[3])
 end
+
+if Nv12() then
+  UserCommand("LspInfo", "checkhealth vim.lsp", {
+    desc = "Show LSP Info",
+  })
+
+  UserCommand("LspLog", function(_)
+    local state_path = vim.fn.stdpath("state")
+    local log_path = vim.fs.joinpath(state_path, "lsp.log")
+
+    vim.cmd(string.format("edit %s", log_path))
+  end, {
+    desc = "Show LSP log",
+  })
+
+  UserCommand("LspRestart", "lsp restart", {
+    desc = "Restart LSP",
+  })
+end
+
+function _G.___gdc(motion)
+  local srow, erow
+
+  if motion == nil then
+    srow = vim.fn.line('.')
+    erow = srow
+  elseif motion:match('[vV\x16]') then
+    srow = vim.fn.line("'<")
+    erow = vim.fn.line("'>")
+  else
+    srow = vim.fn.line("'[")
+    erow = vim.fn.line("']")
+  end
+
+  local lines = vim.api.nvim_buf_get_lines(0, srow - 1, erow, false)
+  vim.api.nvim_buf_set_lines(0, erow, erow, false, lines)
+
+  vim.cmd('undojoin')
+  vim.cmd('normal ' .. srow .. 'GV' .. erow .. 'Ggc')
+
+  local new_row = erow + 1
+  local line = vim.api.nvim_buf_get_lines(0, new_row - 1, new_row, false)[1]
+  local _, len = string.find(line or "", "^%s*")
+  vim.api.nvim_win_set_cursor(0, { new_row, len or 0 })
+end
+
+s_vmap("gy", "<ESC><CMD>lua ___gdc(vim.fn.visualmode())<CR>", "Comment out original and paste copy")
+s_nmap("gy", "<CMD>set operatorfunc=v:lua.___gdc<CR>g@", "Comment out original and paste copy")
+s_nmap("gyy", function() ___gdc(nil) end, "Comment out line and paste copy")
