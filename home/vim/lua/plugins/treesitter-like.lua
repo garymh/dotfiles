@@ -156,30 +156,28 @@ return {
       s_nmap("<localleader>f", function() ts_swap.swap_next("@function.outer") end, "Swap with next function")
       s_nmap("<localleader>F", function() ts_swap.swap_previous("@function.outer") end, "Swap with previous function")
 
-      if Nv9 then
-        local rainbow_delimiters = require("rainbow-delimiters")
+      local rainbow_delimiters = require("rainbow-delimiters")
 
-        vim.g.rainbow_delimiters = {
-          strategy = {
-            [""] = rainbow_delimiters.strategy["global"],
-            vim  = rainbow_delimiters.strategy["local"],
-            help = nil,
-          },
-          query = {
-            [""] = "rainbow-delimiters",
-            lua  = "rainbow-blocks",
-          },
-          highlight = {
-            "RainbowDelimiterRed",
-            "RainbowDelimiterYellow",
-            "RainbowDelimiterBlue",
-            "RainbowDelimiterOrange",
-            "RainbowDelimiterGreen",
-            "RainbowDelimiterViolet",
-            "RainbowDelimiterCyan",
-          },
-        }
-      end
+      vim.g.rainbow_delimiters = {
+        strategy = {
+          [""] = rainbow_delimiters.strategy["global"],
+          vim  = rainbow_delimiters.strategy["local"],
+          help = nil,
+        },
+        query = {
+          [""] = "rainbow-delimiters",
+          lua  = "rainbow-blocks",
+        },
+        highlight = {
+          "RainbowDelimiterRed",
+          "RainbowDelimiterYellow",
+          "RainbowDelimiterBlue",
+          "RainbowDelimiterOrange",
+          "RainbowDelimiterGreen",
+          "RainbowDelimiterViolet",
+          "RainbowDelimiterCyan",
+        },
+      }
     end
   },
 
