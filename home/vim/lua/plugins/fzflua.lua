@@ -187,7 +187,11 @@ function M.config()
   s_nmap("<space>R", fzflua.command_history, "vim command history")
   s_nmap("<space>S", fzflua.colorschemes, "list colorschemes")
   s_nmap("<space>c", fzflua.git_commits, "git commits for this project")
-  s_nmap("<space>u", fzflua.undotree, "undo tree")
+
+  if not Nv12() then
+    s_nmap("<space>u", fzflua.undotree, "undo tree")
+  end
+
   -- s_nmap("<space>f", fzflua.builtin, "FZF builtings")
   -- s_nmap("<space>h", fzflua.help_tags, "vim helptags")
 
