@@ -5,10 +5,6 @@ T    = function(str) return vim.api.nvim_replace_termcodes(str, true, true, true
 
 User = vim.api.nvim_create_user_command
 
-function Nv9() return vim.fn.has("nvim-0.9") == 1 end
-
-function Nv10() return vim.fn.has("nvim-0.10") == 1 end
-
 function Nv11() return vim.fn.has("nvim-0.11") == 1 end
 
 function Nv12() return vim.fn.has("nvim-0.12") == 1 end
@@ -19,7 +15,7 @@ function InVimr() return vim.fn.exists("g:gui_vimr") == 1 end
 
 function InGui() return InVimr() or InNeovide() end
 
-function Notifier(text) vim.notify(text) end
+function Notifier(text) vim.notify(text, vim.log.levels.INFO, { title = "Info" }) end
 
 function Augroup(name) return vim.api.nvim_create_augroup("gary_" .. name, { clear = true }) end
 
