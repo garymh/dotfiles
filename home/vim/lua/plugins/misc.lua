@@ -56,17 +56,6 @@ return {
   -- ./unimpaired.lua
 
   -- ./whichkey.lua
-  {
-    "serhez/bento.nvim",
-    opts = {
-      ui = {
-      }
-    }
-  },
-
-
-  -- https://github.com/TheNoeTrevino/haunt.nvim
-  -- https://github.com/neovim-idea/switcher-nvim
 
   {
     "ghostty",
@@ -440,7 +429,17 @@ return {
   { "tpope/vim-repeat" },
   { "tpope/vim-rsi" },
 
-  -- TODO: look into?
+  {
+    "serhez/bento.nvim",
+    opts = { ui = {} }
+  }, -- buffer management
+  -- ALT: "aidancz/buvvers.nvim",
+  -- come back when https://github.com/neovim/neovim/issues/29365 is fixed
+  -- ALT: https://github.com/otavioschwanck/arrow.nvim
+  -- ALT: https://github.com/j-morano/buffer_manager.nvim
+  -- ALT: https://github.com/cbochs/grapple.nvim
+  -- ALT: https://github.com/neovim-idea/switcher-nvim
+  -- ALT: https://github.com/voxelprismatic/rabbit.nvim
 
   -- {
   --   "m4xshen/hardtime.nvim",
@@ -466,75 +465,16 @@ return {
   -- },
 
 
-  -- {
-  -- 	"cenk1cenk2/jq.nvim",
-  -- 	dependencies = {
-  -- 		"nvim-lua/plenary.nvim",
-  -- 		"MunifTanjim/nui.nvim",
-  -- 		"grapp-dev/nui-components.nvim",
-  -- 	},
-  -- },
-
-  -- alt: https://github.com/j-morano/buffer_manager.nvim
-  -- https://github.com/cbochs/grapple.nvim
-  -- {
-  --   "otavioschwanck/arrow.nvim",
-  --   opts = {
-  --     show_icons = true,
-  --     leader_key = ";",
-  --   },
-  -- },
-
-  -- "aidancz/buvvers.nvim",
-  -- come back when https://github.com/neovim/neovim/issues/29365
-  -- is fixed
-
-  -- {
-  --   "Forest-nvim/maple.nvim",
-  --   enabled = false,
-  --   config = function()
-  --     require("maple").setup({
-  --       -- TODO: config
-  --     })
-  --   end,
-  -- },
-  --
-  -- {
-  --   "esmuellert/vscode-diff.nvim",
-  --   dependencies = { "MunifTanjim/nui.nvim" },
-  -- },
-  --
-
-  -- {
-  --   'nvim-mini/mini.keymap',
-  --   version = false,
-  --   config = function()
-  --     -- local map_combo = require('mini.keymap').map_combo
-  --
-  --     -- local action = '<BS><BS><Esc>[s1z=gi<Right>'
-  --     -- require('mini.keymap').map_combo('i', 'kk', action)
-  --
-  --     local action = function() vim.cmd('nohlsearch') end
-  --     require('mini.keymap').map_combo({ 'n', 'i', 'x', 'c' }, '<Esc><Esc>', action)
-  --   end,
-  -- },
-
-  -- { "tpope/vim-apathy" },
-  -- { "kana/vim-niceblock" },
-  -- { "rbong/vim-buffest" },
-  -- edit registers as buffers
-  -- "voxelprismatic/rabbit.nvim",
-
+  -- https://github.com/tpope/vim-apathy
+  -- https://github.com/kana/vim-niceblock
+  -- https://github.com/rbong/vim-buffest
   -- https://github.com/EggbertFluffle/beepboop.nvim
+  -- https://github.com/esmuellert/codediff.nvim
   -- https://github.com/KabbAmine/lazyList.vim
   -- https://github.com/Makaze/watch.nvim
-  -- https://github.com/Nutlope/aicommits
-  -- https://github.com/arminveres/md-pdf.nvim
-  -- https://github.com/ecthelionvi/NeoComposer.nvim
+  -- https://github.com/TheNoeTrevino/haunt.nvim
   -- https://github.com/folke/trouble.nvim
-  -- https://github.com/j-morano/buffer_manager.nvim
   -- https://github.com/jay-babu/mason-nvim-dap.nvim
   -- https://github.com/jokajak/keyseer.nvim
-  -- https://github.com/mrjones2014/op.nvim
   -- https://github.com/yujinyuz/gitpad.nvim
 }
