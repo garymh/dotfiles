@@ -33,6 +33,14 @@ end
 
 vim.opt.runtimepath:prepend(lazypath)
 
+-- nvim built in plugins
+if Nv12() then
+  vim.cmd("packadd justify")
+  vim.cmd("packadd nohlsearch")
+  vim.cmd("packadd nvim.undotree")
+  s_nmap("<space>u", require("undotree").open, {}, "Undo tree")
+end
+
 require("lazy").setup("plugins", {
   change_detection = { enabled = true, notify = false },
   performance = {
@@ -110,6 +118,7 @@ vim.opt.showmode       = true
 vim.opt.shortmess:append("AI")
 vim.opt.smartcase     = true
 vim.opt.smartindent   = true
+vim.opt.smoothscroll  = true
 vim.opt.spell         = true
 vim.opt.spelllang     = "en_us"
 vim.opt.synmaxcol     = 180
@@ -153,10 +162,6 @@ end
 vim.g.loaded_python_provider = 0
 vim.g.loaded_ruby_provider   = 0
 vim.g.loaded_perl_provider   = 0
-
-if Nv10() then
-  vim.opt.smoothscroll = true
-end
 
 if InNeovide() then
   require("neovide")
