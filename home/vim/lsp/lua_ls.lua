@@ -26,8 +26,6 @@ return {
       diagnostics = {
         globals = {
           "Augroup",
-          "Nv10",
-          "Nv9",
           "User",
           "cmap",
           "icons",
