@@ -16,10 +16,6 @@ local M = {
   enabled = true,
   lazy = false,
   opts = {
-    -- animate      = {
-    --   enabled = false,
-    -- },
-
     animate      = {
       enabled = true,    -- ensure animations are active
       duration = 20,     -- duration per step in ms
@@ -30,20 +26,6 @@ local M = {
     bigfile      = {},
     bufdelete    = {},
     debug        = {},
-
-    -- dim          = {
-    --   animate = {
-    --     enabled = true,
-    --     duration = {
-    --       total = 0,
-    --     },
-    --   },
-    --   scope = {
-    --     min_size = 10,
-    --     max_size = 30,
-    --     siblings = true,
-    --   },
-    -- },
     dim          = {
       enabled = true,
       scope = {
@@ -52,7 +34,6 @@ local M = {
         siblings = true,
       },
       animate = {
-        enabled = Nv10,
         easing = "outQuad",
         duration = {
           step = 20,
@@ -78,11 +59,6 @@ local M = {
       style = "compact",
     },
 
-    -- indent       = {
-    --   enabled = true,
-    --   char = indentChar,
-    -- },
-
     indent       = {
       animate = {
         enabled = false,
@@ -99,25 +75,6 @@ local M = {
         hl = "SnacksIndentScope",
       },
     },
-    --   indent = {
-    --     char = indentChar,
-    --     only_current = true,
-    --     only_scope = true,
-    --   },
-    --   scope = {
-    --     char = indentChar,
-    --     underline = true,
-    --     only_current = true,
-    --     hl = "LineNr",
-    --   },
-    --   chunk = {
-    --     enabled = true,
-    --     hl = "WarningMsg",
-    --     char = {
-    --       arrow = "─",
-    --     },
-    --   },
-    -- },
 
     input        = {},
     git          = {},
@@ -172,18 +129,14 @@ local M = {
     },
 
     statuscolumn = {
-      -- folds = {
-      --   open = false,   -- show open fold icons
-      --   git_hl = false, -- use Git Signs hl for fold icons
-      -- },
       enabled = false,
-      left = { "mark", "sign" },
-      right = { "fold", "git" },
-      folds = {
-        open = false,
+      left    = { "mark", "sign" },
+      right   = { "fold", "git" },
+      folds   = {
+        open   = false,
         git_hl = false,
       },
-      git = {
+      git     = {
         patterns = { "GitSign", "MiniDiffSign" },
       },
       refresh = 50,
