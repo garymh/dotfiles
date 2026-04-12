@@ -10,7 +10,7 @@ s_nmap("dd", function()
   return api.nvim_get_current_line():match("^%s*$") and '"_dd' or "dd"
 end, expr, "[smart] delete line")
 
-xmap("/", "<Esc>/\\%V") --search within visual selection
+xmap("/", "<Esc>/\\%V") -- search within visual selection
 
 s_xmap('I', function() return vim.fn.mode() == 'V' and '^<C-v>I' or 'I' end, expr, "block insert before")
 s_xmap('A', function() return vim.fn.mode() == 'V' and '$<C-v>A' or 'A' end, expr, "block insert after")
@@ -134,9 +134,6 @@ s_xmap("gB", '"_D', "blackhole delete linewise")
 -- end,
 -- "normal mode in terminal")
 
-s_cmap("<m-p>", [[<C-r>"]])
--- fix this ^^
-
 local function alias(name, ...)
   local args = { ... }
   vim.keymap.set("ca", name, function()
@@ -159,7 +156,5 @@ alias("fix", "lua", "vim.lsp.buf.code_action()")
 s_nmap("<cr>", ':write!<CR>', "write")
 s_nmap("<BS>", "ciw")
 
---graveyard:
+-- graveyard:
 s_nmap("<m-cr>", ':echom "Hello M + R"<CR>')
-
--- vim.keymap.set("v", "J", ":m '>+1<CR>gv==kgvo<esc>=kgvo", { desc = "move highlighted text down" }) vim.keymap.set("v", "K", ":m '<-2<CR>gv==jgvo<esc>=jgvo", { desc = "move highlighted text up" })
