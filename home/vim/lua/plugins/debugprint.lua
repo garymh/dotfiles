@@ -18,7 +18,6 @@ local M = {
   -- },
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
-    "nvim-mini/mini.nvim",
   },
 }
 
@@ -33,13 +32,6 @@ function M.config()
 
     return "[" .. tostring(counter) .. table[rand] .. "]"
   end
-
-  local hipatterns = require('mini.hipatterns')
-  hipatterns.setup({
-    highlighters = {
-      hex_color = hipatterns.gen_highlighter.hex_color(),
-    },
-  })
 
   local opts = {
     display_counter = counter_func,
