@@ -87,12 +87,12 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     fi
 
     if _exists vivid; then
-        [[ $_zsh_cache/vivid_colors.zsh -nt ${commands[vivid]} ]] || vivid generate molokai > $_zsh_cache/vivid_colors.zsh
+        [[ $_zsh_cache/vivid_colors.zsh -nt ${commands[vivid]} ]] || vivid generate molokai >| $_zsh_cache/vivid_colors.zsh
         export LS_COLORS="$(< $_zsh_cache/vivid_colors.zsh)"
     fi
 
     if _exists wt; then
-        [[ $_zsh_cache/wt.zsh -nt ${commands[wt]} ]] || command wt config shell init zsh > $_zsh_cache/wt.zsh
+        [[ $_zsh_cache/wt.zsh -nt ${commands[wt]} ]] || command wt config shell init zsh >| $_zsh_cache/wt.zsh
         source $_zsh_cache/wt.zsh
     fi
 
@@ -101,7 +101,7 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
     # mise needs to be last
-    [[ $_zsh_cache/mise.zsh -nt ${commands[mise]} ]] || mise activate zsh > $_zsh_cache/mise.zsh
+    [[ $_zsh_cache/mise.zsh -nt ${commands[mise]} ]] || mise activate zsh >| $_zsh_cache/mise.zsh
     source $_zsh_cache/mise.zsh
 
     if [[ -z "${GHOSTTY_QUICK_TERMINAL}" ]]; then
