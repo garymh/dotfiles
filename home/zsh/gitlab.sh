@@ -54,10 +54,38 @@ alias gdkdev='$HOME/code/work/devkit/gem/bin/gdk'
 
 alias gmc="glab mr checkout"
 
-alias gdks="gdk start"
+alias gdkc='gdk console'
+alias gdkd='gdk doctor'
+alias gdkdc='gdk doctor --correct'
+alias gdkk='gdk stop'
+alias gdklog='gdk tail rails-web'
+alias gdkp='gdk pull'
 alias gdkr='gdk restart'
+alias gdkrc='gdk reconfigure'
+alias gdkrst='gdk reset-data'
+alias gdks="gdk start"
 alias gdkst='gdk status'
 alias gdkt='gdk tail'
+alias gdkup='gdk update'
 
 alias gdkthin="gdk stop rails-web && GITLAB_RAILS_RACK_TIMEOUT_ENABLE_LOGGING=false PUMA_SINGLE_MODE=true gdk rails s"
 alias sgdkthin="GITLAB_RAILS_RACK_TIMEOUT_ENABLE_LOGGING=false PUMA_SINGLE_MODE=true gdk rails s"
+
+function my-reviews() {
+    local days="${1:-7}"
+    local after_date
+    after_date=$(date -v-${days}d +%Y-%m-%d)
+    glab api "events?action=approved&after=${after_date}&per_page=100" \
+    | python3 -c "
+import sys, json
+for e in json.load(sys.stdin):
+    title = e['target_title']
+    url = f'https://gitlab.com/-/project/{e[\"project_id\"]}/merge_requests/{e[\"target_iid\"]}'
+    print(f'- [{title}]({url})')"
+}
+
+copy-hooks() {
+    cp ~/code/gldb/post-checkout ~/code/work/gdk/gitlab/.git/hooks/post-checkout
+    cp ~/code/gldb/post-checkout ~/code/work/cli/.git/hooks/post-checkout
+}
+

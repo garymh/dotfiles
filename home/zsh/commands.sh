@@ -27,6 +27,8 @@ alias eghost='$VISUAL $HOME/.config/ghostty/config'
 alias ealacritty='$VISUAL $DOTFILES/home/alacritty/alacritty.yml'
 alias egoku='$VISUAL $HOME/.config/karabiner.edn'
 
+alias oc="opencode"
+
 citest() {
     gotestsum --jsonfile test-output.log --no-summary=skipped --junitfile ./coverage.xml --format short -- -coverprofile=./coverage.txt -covermode=atomic ./pkg/... ./internal/... ./commands/... ./cmd/...
 }
@@ -70,14 +72,23 @@ alias clip='yt-dlp -f "bestaudio[ext=m4a]"'
 alias rubo='rubocop -A'
 
 # typos
-alias cfd="cdf"
-alias gca="gac"
-alias vim='$VISUAL'
-alias rials="rails"
 alias :e='$VISUAL'
-alias v='$VISUAL'
-alias x+="+x"
 alias :q="exit"
+alias cfd="cdf"
+alias clea='clear'
+alias cleaer='clear'
+alias cleare='clear'
+alias clera='clear'
+alias gca="gac"
+alias got="git"
+alias ivm='$VISUAL'
+alias lls='ls'
+alias lss='ls'
+alias rials="rails"
+alias v='$VISUAL'
+alias vim='$VISUAL'
+alias vimf='$VISUAL'
+alias x+="+x"
 
 # zsh global aliases for piping
 # alias -g .....='../../../..'
@@ -134,6 +145,19 @@ alias harness="scripts/security-harness"
 alias ber='bundle exec rspec'
 alias berf='bundle exec rspec --fail-fast'
 
+rspec() {
+    if [[ $# -eq 0 ]]; then
+        local file
+        file=$(fd -e rb --full-path '_spec\.rb$|_test\.rb$' | \
+                fzf --preview 'bat --color=always --line-range :80 {}' \
+                --preview-window 'right,60%' \
+            --border-label '🧪 Pick a spec to run')
+        [[ -n "$file" ]] && bundle exec rspec "$file"
+    else
+        bundle exec rspec "$@"
+    fi
+}
+
 alias zg='cd $GITLAB_HOME'
 alias zc='cd $CLI_HOME'
 alias zdl='cd "$HOME/Downloads/Personal Folder/Downloads/"'
@@ -180,6 +204,10 @@ function search() {
 function update-withexeditor() {
     npm install -g withexeditorhost &&
     (cd "$(npm -g root)/withexeditorhost" && npm run setup)
+}
+
+function update-better-discord() {
+    bdcli install --channel stable
 }
 
 function update-spotify() {
