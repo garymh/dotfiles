@@ -217,7 +217,10 @@ return {
       {
         "<m-g>",
         function()
-          require("grug-far").grug_far({ prefills = { flags = vim.fn.expand("%") } })
+          require("grug-far").open({
+            windowCreationCommand = 'tabnew',
+            prefills = { flags = vim.fn.expand("%") },
+          })
         end,
         mode = "n",
         desc = "Grug finder",
@@ -225,55 +228,6 @@ return {
     },
     config = function()
       -- there is also ~/code/dotfiles/home/vim/ftplugin/grug-far.lua
-      require("grug-far").setup({
-        windowCreationCommand = "new",
-        keymaps = {
-          abort                      = { n = "<localleader>b" },
-          applyNext                  = { n = "<localleader>j" },
-          applyPrev                  = { n = "<localleader>k" },
-          close                      = { n = "<localleader>c" },
-          gotoLocation               = { n = "<enter>" },
-          help                       = { n = "g?" },
-          historyAdd                 = { n = "<localleader>a" },
-          historyOpen                = { n = "<localleader>t" },
-          openLocation               = { n = "<localleader>o" },
-          openNextLocation           = { n = "<down>" },
-          openPrevLocation           = { n = "<up>" },
-          pickHistoryEntry           = { n = "<enter>" },
-          previewLocation            = { n = "<localleader>i" },
-          qflist                     = { n = "<localleader>q" },
-          refresh                    = { n = "<localleader>f" },
-          replace                    = { n = "<localleader>r" },
-          swapEngine                 = { n = "<localleader>e" },
-          swapReplacementInterpreter = { n = "<localleader>x" },
-          syncLine                   = { n = "<localleader>l" },
-          syncLocations              = { n = "<localleader>s" },
-          toggleShowCommand          = { n = "<localleader>p" },
-        },
-      })
-
-      vim.api.nvim_create_autocmd("FileType", {
-        group = vim.api.nvim_create_augroup("grug-far-keymap", { clear = true }),
-        pattern = { "grug-far" },
-        callback = function()
-          -- jump back to search input by hitting left arrow in normal mode:
-          vim.keymap.set("n", "<left>", function()
-            vim.api.nvim_win_set_cursor(vim.fn.bufwinid(0), { 2, 0 })
-          end, { buffer = true })
-        end,
-      })
-
-      -- :lua require('grug-far').grug_far({ prefills = { search = vim.fn.expand("<cword>") } })
-      -- Launch with the current file as a flag, which limits search/replace to it
-      --
-      -- :lua require('grug-far').grug_far({ prefills = { flags = vim.fn.expand("%") } })
-      -- Launch with the current visual selection, searching only current file
-      --
-      -- :<C-u>lua require('grug-far').with_visual_selection({ prefills = { flags = vim.fn.expand("%") } })
-      -- require('grug-far').grug_far({ prefills = { search = vim.fn.expand("<cword>") } })
-      -- nmap("<m-f>", function() require("grug-far").grug_far({ prefills = { flags = "--ignore-case" } }) end)
-
-      -- vim.keymap("n", )
     end,
   },
 
@@ -440,28 +394,35 @@ return {
   -- ALT: https://github.com/neovim-idea/switcher-nvim
   -- ALT: https://github.com/voxelprismatic/rabbit.nvim
 
-  -- {
-  --   "m4xshen/hardtime.nvim",
-  --   lazy = false,
-  --   dependencies = { "MunifTanjim/nui.nvim" },
-  --   opts = function(_, opts)
-  --     opts.restriction_mode = "hint"
-  --     opts.hints = {
-  --       ["v[{}]"] = {
-  --         message = function(keys)
-  --           return "Try to select with motions instead of " .. keys
-  --         end,
-  --         length = 3,
-  --       },
-  --     }
-  --
-  --     opts.restricted_keys = opts.restricted_keys or {}
-  --     opts.restricted_keys["gj"] = false
-  --     opts.restricted_keys["gk"] = false
-  --     opts.restricted_keys["j"] = false
-  --     opts.restricted_keys["k"] = false
-  --   end,
-  -- },
+  {
+    "m4xshen/hardtime.nvim",
+    enabled = false,
+    lazy = false,
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = function(_, opts)
+      opts.restriction_mode      = "hint"
+      opts.hints                 = {
+        ["v[{}]"] = {
+          message = function(keys)
+            return "Try to select with motions instead of " .. keys
+          end,
+          length = 3,
+        },
+        ["[dcyvV][ia][%(%)]"] = {
+          message = function(keys)
+            return "Use " .. keys:sub(1, 2) .. "b instead of " .. keys
+          end,
+          length = 3,
+        },
+      }
+
+      opts.restricted_keys       = opts.restricted_keys or {}
+      opts.restricted_keys["gj"] = false
+      opts.restricted_keys["gk"] = false
+      opts.restricted_keys["j"]  = false
+      opts.restricted_keys["k"]  = false
+    end,
+  },
 
 
   -- https://github.com/tpope/vim-apathy
@@ -473,7 +434,9 @@ return {
   -- https://github.com/Makaze/watch.nvim
   -- https://github.com/TheNoeTrevino/haunt.nvim
   -- https://github.com/folke/trouble.nvim
-  -- https://github.com/jay-babu/mason-nvim-dap.nvim
   -- https://github.com/jokajak/keyseer.nvim
   -- https://github.com/yujinyuz/gitpad.nvim
+
+  -- https://github.com/jay-babu/mason-nvim-dap.nvim
+  -- https://github.com/igorlfs/nvim-dap-view
 }
