@@ -36,8 +36,29 @@ export PATH=$HOME/.opencode/bin:$PATH
 # plugins, completions, keybindings, fzf, prompt — skip for agents/scripts
 
 if [[ -t 0 ]] && [[ -t 1 ]]; then
+
+    # pre-zim plugin config (must be set before zim sources plugins)
+    export ZSH_AI_CMD_KEY='^@'
+    export ZSH_AI_CMD_PROVIDER='anthropic'
+    excludes=(
+        :q
+        gco
+        g
+        rubocop
+        GwS
+        rials
+        gac
+        gmm
+        got
+        eivm
+    )
+    export YSU_IGNORED_ALIASES="$excludes G"
+    # export YSU_HARDCORE_ALIASES=("gs" "ll" "gco")
+    export YSU_MODE=ALL
+
     source $HOME/.ziminit
 
+    # post-zim config
     source $DOTFILES/home/zsh/fzf.sh
     source $DOTFILES/home/zsh/bindkeys.sh
     source $DOTFILES/home/zsh/_after_zsh.sh
@@ -53,24 +74,6 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     select-word-style bash
 
     export GPG_TTY=$(tty)
-
-    export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
-    export ZSH_AUTOSUGGEST_USE_ASYNC="true"
-    export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-    export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-
-    excludes=(
-        :q
-        gco
-        g
-        rubocop
-        rials
-        gac
-        gmm
-        got
-        eivm
-    )
-    export ZSH_FAST_ALIAS_TIPS_EXCLUDES="$excludes"
 
     export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
     zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
@@ -95,8 +98,6 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
         [[ $_zsh_cache/wt.zsh -nt ${commands[wt]} ]] || command wt config shell init zsh >| $_zsh_cache/wt.zsh
         source $_zsh_cache/wt.zsh
     fi
-
-    zstyle ':zim:plugins:alias-finder' autoload yes
 
     source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 

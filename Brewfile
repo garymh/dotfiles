@@ -4,6 +4,7 @@ tap 'peonping/tap'
 tap 'qmk/qmk'
 tap 'tg44/heptapod'
 tap 'yqrashawn/goku'
+tap 'michel-kraemer/zsh-patina'
 
 brew 'arm-none-eabi-gcc'
 brew 'atuin'
@@ -44,14 +45,14 @@ brew 'starship'
 brew 'ssh-copy-id'
 brew 'terminal-notifier'
 brew 'tg44/heptapod/heptapod'
-brew 'thefuck'
-brew 'trash'
 brew 'vivid'
 brew 'watchman'
 brew 'worktrunk'
 brew 'yqrashawn/goku/goku'
 brew 'zimfw'
 brew 'zsh'
+brew 'zsh-patina'
+brew 'timescam/homebrew-tap/pay-respects'
 
 cask '1password'
 cask '1password-cli'
@@ -156,3 +157,7 @@ mas 'StopTheScript', id: 1_588_394_487
 mas 'TestFlight', id: 899_247_664
 mas 'URL Linker', id: 1_289_119_450
 mas 'UTC Time', id: 1_538_245_904
+
+# playground
+tap 'rafaelswi/menubarusb'
+cask 'rafaelswi/menubarusb'

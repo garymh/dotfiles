@@ -1,12 +1,5 @@
 #!/usr/local/bin/bash
 
-if _exists trash; then
-    alias rm=trash
-else
-    e_missing trash
-    alias rm="rm -i"
-fi
-
 if _exists btop; then
     alias cpu="btop"
     alias htop="btop"

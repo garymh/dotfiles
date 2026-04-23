@@ -15,6 +15,8 @@ zmodule duration-info
 zmodule fzf
 zmodule joke/zim-mise
 zmodule magic-enter
+zmodule MichaelAquilina/zsh-you-should-use
+zmodule kylesnowschwartz/zsh-ai-cmd
 
 zmodule atuin-init --use mkdir --if-command atuin \
   --cmd 'if [[ ! {}/init.zsh -nt ${commands[atuin]} ]]; then
@@ -33,6 +35,6 @@ fi
 
 zmodule completion
 
-zmodule zsh-users/zsh-syntax-highlighting
+zmodule zsh-patina --use mkdir --cmd 'eval "$(zsh-patina activate)"'
 zmodule zsh-users/zsh-history-substring-search
 zmodule zsh-users/zsh-autosuggestions
