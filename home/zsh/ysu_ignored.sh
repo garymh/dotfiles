@@ -1,0 +1,18 @@
+YSU_IGNORED_ALIASES=(
+    "G"
+    ":q"
+    ":e"
+    g
+    gac
+    gco
+    gmm
+    got
+    GwS
+    eivm
+    ivm
+    rials
+    rubocop
+    vim
+    vimf
+    clea
+)

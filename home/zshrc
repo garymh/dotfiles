@@ -5,7 +5,12 @@ skip_global_compinit=1
 # always loads
 # aliases, functions, env — safe for scripts/non-TTY shells
 
-for f ($DOTFILES/home/zsh/commands.sh $DOTFILES/home/zsh/git.sh $DOTFILES/home/zsh/gitlab.sh $DOTFILES/home/zsh/golang.sh $DOTFILES/home/zsh/overload.sh) {
+for f (
+    $DOTFILES/home/zsh/commands.sh
+    $DOTFILES/home/zsh/git.sh
+    $DOTFILES/home/zsh/gitlab.sh
+    $DOTFILES/home/zsh/golang.sh
+    $DOTFILES/home/zsh/overload.sh) {
     source $f
 }
 
@@ -40,21 +45,10 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     # pre-zim plugin config (must be set before zim sources plugins)
     export ZSH_AI_CMD_KEY='^@'
     export ZSH_AI_CMD_PROVIDER='anthropic'
-    excludes=(
-        :q
-        gco
-        g
-        rubocop
-        GwS
-        rials
-        gac
-        gmm
-        got
-        eivm
-    )
-    export YSU_IGNORED_ALIASES="$excludes G"
-    # export YSU_HARDCORE_ALIASES=("gs" "ll" "gco")
+
+    source $DOTFILES/home/zsh/ysu_ignored.sh
     export YSU_MODE=ALL
+    # export YSU_HARDCORE_ALIASES=("gs" "ll" "gco")
 
     source $HOME/.ziminit
 
