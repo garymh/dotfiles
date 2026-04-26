@@ -154,7 +154,7 @@ return {
         vim.lsp.config("*", opts.servers["*"])
       end
 
-      local have_mason = has("mason-lspconfig.nvim")
+      local have_mason = require("lazy.core.config").spec.plugins["mason-lspconfig.nvim"] ~= nil
       local mason_all = have_mason
           and vim.tbl_keys(require("mason-lspconfig.mappings").get_mason_map().lspconfig_to_package)
           or {} --[[ @as string[] ]]

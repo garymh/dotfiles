@@ -1,10 +1,10 @@
 local M = {
   "Wansmer/treesj",
   keys = {
-    { "sJ", vim.cmd.TSJJoin,  desc = "SplitJoin join" },
-    { "sK", vim.cmd.TSJSplit, desc = "SplitJoin split" },
-    { "sj", vim.cmd.TSJJoin,  desc = "SplitJoin join" },
-    { "sk", vim.cmd.TSJSplit, desc = "SplitJoin split" },
+    { "gsJ",                        vim.cmd.TSJJoin,   desc = "SplitJoin join" },
+    { "gsK",                        vim.cmd.TSJSplit,  desc = "SplitJoin split" },
+    { "gsj",                        vim.cmd.TSJJoin,   desc = "SplitJoin join" },
+    { "gsk",                        vim.cmd.TSJSplit,  desc = "SplitJoin split" },
     { "<localleader><localleader>", vim.cmd.TSJToggle, desc = "SplitJoin join" },
   }
 }

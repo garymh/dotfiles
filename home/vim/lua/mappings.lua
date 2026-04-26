@@ -92,13 +92,6 @@ s_nmap("<leader>q", [[<C-W>q]], {}, "close window")
 s_nmap("<leader>ss", "<CMD>source %<CR>", {}, "source this file")
 s_nmap("<leader>w", cmd.w, {}, "save")
 s_nmap(
-  "<localleader><space>",
-  "<cmd>RemoveDoubleLines<cr>",
-  {},
-  "remove all double linebreaks",
-  "removing double line breaks"
-)
-s_nmap(
   "<localleader>z",
   [[zMzvzz]],
   {},

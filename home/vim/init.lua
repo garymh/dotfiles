@@ -131,7 +131,6 @@ vim.opt.whichwrap     = "b,h,l,s,<,>,[,],~"
 vim.opt.wildmode      = "longest:full,full"
 vim.opt.winblend      = 0
 vim.opt.winborder     = "bold"
-vim.opt.wrap          = true
 
 vim.opt.wildignore    = {
   ".DS_Store",

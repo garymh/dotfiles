@@ -24,6 +24,7 @@
         "xmap",
         "s_noxmap",
         "hs",
-        "spoon"
+        "spoon",
+        "s_nxmap"
     ]
 }

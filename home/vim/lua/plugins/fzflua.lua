@@ -262,8 +262,8 @@ function M.config()
     "list git modified files"
   )
   s_nmap("<m-f>", function() require("fzf-lua").live_grep({ multiline = 2, multiprocess = true }) end)
-  s_nmap("gs", "<CMD>FzfLua grep_cword<CR>", "Grep word")
-  s_nmap("gS", "<CMD>FzfLua grep_cWORD<CR>", "Grep WORD")
+  -- s_nmap("gs", "<CMD>FzfLua grep_cword<CR>", "Grep word")
+  -- s_nmap("gS", "<CMD>FzfLua grep_cWORD<CR>", "Grep WORD")
   -- s_nmap("<space><space>", function() require("fzf-lua").lsp_document_symbols() end, "see document symbols")
 
 

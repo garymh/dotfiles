@@ -1,11 +1,7 @@
 Home = os.getenv("HOME")
 D    = os.getenv("DOTFILES") or Home .. "/code/dotfiles"
-GL   = os.getenv("GITLAB_HOME") or Home .. "/code/work/gdk/gitlab"
-T    = function(str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
 
 User = vim.api.nvim_create_user_command
-
-function Nv11() return vim.fn.has("nvim-0.11") == 1 end
 
 function Nv12() return vim.fn.has("nvim-0.12") == 1 end
 
@@ -19,23 +15,10 @@ function Notifier(text) vim.notify(text, vim.log.levels.INFO, { title = "Info" }
 
 function Augroup(name) return vim.api.nvim_create_augroup("gary_" .. name, { clear = true }) end
 
-function NvimVsource(file) vim.cmd([[source ]] .. D .. [[/home/vim/]] .. file) end
-
-function Feedkeys(keys)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), 'n', true)
-end
-
 local vim_modes = { "n", "v", "x", "i", "c", "o", "t", "ox", "nx", "nox" }
 local silent_modes = { [true] = "s_", [false] = "" }
 
 local function split_mode(mode)
-  -- if #mode == 1 then
-  --   return { mode }
-  -- elseif #mode == 2 then
-  --   return { mode:sub(1, 1), mode:sub(2, 2) }
-  -- end
-  -- return { nil }
-
   if #mode == 0 then
     return { nil }
   end
@@ -84,15 +67,6 @@ for _, mode in ipairs(vim_modes) do
 end
 
 s_nmap("<C-]>", "<C-]>", "check definition")
-
-
-function _G.has(plugin)
-  return get_plugin(plugin) ~= nil
-end
-
-function _G.get_plugin(name)
-  return require("lazy.core.config").spec.plugins[name]
-end
 
 local borders = {
   none = { '', '', '', '', '', '', '', '' },

@@ -11,10 +11,8 @@ local change_scale_factor =
       vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
     end
 
-vim.keymap.set("n", "<D-=>", function() change_scale_factor(1.25) end)
-vim.keymap.set("n", "<D-->", function() change_scale_factor(1 / 1.25) end)
-vim.keymap.set("i", "<D-=>", function() change_scale_factor(1.25) end)
-vim.keymap.set("i", "<D-->", function() change_scale_factor(1 / 1.25) end)
+vim.keymap.set({ "n", "i" }, "<D-=>", function() change_scale_factor(1.25) end)
+vim.keymap.set({ "n", "i" }, "<D-->", function() change_scale_factor(1 / 1.25) end)
 
 
 vim.g.neovide_cursor_short_animation_length  = 0.01

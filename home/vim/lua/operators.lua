@@ -36,22 +36,12 @@ local function grab_string(motion)
   return text
 end
 
-local function queryize(text)
-  return vim.fn.substitute(text, "[[:punct:] ]", [[\=printf("%%%02X", char2nr(submatch(0)))]], "g")
-end
-
 function _G.op_google(motion)
-  local text = grab_string(motion)
-  local query = queryize(text)
-
-  Google(query, false)
+  Google(grab_string(motion), false)
 end
 
 function _G.op_google_lucky(motion)
-  local text = grab_string(motion)
-  local query = queryize(text)
-
-  Google(query, true)
+  Google(grab_string(motion), true)
 end
 
 s_nmap("??", "<ESC><CMD>set operatorfunc=v:lua.op_google<CR>g@", {}, "Google search [motion]")

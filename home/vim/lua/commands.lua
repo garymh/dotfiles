@@ -1,31 +1,24 @@
-local UserCommand = vim.api.nvim_create_user_command
-
 local dotfile_commands = {
-  Eauto = "/home/vim/lua/autocommands.lua",
+  Eauto     = "/home/vim/lua/autocommands.lua",
   Ecommands = "/home/vim/lua/commands.lua",
-  Ewhich = "/home/vim/lua/plugins/whichkey.lua",
-  Emap = "/home/vim/lua/mappings.lua",
-  Eplugin = "/home/vim/lua/plugins/misc.lua",
+  Ewhich    = "/home/vim/lua/plugins/whichkey.lua",
+  Emap      = "/home/vim/lua/mappings.lua",
+  Eplugin   = "/home/vim/lua/plugins/misc.lua",
   Efunction = "/home/zsh/commands.sh",
-  Eprivate = "/home/zsh/private/private.zsh",
-  Ealiases = "/home/zsh/commands.sh",
-  Etmux = "/home/tmux.conf",
-  Ezshrc = "/home/zshrc",
-  Ezshenv = "/home/zshenv",
-  Egit = "/home/gitconfig",
-  Ewez = "/home/wezterm.lua",
-  Eghost = "/home/ghostty",
-  Bugs = "/home/vim/vim_bugs.md",
+  Eprivate  = "/home/zsh/private/private.zsh",
+  Ealiases  = "/home/zsh/commands.sh",
+  Etmux     = "/home/tmux.conf",
+  Ezshrc    = "/home/zshrc",
+  Ezshenv   = "/home/zshenv",
+  Egit      = "/home/gitconfig",
+  Ewez      = "/home/wezterm.lua",
+  Eghost    = "/home/ghostty",
+  Bugs      = "/home/vim/vim_bugs.md",
 }
 
 for cmd, path in pairs(dotfile_commands) do
-  UserCommand(cmd, function() vim.cmd.edit(D .. path) end, {})
+  User(cmd, function() vim.cmd.edit(D .. path) end, {})
 end
-
-UserCommand("RemoveDoubleLines", function()
-  vim.api.nvim_command([[%s/\s\+$//e]])
-  vim.api.nvim_command([[%s/\n\{3,}/\r\r/e]])
-end, {})
 
 local function filetype_loader(type)
   return function()
@@ -39,8 +32,8 @@ local function filetype_loader(type)
   end
 end
 
-UserCommand("FileTypeDetect", filetype_loader("ftdetect"), {})
-UserCommand("FileTypePlugin", filetype_loader("ftplugin"), {})
+User("FileTypeDetect", filetype_loader("ftdetect"), {})
+User("FileTypePlugin", filetype_loader("ftplugin"), {})
 
 -- Google search function (used by operators)
 function Google(pat, lucky)
@@ -85,15 +78,15 @@ local typo_commands = {
 }
 
 for _, cmd in ipairs(typo_commands) do
-  UserCommand(cmd[1], cmd[2], cmd[3])
+  User(cmd[1], cmd[2], cmd[3])
 end
 
 if Nv12() then
-  UserCommand("LspInfo", "checkhealth vim.lsp", {
+  User("LspInfo", "checkhealth vim.lsp", {
     desc = "Show LSP Info",
   })
 
-  UserCommand("LspLog", function(_)
+  User("LspLog", function(_)
     local state_path = vim.fn.stdpath("state")
     local log_path = vim.fs.joinpath(state_path, "lsp.log")
 
@@ -102,7 +95,7 @@ if Nv12() then
     desc = "Show LSP log",
   })
 
-  UserCommand("LspRestart", "lsp restart", {
+  User("LspRestart", "lsp restart", {
     desc = "Restart LSP",
   })
 end
