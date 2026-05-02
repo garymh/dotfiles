@@ -20,7 +20,7 @@ zmodule kylesnowschwartz/zsh-ai-cmd
 
 zmodule atuin-init --use mkdir --if-command atuin \
   --cmd 'if [[ ! {}/init.zsh -nt ${commands[atuin]} ]]; then
-  atuin init --disable-up-arrow zsh > {}/init.zsh
+  atuin init --disable-up-arrow zsh >| {}/init.zsh
   zcompile -UR {}/init.zsh
   fi' \
   --source init.zsh

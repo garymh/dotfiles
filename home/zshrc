@@ -75,11 +75,11 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     _zsh_cache="$HOME/.cache/zsh"
     _dir_exists $_zsh_cache || mkdir -p $_zsh_cache
 
-    [[ $_zsh_cache/carapace.zsh -nt ${commands[carapace]} ]] || carapace _carapace > $_zsh_cache/carapace.zsh
+    [[ $_zsh_cache/carapace.zsh -nt ${commands[carapace]} ]] || carapace _carapace >| $_zsh_cache/carapace.zsh
     source $_zsh_cache/carapace.zsh
 
     if _exists glab; then
-        [[ $_zsh_cache/glab.zsh -nt ${commands[glab]} ]] || glab completion -s zsh > $_zsh_cache/glab.zsh
+        [[ $_zsh_cache/glab.zsh -nt ${commands[glab]} ]] || glab completion -s zsh >| $_zsh_cache/glab.zsh
         source $_zsh_cache/glab.zsh; compdef _glab glab
     fi
 
