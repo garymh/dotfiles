@@ -14,6 +14,11 @@
   precomposeunicode = false
 
 	untrackedCache = true
+  preloadIndex = true
+[index]
+  threads = 0
+[pack]
+  threads = 0
 [alias]
   fresh                  = remote update --prune
   changes                = "!git log --oneline --invert-grep --grep=\"Merge branch\" --invert-grep --grep="chore" $(git describe --tags --abbrev=0)..main"
@@ -70,6 +75,8 @@
 
 [fetch]
   prune = true
+  parallel = 0
+  writeCommitGraph = true
 
 [web]
   browser = open
