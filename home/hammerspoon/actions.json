@@ -1,5 +1,6 @@
 {
   "action": {
+    "Calendar":                  { "type": "keystroke", "mods": ["shift","alt", "cmd"], "key": "c" },
     "Mail":                      { "type": "keystroke", "mods": ["shift","cmd"], "key": "u" },
     "OmniFocus":                 { "type": "keystroke", "mods": ["alt","cmd"],   "key": "i" },
     "Finder":                    { "type": "keystroke", "mods": ["cmd"],         "key": "2" },
