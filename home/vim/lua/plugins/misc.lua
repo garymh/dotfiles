@@ -133,27 +133,27 @@ return {
         function()
           require("substitute").operator()
         end,
-        desc = "sub operator",
+        desc    = "sub operator",
         noremap = true,
-        mode = "n",
+        mode    = "n",
       },
       {
         "_",
         function()
           require("substitute").line()
         end,
-        desc = "sub line",
+        desc    = "sub line",
         noremap = true,
-        mode = "n",
+        mode    = "n",
       },
       {
         "s",
         function()
           require("substitute").visual()
         end,
-        desc = "sub visual",
+        desc    = "sub visual",
         noremap = true,
-        mode = "x",
+        mode    = "x",
       },
       --
       -- { "sx",  function() require("substitute.exchange").operator() end, desc = "substitute exchange", noremap = true, mode = "n", },
@@ -187,18 +187,18 @@ return {
     opts = {
       cmdline = {
         format = {
-          cmdline = { icon = " ", lang = "vim" },
+          cmdline     = { icon = " ", lang = "vim" },
           search_down = { kind = "search", icon = "    ", lang = "regex" },
-          search_up = { kind = "search", icon = "    ", lang = "regex" },
-          lua = { icon = " ", lang = "lua" },
-          help = { icon = "" },
-          input = { view = "cmdline_input", icon = " 󰥻  " },
+          search_up   = { kind = "search", icon = "    ", lang = "regex" },
+          lua         = { icon = " ", lang = "lua" },
+          help        = { icon = "" },
+          input       = { view = "cmdline_input", icon = " 󰥻  " },
         },
       },
       lsp = {
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
+          ["vim.lsp.util.stylize_markdown"]                = true,
         },
       },
       presets = {
