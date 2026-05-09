@@ -21,6 +21,13 @@ fi
 # Use emacs key bindings
 bindkey -e
 
+_fix_ctrl_p_binding() {
+  bindkey '^P' fzf-file-widget
+  precmd_functions=(${precmd_functions:#_fix_ctrl_p_binding})
+  unfunction _fix_ctrl_p_binding
+}
+add-zsh-hook precmd _fix_ctrl_p_binding
+
 bindkey \^U backward-kill-line
 
 function yank-to-clipboard {

@@ -61,7 +61,6 @@ if _file_exists ~/.fzf.zsh; then
     bindkey -M viins '^g^g' fzf-git-branches-checkout-widget
 
     zle -N fzf-file-widget
-    bindkey '^P' fzf-file-widget
 
     export FZF_DEFAULT_OPTS="--multi
   --ansi
@@ -76,8 +75,6 @@ if _file_exists ~/.fzf.zsh; then
   $FZF_CTRL_T_OPTS
   --bind 'enter:execute(${EDITOR:-nvim} {} < /dev/tty > /dev/tty)+abort'
   "
-
-    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
     # Use ~~ as the trigger sequence instead of the default **
     export FZF_COMPLETION_TRIGGER='~~'

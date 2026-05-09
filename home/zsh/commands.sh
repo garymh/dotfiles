@@ -11,21 +11,21 @@
 alias debug_nvim="NVIM_APPNAME=rawnvim nvim"
 alias debug_nvimrc='NVIM_APPNAME=rawnvim nvim $HOME/code/dotfiles/home/vim/min_init.lua'
 
-alias ezshenv='$VISUAL $DOTFILES/home/zprofile'
-alias ekar='$VISUAL $DOTFILES/home/karabiner.json'
-alias ealias='$VISUAL $DOTFILES/home/zsh/commands.sh'
-alias efunction='$VISUAL $DOTFILES/home/zsh/commands.sh'
-alias egems='$VISUAL $DOTFILES/new_machine/gems'
-alias eprivate='$VISUAL $DOTFILES/home/zsh/private/private.zsh'
-alias etmux='$VISUAL $DOTFILES/home/tmux.conf'
-alias evimrc='$VISUAL $DOTFILES/home/vim/init.lua'
-alias egit='$VISUAL $DOTFILES/home/gitconfig'
-alias zshrc='$VISUAL $DOTFILES/home/zshrc'
-alias ekitty='$VISUAL $DOTFILES/home/kitty/kitty.conf'
-alias ewez='$VISUAL $HOME/.config/wezterm/wezterm.lua'
-alias eghost='$VISUAL $HOME/.config/ghostty/config'
-alias ealacritty='$VISUAL $DOTFILES/home/alacritty/alacritty.yml'
-alias egoku='$VISUAL $HOME/.config/karabiner.edn'
+alias ezshenv='v $DOTFILES/home/zprofile'
+alias ekar='v $DOTFILES/home/karabiner.json'
+alias ealias='v $DOTFILES/home/zsh/commands.sh'
+alias efunction='v $DOTFILES/home/zsh/commands.sh'
+alias egems='v $DOTFILES/new_machine/gems'
+alias eprivate='v $DOTFILES/home/zsh/private/private.zsh'
+alias etmux='v $DOTFILES/home/tmux.conf'
+alias evimrc='v $DOTFILES/home/vim/init.lua'
+alias egit='v $DOTFILES/home/gitconfig'
+alias zshrc='v $DOTFILES/home/zshrc'
+alias ekitty='v $DOTFILES/home/kitty/kitty.conf'
+alias ewez='v $HOME/.config/wezterm/wezterm.lua'
+alias eghost='v $HOME/.config/ghostty/config'
+alias ealacritty='v $DOTFILES/home/alacritty/alacritty.yml'
+alias egoku='v $HOME/.config/karabiner.edn'
 
 alias oc="opencode"
 
@@ -71,8 +71,14 @@ alias path='sed "s/:/\n/g" <<< \"$PATH\"'
 alias clip='yt-dlp -f "bestaudio[ext=m4a]"'
 alias rubo='rubocop -A'
 
+vob() {
+    local file
+    file=$(fd -L -e md . ~/Vaults | fzf --scheme=path --preview 'bat --color=always --style=plain {}') && $VISUAL "$file"
+}
+
 # typos
-alias :e='$VISUAL'
+alias v='$VISUAL'
+alias :e='v'
 alias :q="exit"
 alias cfd="cdf"
 alias clea='clear'
@@ -81,13 +87,12 @@ alias cleare='clear'
 alias clera='clear'
 alias gca="gac"
 alias got="git"
-alias ivm='$VISUAL'
+alias ivm='v'
 alias lls='ls'
 alias lss='ls'
 alias rials="rails"
-alias v='$VISUAL'
-alias vim='$VISUAL'
-alias vimf='$VISUAL'
+alias vim='v'
+alias vimf='v'
 alias x+="+x"
 
 # zsh global aliases for piping
