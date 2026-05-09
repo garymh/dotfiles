@@ -183,6 +183,27 @@ function M.config()
     },
   })
 
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "markdown" },
+    callback = function()
+      vim.b.miniai_config = {
+        custom_textobjects = {
+          F = false,
+          c = false,
+          h = false,
+          k = false,
+          o = false,
+          r = false,
+          w = false,
+          x = false,
+          y = false,
+          z = false,
+          ["/"] = false,
+        },
+      }
+    end,
+  })
+
   s_oxmap("L", "$", "endofline")
   vim.keymap.set({ "x", "o" }, "K", "g]j", { remap = true, desc = "end of brace" })
   vim.keymap.set({ "x", "o" }, "Q", "g]q", { remap = true, desc = "end of quote" })

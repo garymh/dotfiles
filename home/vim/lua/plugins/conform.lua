@@ -54,6 +54,7 @@ function M.config()
       local ignore_filetypes = {
         "sql",
         "java",
+        "json",
       }
       if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
         return

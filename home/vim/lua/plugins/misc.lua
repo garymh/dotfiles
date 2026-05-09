@@ -290,6 +290,28 @@ return {
   },
 
   {
+    "epwalsh/obsidian.nvim",
+    version = "*",
+    lazy = true,
+    event = {
+      "BufReadPre " .. Home .. "/Vaults/**.md",
+      "BufNewFile " .. Home .. "/Vaults/**.md",
+    },
+    opts = {
+      workspaces = {
+        {
+          name = "personal",
+          path = Home .. "/Vaults/Personal",
+        },
+        {
+          name = "work",
+          path = Home .. "/Vaults/Work",
+        },
+      },
+    },
+  },
+
+  {
     "justinmk/vim-gtfo",
     keys = {
       { "got", desc = "go to current directory in terminal" },

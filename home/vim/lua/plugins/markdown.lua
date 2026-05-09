@@ -14,6 +14,12 @@ return {
       local presets = require("markview.presets").headings;
 
       require("markview").setup({
+        preview = {
+          enable = false,
+          callbacks = {
+            on_disable = function (_, _) end,
+          },
+        },
         markdown = {
           headings = presets.simple,
           horizontal_rules = presets.thick,

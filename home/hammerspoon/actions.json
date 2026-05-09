@@ -21,6 +21,7 @@
     "nvim-qt":                   { "type": "keystroke", "mods": [],              "key": "escape" },
     "Firefox":                   { "type": "keystroke", "mods": [],              "key": "escape" },
     "kitty":                     { "type": "keystroke", "mods": [],              "key": "escape" },
+    "Obsidian":                  { "type": "keystroke", "mods": [],              "key": "escape" },
     "WezTerm":                   { "type": "keystroke", "mods": [],              "key": "escape" },
     "Ghostty":                   { "type": "keystroke", "mods": [],              "key": "escape" },
     "Alacritty":                 { "type": "keystroke", "mods": [],              "key": "escape" },
