@@ -85,9 +85,7 @@ local function uiCallback(_element, event, watcher, app)
   end
 end
 
-local isDocked = function()
-  return hs.fnutils.some(hs.usb.attachedDevices(), function(device) return device.productName == "TS4 USB2.0 HUB" end)
-end
+local isDocked = require("utils").isDocked
 
 local function ApplicationWatcher(appName, eventType, appObject)
   if eventType == hs.application.watcher.activated then
