@@ -15,4 +15,5 @@ YSU_IGNORED_ALIASES=(
     vim
     vimf
     clea
+    nvim
 )

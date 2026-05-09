@@ -47,7 +47,9 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     export ZSH_AI_CMD_PROVIDER='anthropic'
 
     source $DOTFILES/home/zsh/ysu_ignored.sh
+
     export YSU_MODE=ALL
+    # TODO:
     # export YSU_HARDCORE_ALIASES=("gs" "ll" "gco")
 
     source $HOME/.ziminit
