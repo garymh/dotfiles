@@ -1,13 +1,8 @@
 #!/usr/local/bin/bash
 
 function new_mr() {
-    # cd "$GITLAB_HOME" || exit
     gldb-update
-    git fetch origin
-    local branch
-    url="$1"
-    branch=$(glab mr view $(echo $url | grep -oE '[0-9]+$') --repo $(echo $url | sed -E 's|https://[^/]+/([^/]+/[^/]+).*|\1|') --output json | jq -r '.source_branch')
-    git checkout -b "$branch" "${2:-origin}/$branch"
+    glab mr checkout "$1"
 }
 
 alias stack="glab stack"
@@ -21,22 +16,20 @@ function okimdone() {
 }
 
 function glreview() {
-    url="$(get_git_url "$1")"
-    branch="$(get_branch "$1")"
-    project="$(get_project "$1")"
+    glab mr checkout "$1"
+    iocal branch
+    branch=$(git branch --show-current)
+    git branch -m "review-$branch"
+    git reset --mixed "$(git merge-base "origin/$(git-origin-head)" HEAD)"
+}
 
-    if [[ $url == "git@gitlab.com:gitlab-org/gitlab.git" ]] || [[ $url == "git@gitlab.com:gitlab-org/gitlab-development-kit.git" ]]; then
-        e_header "canon"
-        git fetch origin
-        git checkout -b "$project-review-$branch" "origin/$branch"
-    else
-        e_header "fork"
-        git fetch "$url" "$branch"
-        get fetch "${2:-origin/$(git-origin-head)}"
-        git checkout -b "$project-review-$branch" FETCH_HEAD
-    fi
-
-    git reset --mixed "$(git merge-base "${2:-origin/$(git-origin-head)}" HEAD)"
+function gpm() {
+    git push -u origin -o merge_request.create \
+        -o merge_request.remove_source_branch \
+        -o merge_request.label='backend' \
+        -o merge_request.label='group::code review' \
+        -o merge_request.label='section::dev' \
+        -o merge_request.label='devops::create'
 }
 
 glverify() {
@@ -72,16 +65,65 @@ alias gdkthin="gdk stop rails-web && GITLAB_RAILS_RACK_TIMEOUT_ENABLE_LOGGING=fa
 alias sgdkthin="GITLAB_RAILS_RACK_TIMEOUT_ENABLE_LOGGING=false PUMA_SINGLE_MODE=true gdk rails s"
 
 function my-reviews() {
-    local days="${1:-7}"
-    local after_date
-    after_date=$(date -v-${days}d +%Y-%m-%d)
-    glab api "events?action=approved&after=${after_date}&per_page=100" \
+    local dow after_date before_date
+    dow=$(date +%w)
+    after_date=$(date -v-$((dow + 8))d +%Y-%m-%d)
+    before_date=$(date -v-${dow}d +%Y-%m-%d)
+    glab api "events?action=approved&after=${after_date}&before=${before_date}&per_page=100" \
     | python3 -c "
 import sys, json
 for e in json.load(sys.stdin):
     title = e['target_title']
+    if 'a backend maintainer' in title.lower() or 'as backend maintainer' in title.lower():
+        continue
     url = f'https://gitlab.com/-/project/{e[\"project_id\"]}/merge_requests/{e[\"target_iid\"]}'
     print(f'- [{title}]({url})')"
+}
+
+function my-merges() {
+    local dow after_date before_date
+    dow=$(date +%w)
+    after_date=$(date -v-$((dow + 8))d +%Y-%m-%d)
+    before_date=$(date -v-${dow}d +%Y-%m-%d)
+    glab api "merge_requests?scope=created_by_me&state=merged&per_page=100" \
+    | python3 -c "
+import sys, json
+from datetime import datetime, timezone, date
+start = date.fromisoformat('${after_date}')
+end = date.fromisoformat('${before_date}')
+for e in json.load(sys.stdin):
+    merged = datetime.fromisoformat(e['merged_at'].replace('Z', '+00:00')).date()
+    if start < merged < end:
+        title = e['title']
+        url = e['web_url']
+        print(f'- [{title}]({url})')"
+}
+
+function my-active() {
+    glab api "merge_requests?scope=created_by_me&state=opened&per_page=100" \
+    | python3 -c "
+import sys, json
+in_review, other = [], []
+for e in json.load(sys.stdin):
+    if e['web_url'].startswith('https://gitlab.com/garyh/'):
+        continue
+    reviewers = [r for r in e['reviewers'] if r['username'] != 'GitLabDuo']
+    title = e['title']
+    url = e['web_url']
+    prefix = 'Draft: ' if e['draft'] else ''
+    line = f'- {prefix}[{title}]({url})'
+    if reviewers and not e['draft']:
+        in_review.append(line)
+    else:
+        other.append(line)
+if other:
+    print('## In progress')
+    print('\n'.join(other))
+if in_review:
+    if other:
+        print()
+    print('## In review')
+    print('\n'.join(in_review))"
 }
 
 copy-hooks() {

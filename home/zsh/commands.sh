@@ -1,10 +1,10 @@
 #!/usr/local/bin/bash
 
+# ruby.sh
 # git.sh
-
-# golang.sh
-
 # gitlab.sh
+# golang.sh
+# update.sh
 
 # overload.sh
 
@@ -15,7 +15,6 @@ alias ezshenv='v $DOTFILES/home/zprofile'
 alias ekar='v $DOTFILES/home/karabiner.json'
 alias ealias='v $DOTFILES/home/zsh/commands.sh'
 alias efunction='v $DOTFILES/home/zsh/commands.sh'
-alias egems='v $DOTFILES/new_machine/gems'
 alias eprivate='v $DOTFILES/home/zsh/private/private.zsh'
 alias etmux='v $DOTFILES/home/tmux.conf'
 alias evimrc='v $DOTFILES/home/vim/init.lua'
@@ -29,15 +28,9 @@ alias egoku='v $HOME/.config/karabiner.edn'
 
 alias oc="opencode"
 
-citest() {
-    gotestsum --jsonfile test-output.log --no-summary=skipped --junitfile ./coverage.xml --format short -- -coverprofile=./coverage.txt -covermode=atomic ./pkg/... ./internal/... ./commands/... ./cmd/...
-}
-
 alias folder-sizes="du -sh * | sort -hr | head"
 alias file_size="du -sh"
 
-alias copy-msg='git log --format=%B -n 1 | pbcopy'
-alias copy-branch='git rev-parse --abbrev-ref HEAD | pbcopy'
 
 # File Download (from Prezto)
 if _exists curl; then
@@ -48,28 +41,16 @@ fi
 
 alias oo='open .'
 alias plistbuddy="/usr/libexec/PlistBuddy"
-alias cask="brew install --cask"
-alias bin="brew install"
 
 alias ezshrc="zshrc"
 alias ezpro="ezshenv"
 alias eenv="ezshenv"
 alias zshenv="ezshenv"
-alias rdm="gdk rake gitlab-db-migrate"
-alias rdc="rails db:create"
-alias rdd="rails db:drop"
-alias rr="rails routes"
-alias railsc="rails c"
-alias co='branch'
-alias console="rails console test -s"
-alias killruby='killall -9 ruby'
 alias please='sudo $SHELL -c "$(fc -ln -1)"'
-alias pubkey="more ~/.ssh/id_ed25519.pub | pbcopy | e_success 'Public key copied to pasteboard.'"
 alias ref="exec zsh"
 alias path='sed "s/:/\n/g" <<< \"$PATH\"'
 
 alias clip='yt-dlp -f "bestaudio[ext=m4a]"'
-alias rubo='rubocop -A'
 
 vob() {
     local file
@@ -90,7 +71,6 @@ alias got="git"
 alias ivm='v'
 alias lls='ls'
 alias lss='ls'
-alias rials="rails"
 alias vim='v'
 alias vimf='v'
 alias x+="+x"
@@ -99,7 +79,6 @@ alias x+="+x"
 # alias -g .....='../../../..'
 # alias -g ....='../../..'
 # alias -g ...='../..'
-alias -g C='| tr -d "\n" | pbcopy'
 alias -g CA="2>&1 | cat -A"
 alias -g G='| grep'
 alias -g L="| less"
@@ -113,56 +92,6 @@ alias -g H="--help"
 alias -g V="--version"
 alias -g btail="| bat --paging=never -l log"
 
-alias -g RED='RAILS_ENV=development'
-alias -g REP='RAILS_ENV=production'
-alias -g RET='RAILS_ENV=test'
-alias -g RES='RAILS_ENV=staging'
-
-# work!
-function super_bundle() {
-    gemfile=$BUNDLE_GEMFILE
-
-    if [ -z "$gemfile" ]; then
-        gemfile=$(command bundle config gemfile --parseable | sed -e 's/^gemfile=//')
-    fi
-
-    if [ -r "$gemfile" ] && [ -r Gemfile ] &&
-    [ "$gemfile" != Gemfile ] &&
-    [[ $1 =~ ^(install|update)$ ]]; then
-        BUNDLE_GEMFILE=Gemfile command bundle "$@"
-        cp Gemfile.lock "${gemfile}.lock"
-    fi
-
-    command bundle "$@"
-}
-
-logcmd() {
-    echo "$*" | tee >(cat) | zsh
-}
-
-alias -g DUO="logcmd"
-
-# alias bundle="super_bundle"
-alias be="bundle exec"
-alias bu="bundle update"
-alias harness="scripts/security-harness"
-
-alias ber='bundle exec rspec'
-alias berf='bundle exec rspec --fail-fast'
-
-rspec() {
-    if [[ $# -eq 0 ]]; then
-        local file
-        file=$(fd -e rb --full-path '_spec\.rb$|_test\.rb$' | \
-                fzf --preview 'bat --color=always --line-range :80 {}' \
-                --preview-window 'right,60%' \
-            --border-label '🧪 Pick a spec to run')
-        [[ -n "$file" ]] && bundle exec rspec "$file"
-    else
-        bundle exec rspec "$@"
-    fi
-}
-
 alias zg='cd $GITLAB_HOME'
 alias zc='cd $CLI_HOME'
 alias zdl='cd "$HOME/Downloads/Personal Folder/Downloads/"'
@@ -170,32 +99,15 @@ alias zd="z dotfiles"
 alias zk="z devkit"
 alias zh="cd ~"
 
-alias bundle-id="mdls -name kMDItemCFBundleIdentifier -r"
+alias bundle-id="mdls -name kMDItemCFBundleIdentifier -r" # macOS bundle ID, not Ruby
 
-function fix_key_permissions() { # after reinstalling macos
+function fix_key_permissions() { # after reinstalling macOS
     chmod 600 ~/.ssh/id_ed25519
     chmod 600 ~/.ssh/id_ed25519.pub
 }
 
-test-changes() {
-    bundle exec rspec "$(git diff --name-only "$@" | grep -e '_spec.rb$')"
-}
-
-cop() {
-    bundle exec rubocop "$(git diff --name-only '$@' | grep -e '.rb$')"
-}
-
 function unquarantine() { xattr -d com.apple.quarantine "$@"; }
 function unquarantine_app() { unquarantine "/Applications/$*"; }
-
-# e_header()  { echo -e "\n\033[1m$@\033[0m"; }
-# e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
-# e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
-# e_missing()   { e_error "\"brew install $1\" when you get a minute" }
-
-function gotest() {
-    go test -json -v "${1:-./...}" 2>&1 | tee /tmp/gotest.log | gotestfmt
-}
 
 function h() { cd ~/"$1" || exit; }
 function c() { cd ~/code/"$1" || exit; }
@@ -206,15 +118,51 @@ function search() {
     sudo find . -iname "*$1*"
 }
 
-function update-withexeditor() {
-    npm install -g withexeditorhost &&
-    (cd "$(npm -g root)/withexeditorhost" && npm run setup)
+alias cask="brew install --cask"
+alias bin="brew install"
+alias brm='brew uninstall'
+alias bs='brew search'
+alias bi='brew info'
+alias bh='brew home'
+alias bup='brew update && brew upgrade'
+alias bclean='brew cleanup'
+alias bout='brew outdated'
+alias bleaves='brew leaves'
+
+alias -g C='| tr -d "\n" | pbcopy'
+
+alias cpwd='pwd | tr -d "\n" | pbcopy'
+alias copy-msg='git log --format=%B -n 1 | pbcopy'
+alias copy-branch='git rev-parse --abbrev-ref HEAD | pbcopy'
+alias pubkey="more ~/.ssh/id_ed25519.pub | pbcopy | e_success 'Public key copied to pasteboard.'"
+
+mkp() { mkdir -p "$@"; }
+
+mkdirs-from-clipboard() {
+    pbpaste | grep -oE "mkdir -p '[^']+'" | sed "s/mkdir -p '//;s/'$//" | while read -r dir; do
+        mkdir -p "$dir"
+        echo "  created: $dir"
+    done
 }
 
-function update-better-discord() {
-    bdcli install --channel stable
-}
+mkwarn() { sed "s/.*'\(.*\)'.*/\1/" | xargs -I{} mkdir -p "{}"; }
 
-function update-spotify() {
-    spicetify update && spicetify apply
-}
+#   clip       = yt-dlp -f 'bestaudio[ext=m4a]'
+#   gmc        = glab mr checkout
+#   rubo       = rubocop -A
+#   gca        = git add -A && git commit -avm  (typo alias for gac)
+#   be         = bundle exec
+#   ber        = bundle exec rspec
+#   berf       = bundle exec rspec --fail-fast
+#   grbm       = git fetch origin && git rebase origin/<default>
+#   okimdone   = clean + checkout default + delete branch
+#   gpm        = git push with MR creation
+#   wip/unwip  = quick wip commit / undo it
+#   oo         = open .
+#   gd         = git difftool
+#   gfo        = git remote update
+#   cont       = git rebase --continue
+#   lg         = lazygit
+#   rfv/rfv3   = fzf + ripgrep interactive search
+#   ikill      = fzf process killer
+#   zg/zc/zd   = cd to gitlab/cli/dotfiles

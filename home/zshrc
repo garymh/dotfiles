@@ -7,9 +7,11 @@ skip_global_compinit=1
 
 for f (
     $DOTFILES/home/zsh/commands.sh
+    $DOTFILES/home/zsh/ruby.sh
     $DOTFILES/home/zsh/git.sh
     $DOTFILES/home/zsh/gitlab.sh
     $DOTFILES/home/zsh/golang.sh
+    $DOTFILES/home/zsh/update.sh
     $DOTFILES/home/zsh/overload.sh) {
     source $f
 }
