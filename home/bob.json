@@ -1,0 +1,8 @@
+{
+  "enable_nightly_info": true, // Will show new commits associated with new nightly release if enabled
+  "enable_release_build": true, // Compile neovim nightly or a certain hash version as a release build (slightly improved performance, no debug info)
+  "add_neovim_binary_to_path": true, // Whether bob should automatically add the neovim proxy to the system PATH
+  "installation_location": "$HOME/code/dotfiles/home/zsh/bin", // The path in which the used neovim version will be located in
+
+  "ignore_running_instances": false // If true, bob will block certain actions while Neovim is running
+}

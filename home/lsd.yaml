@@ -1,0 +1,13 @@
+color:
+  theme: custom
+  when: always
+icons:
+  when: always
+  theme: fancy
+sorting:
+  column: name
+  reverse: false
+  dir-grouping: first
+hyperlink: auto
+permission: octal
+indicators: true

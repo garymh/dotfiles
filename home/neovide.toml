@@ -1,0 +1,26 @@
+[font]
+size = 22
+hinting = "full"
+edging = "antialias"
+
+[[font.normal]]
+family = "FixedsysModernV05 Nerd Font Mono"
+# style = "W400"
+
+[box-drawing]
+mode = "native"
+
+# [[font.normal]]
+# family = "Noto Sans Nerd Font"
+# style = "Normal"
+#
+# [[font.bold]]
+# family = "JetBrainsMono Nerd Font"
+# style = "W600"
+#
+# # No need to specify fallback in every variant, if omitted or specified here
+# # but not found, it will fallback to normal font with this weight which is bold
+# # in this case.
+# [[font.bold]]
+# family = "Noto Sans Nerd Font"
+# style = "Bold"

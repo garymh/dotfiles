@@ -4,6 +4,7 @@
     link:
       create: true
       relink: true
+      force: true
     brewfile:
       stdout: true
     brew:
@@ -41,6 +42,14 @@
     ~/.zsh: home/zsh/
     ~/.mackup: home/mackup
 
+    ~/.config/lazygit/config.yml: home/lazygit.yml
+    ~/.config/alacritty/alacritty.toml: home/alacritty.toml
+    ~/.config/atuin/config.toml: home/atuin.toml
+    ~/.config/lsd/config.yaml: home/lsd.yaml
+    ~/.config/mise/config.toml: home/mise.toml
+    ~/.config/bob/config.json: home/bob.json
+    ~/.config/btop/btop.conf: home/btop.conf
+    ~/.config/neovide/config.toml: home/neovide.toml
     ~/.config/starship.toml: home/starship.toml
     ~/.config/ripgrep/config: home/ripgreprc
     ~/.config/ghostty/config: home/ghostty
@@ -59,9 +68,6 @@
       if: "[ `uname` = Darwin ]"
     ~/.zsh/private:
       path: ~/iCloud/Internal/private
-      if: "[ `uname` = Darwin ]"
-    ~/.mackup.cfg:
-      path: ~/iCloud/Mackup/mackup.cfg
       if: "[ `uname` = Darwin ]"
     ~/.ssh:
       path: home/zsh/private/ssh/
@@ -84,12 +90,17 @@
     ~/.gitconfig.local:
       path: home/zsh/private/gitconfig.local
       if: "[ `uname` = Darwin ]"
-    ~/code/work/gdk/gitlab/.git/hooks/post-checkout:
-      force: true
-      path: ~/code/gldb/post-checkout
-    ~/code/work/cli/.git/hooks/post-checkout:
-      force: true
-      path: ~/code/gldb/post-checkout
+    ~/.agents:
+      path: home/zsh/private/agents/
+      if: "[ `uname` = Darwin ]"
+    ~/.claude:
+      path: home/zsh/private/claude/
+      if: "[ `uname` = Darwin ]"
+    ~/.config/opencode:
+      path: home/zsh/private/opencode/
+      if: "[ `uname` = Darwin ]"
+    ~/code/work/gdk/gitlab/.git/hooks/post-checkout: ~/code/gldb/post-checkout
+    ~/code/work/cli/.git/hooks/post-checkout: ~/code/gldb/post-checkout
     ~/code/work/gdk/gitlab/spec/support/helpers/gary_spec_helper.rb: gitlab/spec_helper.rb
 
 - install-brew: true
@@ -110,4 +121,3 @@
 
 - duti:
     file: scripts/macos/Dutifile
-# TODO: https://github.com/tg44/heptapod/tree/main/rules
