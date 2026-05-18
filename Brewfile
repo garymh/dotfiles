@@ -53,7 +53,7 @@ brew 'zimfw'
 brew 'zsh'
 brew 'zsh-patina'
 brew 'timescam/homebrew-tap/pay-respects'
-brew 'brew install oven-sh/bun/bun'
+brew 'oven-sh/bun/bun'
 brew 'opencode'
 
 cask '1password'
