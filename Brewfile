@@ -1,12 +1,11 @@
 tap 'osx-cross/arm'
 tap 'osx-cross/avr'
-tap 'peonping/tap'
 tap 'qmk/qmk'
 tap 'tg44/heptapod'
 tap 'yqrashawn/goku'
 tap 'michel-kraemer/zsh-patina'
 
-brew 'arm-none-eabi-gcc'
+# brew 'arm-none-eabi-gcc'
 brew 'atuin'
 brew 'bat-extras'
 brew 'btop'
@@ -36,7 +35,6 @@ brew 'mise'
 brew 'mosh'
 brew 'mosquitto'
 brew 'noti'
-brew 'peonping/tap/peon-ping'
 brew 'pinentry-mac'
 brew 'pkgconf'
 brew 'qmk/qmk/qmk'
@@ -140,7 +138,7 @@ mas 'Link Unshortener', id: 1_506_953_658
 mas 'Mona', id: 1_659_154_653
 mas 'NordLayer', id: 1_488_888_843
 mas 'Numbers', id: 409_203_825
-mas 'Okta Verify', id: 490_179_405
+# mas 'Okta Verify', id: 490_179_405
 mas 'OpenIn', id: 1_643_649_331
 mas 'Pages', id: 409_201_541
 mas 'PiPifier', id: 1_160_374_471
@@ -148,7 +146,7 @@ mas 'Pixelmator Pro', id: 1_289_583_905
 mas 'Reeder', id: 1_529_448_980
 mas 'Refined GitHub', id: 1_519_867_270
 mas 'Service Station', id: 1_503_136_033
-mas 'Shareful', id: 1_522_267_256
+# mas 'Shareful', id: 1_522_267_256
 mas 'Silicio', id: 933_627_574
 mas 'SingleFile', id: 6_444_322_545
 mas 'Speedtest', id: 1_153_157_709
@@ -162,4 +160,4 @@ mas 'UTC Time', id: 1_538_245_904
 
 # playground
 tap 'rafaelswi/menubarusb'
-cask 'rafaelswi/menubarusb'
+cask 'menubarusb'
