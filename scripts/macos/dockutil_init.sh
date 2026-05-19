@@ -1,7 +1,8 @@
 dockutil --remove all
 dockutil --add "/Applications/Safari.app"
 dockutil --add "/Applications/Helium.app"
-dockutil --add '' --type spacer --section apps --after "Helium"
+dockutil --add "/Applications/Firefox Developer Edition.app.app"
+dockutil --add '' --type spacer --section apps --after "Firefox Developer Edition"
 dockutil --add "/System/Applications/Mail.app"
 dockutil --add "/System/Applications/Messages.app"
 dockutil --add '' --type spacer --section apps --after Messages
