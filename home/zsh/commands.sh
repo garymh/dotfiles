@@ -25,6 +25,7 @@ alias ewez='v $HOME/.config/wezterm/wezterm.lua'
 alias eghost='v $HOME/.config/ghostty/config'
 alias ealacritty='v $DOTFILES/home/alacritty/alacritty.yml'
 alias egoku='v $HOME/.config/karabiner.edn'
+alias eopen='v $HOME/.config/opencode/opencode.jsonc'
 
 alias oc="opencode"
 
