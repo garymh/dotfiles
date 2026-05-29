@@ -4,6 +4,9 @@ GEM
     amazing_print (1.5.0)
     coderay (1.1.3)
     gem-browse (1.0.1)
+    io-console (0.8.2)
+    irb-autosuggestions (0.1.1)
+      reline
     method_source (1.0.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
@@ -15,6 +18,8 @@ GEM
       method_source (~> 1.0)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
+    reline (0.6.3)
+      io-console (~> 0.5)
     ripper-tags (1.0.1)
 
 PLATFORMS
@@ -24,6 +29,7 @@ PLATFORMS
 DEPENDENCIES
   amazing_print
   gem-browse
+  irb-autosuggestions
   neovim
   pry-rails
   ripper-tags
