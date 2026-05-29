@@ -1,5 +1,4 @@
 require("watchers.audio")
-require("watchers.zoom")
 require("watchers.mqtt")
 require("watchers.camera")
 require("watchers.swiftbar")
