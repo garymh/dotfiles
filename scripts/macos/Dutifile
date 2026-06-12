@@ -42,6 +42,7 @@ app.loshadki.OpenIn.v4 public.yaml all
 app.loshadki.OpenIn.v4 public.xml all
 app.loshadki.OpenIn.v4 text/plain all
 app.loshadki.OpenIn.v4 .json all
+app.loshadki.OpenIn.v4 .jsonc all
 app.loshadki.OpenIn.v4 .zsh all
 # at.eggerapps.tabletool public.comma-separated-values-text all
 # org.hammerspoon.Hammerspoon .torrent all
