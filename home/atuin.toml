@@ -169,7 +169,6 @@ common_subcommands = [
   "dnf",
   "docker",
   "git",
-  "glab",
   "go",
   "ip",
   "kubectl",

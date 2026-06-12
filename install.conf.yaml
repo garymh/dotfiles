@@ -33,7 +33,6 @@
     ~/.gitmessage: home/gitmessage
     ~/.rspec: home/rspec
     ~/.tidyrc: home/tidyrc
-    ~/.tool-versions: home/tool-versions
     ~/.vale.ini: home/vale.ini
     ~/.config/nvim/init.lua: home/vim/init.lua
     ~/.zprofile: home/zprofile
@@ -46,7 +45,6 @@
     ~/.config/alacritty/alacritty.toml: home/alacritty.toml
     ~/.config/atuin/config.toml: home/atuin.toml
     ~/.config/lsd/config.yaml: home/lsd.yaml
-    ~/.config/mise/config.toml: home/mise.toml
     ~/.config/bob/config.json: home/bob.json
     ~/.config/btop/btop.conf: home/btop.conf
     ~/.config/neovide/config.toml: home/neovide.toml
@@ -81,9 +79,6 @@
     ~/.hammerspoon/watchers/screens.lua:
       path: ~/iCloud/Internal/custom/screens.lua
       if: "[ `uname` = Darwin ]"
-    ~/.gitconfig.work:
-      path: home/zsh/private/gitconfig.work
-      if: "[ `uname` = Darwin ]"
     ~/.config/karabiner.edn:
       path: home/karabiner.edn
       if: "[ `uname` = Darwin ]"
@@ -99,23 +94,15 @@
     ~/.config/opencode:
       path: home/zsh/private/opencode/
       if: "[ `uname` = Darwin ]"
-    ~/code/work/gdk/gitlab/.git/hooks/post-checkout: ~/code/gldb/post-checkout
-    ~/code/work/cli/.git/hooks/post-checkout: ~/code/gldb/post-checkout
-    ~/code/work/gdk/gitlab/spec/support/helpers/gary_spec_helper.rb: gitlab/spec_helper.rb
 
 - install-brew: true
 
 - brewfile:
     - Brewfile
-    - ~/code/work/gdk/Brewfile
-
-- brew:
-    - mise
 
 - shell:
     - ["touch ~/.hushlogin", "Hushing login"]
     - ["touch ~/.rm_recycle", "Enabling recycling"]
-    - ["./scripts/npm_modules.sh", "Installing npm modules"]
     - ["./scripts/macos/dockutil_init.sh", "Fixing up Dock"]
     - ["./scripts/macos/hide_folders.sh", "Hiding macos folders"]
 

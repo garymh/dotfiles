@@ -12,15 +12,9 @@ export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
 
 export DOTFILES="$HOME/code/dotfiles"
-export GITLAB_MAIN_BRANCH="master" # this will eventually be "main"
-export CLI_HOME="$HOME/code/work/cli"
-export GDK_ROOT="$HOME/code/work/gdk"
-export GDK_DEV_HOME="$HOME/code/work/devkit"
-export WORKTREE_PATH="$GDK_ROOT/gitlab-workspaces"
-export GITLAB_HOME="$GDK_ROOT/gitlab"
 
 export OPENCODE_DISABLE_SHARE="true"
-export HOMEBREW_NO_INSTALL_FROM_API=1
+# export HOMEBREW_NO_INSTALL_FROM_API=1
 export NEOVIDE_FRAME="transparent"
 export NEOVIDE_FORK=1
 export GF_BRANCH_SKIP_REMOTE_BRANCHES="yes"
@@ -31,7 +25,7 @@ export HOMEBREW_DOWNLOAD_CONCURRENCY="auto"
 export HOMEBREW_CASK_OPTS="--fontdir=~/Library/Fonts"
 export HOMEBREW_DISPLAY_INSTALL_TIMES=1
 export HOMEBREW_NO_ANALYTICS=1
-export QMK_HOME='~/code/qmk/qmk_firmware'
+export QMK_HOME='$HOME/code/qmk/qmk_firmware'
 export HOME_DIR="$DOTFILES/home"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
@@ -41,7 +35,6 @@ export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
 export STARSHIP_LOG="error"
 export VIMFILES="$HOME/code/dotfiles/home/vim"
 export XDG_CONFIG_HOME="$HOME/.config"
-export GLAB_PAGER="bat"
 export PAGER="bat"
 export LESS="FrX"
 
@@ -49,13 +42,18 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c/lib/pkgconfig:/opt/homebrew/opt/
 export LDFLAGS="-L/opt/homebrew/opt/icu4c/lib -L/opt/homebrew/opt/openssl@3/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/icu4c/include -I/opt/homebrew/opt/openssl@3/include"
 export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:$GOBIN"
+export PATH="$PATH:$HOME/go/bin"
 export PATH="$HOME_DIR/zsh/bin:$PATH"
 export PATH="$PATH:$HOME/.spicetify"
 export PATH="$PATH:$HOME/.yarn/bin"
+export PATH="$HOME/.opencode/bin:$PATH"
 
 _dir_exists $HOME/.cargo/bin && export PATH="$PATH:$HOME/.cargo/bin"
 
 for f in ~/.zsh/private/*.zsh(N); do
     [ -e "$f" ] && source $f || break
 done
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :

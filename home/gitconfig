@@ -184,11 +184,6 @@
 ;
 ; $ git config gpg.format ssh
 ; $ git config user.signingKey ~/.ssh/id_rsa.pub
-[maintenance]
-	repo = /Users/gary/code/work/gitlab-development-kit/gitlab
-	repo = /Users/gary/code/work/gitlab-development-kit
-	repo = /Users/gary/code/work/gdk
-	repo = /Users/gary/code/work/gdk/gitlab
 [diff]
 	tool = Kaleidoscope
 [difftool "Kaleidoscope"]
@@ -218,3 +213,9 @@
 #     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\" \"$MERGED\" -c 'wincmd w' -c 'wincmd J'"
 [github]
 	user = n/a
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

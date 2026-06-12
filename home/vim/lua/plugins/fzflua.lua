@@ -210,52 +210,6 @@ function M.config()
 
   s_nmap("<space>d", function() fzflua.files({ cwd = "~/code/dotfiles", prompt = "Dotfiles ❯ " }) end, {}, "dotfiles")
 
-  local CLI_dir = "~/code/work/cli/"
-
-  s_nmap("<space>ect", function() patternFind("CLI Go Test files", CLI_dir, "*_test.go") end, "edit CLI test files")
-  s_nmap("<space>ecm", function() patternFind("CLI Go files", CLI_dir, "*.go", "*_test.go") end, "edit CLI files")
-
-  s_nmap("<space>em", function() pattern("Rails models", "app/models/", "*.rb") end, "edit GitLab models")
-  s_nmap("<space>eem", function() pattern("Rails EE models", "ee/app/models/ee/", "*.rb") end, "edit GitLab EE models")
-  s_nmap("<space>es", function() pattern("Rails services", "app/services/", "*.rb") end, "edit GitLab services")
-  s_nmap(
-    "<space>ees",
-    function() pattern("Rails EE services", "ee/app/services/ee/", "*.rb") end,
-    "edit GitLab EE services"
-  )
-  s_nmap("<space>ew", function() pattern("Rails workers", "app/workers/", "*.rb") end, "edit GitLab workers")
-  s_nmap(
-    "<space>eew",
-    function() pattern("Rails EE workers", "ee/app/workers/ee/", "*.rb") end,
-    "edit GitLab EE workers"
-  )
-  s_nmap("<space>etm", function() pattern("Rails model specs", "spec/models/", "*.rb") end, "edit GitLab model specs")
-  s_nmap(
-    "<space>etem",
-    function() pattern("Rails EE model specs", "ee/spec/models/ee/", "*.rb") end,
-    "edit GitLab EE model specs"
-  )
-  s_nmap(
-    "<space>ets",
-    function() pattern("Rails service specs", "spec/services/", "*.rb") end,
-    "edit GitLab service specs"
-  )
-  s_nmap(
-    "<space>etes",
-    function() pattern("Rails EE service specs", "ee/spec/services/ee/", "*.rb") end,
-    "edit GitLab EE service specs"
-  )
-  s_nmap(
-    "<space>etw",
-    function() pattern("Rails worker specs", "spec/workers/", "*.rb") end,
-    "edit GitLab worker specs"
-  )
-  s_nmap(
-    "<space>etew",
-    function() pattern("Rails EE worker specs", "ee/spec/workers/ee/", "*.rb") end,
-    "edit GitLab EE worker specs"
-  )
-
   s_nmap(
     "<space>G",
     function() require("fzf-lua").live_grep_resume({ multiline = 2, multiprocess = true }) end,

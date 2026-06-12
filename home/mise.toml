@@ -1,7 +1,0 @@
-[settings]
-idiomatic_version_file_enable_tools = ["ruby"]
-
-[tools]
-ruby = "{{ exec(command=\"awk '/^ruby/ {print $2}' ~/code/work/gdk/.tool-versions\") }}"
-go = "{{ exec(command=\"awk '/^golang / {print $2}' ~/code/work/cli/.tool-versions\") }}"
-"npm:@betterdiscord/cli" = "latest"

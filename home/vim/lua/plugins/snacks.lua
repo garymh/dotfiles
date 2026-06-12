@@ -247,18 +247,6 @@ local M = {
     -- { "<space>d",       function() filePicker("Dotfiles", D, "*") end,                                         desc = "Dotfiles" },
     -- { "<space>t",       function() filePicker("CLI Go Test files", os.getenv("CLI_HOME"), "*_test.go") end,    desc = "edit CLI test files" },
     -- { "<space>m",       function() filePicker("CLI Go files", os.getenv("CLI_HOME"), "*.go", "*_test.go") end, desc = "edit CLI files" },
-    -- { "<space>em",      function() filePicker("Rails models", "app/models/", "*.rb") end,                      desc = "edit GitLab models" },
-    -- { "<space>eem",     function() filePicker("Rails EE models", "ee/app/models/ee/", "*.rb") end,             desc = "edit GitLab EE models" },
-    -- { "<space>es",      function() filePicker("Rails services", "app/services/", "*.rb") end,                  desc = "edit GitLab services" },
-    -- { "<space>ees",     function() filePicker("Rails EE services", "ee/app/services/ee/", "*.rb") end,         desc = "edit GitLab EE services" },
-    -- { "<space>ew",      function() filePicker("Rails workers", "app/workers/", "*.rb") end,                    desc = "edit GitLab workers" },
-    -- { "<space>eew",     function() filePicker("Rails EE workers", "ee/app/workers/ee/", "*.rb") end,           desc = "edit GitLab EE workers" },
-    -- { "<space>etm",     function() filePicker("Rails model specs", "spec/models/", "*.rb") end,                desc = "edit GitLab model specs" },
-    -- { "<space>etem",    function() filePicker("Rails EE model specs", "ee/spec/models/ee/", "*.rb") end,       desc = "edit GitLab EE model specs" },
-    -- { "<space>ets",     function() filePicker("Rails service specs", "spec/services/", "*.rb") end,            desc = "edit GitLab service specs" },
-    -- { "<space>etes",    function() filePicker("Rails EE service specs", "ee/spec/services/ee/", "*.rb") end,   desc = "edit GitLab EE service specs" },
-    -- { "<space>etw",     function() filePicker("Rails worker specs", "spec/workers/", "*.rb") end,              desc = "edit GitLab worker specs" },
-    -- { "<space>etew",    function() filePicker("Rails EE worker specs", "ee/spec/workers/ee/", "*.rb") end,     desc = "edit GitLab EE worker specs" },
     --
     -- -- { "<leader>T",   function() Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "Todo/Fix/Fixme" },
     -- { "<space><space>", function() Snacks.picker() end,                                                        desc = "Command History" },
@@ -310,14 +298,14 @@ local M = {
     },
 
     { "glb",      function() Snacks.git.blame_line() end, desc = "Git blame" },
-    { "glw",      function() Snacks.gitbrowse() end,      desc = "browse on GitLab" },
+    { "glw",      function() Snacks.gitbrowse() end,      desc = "browse on remote" },
 
     {
       "glw",
       function()
         Snacks.gitbrowse()
       end,
-      desc = "browse on GitLab",
+      desc = "browse on remote",
       mode = "v"
     },
 

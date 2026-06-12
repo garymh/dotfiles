@@ -45,13 +45,6 @@ s_nmap("H", "^")
 s_nmap("L", "$")
 s_nmap("S", "<CMD>keeppatterns substitute/\\s*\\%#\\s*/\\r/e <bar> normal! ==<CR>")
 s_nmap("gp", [['`[' . strpart(getregtype(), 0, 1) . '`]']], expr, "Go to last paste")
-s_nmap(
-  "gm",
-  [[<CMD>silent exec "!$HOME/code/dotfiles/home/zsh/bin/glmr"<CR>]],
-  {},
-  "go to current GitLab MR",
-  "go to current GitLab MR"
-)
 s_nmap("yp", "<CMD>let @+ = expand('%:p')<CR>", {}, "Filepath", "yanked filepath to clipboard")
 s_nmap("{", function() BracketMotion("up", vim.v.count) end)
 s_nmap("}", function() BracketMotion("down", vim.v.count) end)

@@ -9,7 +9,6 @@ for f (
     $DOTFILES/home/zsh/commands.sh
     $DOTFILES/home/zsh/ruby.sh
     $DOTFILES/home/zsh/git.sh
-    $DOTFILES/home/zsh/gitlab.sh
     $DOTFILES/home/zsh/golang.sh
     $DOTFILES/home/zsh/update.sh
     $DOTFILES/home/zsh/overload.sh) {
@@ -26,18 +25,13 @@ setopt HIST_REDUCE_BLANKS
 setopt HIST_FIND_NO_DUPS
 setopt SHARE_HISTORY
 
-hash -d gitlab=~/code/work/gdk/gitlab
-hash -d devkit=~/code/work/devkit
-hash -d cli=~/code/work/cli
 hash -d dotfiles=~/code/dotfiles
 
 _exists nvim && export VISUAL='nvim' || export VISUAL='vim'
 export EDITOR="$VISUAL"
 export GIT_EDITOR="$VISUAL"
 
-_exists bob && . "$HOME/.local/share/bob/env/env.sh"
-
-export PATH=$HOME/.opencode/bin:$PATH
+# _exists bob && . "$HOME/.local/share/bob/env/env.sh"
 
 # tty only
 # plugins, completions, keybindings, fzf, prompt — skip for agents/scripts
@@ -45,8 +39,6 @@ export PATH=$HOME/.opencode/bin:$PATH
 if [[ -t 0 ]] && [[ -t 1 ]]; then
 
     # pre-zim plugin config (must be set before zim sources plugins)
-    export ZSH_AI_CMD_KEY='^@'
-    export ZSH_AI_CMD_PROVIDER='anthropic'
 
     source $DOTFILES/home/zsh/ysu_ignored.sh
 
@@ -82,29 +74,15 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     [[ $_zsh_cache/carapace.zsh -nt ${commands[carapace]} ]] || carapace _carapace >| $_zsh_cache/carapace.zsh
     source $_zsh_cache/carapace.zsh
 
-    if _exists glab; then
-        [[ $_zsh_cache/glab.zsh -nt ${commands[glab]} ]] || glab completion -s zsh >| $_zsh_cache/glab.zsh
-        source $_zsh_cache/glab.zsh; compdef _glab glab
-    fi
-
     if _exists vivid; then
         [[ $_zsh_cache/vivid_colors.zsh -nt ${commands[vivid]} ]] || vivid generate molokai >| $_zsh_cache/vivid_colors.zsh
         export LS_COLORS="$(< $_zsh_cache/vivid_colors.zsh)"
     fi
 
-    if _exists wt; then
-        [[ $_zsh_cache/wt.zsh -nt ${commands[wt]} ]] || command wt config shell init zsh >| $_zsh_cache/wt.zsh
-        source $_zsh_cache/wt.zsh
-    fi
-
     source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
-    # mise needs to be last
-    [[ $_zsh_cache/mise.zsh -nt ${commands[mise]} ]] || mise activate zsh >| $_zsh_cache/mise.zsh
-    source $_zsh_cache/mise.zsh
-
     if [[ -z "${GHOSTTY_QUICK_TERMINAL}" ]]; then
-        sh $HOME/code/dotfiles/home/zsh/misc/thisisfine.sh
+        sh $DOTFILES/home/zsh/misc/thisisfine.sh
         echo ""
         e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"
     fi

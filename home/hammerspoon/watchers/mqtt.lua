@@ -58,7 +58,7 @@ local function dostuff(app, override)
 
         if termTitle[1] == "vim" then
           mqtt_publish("minimon", "vim")
-        elseif termTitle[1] == "gdkthin" or termTitle[1] == "irb" or (termTitle[1] == "rails" and termTitle[2] == "c") then
+        elseif termTitle[1] == "irb" or (termTitle[1] == "rails" and termTitle[2] == "c") then
           mqtt_publish("minimon", "IRB")
         else
           mqtt_publish("minimon", "Terminal")
@@ -109,9 +109,9 @@ local function ApplicationWatcher(appName, eventType, appObject)
     if isDocked() == false then return end
 
     if appName == "Firefox Developer Edition" then
-      dostuff(appObject, "GitLab")
+      dostuff(appObject, "Work")
     elseif appName == "Neovide" then
-      dostuff(appObject, "GitLab")
+      dostuff(appObject)
     elseif appName == "Ghostty" then
       dostuff(appObject)
 

@@ -2,7 +2,6 @@
 
 # ruby.sh
 # git.sh
-# gitlab.sh
 # golang.sh
 # update.sh
 
@@ -32,12 +31,11 @@ alias oc="opencode"
 alias folder-sizes="du -sh * | sort -hr | head"
 alias file_size="du -sh"
 
-
 # File Download (from Prezto)
 if _exists curl; then
-    alias get='curl --continue-at - --location --progress-bar --remote-name --remote-time'
+  alias get='curl --continue-at - --location --progress-bar --remote-name --remote-time'
 elif _exists wget; then
-    alias get='wget --continue --progress=bar --timestamping'
+  alias get='wget --continue --progress=bar --timestamping'
 fi
 
 alias oo='open .'
@@ -54,8 +52,8 @@ alias path='sed "s/:/\n/g" <<< \"$PATH\"'
 alias clip='yt-dlp -f "bestaudio[ext=m4a]"'
 
 vob() {
-    local file
-    file=$(fd -L -e md . ~/Vaults | fzf --scheme=path --preview 'bat --color=always --style=plain {}') && $VISUAL "$file"
+  local file
+  file=$(fd -L -e md . ~/Vaults | fzf --scheme=path --preview 'bat --color=always --style=plain {}') && $VISUAL "$file"
 }
 
 # typos
@@ -103,8 +101,8 @@ alias zh="cd ~"
 alias bundle-id="mdls -name kMDItemCFBundleIdentifier -r" # macOS bundle ID, not Ruby
 
 function fix_key_permissions() { # after reinstalling macOS
-    chmod 600 ~/.ssh/id_ed25519
-    chmod 600 ~/.ssh/id_ed25519.pub
+  chmod 600 ~/.ssh/id_ed25519
+  chmod 600 ~/.ssh/id_ed25519.pub
 }
 
 function unquarantine() { xattr -d com.apple.quarantine "$@"; }
@@ -115,8 +113,8 @@ function c() { cd ~/code/"$1" || exit; }
 function cw() { cd ~/code/work/"$1" || exit; }
 
 function search() {
-    e_header "find . -iname \"*$1*\""
-    sudo find . -iname "*$1*"
+  e_header "find . -iname \"*$1*\""
+  sudo find . -iname "*$1*"
 }
 
 alias cask="brew install --cask"
@@ -140,16 +138,16 @@ alias pubkey="more ~/.ssh/id_ed25519.pub | pbcopy | e_success 'Public key copied
 mkp() { mkdir -p "$@"; }
 
 mkdirs-from-clipboard() {
-    pbpaste | grep -oE "mkdir -p '[^']+'" | sed "s/mkdir -p '//;s/'$//" | while read -r dir; do
-        mkdir -p "$dir"
-        echo "  created: $dir"
-    done
+  pbpaste | grep -oE "mkdir -p '[^']+'" | sed "s/mkdir -p '//;s/'$//" | while read -r dir; do
+    mkdir -p "$dir"
+    echo "  created: $dir"
+  done
 }
 
 mkwarn() { sed "s/.*'\(.*\)'.*/\1/" | xargs -I{} mkdir -p "{}"; }
 
 #   clip       = yt-dlp -f 'bestaudio[ext=m4a]'
-#   gmc        = glab mr checkout
+#   gmc        = git mr checkout
 #   rubo       = rubocop -A
 #   gca        = git add -A && git commit -avm  (typo alias for gac)
 #   be         = bundle exec
@@ -166,4 +164,4 @@ mkwarn() { sed "s/.*'\(.*\)'.*/\1/" | xargs -I{} mkdir -p "{}"; }
 #   lg         = lazygit
 #   rfv/rfv3   = fzf + ripgrep interactive search
 #   ikill      = fzf process killer
-#   zg/zc/zd   = cd to gitlab/cli/dotfiles
+#   zg/zc/zd   = cd to gitroot/cli/dotfiles

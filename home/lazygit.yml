@@ -14,13 +14,10 @@ gui:
       - "#55575A"
     selectedLineBgColor:
       - "#233385"
-services:
-  "gitlab.com": "gitlab.com:gitlab.com"
 customCommands:
   - key: "K"
     context: "files"
-    description: "Generate commit message with Claude Code"
-    # command: "git diff --staged | $(which claude) -p 'Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations. Use conventional commit format.' --model haiku --output-format text > /tmp/commit_msg && git commit -e -F /tmp/commit_msg"
+    description: "Generate commit message with OpenCode"
     command: |
       PROMPT='Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations.'
       if [ -f .git/commit-msg ] && grep -q 'Changelog:' .git/commit-msg; then
@@ -28,47 +25,12 @@ customCommands:
       else
         PROMPT="$PROMPT Use conventional commit format."
       fi
-      git diff --staged | $(which claude) -p "$PROMPT" --model sonnet --output-format text > /tmp/commit_msg && git commit -e -F /tmp/commit_msg
+      git diff --staged > /tmp/staged_diff.patch && opencode run "$PROMPT" -f /tmp/staged_diff.patch --format json 2>/dev/null | jq -r 'select(.type=="text") | .part.text' | tail -1 > /tmp/commit_msg && git commit -e -F /tmp/commit_msg
     output: terminal
-  - key: "<c-E>"
-    description: Custom git push
-    context: "global"
-    prompts:
-      - type: menu
-        title: "Control Push behaviour"
-        key: "gitOption"
-        options:
-          - name: "Skip CI"
-            description: "Skip CI execution"
-            value: "-o ci.skip"
-          - name: "Create MR"
-            description: "Create MR on push"
-            value: "-o merge_request.create"
-    command: "git push {{.Form.gitOption }}"
-    loadingText: "Pushing changes"
-    output: log
   - key: "f"
     command: "git difftool -y {{.SelectedLocalCommit.Sha}} -- {{.SelectedCommitFile.Name}}"
     context: "commitFiles"
     description: "Compare (difftool) with local copy"
-  - key: "<c-P>"
-    description: "Push to a specific remote repository"
-    context: "global"
-    loadingText: "Pushing ..."
-    prompts:
-      - type: "menuFromCommand"
-        title: "Which remote repository to push to?"
-        command: bash -c "git remote --verbose | grep '/.* (push)'"
-        filter: '(?P<remote>.*)\s+(?P<url>.*) \(push\)'
-        valueFormat: "{{ .remote }}"
-        labelFormat: "{{ .remote | bold | cyan }} {{ .url }}"
-      - type: "menu"
-        title: "How to push?"
-        options:
-          - value: "push"
-          - value: "push --force-with-lease"
-          - value: "push --force"
-    command: "git {{index .PromptResponses 1}} {{index .PromptResponses 0}}"
   - key: "<c-p>"
     context: "global"
     loadingText: "pushing"
@@ -81,11 +43,6 @@ customCommands:
     context: "commits"
     loadingText: "Pushing commit..."
     description: "Push a specific commit (and any preceding)"
-    output: log
-  - key: "G"
-    command: "glab mr view -w {{.SelectedLocalBranch.UpstreamBranch}}"
-    context: "localBranches"
-    description: "Go to MR in gitlab"
     output: log
   - key: "M"
     command: "git mergetool {{ .SelectedFile.Name }}"

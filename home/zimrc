@@ -4,7 +4,7 @@
 # zimfw plugin manager.
 
 zmodule environment
-zmodule git
+# zmodule git
 zmodule input
 zmodule termtitle
 zmodule skywind3000/z.lua --cmd 'eval "$(lua {}/z.lua --init zsh enhanced once)"'
@@ -13,10 +13,8 @@ zmodule joke/zim-starship
 zmodule day50-dev/Zummoner
 zmodule duration-info
 zmodule fzf
-zmodule joke/zim-mise
 zmodule magic-enter
 zmodule MichaelAquilina/zsh-you-should-use
-zmodule kylesnowschwartz/zsh-ai-cmd
 
 zmodule atuin-init --use mkdir --if-command atuin \
   --cmd 'if [[ ! {}/init.zsh -nt ${commands[atuin]} ]]; then
