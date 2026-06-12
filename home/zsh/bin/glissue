@@ -1,4 +1,0 @@
-#!/bin/bash
-
-GITLAB_HOME="${GITLAB_HOME:-"$HOME/code/work/gdk/gitlab/"}"
-open "$(cat ".git/ISSUE_URL")"

@@ -1,6 +1,0 @@
-#!/usr/bin/env ruby
-# vi:syntax=ruby
-
-args = ARGV[0].split('/')
-
-puts args[4]

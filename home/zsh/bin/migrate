@@ -1,5 +1,0 @@
-#!/bin/bash
-#
-#   Re-migratex a selected migration (used with gitlab development kit GDK)
-
-rake db:migrate:down VERSION=$1; rake db:migrate
