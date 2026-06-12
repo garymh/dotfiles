@@ -1,5 +1,5 @@
 _exists() {
-    command -v $1 > /dev/null 2>&1
+    command -v $1 > /dev/null 2>&1 || { e_missing $1; return 1; }
 }
 
 _file_exists() {
