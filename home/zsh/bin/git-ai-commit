@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROMPT='Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations.'
+if [ -f .git/commit-msg ] && grep -q 'Changelog:' .git/commit-msg; then
+  PROMPT="$PROMPT Use GitLab commit style with a Changelog trailer (e.g. 'Changelog: fixed' or 'Changelog: added'). Valid values: added, fixed, changed, deprecated, removed, security, performance, other."
+else
+  PROMPT="$PROMPT Use conventional commit format."
+fi
+
+git diff --staged > /tmp/staged_diff.patch
+
+RAW=$(opencode run "$PROMPT" -f /tmp/staged_diff.patch --format json 2>/dev/null) || true
+
+echo "--- opencode raw output ---"
+echo "$RAW"
+echo "--- end raw output ---"
+
+SID=$(python3 -c "
+import json, sys
+for line in sys.stdin:
+    line = line.strip()
+    if not line: continue
+    try:
+        obj = json.loads(line)
+        if obj.get('type') == 'step_start':
+            print(obj['sessionID'])
+            sys.exit(0)
+    except: pass
+sys.exit(1)
+" <<< "$RAW") || true
+
+python3 -c "
+import json, sys
+for line in sys.stdin:
+    line = line.strip()
+    if not line: continue
+    try:
+        obj = json.loads(line)
+        if obj.get('type') == 'text':
+            sys.stdout.write(obj['part']['text'])
+    except: pass
+" <<< "$RAW" > /tmp/commit_msg
+
+git commit -e -F /tmp/commit_msg
+
+[ -n "$SID" ] && opencode session delete "$SID" >/dev/null 2>&1 || true

@@ -18,14 +18,7 @@ customCommands:
   - key: "K"
     context: "files"
     description: "Generate commit message with OpenCode"
-    command: |
-      PROMPT='Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations.'
-      if [ -f .git/commit-msg ] && grep -q 'Changelog:' .git/commit-msg; then
-        PROMPT="$PROMPT Use GitLab commit style with a Changelog trailer (e.g. 'Changelog: fixed' or 'Changelog: added'). Valid values: added, fixed, changed, deprecated, removed, security, performance, other."
-      else
-        PROMPT="$PROMPT Use conventional commit format."
-      fi
-      git diff --staged > /tmp/staged_diff.patch && opencode run "$PROMPT" -f /tmp/staged_diff.patch --format json 2>/dev/null | jq -r 'select(.type=="text") | .part.text' | tail -1 > /tmp/commit_msg && git commit -e -F /tmp/commit_msg
+    command: "git-ai-commit"
     output: terminal
   - key: "f"
     command: "git difftool -y {{.SelectedLocalCommit.Sha}} -- {{.SelectedCommitFile.Name}}"
