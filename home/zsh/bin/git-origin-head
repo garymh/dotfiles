@@ -26,7 +26,7 @@ function has() {
 }
 
 if has git; then
-  git remote show origin | grep 'HEAD branch' | cut -d ' ' -f5
+  ref=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null) && echo "${ref#refs/remotes/origin/}" || git remote show origin 2>/dev/null | grep 'HEAD branch' | cut -d ' ' -f5
 else
   fail "git is not in $PATH"
 fi
