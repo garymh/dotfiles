@@ -10,7 +10,8 @@
 # Then it prunes all branches that no longer exist at each upstream
 # remote.
 
-merged=`git branch --no-color --merged master | grep -v master | sed 's/\*/ /'`
+default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo master)
+merged=`git branch --no-color --merged "$default_branch" | grep -v "$default_branch" | sed 's/\*/ /'`
 
 if [ ! -z "$merged" ] ; then
     echo "Deleting the following merged branches:"
