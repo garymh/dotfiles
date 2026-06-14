@@ -40,7 +40,6 @@ alias gm="git add -A && git commit -av"
 alias gnb='git checkout -b'
 alias gnope="git checkout . "
 alias gpf="git push --force"
-alias gpf="git push --force"
 alias gpfs="git push security --force"
 alias gpn="git push -o ci.skip"
 alias grb="git rebase"

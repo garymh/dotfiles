@@ -3,7 +3,6 @@
 alias gin="gem install"
 alias gli="gem list"
 alias gun="gem uninstall"
-alias egems='v $DOTFILES/new_machine/gems'
 
 alias rdc="rails db:create"
 alias rdd="rails db:drop"
@@ -19,27 +18,8 @@ alias -g REP='RAILS_ENV=production'
 alias -g RET='RAILS_ENV=test'
 alias -g RES='RAILS_ENV=staging'
 
-function super_bundle() {
-  gemfile=$BUNDLE_GEMFILE
-
-  if [ -z "$gemfile" ]; then
-    gemfile=$(command bundle config gemfile --parseable | sed -e 's/^gemfile=//')
-  fi
-
-  if [ -r "$gemfile" ] && [ -r Gemfile ] &&
-    [ "$gemfile" != Gemfile ] &&
-    [[ $1 =~ ^(install|update)$ ]]; then
-    BUNDLE_GEMFILE=Gemfile command bundle "$@"
-    cp Gemfile.lock "${gemfile}.lock"
-  fi
-
-  command bundle "$@"
-}
-
-# alias bundle="super_bundle"
 alias be="bundle exec"
 alias bu="bundle update"
-alias harness="scripts/security-harness"
 
 alias ber='bundle exec rspec'
 alias berf='bundle exec rspec --fail-fast'
@@ -62,7 +42,7 @@ test-changes() {
 }
 
 cop() {
-  bundle exec rubocop "$(git diff --name-only '$@' | grep -e '.rb$')"
+  bundle exec rubocop "$(git diff --name-only "$@" | grep -e '.rb$')"
 }
 
 berchanged() {
@@ -87,5 +67,3 @@ berdiff() {
 
 alias railsg='bundle exec rails generate'
 alias railsm='bundle exec rails g migration'
-alias railsm-pd='bundle exec rails g post_deployment_migration:post_deployment_migration'
-alias railsm-bb='bundle exec rails g batched_background_migration'

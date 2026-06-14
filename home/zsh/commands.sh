@@ -15,12 +15,10 @@ alias ekar='v $DOTFILES/home/karabiner.json'
 alias ealias='v $DOTFILES/home/zsh/commands.sh'
 alias efunction='v $DOTFILES/home/zsh/commands.sh'
 alias eprivate='v $DOTFILES/home/zsh/private/private.zsh'
-alias etmux='v $DOTFILES/home/tmux.conf'
 alias evimrc='v $DOTFILES/home/vim/init.lua'
 alias egit='v $DOTFILES/home/gitconfig'
 alias zshrc='v $DOTFILES/home/zshrc'
-alias ekitty='v $DOTFILES/home/kitty/kitty.conf'
-alias ewez='v $HOME/.config/wezterm/wezterm.lua'
+
 alias eghost='v $HOME/.config/ghostty/config'
 alias ealacritty='v $DOTFILES/home/alacritty/alacritty.yml'
 alias egoku='v $HOME/.config/karabiner.edn'
@@ -91,11 +89,8 @@ alias -g H="--help"
 alias -g V="--version"
 alias -g btail="| bat --paging=never -l log"
 
-alias zg='cd $GITLAB_HOME'
-alias zc='cd $CLI_HOME'
-alias zdl='cd "$HOME/Downloads/Personal Folder/Downloads/"'
+alias zdl='cd "$HOME/Downloads/"'
 alias zd="z dotfiles"
-alias zk="z devkit"
 alias zh="cd ~"
 
 alias bundle-id="mdls -name kMDItemCFBundleIdentifier -r" # macOS bundle ID, not Ruby
@@ -137,31 +132,6 @@ alias pubkey="more ~/.ssh/id_ed25519.pub | pbcopy | e_success 'Public key copied
 
 mkp() { mkdir -p "$@"; }
 
-mkdirs-from-clipboard() {
-  pbpaste | grep -oE "mkdir -p '[^']+'" | sed "s/mkdir -p '//;s/'$//" | while read -r dir; do
-    mkdir -p "$dir"
-    echo "  created: $dir"
-  done
-}
-
 mkwarn() { sed "s/.*'\(.*\)'.*/\1/" | xargs -I{} mkdir -p "{}"; }
 
-#   clip       = yt-dlp -f 'bestaudio[ext=m4a]'
-#   gmc        = git mr checkout
-#   rubo       = rubocop -A
-#   gca        = git add -A && git commit -avm  (typo alias for gac)
-#   be         = bundle exec
-#   ber        = bundle exec rspec
-#   berf       = bundle exec rspec --fail-fast
-#   grbm       = git fetch origin && git rebase origin/<default>
-#   okimdone   = clean + checkout default + delete branch
-#   gpm        = git push with MR creation
-#   wip/unwip  = quick wip commit / undo it
-#   oo         = open .
-#   gd         = git difftool
-#   gfo        = git remote update
-#   cont       = git rebase --continue
-#   lg         = lazygit
-#   rfv/rfv3   = fzf + ripgrep interactive search
-#   ikill      = fzf process killer
-#   zg/zc/zd   = cd to gitroot/cli/dotfiles
+

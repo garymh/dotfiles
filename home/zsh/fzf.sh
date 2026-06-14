@@ -92,41 +92,6 @@ if _file_exists ~/.fzf.zsh; then
     #   # --header '? preview / <C-d> dirs / <C-g> files / <C-o> open / <C-y> copy'
     #   # --header-border=sharp
     #   # --info=inline
-    #   export FZF_DEFAULT_COMMAND='fd --type f --color=always --hidden -L'
-    #   export FZF_DEFAULT_OPTS="--multi
-    #     --ansi
-    #     --scheme=path
-    #     --bind '?:toggle-preview'
-    #     --bind 'ctrl-a:select-all+accept'
-    #     --bind 'ctrl-o:execute[open {}]'
-    #     --bind 'ctrl-f:page-down'
-    #     --bind 'ctrl-/:change-preview-window(down|hidden|)'
-    #     --bind 'ctrl-d:change-prompt(Directories> )+reload(find * -type d)'
-    #     --bind 'ctrl-g:change-prompt(Files> )+reload(find * -type f)'
-    #     --bind 'tab:toggle-out'
-    #     --bind 'shift-tab:toggle-in'
-    #     --bind 'ctrl-b:page-up'
-    #     --bind 'ctrl-y:execute-silent(echo {} | pbcopy)+abort'"
-    #
-    #   # ---------------------------
-    #
-    #
-    #   # Advanced customization of fzf options via _fzf_comprun function
-    #   # - The first argument to the function is the name of the command.
-    #   # - You should make sure to pass the rest of the arguments ($@) to fzf.
-    #   _fzf_comprun() {
-    #     local command=$1
-    #     shift
-    #
-    #     case "$command" in
-    #     cd) fzf --preview 'tree -C {} | head -200' "$@" ;;
-    #     export | unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
-    #     ssh) fzf --preview 'dig {}' "$@" ;;
-    #     *) fzf --preview 'bat -n --color=always {}' "$@" ;;
-    #     esac
-    #   }
-    #   # ---------------------------
-    #
 
     ikill() {
         (
