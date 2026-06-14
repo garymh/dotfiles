@@ -40,9 +40,10 @@ local M = {
 function M.config()
   local fzflua = require("fzf-lua")
   local actions = require("fzf-lua.actions")
-  local opts = { nowait = true, noremap = true }
 
   fzflua.setup({
+    fzf_colors = true,
+
     actions = {
       files = {
         ["enter"] = actions.file_edit,
@@ -71,6 +72,14 @@ function M.config()
 
     defaults = { git_icons = false },
 
+    lsp = { jump1 = true },
+
+    helptags = {
+      actions = {
+        ["enter"] = actions.help_tab,
+      },
+    },
+
     previewers = {
       codeaction = { toggle_behavior = 'extend' },
       builtin = {
@@ -92,10 +101,13 @@ function M.config()
 
     oldfiles = {
       include_current_session = true,
+      stat_file = true,
     },
 
     grep = {
-      header_prefix = "" .. ' ',
+      multiprocess = true,
+      multiline = 2,
+      header_prefix = "" .. ' ',
       rg_glob_fn = function(query, opts)
         local regex, flags = query:match(string.format('^(.*)%s(.*)$', opts.glob_separator))
         -- Return the original query if there's no separator.
@@ -104,84 +116,11 @@ function M.config()
     },
   })
 
-  -- "default-title",
-  -- -- defaults = { formatter = 'path.filename_first' },
-  -- global_resume = true,
-  -- global_resume_query = true,
-  -- fzf_opts = {
-  --   ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-history",
-  -- },
-  -- winopts = {
-  --   height = 0.7,
-  --   width = 1.0,
-  --   row = 0.9,
-  --   col = 0.0,
-  --   on_create = function()
-  --     tmap("<m-w>", function() Feedkeys('<c-u>') end, opts)
-  --     -- tmap(";", "<CR>", opts)
-  --
-  --     -- vim.api.nvim_buf_set_keymap(0, "t", ";", "<CR>", opts)
-  --   end,
-  -- },
-  -- buffers = {
-  -- },
-  -- grep = {
-  --   fzf_opts = {
-  --     ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-history",
-  --   },
-  -- },
-  -- actions = {
-  --   files = {
-  --     ["enter"] = actions.file_edit,
-  --     ["ctrl-q"] = actions.file_edit_or_qf,
-  --   },
-  -- },
-  -- files = {
-  --   git_icons = false,
-  -- },
-  -- keymap = {
-  --   builtin = {
-  --     ["?"] = "toggle-preview",
-  --   },
-  --   fzf = {
-  --     ["ctrl-a"] = "toggle-all",
-  --   },
-  -- },
-
-  local function patternFind(title, path, pattern, badPattern)
-    local start = '":!:'
-
-    if badPattern then
-      badPattern = " " .. start .. badPattern .. '"'
-    else
-      badPattern = ""
-    end
-
-    fzflua.git_files({
-      prompt = title .. " ❯ ",
-      cmd = 'git ls-files "' .. path .. "\" '" .. pattern .. "'" .. badPattern,
-      cwd = path,
-    })
-  end
-
-  local function pattern(title, path, pattern, badPattern)
-    patternFind(title, os.getenv("GITLAB_HOME") .. "/" .. path, pattern, badPattern)
-  end
-
   s_nmap("<c-p>", fzflua.files)
   s_nmap("<m-k>", fzflua.buffers)
   s_nmap("<c-s-k>", fzflua.tabs)
-  -- s_nmap("<leader>fb",
-  --   function()
-  --     require('fzf-lua').lgrep_curbuf {
-  --       winopts = {
-  --         height = 0.6,
-  --         width = 0.5,
-  --         preview = { vertical = 'up:70%' },
-  --       },
-  --     }
-  --   end, "search buffer"
-  -- )
+  s_nmap("<m-f>", function() fzflua.live_grep({}) end)
+
   s_nmap("<space>C", fzflua.git_bcommits, "git commits for this buffer")
   s_nmap("<space>F", fzflua.filetypes, "change vim filetype")
   s_nmap("<space>R", fzflua.command_history, "vim command history")
@@ -191,9 +130,6 @@ function M.config()
   if not Nv12() then
     s_nmap("<space>u", fzflua.undotree, "undo tree")
   end
-
-  -- s_nmap("<space>f", fzflua.builtin, "FZF builtings")
-  -- s_nmap("<space>h", fzflua.help_tags, "vim helptags")
 
   s_nmap("<space>f",
     function()
@@ -205,24 +141,18 @@ function M.config()
     end, "list by frecency")
 
   s_nmap("<space>r", fzflua.oldfiles, "list old files")
-
   s_nmap("<space>y", vim.cmd.YankyRingHistory, "yank history")
-
   s_nmap("<space>d", function() fzflua.files({ cwd = "~/code/dotfiles", prompt = "Dotfiles ❯ " }) end, {}, "dotfiles")
+  s_nmap("<space>o", function() fzflua.files({ cwd = "~/.config/opencode", prompt = "OpenCode ❯ " }) end, {}, "opencode")
 
   s_nmap(
     "<space>G",
-    function() require("fzf-lua").live_grep_resume({ multiline = 2, multiprocess = true }) end,
+    function() fzflua.live_grep_resume({}) end,
     "list git modified files"
   )
-  s_nmap("<m-f>", function() require("fzf-lua").live_grep({ multiline = 2, multiprocess = true }) end)
-  -- s_nmap("gs", "<CMD>FzfLua grep_cword<CR>", "Grep word")
-  -- s_nmap("gS", "<CMD>FzfLua grep_cWORD<CR>", "Grep WORD")
-  -- s_nmap("<space><space>", function() require("fzf-lua").lsp_document_symbols() end, "see document symbols")
-
 
   s_nmap("<space>T", function()
-    require("fzf-lua").live_grep({
+    fzflua.live_grep({
       cmd = "git grep --ignore-case --extended-regexp --line-number --column --color=always --untracked",
       fn_transform_cmd = function(query, cmd, _)
         -- Extract search query and glob string separated by '--'
@@ -250,35 +180,10 @@ function M.config()
     })
   end, "see document symbols")
 
-  -- s_nmap("g<space>", function() require 'fzf-lua'.lsp_document_symbols() end)
-  -- s_nmap("<F55>", "<Plug>(esearch)")
-  -- s_nmap("<space>G", function() fzflua.live_grep({  multiline = 2 }) end, {}, "live grep")
-  -- s_nmap("<localleader>e", "<CMD>lua vim.diagnostic.open_float()<CR>", "[LSP] line diagnostics")
-  -- s_nmap("<localleader>ca", "<CMD>Lspsaga code_action<CR>", "[LSP] code actions")
-  -- s_vmap("<localleader>ca", "<CMD>Lspsaga code_action<CR>", "[LSP] code actions")
-  -- s_nmap("gR", "<CMD>Lspsaga rename ++project<CR>", "[LSP] rename for project")
-  -- s_nmap("<space><space>", "<cmd>Lspsaga outline<CR>", "[LSP] outline")
-
   s_nmap("<space>g", fzflua.git_status, "git status")
-  s_nmap("<space>s", fzflua.lsp_references, "references")
-
-  -- s_nmap("<space>s", fzflua.lsp_document_symbols, {}, "document symbols")
-  -- s_nmap("<space>A", fzflua.lsp_code_actions, {}, "code actions")
-  -- s_nmap("<space>s", edit_snippets, {}, "edit snippets")
-
-  -- We can use our new function on any folder or
-  -- with any other fzf-lua options ('winopts', etc)
-  -- _G.live_grep({ cwd = "<my folder>" })
-  -- s_nmap("<space>f", _G.live_grep({  }))
-
-  -- map_fzf('n', '<leader>fh', "oldfiles", { cwd = "~" })
-  -- map_fzf('n', '<leader>fH', "oldfiles", function()
-  --   return {
-  --     cwd = vim.loop.cwd(),
-  --     show_cwd_header = true,
-  --     cwd_only = true,
-  --   }
-  -- end)
+  s_nmap("<space>s", fzflua.lsp_finder, "LSP finder")
+  s_nmap("<space>;", fzflua.resume, "resume last picker")
+  s_nmap("<space>h", fzflua.helptags, "help tags")
 end
 
 return M

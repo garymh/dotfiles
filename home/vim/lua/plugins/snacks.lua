@@ -1,14 +1,5 @@
--- local indentChar = "▎"
 local indentChar = "┊"
-
-local function filePicker(desc, dir, pattern, exclude)
-  Snacks.picker.files({
-    cwd = dir,
-    title = string.format("%s", desc),
-    args = { "-g", pattern },
-    exclude = { exclude },
-  })
-end
+-- alternate: "▎"
 
 local M = {
   "folke/snacks.nvim",
@@ -63,16 +54,16 @@ local M = {
       animate = {
         enabled = false,
       },
-      indent = {
+      indent  = {
         enabled = false, -- Turn off standard indent lines
       },
-      scope = {
-        enabled = true, -- Turn on scope lines
-        priority = 200,
-        char = indentChar,
-        underline = false,
+      scope   = {
+        enabled      = true, -- Turn on scope lines
+        priority     = 200,
+        char         = indentChar,
+        underline    = false,
         only_current = true, -- Only show scope lines for the scope under cursor
-        hl = "SnacksIndentScope",
+        hl           = "SnacksIndentScope",
       },
     },
 
@@ -84,48 +75,7 @@ local M = {
     scope        = {},
 
     picker       = {
-      icons = {
-        files = {
-          enabled = false
-        },
-      },
-
-      layout = {
-        cycle = true,
-        --- Use the default layout or vertical if the window is too narrow
-        preset = function()
-          return vim.o.columns >= 120 and "default" or "ivy"
-        end,
-      },
-
-      formatters = {
-        file = {
-          filename_first = true, -- display filename before the file path
-        },
-        selected = {
-          show_always = true, -- only show the selected column when there are multiple selections
-          unselected = true,  -- use the unselected icon for unselected items
-        },
-      },
-
-      win = {
-        input = {
-          keys = {
-            ["<Esc>"]  = { "close", mode = { "n", "i" } },
-            ["<c-/>"]  = { "toggle_preview", mode = { "i", "n" } },
-            ["<m-BS>"] = { "<c-s-w>", mode = { "i" }, expr = true, desc = "delete word" },
-            ["<c-u>"]  = { "delete_line", mode = { "i" }, desc = "delete word" },
-          },
-        },
-      },
-
-      actions = {
-        delete_line = function() vim.cmd.normal('c0') end,
-      },
-
-      debug = {
-        scores = false, -- show scores in the list
-      },
+      enabled = false,
     },
 
     statuscolumn = {
@@ -148,9 +98,7 @@ local M = {
     words        = {},
     styles       = {
       notification = {
-        wo = {
-          wrap = true,
-        }, -- Wrap notifications
+        wo = { wrap = true, }, -- Wrap notifications
       },
     },
     zen          = {},
@@ -172,82 +120,8 @@ local M = {
     { "yoZ",        function() Snacks.zen.zoom() end,           desc = "Toggle Zoom" },
 
     { "<leader>S",  function() Snacks.scratch.select() end,     desc = "Select Scratch Buffer" },
-    {
-      "<m-k>",
-      function()
-        Snacks.picker.buffers({
-          on_show = function() vim.cmd.stopinsert() end,
-          finder = "buffers",
-          format = "buffer",
-          hidden = false,
-          unloaded = true,
-          current = true,
-          sort_lastused = true,
-          win = {
-            input = {
-              keys = {
-                ["d"] = "bufdelete",
-              },
-            },
-            list = { keys = { ["d"] = "bufdelete" } },
-          },
-        })
-      end,
-      desc = "Buffers"
-    },
-    -- { "<c-p>",    function() Snacks.picker.smart() end,           desc = "Smart Find" },
-    -- { "<D-s-f>",  function() Snacks.picker.search_history() end,  desc = "Grep History" },
-    -- { "<m-f>",    function() Snacks.picker.grep() end,            desc = "Grep" },
-    -- { "<m-F>",    function() Snacks.picker.search_history() end,  desc = "Grep History" },
-    -- { "<space>r", function() Snacks.picker.recent() end,          desc = "Recent" },
-    -- { "<space>U", function() Snacks.picker.undo() end,            desc = "Undo" },
-    -- { "<space>h", function() Snacks.picker.help() end,            desc = "Help files" },
-    -- { "<space>L", function() Snacks.picker.git_log() end,         desc = "Git Log" },
-    -- { "<space>a", function() Snacks.picker.explorer() end,        desc = "Dotfiles" },
-    -- { "<space>R", function() Snacks.picker.command_history() end, desc = "Command History" },
 
-    { "<space>y", function() Snacks.picker.yanky() end,   desc = "Paste picker" },
-
-    {
-      "<space>h",
-      function()
-        Snacks.picker.help(
-          {
-            confirm = function(picker, item)
-              picker:norm(function()
-                if item then
-                  dd(item.tag)
-                  picker:close()
-                  vim.cmd("tab h " .. item.tag)
-                end
-              end)
-            end,
-          }
-        )
-      end,
-      desc = "Help files"
-    },
-    -- {
-    --   "<space>g",
-    --   function()
-    --     Snacks.picker.git_status({
-    --       win = {
-    --         input = {
-    --           keys = {
-    --             ["<Tab>"] = { "select_and_next", mode = { "i", "n" } },
-    --           },
-    --         },
-    --       },
-    --     }
-    --     )
-    --   end,
-    --   desc = "Git Status"
-    -- },
-    --
     -- { "<space>d",       function() filePicker("Dotfiles", D, "*") end,                                         desc = "Dotfiles" },
-    -- { "<space>t",       function() filePicker("CLI Go Test files", os.getenv("CLI_HOME"), "*_test.go") end,    desc = "edit CLI test files" },
-    -- { "<space>m",       function() filePicker("CLI Go files", os.getenv("CLI_HOME"), "*.go", "*_test.go") end, desc = "edit CLI files" },
-    --
     -- -- { "<leader>T",   function() Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "Todo/Fix/Fixme" },
     -- { "<space><space>", function() Snacks.picker() end,                                                        desc = "Command History" },
     -- { "<space>y",       vim.cmd.YankyRingHistory,                                                              desc = "yank history" },
@@ -297,8 +171,8 @@ local M = {
       mode = { "n" },
     },
 
-    { "glb",      function() Snacks.git.blame_line() end, desc = "Git blame" },
-    { "glw",      function() Snacks.gitbrowse() end,      desc = "browse on remote" },
+    { "glb", function() Snacks.git.blame_line() end, desc = "Git blame" },
+    { "glw", function() Snacks.gitbrowse() end,      desc = "browse on remote" },
 
     {
       "glw",
