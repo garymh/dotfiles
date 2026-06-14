@@ -4,6 +4,7 @@
   excludesfile = ~/code/dotfiles/home/gitignore_global
   whitespace   = space-before-tab,-indent-with-non-tab,trailing-space
   editor       = nvim
+  fsmonitor    = true
 
   # Make `git rebase` safer on OS X
   # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
@@ -13,61 +14,43 @@
   # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
   precomposeunicode = false
 
-	untrackedCache = true
+  untrackedCache = true
   preloadIndex = true
-[index]
-  threads = 0
-[pack]
-  threads = 0
+
 [alias]
   fresh                  = remote update --prune
-  changes                = "!git log --oneline --invert-grep --grep=\"Merge branch\" --invert-grep --grep="chore" $(git describe --tags --abbrev=0)..main"
-  abbrev                 = !bash -c 'git rev-parse --short ${1-`echo HEAD`}' -
+  changes                = "!git log --oneline --invert-grep --grep='Merge branch' --invert-grep --grep='chore' $(git describe --tags --abbrev=0)..main"
+  abbrev                 = rev-parse --short
   abbrev-ref             = rev-parse --abbrev-ref HEAD
   amend                  = commit -a --amend
   back-to-origin         = !git reset --hard origin/`git symbolic-ref --short HEAD`
   back-to-security       = !git reset --hard security/`git symbolic-ref --short HEAD`
   co                     = checkout
   delete-local-branch    = branch -D
-  delete-merged-branches = "!delete-merged-branches"
   discard                = checkout --
   edit                   = !$EDITOR $(git status --porcelain | awk '{print $2}')
   explode                = !git reset --hard HEAD && git clean -d -f
   fuckthis               = !git reset --hard HEAD && git clean -d -f
-  kmr-changes            = !git ksdiff `git merge-base master HEAD`
-  ksdiff                 = difftool
   mr                     = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
-  mr-changes             = !git diff `git merge-base master HEAD`
+  mr-changes             = !git diff `git merge-base main HEAD`
   ours                   = "!f() { git co --ours $@ && git add $@; }; f"
   remotes                = remote -v
   remove-local-branch    = branch -D
   rename-local-branch    = branch -m
   rmfiles                = clean -fdx
-  rspec                  = !git_rspec "$@"
   set-security-upstream  = !git branch --set-upstream-to=security/`git symbolic-ref --short HEAD`
   set-upstream           = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
   stashes                = stash list
   theirs                 = "!f() { git co --theirs $@ && git add $@; }; f"
   uncommit               = reset --mixed HEAD~
   undo                   = reset --mixed HEAD~
-  ; cb = !git checkout $(git branch | fzf | tr -d "[:space:]")
   unpushed               = rebase -i @{u}
-  unstage                = reset -- $1
+  unstage                = restore --staged
   unundo                 = reset 'HEAD@{1}'
   up                     = !git pull --rebase --prune $@ && git submodule update --init --recursive
   update-submodules      = submodule update --init --recursive
-  url                    = "!glmr"
-  vim-status             = "!f() { vim_status; }; f"
-  vim-untracked-status   = "!f() { vim_untracked_status; }; f"
 
   ; git log -LN,M:/path/to-file
-
-[color]
-  branch      = auto
-  diff        = auto
-  interactive = auto
-  status      = auto
-  ui          = true
 
 [gc]
   reflogExpire            = 200
@@ -75,35 +58,26 @@
 
 [fetch]
   prune = true
-  parallel = 0
   writeCommitGraph = true
+  pruneTags = true
 
 [web]
   browser = open
 
-[status]
-  showUntrackedFiles = all
-
 [help]
   autocorrect = 1
 
-[filter "lfs"]
-  required = true
-  clean    = git-lfs clean -- %f
-  smudge   = git-lfs smudge -- %f
-  process  = git-lfs filter-process
-
 [include]
-  path    = ~/.gitconfig.local
+  path = ~/.gitconfig.local
 
 [includeIf "gitdir:~/code/work/"]
-  path     = ~/.gitconfig.work
-  fsmonitor = true
+  path = ~/.gitconfig.work
 
 [rebase]
   autoStash = true
   autosquash = true
-	instructionFormat = %<|(120) %s (%ar) <%an>
+  instructionFormat = %<|(120) %s (%ar) <%an>
+  updateRefs = true
 
 [stash]
   showIncludeUntracked = true
@@ -113,11 +87,11 @@
 
 [branch]
   autosetuprebase = always
+  sort = -committerdate
 
 [push]
   default = current
-	autoSetupRemote = true
-  ; autoSetupRemote = true
+  autoSetupRemote = true
 
 [pull]
   default = current
@@ -131,6 +105,7 @@
 
 [rerere]
   enabled = true
+  autoupdate = true
 
 [interactive]
   diffFilter = delta --color-only --features=interactive
@@ -138,12 +113,10 @@
 [delta]
   features = unobtrusive-line-numbers decorations
   whitespace-error-style = 22 reverse
-  ; side-by-side = true
   line-numbers = true
   navigate = true
   relative-paths = true
-  ; hyperlinks = true
-  theme = Sublime Snazzy
+  hyperlinks = true
 
 [delta "unobtrusive-line-numbers"]
   line-numbers = true
@@ -168,54 +141,45 @@
   hunk-header-style = file line-number syntax
 
 [commit]
-  template = .git/commit-msg
+  template = commit-msg
+
+[diff]
+  algorithm = histogram
+  colorMoved = zebra
+  mnemonicPrefix = true
+
+[merge]
+  conflictstyle = zdiff3
+
+[column]
+  ui = auto
+
+[tag]
+  sort = version:refname
+
+[log]
+  date = relative
+
+[advice]
+  detachedHead = false
 
 [features]
   manyfiles = true
+
 [init]
-	defaultBranch = main
+  defaultBranch = main
 
-# git blame -w -C -C -C
-# git diff --word-diff
-; $ git config --global rerere.enabled true
-; $ git config --global rerere.autoUpdate true
-; $ git config --global branch.sort -committerdate
-; $ git config --global alias.fpush push --force-with-lease
-;
-; $ git config gpg.format ssh
-; $ git config user.signingKey ~/.ssh/id_rsa.pub
-[diff]
-	tool = Kaleidoscope
-[difftool "Kaleidoscope"]
-	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [difftool]
-	prompt = false
-	trustExitCode = true
-[merge]
-	tool = Kaleidoscope
-[mergetool "Kaleidoscope"]
-	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-	trustExitCode = true
-[mergetool]
-	prompt = false
+  prompt = false
+  trustExitCode = true
 
-# [diff]
-#   tool = nvimdiff
-# [difftool]
-#     prompt = false
-# [difftool "nvimdiff"]
-#     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
-# [merge]
-#     tool = nvimdiff
-# [mergetool]
-#     prompt = true
-# [mergetool "nvimdiff"]
-#     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\" \"$MERGED\" -c 'wincmd w' -c 'wincmd J'"
-[github]
-	user = n/a
+[mergetool]
+  prompt = false
+
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
+
 [mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
