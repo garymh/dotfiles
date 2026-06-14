@@ -1,7 +1,4 @@
-gotestsum \
-  --format dots \
-  --jsonfile ./tests.log \
-  -- -cover -coverprofile ./cover.out -covermode count \
-  "$@"
+#!/usr/bin/env bash
 
-go tool cover -html ./cover.out -o ./cover.html
+go test -cover -coverprofile ./cover.out -covermode count "$@" && \
+  go tool cover -html ./cover.out -o ./cover.html
