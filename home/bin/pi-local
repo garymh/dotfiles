@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$HOME/.lmstudio/models/llama-cpp"
+SESSION_NAME="gemma4-server"
+HOST="${HOST:-127.0.0.1}"
+PORT="${PORT:-8080}"
+CTX_SIZE="${CTX_SIZE:-65536}"
+PARALLEL="${PARALLEL:-1}"
+
+LLAMA_SERVER="$ROOT_DIR/repos/llama.cpp/build/bin/llama-server"
+MODEL="$ROOT_DIR/models/unsloth-gemma-4-26B-A4B-it-GGUF/gemma-4-26B-A4B-it-UD-Q4_K_XL.gguf"
+DRAFT_MODEL="$ROOT_DIR/models/unsloth-gemma-4-26B-A4B-it-GGUF/MTP/gemma-4-26B-A4B-it-Q8_0-MTP.gguf"
+MMPROJ="$ROOT_DIR/models/unsloth-gemma-4-26B-A4B-it-GGUF/mmproj-BF16.gguf"
+LOG_FILE="$ROOT_DIR/logs/llama-server-mtp.log"
+
+start_server() {
+  if curl -sf "http://$HOST:$PORT/v1/models" >/dev/null 2>&1; then
+    echo "Server already running on $HOST:$PORT"
+    return
+  fi
+
+  mkdir -p "$ROOT_DIR/logs"
+
+  tmux new-session -d -s "$SESSION_NAME" -c "$ROOT_DIR" \
+    "$LLAMA_SERVER \
+      -m '$MODEL' \
+      --model-draft '$DRAFT_MODEL' \
+      --mmproj '$MMPROJ' \
+      --spec-type draft-mtp \
+      --spec-draft-n-max 3 \
+      -ngl 999 \
+      -fa on \
+      -c '$CTX_SIZE' \
+      --parallel '$PARALLEL' \
+      --host '$HOST' \
+      --port '$PORT' \
+      2>&1 | tee -a '$LOG_FILE'"
+
+  echo -n "Waiting for server on $HOST:$PORT"
+  retries=60
+  while ! curl -sf "http://$HOST:$PORT/v1/models" >/dev/null 2>&1; do
+    retries=$((retries - 1))
+    if [ $retries -le 0 ]; then
+      echo " timed out"
+      tmux kill-session -t "$SESSION_NAME" 2>/dev/null || true
+      exit 1
+    fi
+    echo -n "."
+    sleep 1
+  done
+  echo " ready"
+}
+
+stop_server() {
+  if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+    echo "Stopping server..."
+    tmux send-keys -t "$SESSION_NAME" C-c
+    sleep 2
+    tmux kill-session -t "$SESSION_NAME" 2>/dev/null || true
+    echo "Server stopped."
+  fi
+}
+
+start_server
+
+cleanup() {
+  stop_server
+}
+trap cleanup EXIT INT TERM
+
+echo "Starting Pi..."
+/opt/homebrew/bin/pi "$@"
+PI_EXIT=$?
+
+exit $PI_EXIT

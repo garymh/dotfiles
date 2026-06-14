@@ -12,4 +12,8 @@ cd "${BASEDIR}"
 git -C "${DOTBOT_DIR}" submodule sync --quiet --recursive
 git submodule update --init --recursive "${DOTBOT_DIR}"
 
-"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" --plugin-dir "./dotbot-plugins/*" -c "${CONFIG}" "${@}"
+# Cache sudo credentials upfront so dotbot-sudo and any other
+# sudo calls share the same session without re-prompting
+sudo -v 2>/dev/null || true
+
+"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"

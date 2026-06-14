@@ -91,6 +91,7 @@ alias -g btail="| bat --paging=never -l log"
 
 alias zdl='cd "$HOME/Downloads/"'
 alias zd="z dotfiles"
+alias relink="cd ~/code/dotfiles && ./install --only link"
 alias zh="cd ~"
 
 alias bundle-id="mdls -name kMDItemCFBundleIdentifier -r" # macOS bundle ID, not Ruby

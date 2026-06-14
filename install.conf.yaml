@@ -1,3 +1,8 @@
+- plugins:
+    - dotbot-plugins/dotbot-brew/brew.py
+    - dotbot-plugins/dotbot-duti/duti.py
+    - dotbot-plugins/dotbot-sudo/sudo.py
+
 - defaults:
     clean:
       force: true
@@ -5,6 +10,8 @@
       create: true
       relink: true
       force: true
+      backup: true
+      relative: true
     brewfile:
       stdout: true
     brew:
@@ -39,7 +46,7 @@
     ~/.zshrc: home/zshrc
     ~/.zimrc: home/zimrc
     ~/.zsh: home/zsh/
-    ~/.mackup: home/mackup
+    ~/.local/bin/pi-local: home/bin/pi-local
 
     ~/.config/lazygit/config.yml: home/lazygit.yml
     ~/.config/alacritty/alacritty.toml: home/alacritty.toml
@@ -52,19 +59,14 @@
     ~/.config/ripgrep/config: home/ripgreprc
     ~/.config/ghostty/config: home/ghostty
     ~/.config/luaformatter/config.yaml: home/luaformatter.yaml
-    ~/.config/nvim/autoload: home/vim/autoload/
-    ~/.config/nvim/ftdetect: home/vim/ftdetect/
-    ~/.config/nvim/ftplugin: home/vim/ftplugin/
-    ~/.config/nvim/after: home/vim/after/
-    ~/.config/nvim/lua: home/vim/lua/
-    ~/.config/nvim/lsp: home/vim/lsp/
-    ~/.config/nvim/spell: home/vim/spell/
-    ~/.config/nvim/snippets: home/vim/snippets/
+    ~/.config/nvim/:
+      path: home/vim/*
+      glob: true
 
     ~/iCloud:
       path: "~/Library/Mobile Documents/com~apple~CloudDocs"
       if: "[ `uname` = Darwin ]"
-    ~/.zsh/private:
+    home/zsh/private:
       path: ~/iCloud/Internal/private
       if: "[ `uname` = Darwin ]"
     ~/.ssh:
@@ -104,10 +106,14 @@
     - Brewfile
 
 - shell:
-    - ["touch ~/.hushlogin", "Hushing login"]
-    - ["touch ~/.rm_recycle", "Enabling recycling"]
-    - ["./scripts/macos/dockutil_init.sh", "Fixing up Dock"]
-    - ["./scripts/macos/hide_folders.sh", "Hiding macos folders"]
+    - command: touch ~/.hushlogin
+      description: Hushing login
+    - command: touch ~/.rm_recycle
+      description: Enabling recycling
+    - command: ./scripts/macos/dockutil_init.sh
+      description: Fixing up Dock
+    - command: ./scripts/macos/hide_folders.sh
+      description: Hiding macos folders
 
 - duti:
     file: scripts/macos/Dutifile

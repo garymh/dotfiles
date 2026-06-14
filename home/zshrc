@@ -7,13 +7,14 @@ skip_global_compinit=1
 
 for f (
     $DOTFILES/home/zsh/commands.sh
-    $DOTFILES/home/zsh/ruby.sh
     $DOTFILES/home/zsh/git.sh
     $DOTFILES/home/zsh/golang.sh
     $DOTFILES/home/zsh/update.sh
     $DOTFILES/home/zsh/overload.sh) {
     source $f
 }
+
+_exists ruby && source $DOTFILES/home/zsh/ruby.sh
 
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=100000000
@@ -27,11 +28,12 @@ setopt SHARE_HISTORY
 
 hash -d dotfiles=~/code/dotfiles
 
+# Pi wrapper: auto-starts/stops local llama.cpp server
+path=(~/.local/bin $path)
+
 _exists nvim && export VISUAL='nvim' || export VISUAL='vim'
 export EDITOR="$VISUAL"
 export GIT_EDITOR="$VISUAL"
-
-# _exists bob && . "$HOME/.local/share/bob/env/env.sh"
 
 # tty only
 # plugins, completions, keybindings, fzf, prompt — skip for agents/scripts
@@ -43,8 +45,7 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     source $DOTFILES/home/zsh/ysu_ignored.sh
 
     export YSU_MODE=ALL
-    # TODO:
-    # export YSU_HARDCORE_ALIASES=("gs" "ll" "gco")
+    # TODO: export YSU_HARDCORE_ALIASES=("gs" "ll" "gco")
 
     source $HOME/.ziminit
 
@@ -87,3 +88,7 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
         e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"
     fi
 fi
+
+# >>> oh-my-opencode-slim background subagents >>>
+export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true
+# <<< oh-my-opencode-slim background subagents <<<
