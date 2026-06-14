@@ -1,3 +1,5 @@
+# https://docs.brew.sh/Brew-Bundle-and-Brewfile
+
 tap 'osx-cross/arm', trusted: true
 tap 'osx-cross/avr', trusted: true
 tap 'qmk/qmk', trusted: true
@@ -47,6 +49,9 @@ brew 'zsh-patina'
 brew 'oven-sh/bun/bun', trusted: true
 brew 'opencode'
 brew 'nowplaying-cli'
+brew 'git-trim'
+brew 'm1ddc'
+brew 'prettyping'
 
 cask '1password'
 cask '1password-cli'
@@ -153,11 +158,13 @@ tap 'rafaelswi/menubarusb'
 cask 'rafaelswi/menubarusb/menubarusb', trusted: true
 cargo "pay-respects"
 cask 'knockknock'
+cask 'obsidian'
+cask 'claude'
 go 'github.com/betterdiscord/cli'
-brew 'bat'
 cargo 'bob'
 brew 'direnv'
 brew 'fd'
+brew 'fzf'
 brew 'jq'
 brew 'lazygit'
 brew 'lsd'

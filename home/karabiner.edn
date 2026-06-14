@@ -48,7 +48,7 @@
  :templates {:launcher        "open -a \"%s.app\""
              :url             "open \"%sp\""
              :alfred          "osascript -e 'tell application id \"com.runningwithcrayons.Alfred\" to run trigger \"%s\" in workflow \"%s\"'"
-             :monitor_control "~/.zsh/bin/m1ddc display 1 set input 15"
+             :monitor_control "m1ddc display 1 set input 15"
              :applescript     "osascript \"$HOME/iCloud/Internal/custom/applescripts/%s.scpt\""
              :hammerspoon     "osascript -e 'tell application \"Hammerspoon\" to execute lua code \"%s\"'"}
 
