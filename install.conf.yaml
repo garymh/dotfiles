@@ -94,6 +94,9 @@
     ~/.config/opencode:
       path: home/zsh/private/opencode/
       if: "[ `uname` = Darwin ]"
+    ~/Vaults:
+      path: "~/Library/Mobile Documents/iCloud~md~obsidian/Documents"
+      if: "[ `uname` = Darwin ]"
 
 - install-brew: true
 
