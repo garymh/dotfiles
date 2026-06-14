@@ -12,4 +12,4 @@ dockutil --add "/Applications/Discord.app"
 dockutil --add '' --type spacer --section apps --after Slack
 dockutil --add "/Applications/Calendar.app"
 dockutil --add "/Applications/System Settings.app"
-dockutil --add "$HOME/Downloads" --view list --display folder --sort name
+dockutil --add "$HOME/Downloads" --view list --display folder --sort dateadded
