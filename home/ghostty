@@ -10,7 +10,6 @@ font-feature = cv04
 font-feature = ss05
 font-feature = zero
 
-# keybind = cmd+shift+f=toggle_fullscreen
 # ❯ kitten show_key
 keybind = cmd+shift+grave_accent=toggle_quick_terminal
 keybind = cmd+shift+t=undo
@@ -25,32 +24,34 @@ keybind = super+shift+d=new_split:right
 keybind = global:cmd+escape=toggle_quick_terminal
 keybind = ctrl+enter=text:\r
 keybind = shift+enter=text:\n
+keybind = ctrl+shift+f=toggle_fullscreen
+keybind = chain=toggle_window_decorations
 
 clipboard-read                    = allow
 clipboard-write                   = allow
 confirm-close-surface             = false
 cursor-opacity                    = 0.5
+notify-on-command-finish          = unfocused
+progress-style                    = true
 quick-terminal-animation-duration = 0.1
 quick-terminal-position           = right
 quick-terminal-size               = 45%,50%
+shell-integration-features        = ssh-env,ssh-terminfo
+split-inherit-working-directory   = true
+tab-inherit-working-directory     = true
 theme                             = Rose Pine Moon
+window-inherit-working-directory  = false
 window-padding-balance            = true
 window-padding-x                  = 10
 window-padding-y                  = 10
 window-theme                      = system
 window-vsync                      = false
-notify-on-command-finish          = unfocused
-window-inherit-working-directory  = false
-tab-inherit-working-directory     = true
-split-inherit-working-directory   = true
-progress-style                    = true
 
-keybind = ctrl+shift+f=toggle_fullscreen
-keybind = chain=toggle_window_decorations
-
-# font-family = 0xProto
+font-family = 0xProto
 # font-family = 3270 Condensed
+# font-family = APL385 Unicode
 # font-family = Adwaita Mono
+# font-family = Atari Classic
 # font-family = Berkeley Mono
 # font-family = CommitMono-gary
 # font-family = D2CodingLigature Nerd Font Mono
@@ -64,7 +65,7 @@ keybind = chain=toggle_window_decorations
 # font-family = Input Mono Condensed
 # font-family = IntelOne Mono
 # font-family = Iosevka Comfy
-font-family = Iosevka Comfy Wide
+# font-family = Iosevka Comfy Wide
 # font-family = Iosevka SS08
 # font-family = IosevkaTermSlab Nerd Font Mono
 # font-family = Iosvmata
