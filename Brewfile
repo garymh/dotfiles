@@ -172,6 +172,7 @@ brew 'tree-sitter'
 brew 'yq'
 brew 'yt-dlp'
 brew 'git-lfs'
+brew 'wallpaper'
 
 npm "fkill-cli"
 npm "neovim"

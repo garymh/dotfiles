@@ -80,6 +80,7 @@
       if: "[ `uname` = Darwin ]"
     ~/.hammerspoon/watchers/screens.lua:
       path: ~/iCloud/Internal/custom/screens.lua
+      relative: false
       if: "[ `uname` = Darwin ]"
     ~/.config/karabiner.edn:
       path: home/karabiner.edn
