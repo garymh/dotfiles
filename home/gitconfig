@@ -147,9 +147,11 @@
   algorithm = histogram
   colorMoved = zebra
   mnemonicPrefix = true
+	tool = abd
 
 [merge]
   conflictstyle = zdiff3
+	tool = abd
 
 [column]
   ui = auto
@@ -170,7 +172,7 @@
   defaultBranch = main
 
 [difftool]
-  prompt = false
+	prompt = false
   trustExitCode = true
 
 [mergetool]
@@ -183,3 +185,10 @@
 [mergetool "sourcetree"]
   cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
   trustExitCode = true
+[difftool "delta"]
+	cmd = delta \"$LOCAL\" \"$REMOTE\"
+[mergetool "abd"]
+	trustExitCode = true
+	cmd = abd --base \"$BASE\" --local \"$LOCAL\" --remote \"$REMOTE\" --result \"$MERGED\"
+[difftool "abd"]
+	cmd = abd --local \"$LOCAL\" --remote \"$REMOTE\"
