@@ -99,7 +99,7 @@ cask 'onyx'
 cask 'openscad@snapshot'
 cask 'orbstack'
 cask 'orcaslicer'
-cask "tonisives/tap/ovim", trusted: true
+cask 'tonisives/tap/ovim', trusted: true
 cask 'pacifist'
 cask 'permute'
 cask 'rapidapi'
@@ -122,52 +122,52 @@ cask 'ungoogled-chromium'
 cask 'vimr'
 cask 'vlc'
 
-mas "1Password for Safari", id: 1569813296
-mas "ABDiff", id: 6757188997
-mas "Actions", id: 1586435171
-mas "Aeronaut", id: 6670275450
-mas "Blankie", id: 6740096581
-mas "Brother P-touch Editor", id: 1453365242
-mas "ColorSlurp", id: 1287239339
-mas "Dark Reader for Safari", id: 1438243180
-mas "Data Jar", id: 1453273600
-mas "Dato", id: 1470584107
-mas "DeArrow", id: 6451469297
-mas "Home Assistant", id: 1099568401
-mas "Hush", id: 1544743900
-mas "Instapaper", id: 288545208
-mas "Itsyhome", id: 6758070650
-mas "JSON Peep", id: 1458969831
-mas "Keynote", id: 361285480
-mas "Link Unshortener", id: 1506953658
-mas "Mona 6", id: 1659154653
-mas "Numbers", id: 361304891
-mas "Obsidian Web Clipper", id: 6720708363
-mas "OpenIn", id: 1643649331
-mas "Pages", id: 361309726
-mas "PiPifier", id: 1160374471
-mas "Pixelmator Pro", id: 1289583905
-mas "Reeder", id: 1529448980
-mas "Shareful", id: 1522267256
-mas "Silicio", id: 933627574
-mas "SingleFile", id: 6444322545
-mas "Sink It", id: 6449873635
-mas "Speedtest", id: 1153157709
-mas "SponsorBlock", id: 1573461917
-mas "SQLPro for SQLite", id: 586001240
-mas "StopTheMadness Pro", id: 6471380298
-mas "StopTheScript", id: 1588394487
-mas "Supernote Partner", id: 1494992020
-mas "TestFlight", id: 899247664
-mas "uBlock Origin Lite", id: 6745342698
-mas "UnTrap", id: 1637438059
-mas "URL Linker", id: 1289119450
-mas "UTC Time", id: 1538245904
-mas "WattBar", id: 6757991474
-mas "Windows App", id: 1295203466
-mas "Xcode", id: 497799835
+mas '1Password for Safari', id: 1_569_813_296
+mas 'ABDiff', id: 6_757_188_997
+mas 'Actions', id: 1_586_435_171
+mas 'Aeronaut', id: 6_670_275_450
+mas 'Blankie', id: 6_740_096_581
+mas 'Brother P-touch Editor', id: 1_453_365_242
+mas 'ColorSlurp', id: 1_287_239_339
+mas 'Dark Reader for Safari', id: 1_438_243_180
+mas 'Data Jar', id: 1_453_273_600
+mas 'Dato', id: 1_470_584_107
+mas 'DeArrow', id: 6_451_469_297
+mas 'Home Assistant', id: 1_099_568_401
+mas 'Hush', id: 1_544_743_900
+mas 'Instapaper', id: 288_545_208
+mas 'Itsyhome', id: 6_758_070_650
+mas 'JSON Peep', id: 1_458_969_831
+mas 'Keynote', id: 361_285_480
+mas 'Link Unshortener', id: 1_506_953_658
+mas 'Mona 6', id: 1_659_154_653
+mas 'Numbers', id: 361_304_891
+mas 'Obsidian Web Clipper', id: 6_720_708_363
+mas 'OpenIn', id: 1_643_649_331
+mas 'Pages', id: 361_309_726
+mas 'PiPifier', id: 1_160_374_471
+mas 'Pixelmator Pro', id: 1_289_583_905
+mas 'Reeder', id: 1_529_448_980
+mas 'Shareful', id: 1_522_267_256
+mas 'Silicio', id: 933_627_574
+mas 'SingleFile', id: 6_444_322_545
+mas 'Sink It', id: 6_449_873_635
+mas 'Speedtest', id: 1_153_157_709
+mas 'SponsorBlock', id: 1_573_461_917
+mas 'SQLPro for SQLite', id: 586_001_240
+mas 'StopTheMadness Pro', id: 6_471_380_298
+mas 'StopTheScript', id: 1_588_394_487
+mas 'Supernote Partner', id: 1_494_992_020
+mas 'TestFlight', id: 899_247_664
+mas 'uBlock Origin Lite', id: 6_745_342_698
+mas 'UnTrap', id: 1_637_438_059
+mas 'URL Linker', id: 1_289_119_450
+mas 'UTC Time', id: 1_538_245_904
+mas 'WattBar', id: 6_757_991_474
+mas 'Windows App', id: 1_295_203_466
+mas 'Xcode', id: 497_799_835
 
-cargo "pay-respects"
+cargo 'pay-respects'
 cargo 'bob'
 cask 'claude'
 cask 'knockknock'
@@ -176,6 +176,6 @@ cask 'rafaelswi/menubarusb/menubarusb', trusted: true
 go 'github.com/betterdiscord/cli'
 tap 'rafaelswi/menubarusb'
 
-npm "fkill-cli"
-npm "neovim"
-npm "@earendil-works/pi-coding-agent"
+npm 'fkill-cli'
+npm 'neovim'
+npm '@earendil-works/pi-coding-agent'
