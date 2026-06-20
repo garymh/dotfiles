@@ -18,6 +18,7 @@ alias eprivate='v $DOTFILES/home/zsh/private/private.zsh'
 alias evimrc='v $DOTFILES/home/vim/init.lua'
 alias egit='v $DOTFILES/home/gitconfig'
 alias zshrc='v $DOTFILES/home/zshrc'
+alias evimari="v ~/Library/Containers/net.televator.Vimari.SafariExtension/Data/Library/Application\ Support/userSettings.json"
 
 alias eghost='v $HOME/.config/ghostty/config'
 alias ealacritty='v $DOTFILES/home/alacritty/alacritty.yml'
@@ -134,5 +135,3 @@ alias pubkey="more ~/.ssh/id_ed25519.pub | pbcopy | e_success 'Public key copied
 mkp() { mkdir -p "$@"; }
 
 mkwarn() { sed "s/.*'\(.*\)'.*/\1/" | xargs -I{} mkdir -p "{}"; }
-
-

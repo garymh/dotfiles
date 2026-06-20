@@ -22,6 +22,7 @@ HISTSIZE=1000000000
 
 setopt APPEND_HISTORY
 setopt EXTENDED_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_REDUCE_BLANKS
 setopt HIST_FIND_NO_DUPS
 setopt SHARE_HISTORY
@@ -47,7 +48,7 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     export YSU_MODE=ALL
     # TODO: export YSU_HARDCORE_ALIASES=("gs" "ll" "gco")
 
-    source $HOME/.ziminit
+    source $DOTFILES/home/zsh/zim.sh
 
     # post-zim config
     source $DOTFILES/home/zsh/fzf.sh
@@ -57,6 +58,10 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     setopt ALWAYS_TO_END
     setopt AUTO_MENU
     setopt COMPLETE_IN_WORD
+
+    setopt CORRECT
+    SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+    WORDCHARS=${WORDCHARS//[\/]}
 
     unsetopt CORRECT_ALL
     unsetopt FLOWCONTROL
