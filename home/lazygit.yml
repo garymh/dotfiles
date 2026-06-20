@@ -1,9 +1,13 @@
 git:
+  rebase:
+    updateRefs: true
   pagers:
     - colorArg: always
-      pager: /opt/homebrew/bin/delta --paging=never --dark
+      pager: /opt/homebrew/bin/delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+      externalDiffCommand: difft --color=always --display=inline
 gui:
   mainPanelSplitMode: "flexible" # one of 'horizontal' | 'flexible' | 'vertical'
+  nerdFontsVersion: "3"
   theme:
     activeBorderColor:
       - "#095AA8"
@@ -20,57 +24,6 @@ customCommands:
     description: "Generate commit message with OpenCode"
     command: "git-ai-commit"
     output: terminal
-  - key: "f"
-    command: "git difftool -y {{.SelectedLocalCommit.Sha}} -- {{.SelectedCommitFile.Name}}"
-    context: "commitFiles"
-    description: "Compare (difftool) with local copy"
-  - key: "<c-p>"
-    context: "global"
-    loadingText: "pushing"
-    prompts:
-      - type: "input"
-        title: "which branch do you want to push to?"
-    command: "git push origin {{index .PromptResponses 0}}"
-  - key: "P"
-    command: "git push {{.SelectedRemote.Name}} {{.SelectedLocalCommit.Sha}}:{{.SelectedLocalBranch.Name}}"
-    context: "commits"
-    loadingText: "Pushing commit..."
-    description: "Push a specific commit (and any preceding)"
-    output: log
-  - key: "M"
-    command: "git mergetool {{ .SelectedFile.Name }}"
-    context: "files"
-    loadingText: "opening git mergetool"
-    output: terminal
-  - key: "b"
-    command: "git branch --merged master | grep -v '^[ *]*master$' | xargs -r git branch -d"
-    context: "localBranches"
-    loadingText: "Pruning..."
-    description: "prune local branches that have been merged to master"
-  - key: "G"
-    command: |
-      git fetch -p && for branch in $(git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == "[gone]" {sub("refs/heads/", "", $1); print $1}'); do git branch -D $branch; done
-    context: "localBranches"
-    description: "Prune local branches no longer on its remote; (G)one."
-    loadingText: "Pruning gone..."
-  - key: "<c-a>"
-    description: "Search the whole history (From a ref and down) for an expression in a file"
-    command: "git checkout {{index .PromptResponses 3}}"
-    context: "commits"
-    prompts:
-      - type: "input"
-        title: "Search word:"
-      - type: "input"
-        title: "File/Subtree:"
-      - type: "input"
-        title: "Ref:"
-        initialValue: "{{index .CheckedOutBranch.Name }}"
-      - type: "menuFromCommand"
-        title: "Commits:"
-        command: "git log --oneline {{index .PromptResponses 2}} -S'{{index .PromptResponses 0}}' --all -- {{index .PromptResponses 1}}"
-        filter: "(?P<commit_id>[0-9a-zA-Z]*) *(?P<commit_msg>.*)"
-        valueFormat: "{{ .commit_id }}"
-        labelFormat: "{{ .commit_id | green | bold }} - {{ .commit_msg | yellow }}"
   - key: "<c-v>"
     context: "global"
     description: "Create new conventional commit"
@@ -134,38 +87,8 @@ customCommands:
         body: "Are you sure you want to commit?"
     command: "git commit --message '{{.Form.Type}}{{ if .Form.Scope }}({{ .Form.Scope }}){{ end }}{{.Form.Breaking}}: {{.Form.Message}}'"
     loadingText: "Creating conventional commit..."
-  - key: "K"
-    description: "Disentangle: Squash all changes into a single commit and rebase onto the selected branch"
-    context: localBranches
-    command: |-
-      #!/bin/bash
-
-      # Set the base branch
-      BASE_BRANCH="{{.SelectedLocalBranch.Name}}"
-
-      # Check if the working tree is dirty
-      if [[ -n $(git status --porcelain) ]]; then
-          echo "Error: Working tree is dirty. Please commit or stash your changes before running this script."
-          exit 1
-      fi
-
-      # Get the merge base commit
-      merge_base=$(git merge-base $BASE_BRANCH HEAD)
-
-      # Get the first commit hash, message, and author details
-      first_commit_hash=$(git rev-list --reverse $merge_base..HEAD | head -n 1)
-      first_commit_message=$(git log -1 --format=%B $first_commit_hash)
-
-      # Reset to the merge base
-      git reset $merge_base
-
-      # Stage all changes
-      git add -A
-
-      # Create a new commit with all the changes, using the first commit's message and author
-      GIT_AUTHOR_NAME="$(git log -1 --format='%an' $first_commit_hash)" \
-      GIT_AUTHOR_EMAIL="$(git log -1 --format='%ae' $first_commit_hash)" \
-      git commit -m "$first_commit_message"
-
-      # Rebase onto the base branch
-      git rebase $BASE_BRANCH
+  - key: "b"
+    command: "git branch --merged master | grep -v '^[ *]*master$' | xargs -r git branch -d"
+    context: "localBranches"
+    loadingText: "Pruning..."
+    description: "prune local branches that have been merged to master"
