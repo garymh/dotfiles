@@ -117,6 +117,7 @@
   navigate = true
   relative-paths = true
   hyperlinks = true
+  side-by-side = false
 
 [delta "unobtrusive-line-numbers"]
   line-numbers = true
@@ -147,7 +148,8 @@
   algorithm = histogram
   colorMoved = zebra
   mnemonicPrefix = true
-	tool = abd
+  external = difft
+  tool = difftastic
 
 [merge]
   conflictstyle = zdiff3
@@ -171,24 +173,12 @@
 [init]
   defaultBranch = main
 
+[pager]
+  difftool = true
+
 [difftool]
 	prompt = false
   trustExitCode = true
 
-[mergetool]
-  prompt = false
-
-[difftool "sourcetree"]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path =
-
-[mergetool "sourcetree"]
-  cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
-[difftool "delta"]
-	cmd = delta \"$LOCAL\" \"$REMOTE\"
-[mergetool "abd"]
-	trustExitCode = true
-	cmd = abd --base \"$BASE\" --local \"$LOCAL\" --remote \"$REMOTE\" --result \"$MERGED\"
-[difftool "abd"]
-	cmd = abd --local \"$LOCAL\" --remote \"$REMOTE\"
+[difftool "difftastic"]
+  cmd = difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"
