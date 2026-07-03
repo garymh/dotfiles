@@ -31,6 +31,7 @@
   edit                   = !$EDITOR $(git status --porcelain | awk '{print $2}')
   explode                = !git reset --hard HEAD && git clean -d -f
   fuckthis               = !git reset --hard HEAD && git clean -d -f
+  git                    = !exec git
   mr                     = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
   mr-changes             = !git diff `git merge-base main HEAD`
   ours                   = "!f() { git co --ours $@ && git add $@; }; f"
@@ -38,6 +39,7 @@
   remove-local-branch    = branch -D
   rename-local-branch    = branch -m
   rmfiles                = clean -fdx
+  sha                    = rev-parse HEAD
   set-security-upstream  = !git branch --set-upstream-to=security/`git symbolic-ref --short HEAD`
   set-upstream           = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
   stashes                = stash list
@@ -166,6 +168,8 @@
 
 [advice]
   detachedHead = false
+  statusHints = true
+	pushNonFastForward = false
 
 [features]
   manyfiles = true
