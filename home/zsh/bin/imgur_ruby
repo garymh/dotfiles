@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+# vi:syntax=ruby
+
+require "uri"
+require "net/http"
+require 'base64'
+require 'json'
+def gif?(file)
+  true if file[-4..] == ".gif"
+end
+
+def image_format(file)
+  return "image" if gif?(file)
+  "video"
+end
+
+file = ARGV[0]
+data = File.open(file).read
+
+if gif?(file)
+  encoded = Base64.encode64(data)
+  string = encoded.gsub(/\n/,"")
+  form_data = [["image", string]]
+  url = URI("https://api.imgur.com/3/image")
+else
+  form_data = [["video", File.open(file, "rb")]]
+  url = URI("https://api.imgur.com/3/upload")
+end
+
+https = Net::HTTP.new(url.host, url.port)
+https.use_ssl = true
+request = Net::HTTP::Post.new(url)
+request["Authorization"] = "Client-ID 1e7ae772008fdac"
+request.set_form form_data, 'multipart/form-data'
+response = https.request(request)
+hash = JSON.parse response.read_body
+
+if hash["status"] == 200
+  puts hash["data"]["link"].chomp
+else
+  puts "failed :("
+end

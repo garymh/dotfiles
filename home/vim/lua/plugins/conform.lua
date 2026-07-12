@@ -36,12 +36,13 @@ function M.config()
   conform.setup({
     formatters_by_ft = {
       lua        = { lsp_format = "prefer" },
-      go         = { "gofumpt", "goimports", lsp_format = "fallback" },
+      go         = { "gofumpt", "goimports-reviser", lsp_format = "fallback" },
       edn        = { "zprint" },
       html       = { "prettier" },
       json       = { "jq" },
+      jsonc      = { "jq" },
       tex        = { "latexindent" },
-      typescript = { "ts-standard" },
+      typescript = { "deno_fmt" },
       javascript = { "prettier" },
       yaml       = { "yamlfmt" },
       sh         = { "beautysh" },
