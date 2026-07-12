@@ -1,8 +1,6 @@
 - plugins:
     - dotbot-plugins/dotbot-brew/brew.py
     - dotbot-plugins/dotbot-duti/duti.py
-    - dotbot-plugins/dotbot-sudo/sudo.py
-
 - defaults:
     clean:
       force: true
@@ -13,18 +11,12 @@
       backup: true
       relative: true
     brewfile:
+      stdin: false
       stdout: true
     brew:
       stderr: true
       stdout: true
-
-- sudo:
-    - shell:
-        - ["chmod 600 ~/.ssh/id_ed25519", Fixing permissions (1/2)]
-        - ["chmod 600 ~/.ssh/id_ed25519.pub", Fixing permissions (2/2)]
-
 - clean: ["~", "~/.config"]
-
 - link:
     ~/.ctags: home/ctags
     ~/.rgignore: home/agignore
@@ -32,7 +24,6 @@
     ~/.batconfig: home/batconfig
     ~/.ignore: home/agignore
     ~/.gemrc: home/gemrc
-    ~/.default-gems: home/default-gems
     ~/.irbrc: home/irbrc
     ~/.gitconfig: home/gitconfig
     ~/.bundle/config: home/bundle_config
@@ -47,7 +38,6 @@
     ~/.zimrc: home/zimrc
     ~/.zsh: home/zsh/
     ~/.local/bin/pi-local: home/bin/pi-local
-
     ~/.config/lazygit/config.yml: home/lazygit.yml
     ~/.config/alacritty/alacritty.toml: home/alacritty.toml
     ~/.config/atuin/config.toml: home/atuin.toml
@@ -62,7 +52,6 @@
     ~/.config/nvim/:
       path: home/vim/*
       glob: true
-
     ~/iCloud:
       path: "~/Library/Mobile Documents/com~apple~CloudDocs"
       if: "[ `uname` = Darwin ]"
@@ -82,8 +71,8 @@
       path: ~/iCloud/Internal/custom/screens.lua
       relative: false
       if: "[ `uname` = Darwin ]"
-    ~/.config/karabiner.edn:
-      path: home/karabiner.edn
+    ~/.config/karabiner/assets/complex_modifications/karabiner.js:
+      path: home/karabiner.js
       if: "[ `uname` = Darwin ]"
     ~/.gitconfig.local:
       path: home/zsh/private/gitconfig.local
@@ -100,12 +89,9 @@
     ~/Vaults:
       path: "~/Library/Mobile Documents/iCloud~md~obsidian/Documents"
       if: "[ `uname` = Darwin ]"
-
 - install-brew: true
-
 - brewfile:
     - Brewfile
-
 - shell:
     - command: touch ~/.hushlogin
       description: Hushing login
@@ -115,6 +101,11 @@
       description: Fixing up Dock
     - command: ./scripts/macos/hide_folders.sh
       description: Hiding macos folders
-
+    - command: chmod 700 ~/.ssh 2>/dev/null || true
+      description: SSH dir perms
+    - command: chmod 600 ~/.ssh/id_* ~/.ssh/*.pem 2>/dev/null || true
+      description: Locking private keys
+    - command: chmod 644 ~/.ssh/*.pub 2>/dev/null || true
+      description: Public key perms
 - duti:
     file: scripts/macos/Dutifile

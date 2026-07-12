@@ -4,53 +4,61 @@ typeset -U PATH path
 
 source $HOME/.zsh/misc/utility.zsh
 
+# Homebrew
 export HOMEBREW_PREFIX="/opt/homebrew"
 export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
 export HOMEBREW_REPOSITORY="/opt/homebrew"
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-[ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}"
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
+[ -n "${MANPATH-}" ] && export MANPATH=":${MANPATH#:}"
+export MANPATH="/opt/homebrew/share/man:${MANPATH:-}"
 
-# for https://github.com/garymh/acrobuddy
-export DICT_DEV_KIT_BIN="$HOME/code/Dictionary Development Kit/bin/build_dict.sh"
-
+# Dotfiles
 export DOTFILES="$HOME/code/dotfiles"
+export HOME_DIR="$DOTFILES/home"
 
-export OPENCODE_DISABLE_SHARE="true"
-export NEOVIDE_FRAME="transparent"
-export NEOVIDE_FORK=1
-export GF_BRANCH_SKIP_REMOTE_BRANCHES="yes"
-export COMPLETION_WAITING_DOTS="true"
+# Tool config
 export HOMEBREW_BAT=1
 export HOMEBREW_BUNDLE_FILE_PATH="$DOTFILES/Brewfile"
 export HOMEBREW_DOWNLOAD_CONCURRENCY="auto"
 export HOMEBREW_CASK_OPTS="--fontdir=~/Library/Fonts"
 export HOMEBREW_DISPLAY_INSTALL_TIMES=1
 export HOMEBREW_NO_ANALYTICS=1
-export QMK_HOME='$HOME/code/qmk/qmk_firmware'
-export HOME_DIR="$DOTFILES/home"
-export LANG="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
-export NAVI_PATH="$DOTFILES/home/doc"
-export NEXTWORD_DATA_PATH="$HOME/.config/nextword-data"
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
 export STARSHIP_LOG="error"
-export VIMFILES="$HOME/code/dotfiles/home/vim"
+export NAVI_PATH="$DOTFILES/home/doc"
+export NEXTWORD_DATA_PATH="$HOME/.config/nextword-data"
 export XDG_CONFIG_HOME="$HOME/.config"
 export PAGER="bat"
 export LESS="FrX"
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
+# App-specific
+export OPENCODE_DISABLE_SHARE="true"
+export NEOVIDE_FRAME="transparent"
+export NEOVIDE_FORK=1
+export GF_BRANCH_SKIP_REMOTE_BRANCHES="yes"
+export COMPLETION_WAITING_DOTS="true"
+export QMK_HOME="$HOME/code/qmk/qmk_firmware"
+export DICT_DEV_KIT_BIN="$HOME/code/Dictionary Development Kit/bin/build_dict.sh"
+
+# Compiler/linker flags (icu4c, openssl@3)
 export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c/lib/pkgconfig:/opt/homebrew/opt/openssl@3/lib/pkgconfig"
 export LDFLAGS="-L/opt/homebrew/opt/icu4c/lib -L/opt/homebrew/opt/openssl@3/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/icu4c/include -I/opt/homebrew/opt/openssl@3/include"
-export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:$HOME/go/bin"
-export PATH="$HOME_DIR/zsh/bin:$PATH"
-export PATH="$PATH:$HOME/.spicetify"
-export PATH="$PATH:$HOME/.yarn/bin"
-export PATH="$HOME/.opencode/bin:$PATH"
 
-_dir_exists $HOME/.cargo/bin && export PATH="$PATH:$HOME/.cargo/bin"
+# PATH (guarded — only add dirs that exist)
+for d (
+    $HOME_DIR/zsh/bin
+    $HOME/.local/bin
+    $HOME/go/bin
+    $HOME/.opencode/bin
+    $HOME/.spicetify
+    $HOME/.yarn/bin
+    $HOME/.cargo/bin) {
+    _dir_exists $d && path=($d $path)
+}
 
 for f in ~/.zsh/private/*.zsh(N); do
     [ -e "$f" ] && source $f || break

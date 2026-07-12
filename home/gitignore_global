@@ -82,18 +82,7 @@ rails.rb
 tags\~
 .env
 
-# temporary
-gary_hacks.rb
-gary_spec_helper.rb
-Gemfile.private
-Gemfile.private.lock
-devgems
-# config/metrics
-# ee/config/metrics
-.gitlab/*/Gary.md
-
 .projections.json
-.gitlab.nvim
 logs
 
 Gemfile.local
@@ -101,4 +90,3 @@ Gemfile.local.lock
 cover.cov
 .claude
 sandboxes
-gitlab-workspaces

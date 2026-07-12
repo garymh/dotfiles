@@ -3,7 +3,6 @@ Bugfix
 CLI
 CodeReuse
 EE
-GitLab
 Golang
 JID
 JSON
@@ -37,7 +36,6 @@ foldmethod
 frontend
 frozen_string_literal
 fullscreen
-gitlab
 idempotency
 iid
 jid

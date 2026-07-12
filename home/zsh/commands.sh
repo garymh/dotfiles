@@ -11,7 +11,7 @@ alias debug_nvim="NVIM_APPNAME=rawnvim nvim"
 alias debug_nvimrc='NVIM_APPNAME=rawnvim nvim $HOME/code/dotfiles/home/vim/min_init.lua'
 
 alias ezshenv='v $DOTFILES/home/zprofile'
-alias ekar='v $DOTFILES/home/karabiner.json'
+alias ekar='v $DOTFILES/home/karabiner.js'
 alias ealias='v $DOTFILES/home/zsh/commands.sh'
 alias efunction='v $DOTFILES/home/zsh/commands.sh'
 alias eprivate='v $DOTFILES/home/zsh/private/private.zsh'
@@ -22,7 +22,7 @@ alias evimari="v ~/Library/Containers/net.televator.Vimari.SafariExtension/Data/
 
 alias eghost='v $HOME/.config/ghostty/config'
 alias ealacritty='v $DOTFILES/home/alacritty/alacritty.yml'
-alias egoku='v $HOME/.config/karabiner.edn'
+
 alias eopen='v $HOME/.config/opencode/opencode.jsonc'
 
 alias oc="opencode"

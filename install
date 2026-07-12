@@ -12,8 +12,12 @@ cd "${BASEDIR}"
 git -C "${DOTBOT_DIR}" submodule sync --quiet --recursive
 git submodule update --init --recursive "${DOTBOT_DIR}"
 
-# Cache sudo credentials upfront so dotbot-sudo and any other
-# sudo calls share the same session without re-prompting
+# Cache sudo credentials upfront and keep the session alive for the whole
+# run so dotbot and any nested sudo calls share one authorization.
+# ponytail: 60s refresh loop, bump interval if sudoers timestamp_timeout < 60
 sudo -v 2>/dev/null || true
+while true; do sudo -n true 2>/dev/null; sleep 60; done &
+SUDO_KEEPALIVE_PID=$!
+trap 'kill "$SUDO_KEEPALIVE_PID" 2>/dev/null' EXIT
 
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"

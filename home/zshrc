@@ -14,7 +14,7 @@ for f (
     source $f
 }
 
-_exists ruby && source $DOTFILES/home/zsh/ruby.sh
+command -v ruby > /dev/null 2>&1 && source $DOTFILES/home/zsh/ruby.sh
 
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=100000000
@@ -28,9 +28,6 @@ setopt HIST_FIND_NO_DUPS
 setopt SHARE_HISTORY
 
 hash -d dotfiles=~/code/dotfiles
-
-# Pi wrapper: auto-starts/stops local llama.cpp server
-path=(~/.local/bin $path)
 
 _exists nvim && export VISUAL='nvim' || export VISUAL='vim'
 export EDITOR="$VISUAL"
@@ -77,8 +74,10 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     _zsh_cache="$HOME/.cache/zsh"
     _dir_exists $_zsh_cache || mkdir -p $_zsh_cache
 
-    [[ $_zsh_cache/carapace.zsh -nt ${commands[carapace]} ]] || carapace _carapace >| $_zsh_cache/carapace.zsh
-    source $_zsh_cache/carapace.zsh
+    if _exists carapace; then
+        [[ $_zsh_cache/carapace.zsh -nt ${commands[carapace]} ]] || carapace _carapace >| $_zsh_cache/carapace.zsh
+        source $_zsh_cache/carapace.zsh
+    fi
 
     if _exists vivid; then
         [[ $_zsh_cache/vivid_colors.zsh -nt ${commands[vivid]} ]] || vivid generate molokai >| $_zsh_cache/vivid_colors.zsh
