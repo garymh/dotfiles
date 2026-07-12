@@ -2,9 +2,8 @@ git:
   rebase:
     updateRefs: true
   pagers:
-    - colorArg: always
-      pager: /opt/homebrew/bin/delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
-      externalDiffCommand: difft --color=always --display=inline
+    - externalDiffCommand: difft --color=always --display=inline
+      colorArg: always
 gui:
   mainPanelSplitMode: "flexible" # one of 'horizontal' | 'flexible' | 'vertical'
   nerdFontsVersion: "3"
