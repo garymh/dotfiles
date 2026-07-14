@@ -1,4 +1,7 @@
-local M = { "kylechui/nvim-surround" }
+local M = {
+  "kylechui/nvim-surround",
+  keys = { "ys", "cs", "ds" },
+}
 
 -- https://github.com/echasnovski/mini.surround
 function M.config()

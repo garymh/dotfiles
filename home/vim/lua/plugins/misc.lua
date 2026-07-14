@@ -91,7 +91,7 @@ return {
     enabled = true,
     config = function()
       require("nvim-autopairs").setup({
-        enabled = false,
+        check_ts = true,
         --   return true
         -- end,                        -- control if auto-pairs should be enabled when attaching to a buffer
         -- disable_filetype = { "TelescopePrompt", "spectre_panel", "snacks_picker_input" },
