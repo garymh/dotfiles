@@ -17,8 +17,8 @@ for f (
 command -v ruby > /dev/null 2>&1 && source $DOTFILES/home/zsh/ruby.sh
 
 HISTFILE="$HOME/.zsh_history"
-SAVEHIST=100000000
-HISTSIZE=1000000000
+SAVEHIST=1000000
+HISTSIZE=1000000
 
 setopt APPEND_HISTORY
 setopt EXTENDED_HISTORY

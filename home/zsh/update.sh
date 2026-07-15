@@ -1,5 +1,3 @@
-#!/usr/local/bin/bash
-
 function update-better-discord() {
   "$HOME/go/bin/cli" install --channel stable
 }

@@ -1,5 +1,3 @@
-#!/usr/local/bin/bash
-
 # ruby.sh
 # git.sh
 # golang.sh
@@ -21,7 +19,7 @@ alias zshrc='v $DOTFILES/home/zshrc'
 alias evimari="v ~/Library/Containers/net.televator.Vimari.SafariExtension/Data/Library/Application\ Support/userSettings.json"
 
 alias eghost='v $HOME/.config/ghostty/config'
-alias ealacritty='v $DOTFILES/home/alacritty/alacritty.yml'
+alias ealacritty='v $DOTFILES/home/alacritty.toml'
 
 alias eopen='v $HOME/.config/opencode/opencode.jsonc'
 

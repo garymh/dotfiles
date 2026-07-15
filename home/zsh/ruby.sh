@@ -1,5 +1,3 @@
-#!/usr/local/bin/bash
-
 alias gin="gem install"
 alias gli="gem list"
 alias gun="gem uninstall"

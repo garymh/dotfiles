@@ -6,5 +6,6 @@
 *.zwc
 /home/hammerspoon/Spoons
 .lsp
+Brewfile.lock.json
 .clj-kondo
 vim_bugs.md

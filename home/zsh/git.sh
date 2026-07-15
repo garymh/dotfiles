@@ -1,5 +1,3 @@
-#!/usr/local/bin/bash
-
 function gitpush() {
     BRANCH="$(git rev-parse --abbrev-ref HEAD)"
     if [[ "$BRANCH" == "master" ]]; then

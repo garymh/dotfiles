@@ -48,6 +48,7 @@
     ~/.config/starship.toml: home/starship.toml
     ~/.config/ripgrep/config: home/ripgreprc
     ~/.config/ghostty/config: home/ghostty
+    ~/.wezterm.lua: home/wezterm.lua
     ~/.config/luaformatter/config.yaml: home/luaformatter.yaml
     ~/.config/nvim/:
       path: home/vim/*

@@ -1,5 +1,3 @@
-#!/usr/local/bin/bash
-
 if _exists btop; then
   alias cpu="btop"
   alias htop="btop"
