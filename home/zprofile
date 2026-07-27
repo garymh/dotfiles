@@ -33,6 +33,7 @@ export PAGER="bat"
 export LESS="FrX"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
+export BOB_CONFIG="$HOME/.config/bob/config.json"
 
 # App-specific
 export OPENCODE_DISABLE_SHARE="true"
@@ -50,6 +51,7 @@ export CPPFLAGS="-I/opt/homebrew/opt/icu4c/include -I/opt/homebrew/opt/openssl@3
 
 # PATH (guarded — only add dirs that exist)
 for d (
+    $HOME/.local/share/bob/nvim-bin
     $HOME_DIR/zsh/bin
     $HOME/.local/bin
     $HOME/go/bin

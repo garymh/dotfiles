@@ -7,7 +7,7 @@ function update-spotify() {
 }
 
 function update-neovim() {
-  bob install nightly
+  bob use nightly
 }
 
 alias update-nvim="update-neovim"
