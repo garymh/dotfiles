@@ -19,6 +19,7 @@ alias zshrc='v $DOTFILES/home/zshrc'
 alias evimari="v ~/Library/Containers/net.televator.Vimari.SafariExtension/Data/Library/Application\ Support/userSettings.json"
 
 alias eghost='v $HOME/.config/ghostty/config'
+alias ewez='v $HOME/.wezterm.lua'
 alias ealacritty='v $DOTFILES/home/alacritty.toml'
 
 alias eopen='v $HOME/.config/opencode/opencode.jsonc'
@@ -30,9 +31,9 @@ alias file_size="du -sh"
 
 # File Download (from Prezto)
 if _exists curl; then
-  alias get='curl --continue-at - --location --progress-bar --remote-name --remote-time'
+    alias get='curl --continue-at - --location --progress-bar --remote-name --remote-time'
 elif _exists wget; then
-  alias get='wget --continue --progress=bar --timestamping'
+    alias get='wget --continue --progress=bar --timestamping'
 fi
 
 alias oo='open .'
@@ -49,8 +50,8 @@ alias path='sed "s/:/\n/g" <<< \"$PATH\"'
 alias clip='yt-dlp -f "bestaudio[ext=m4a]"'
 
 vob() {
-  local file
-  file=$(fd -L -e md . ~/Vaults | fzf --scheme=path --preview 'bat --color=always --style=plain {}') && $VISUAL "$file"
+    local file
+    file=$(fd -L -e md . ~/Vaults | fzf --scheme=path --preview 'bat --color=always --style=plain {}') && $VISUAL "$file"
 }
 
 # typos
@@ -96,8 +97,8 @@ alias zh="cd ~"
 alias bundle-id="mdls -name kMDItemCFBundleIdentifier -r" # macOS bundle ID, not Ruby
 
 function fix_key_permissions() { # after reinstalling macOS
-  chmod 600 ~/.ssh/id_ed25519
-  chmod 600 ~/.ssh/id_ed25519.pub
+    chmod 600 ~/.ssh/id_ed25519
+    chmod 600 ~/.ssh/id_ed25519.pub
 }
 
 function unquarantine() { xattr -d com.apple.quarantine "$@"; }
@@ -108,8 +109,8 @@ function c() { cd ~/code/"$1" || exit; }
 function cw() { cd ~/code/work/"$1" || exit; }
 
 function search() {
-  e_header "find . -iname \"*$1*\""
-  sudo find . -iname "*$1*"
+    e_header "find . -iname \"*$1*\""
+    sudo find . -iname "*$1*"
 }
 
 alias cask="brew install --cask"
