@@ -3,7 +3,7 @@ return {
   settings = {
     ["harper-ls"] = {
       linters = {
-        SpellCheck = false,
+        SpellCheck = true,
         LongSentences = true,
         RepeatedWords = true,
         UnclosedQuotes = true,
@@ -13,4 +13,3 @@ return {
     },
   },
 }
-
