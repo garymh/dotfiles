@@ -17,9 +17,11 @@ return {
         preview = {
           enable = false,
           callbacks = {
-            on_disable = function (_, _) end,
+            on_disable = function(_, _) end,
           },
+          map_gx = false,
         },
+
         markdown = {
           headings = presets.simple,
           horizontal_rules = presets.thick,
