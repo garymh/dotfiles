@@ -1,11 +1,11 @@
 local log = hs.logger.new("camera", "info")
 
 local cameraState = {
-  cameraName = "Cam Phone Camera",
-  activeByUs = false,
-  propertyWatcher = nil,
+  cameraName        = "Cam Phone Camera",
+  activeByUs        = false,
+  propertyWatcher   = nil,
   -- wallpaper
-  meetingWallpaper = "/Users/gary/Documents/Wallpapers/Citrus Peel.jpg",
+  meetingWallpaper  = "/Users/gary/Documents/Wallpapers/Citrus Peel.jpg",
   previousWallpaper = nil,
 }
 
@@ -40,19 +40,23 @@ local function handleCameraState(inUse)
       setWallpaper(cameraState.previousWallpaper)
     end
     cameraState.activeByUs = false
+  else
+    log.d("handleCameraState no-op: inUse=" .. tostring(inUse) .. " activeByUs=" .. tostring(cameraState.activeByUs))
   end
 end
 
 local function attachToCamera(cam)
   if cameraState.propertyWatcher then
-    log.d("Already watching a camera, skipping")
+    local existing = cameraState.propertyWatcher:name() or "(null)"
+    log.i("Attach skipped — already watching (existing=" .. existing .. " new=" .. tostring(cam:name()) .. ")")
     return
   end
 
-  log.i("Attaching property watcher to: " .. cam:name())
+  log.i("Attaching property watcher to: " .. tostring(cam:name()))
   cam:setPropertyWatcherCallback(function(camera, property, scope, element)
-    log.d("Property event: " .. tostring(property))
-    handleCameraState(camera:isInUse())
+    local inUse = camera:isInUse()
+    log.d("Property event: " .. tostring(property) .. " inUse=" .. tostring(inUse))
+    handleCameraState(inUse)
   end)
   cam:startPropertyWatcher()
   cameraState.propertyWatcher = cam
@@ -62,23 +66,39 @@ local function attachToCamera(cam)
   end
 end
 
-local function findAndAttach()
-  for _, cam in ipairs(hs.camera.allCameras()) do
+local function findCameraByName()
+  local cams = hs.camera.allCameras()
+  log.d("allCameras: " .. #cams .. " device(s)")
+  for _, cam in ipairs(cams) do
     if cam:name() == cameraState.cameraName then
-      attachToCamera(cam)
-      return
+      return cam
     end
   end
-  log.d("Camera not found: " .. cameraState.cameraName)
+  return nil
+end
+
+local function findAndAttach()
+  local cam = findCameraByName()
+  if cam then
+    attachToCamera(cam)
+  else
+    log.d("Camera not found: " .. cameraState.cameraName)
+  end
 end
 
 -- Watch for cameras being added/removed so we catch late-connecting devices
 -- (e.g. Continuity Camera, USB webcams plugged in after boot)
 hs.camera.setWatcherCallback(function(camera, change)
-  log.i("Camera " .. change .. ": " .. camera:name())
-  if change == "Added" and camera:name() == cameraState.cameraName then
+  local name = camera:name() or "(unknown)"
+  log.i("Camera " ..
+    change ..
+    ": " ..
+    name ..
+    " | activeByUs=" ..
+    tostring(cameraState.activeByUs) .. " hasWatcher=" .. tostring(cameraState.propertyWatcher ~= nil))
+  if change == "Added" and name == cameraState.cameraName then
     attachToCamera(camera)
-  elseif change == "Removed" and cameraState.propertyWatcher then
+  elseif change == "Removed" and cameraState.propertyWatcher and not findCameraByName() then
     log.i("Watched camera removed — clearing watcher")
     cameraState.propertyWatcher = nil
     if cameraState.activeByUs then
@@ -90,3 +110,6 @@ hs.camera.startWatcher()
 
 -- Try to attach now in case the camera is already connected
 findAndAttach()
+log.i("watcher initialized — target=" ..
+  cameraState.cameraName ..
+  " attached=" .. tostring(cameraState.propertyWatcher ~= nil) .. " activeByUs=" .. tostring(cameraState.activeByUs))
