@@ -35,10 +35,6 @@ return {
         folds = {
           enabled = true,
         },
-        format = {
-          formatting_options = nil,
-          timeout_ms = nil,
-        },
         servers = {
           ["*"] = {
             capabilities = {
@@ -52,16 +48,9 @@ return {
           },
 
           stylua = { enabled = false },
+          harper_ls = { filetypes = { "markdown", "text" } },
         },
-        setup = {
-          -- example to setup with typescript.nvim
-          -- tsserver = function(_, opts)
-          --   require("typescript").setup({ server = opts })
-          --   return true
-          -- end,
-          -- Specify * to use this function as a fallback for any server
-          -- ["*"] = function(server, opts) end,
-        },
+        setup = {},
       }
       return ret
     end,
@@ -108,21 +97,11 @@ return {
 
       if opts.codelens.enabled and vim.lsp.codelens then
         Snacks.util.lsp.on({ method = "textDocument/codeLens" }, function(buffer)
-          vim.lsp.codelens.refresh()
-          vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-            buffer = buffer,
-            callback = vim.lsp.codelens.refresh,
-          })
+          vim.lsp.codelens.enable(true, { bufnr = buffer })
         end)
       end
 
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
-
-      if opts.capabilities then
-        opts.servers["*"] = vim.tbl_deep_extend("force", opts.servers["*"] or {}, {
-          capabilities = opts.capabilities,
-        })
-      end
 
       if opts.servers["*"] then
         vim.lsp.config("*", opts.servers["*"])
