@@ -1,73 +1,29 @@
 # vi: ft=gitconfig sw=2
 
 [core]
-  excludesfile = ~/code/dotfiles/home/gitignore_global
-  whitespace   = space-before-tab,-indent-with-non-tab,trailing-space
-  editor       = nvim
-  fsmonitor    = true
-
-  # Make `git rebase` safer on OS X
-  # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
-  trustctime = false
-
-  # Prevent showing files whose names contain non-ASCII symbols as unversioned.
-  # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
-  precomposeunicode = false
-
+  excludesfile   = ~/code/dotfiles/home/gitignore_global
+  whitespace     = space-before-tab,-indent-with-non-tab,trailing-space
+  editor         = nvim
+  fsmonitor      = true
   untrackedCache = true
-  preloadIndex = true
+  preloadIndex   = true
+	pager = hunk pager --no-line-numbers --wrap --no-hunk-headers --tab-width 2
 
 [alias]
-  fresh                  = remote update --prune
-  changes                = "!git log --oneline --invert-grep --grep='Merge branch' --invert-grep --grep='chore' $(git describe --tags --abbrev=0)..main"
-  abbrev                 = rev-parse --short
-  abbrev-ref             = rev-parse --abbrev-ref HEAD
-  amend                  = commit -a --amend
-  back-to-origin         = !git reset --hard origin/`git symbolic-ref --short HEAD`
-  back-to-security       = !git reset --hard security/`git symbolic-ref --short HEAD`
-  co                     = checkout
-  delete-local-branch    = branch -D
-  discard                = checkout --
-  edit                   = !$EDITOR $(git status --porcelain | awk '{print $2}')
-  explode                = !git reset --hard HEAD && git clean -d -f
-  fuckthis               = !git reset --hard HEAD && git clean -d -f
-  git                    = !exec git
-  mr                     = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
-  mr-changes             = !git diff `git merge-base main HEAD`
-  ours                   = "!f() { git co --ours $@ && git add $@; }; f"
-  remotes                = remote -v
-  remove-local-branch    = branch -D
-  rename-local-branch    = branch -m
-  rmfiles                = clean -fdx
-  sha                    = rev-parse HEAD
-  set-security-upstream  = !git branch --set-upstream-to=security/`git symbolic-ref --short HEAD`
-  set-upstream           = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
-  stashes                = stash list
-  theirs                 = "!f() { git co --theirs $@ && git add $@; }; f"
-  uncommit               = reset --mixed HEAD~
-  undo                   = reset --mixed HEAD~
-  unpushed               = rebase -i @{u}
-  unstage                = restore --staged
-  unundo                 = reset 'HEAD@{1}'
-  up                     = !git pull --rebase --prune $@ && git submodule update --init --recursive
-  update-submodules      = submodule update --init --recursive
-
-  ; git log -LN,M:/path/to-file
-
-[gc]
-  reflogExpire            = 200
-  reflogExpireUnreachable = 90
-
-[fetch]
-  prune = true
-  writeCommitGraph = true
-  pruneTags = true
-
-[web]
-  browser = open
-
-[help]
-  autocorrect = 1
+  amend                 = commit -a --amend
+  back-to-origin        = !git reset --hard origin/`git symbolic-ref --short HEAD`
+  delete-local-branch   = branch -D
+  remove-local-branch   = branch -D
+  rename-local-branch   = branch -m
+  git                   = !exec git
+  remotes               = remote -v
+  set-upstream          = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
+  sha                   = rev-parse HEAD
+  stashes               = stash list
+  uncommit              = reset --mixed HEAD~
+  unstage               = restore --staged
+  ours                  = "!f() { git co --ours $@ && git add $@; }; f"
+  theirs                = "!f() { git co --theirs $@ && git add $@; }; f"
 
 [include]
   path = ~/.gitconfig.local
@@ -75,114 +31,74 @@
 [includeIf "gitdir:~/code/work/"]
   path = ~/.gitconfig.work
 
+[init]
+  defaultBranch = main
+
+[fetch]
+  prune            = true
+  writeCommitGraph = true
+  pruneTags        = true
+
+[push]
+  default         = current
+  autoSetupRemote = true
+
+[pull]
+  ff     = only
+  rebase = true
+
+[branch]
+  sort = -committerdate
+
+[tag]
+  sort = version:refname
+
+[diff]
+  algorithm      = histogram
+  colorMoved     = zebra
+  mnemonicPrefix = true
+
 [rebase]
-  autoStash = true
-  autosquash = true
+  autoStash         = true
+  autosquash        = true
   instructionFormat = %<|(120) %s (%ar) <%an>
-  updateRefs = true
+  updateRefs        = true
+
+[rerere]
+  enabled    = true
+  autoupdate = true
 
 [stash]
   showIncludeUntracked = true
 
+[commit]
+  template = commit-msg
+
 [apply]
   whitespace = nowarn
 
-[branch]
-  autosetuprebase = always
-  sort = -committerdate
+[gc]
+  reflogExpire            = 200
+  reflogExpireUnreachable = 90
 
-[push]
-  default = current
-  autoSetupRemote = true
+[column]
+  ui = auto
 
-[pull]
-  default = current
-  ff = only
+[log]
+  date = relative
+
+[advice]
+  detachedHead       = false
+  pushNonFastForward = false
+
+[features]
+  manyfiles = true
+
+[help]
+  autocorrect = 1
 
 [url "git@github.com:"]
   insteadOf = https://github.com/
 
 [url "git@gitlab.com:"]
   insteadOf = https://gitlab.com/
-
-[rerere]
-  enabled = true
-  autoupdate = true
-
-[interactive]
-  diffFilter = delta --color-only --features=interactive
-
-[delta]
-  features = unobtrusive-line-numbers decorations
-  whitespace-error-style = 22 reverse
-  line-numbers = true
-  navigate = true
-  relative-paths = true
-  hyperlinks = true
-  side-by-side = false
-
-[delta "unobtrusive-line-numbers"]
-  line-numbers = true
-  line-numbers-minus-style = "#444444"
-  line-numbers-zero-style = "#444444"
-  line-numbers-plus-style = "#444444"
-  line-numbers-left-format = "{nm:>4}┊"
-  line-numbers-right-format = "{np:>4}│"
-  line-numbers-left-style = blue
-  line-numbers-right-style = blue
-
-[delta "interactive"]
-  keep-plus-minus-markers = false
-
-[delta "decorations"]
-  commit-decoration-style = blue ol
-  commit-style = raw
-  file-style = omit
-  hunk-header-decoration-style = blue box
-  hunk-header-file-style = red
-  hunk-header-line-number-style = "#067a00"
-  hunk-header-style = file line-number syntax
-
-[commit]
-  template = commit-msg
-
-[diff]
-  algorithm = histogram
-  colorMoved = zebra
-  mnemonicPrefix = true
-  external = difft
-  tool = difftastic
-
-[merge]
-  conflictstyle = zdiff3
-	tool = abd
-
-[column]
-  ui = auto
-
-[tag]
-  sort = version:refname
-
-[log]
-  date = relative
-
-[advice]
-  detachedHead = false
-  statusHints = true
-	pushNonFastForward = false
-
-[features]
-  manyfiles = true
-
-[init]
-  defaultBranch = main
-
-[pager]
-  difftool = true
-
-[difftool]
-	prompt = false
-  trustExitCode = true
-
-[difftool "difftastic"]
-  cmd = difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"

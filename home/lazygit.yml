@@ -1,9 +1,7 @@
 git:
-  rebase:
-    updateRefs: true
   pagers:
-    - externalDiffCommand: difft --color=always --display=inline
-      colorArg: always
+    - colorArg: always
+      pager: hunk pager --line-numbers
 gui:
   mainPanelSplitMode: "flexible" # one of 'horizontal' | 'flexible' | 'vertical'
   nerdFontsVersion: "3"
