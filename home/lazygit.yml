@@ -1,7 +1,7 @@
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: hunk pager --line-numbers
+      command: hunk pager --line-numbers
 gui:
   mainPanelSplitMode: "flexible" # one of 'horizontal' | 'flexible' | 'vertical'
   nerdFontsVersion: "3"
