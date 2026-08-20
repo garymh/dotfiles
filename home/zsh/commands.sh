@@ -134,3 +134,22 @@ alias pubkey="more ~/.ssh/id_ed25519.pub | pbcopy | e_success 'Public key copied
 mkp() { mkdir -p "$@"; }
 
 mkwarn() { sed "s/.*'\(.*\)'.*/\1/" | xargs -I{} mkdir -p "{}"; }
+
+# https://www.alfredforum.com/topic/21438-reveal-universal-actions-from-the-terminal/
+function ua {
+    # Verify all paths are valid
+    for file_path in "${@}"
+    do
+        if [[ ! -e "${file_path}" ]]
+        then
+            echo "Path does not exist: ${file_path}" >&2
+            return 1
+        fi
+    done
+
+    # Expand arguments into full paths
+    local -r absolute_paths=("${(@f)$(realpath "${@}")}")
+
+    # Open Universal Actions
+    /usr/bin/osascript -l JavaScript -e 'function run(argv) { Application("com.runningwithcrayons.Alfred").action(argv) }' "${absolute_paths[@]}"
+}
