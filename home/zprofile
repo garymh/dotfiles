@@ -56,6 +56,7 @@ for d (
     $HOME/.local/bin
     $HOME/go/bin
     $HOME/.opencode/bin
+    $HOME/Library/pnpm/bin
     $HOME/.spicetify
     $HOME/.yarn/bin
     $HOME/.cargo/bin) {
