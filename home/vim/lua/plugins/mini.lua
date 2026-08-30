@@ -124,6 +124,14 @@ function M.config()
     sort     = { prefix = "" },
   })
 
+  -- mini.misc
+  require("mini.misc").setup({
+    make_global = { 'put', 'put_text' },
+  })
+  MiniMisc.setup_auto_root()
+  MiniMisc.setup_termbg_sync()
+  MiniMisc.setup_restore_cursor()
+
   -- mini.ai + mini.extra
   local ai              = require("mini.ai")
   local spec_treesitter = ai.gen_spec.treesitter
@@ -162,10 +170,10 @@ function M.config()
 
       u = ai.gen_spec.function_call(),
 
-      w = spec_treesitter({
-        i = { "@assignment.rhs", "@key.inner" },
-        a = { "@assignment.outer", "@key.inner" },
-      }),
+      -- w = spec_treesitter({
+      --   i = { "@assignment.rhs", "@key.inner" },
+      --   a = { "@assignment.outer", "@key.inner" },
+      -- }),
 
       x = spec_treesitter({ i = { "@assignment.lhs" }, a = { "@assignment.lhs" } }),
 
