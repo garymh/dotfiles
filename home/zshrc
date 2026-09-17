@@ -74,9 +74,22 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     _zsh_cache="$HOME/.cache/zsh"
     _dir_exists $_zsh_cache || mkdir -p $_zsh_cache
 
-    if _exists carapace; then
+    if (( ${+commands[carapace]} )); then
         [[ $_zsh_cache/carapace.zsh -nt ${commands[carapace]} ]] || carapace _carapace >| $_zsh_cache/carapace.zsh
         source $_zsh_cache/carapace.zsh
+        _go_completion_cache="$_zsh_cache/go.zsh"
+        [[ $_go_completion_cache -nt ${commands[carapace]} ]] || carapace go zsh >| $_go_completion_cache
+        source $_go_completion_cache
+        _go_completion_with_files() {
+            if [[ ${words[2]} == run && ${words[CURRENT]} != -* ]]; then
+                _files -g '*.go(-.)'
+            else
+                _go_completion
+            fi
+        }
+        compdef _go_completion_with_files go
+    elif (( ${+functions[compdef]} )); then
+        compdef _go go
     fi
 
     if _exists vivid; then
