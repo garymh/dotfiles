@@ -3,11 +3,12 @@ return {
   settings = {
     ["harper-ls"] = {
       linters = {
-        SpellCheck = true,
-        LongSentences = true,
-        RepeatedWords = true,
-        UnclosedQuotes = true,
-        WrongApostrophe = true,
+        SpellCheck             = false,
+        LongSentences          = true,
+        RepeatedWords          = true,
+        SentenceCapitalization = false,
+        UnclosedQuotes         = true,
+        WrongApostrophe        = true,
       },
       markdown = { IgnoreLinkTitle = true },
     },
