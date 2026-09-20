@@ -38,6 +38,7 @@
     ~/.zimrc: home/zimrc
     ~/.zsh: home/zsh/
     ~/.local/bin/pi-local: home/bin/pi-local
+    ~/.local/bin/alfred-fonts: home/bin/alfred-fonts
     ~/.config/lazygit/config.yml: home/lazygit.yml
     ~/.config/alacritty/alacritty.toml: home/alacritty.toml
     ~/.config/atuin/config.toml: home/atuin.toml
@@ -65,15 +66,12 @@
     ~/.gnupg:
       path: home/zsh/private/gnupg/
       if: "[ `uname` = Darwin ]"
-    ~/.hammerspoon:
+    ~/.config/Hammerspoon2:
       path: home/hammerspoon/
       if: "[ `uname` = Darwin ]"
-    ~/.hammerspoon/watchers/screens.lua:
-      path: ~/iCloud/Internal/custom/screens.lua
+    ~/.config/Hammerspoon2/watchers/screens.js:
+      path: ~/iCloud/Internal/custom/screens.js
       relative: false
-      if: "[ `uname` = Darwin ]"
-    ~/.config/karabiner/assets/complex_modifications/karabiner.js:
-      path: home/karabiner.js
       if: "[ `uname` = Darwin ]"
     ~/.gitconfig.local:
       path: home/zsh/private/gitconfig.local
@@ -86,6 +84,9 @@
       if: "[ `uname` = Darwin ]"
     ~/.config/opencode:
       path: home/zsh/private/opencode/
+      if: "[ `uname` = Darwin ]"
+    ~/.omp/agent/config.yml:
+      path: home/zsh/private/omp/config.yml
       if: "[ `uname` = Darwin ]"
     ~/Vaults:
       path: "~/Library/Mobile Documents/iCloud~md~obsidian/Documents"
