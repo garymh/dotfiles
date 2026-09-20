@@ -1,0 +1,353 @@
+#!/opt/homebrew/bin/python3
+"""Alfred Script Filter over a list of font families.
+
+Emits Script Filter JSON (https://www.alfredapp.com/help/workflows/inputs/script-filter/json/)
+for every family in the list file. Each installed family gets a cached "Aa"
+thumbnail rendered from its font file (Pillow) plus the font file itself as
+Quick Look URL (shift shows the native macOS font preview).
+
+Usage:
+    alfred-fonts [query] [--fonts-file PATH] [--cache-dir PATH] [--rebuild]
+
+Wire into Alfred: Script Filter, Language "/bin/bash", script
+
+    ~/.local/bin/alfred-fonts "$1"
+
+with "with input as argv". Leave Match Mode on "Alfred filters results"; the
+positional query only matters if you switch to "Script filters results".
+
+List file format: one family per line, or a ghostty config (every
+"font-family = X" line, commented out or not; other `key = value` lines are
+ignored). Resolution is exact -> PostScript name -> unique prefix -> closest
+match; entries that only fuzzily resolve are marked in the subtitle, and
+entries with no installed font at all come back invalid with a suggestion.
+"""
+
+from __future__ import annotations
+
+import argparse
+import difflib
+import hashlib
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import unicodedata
+from pathlib import Path
+
+# Bump when the thumbnail rendering changes, to invalidate cached PNGs.
+THUMB_VERSION = 3
+THUMBS = "Aa"
+ICON_SIZE = 128
+RENDER_SCALE = 2  # render big, downscale for anti-aliasing
+CARD = (255, 255, 255, 255)
+INK = (17, 17, 17, 255)
+BORDER = (0, 0, 0, 24)
+FONT_FAMILY_RE = re.compile(r"^\s*#?\s*font-family\s*=\s*(.+?)\s*$")
+NUMBER_RE = re.compile(r"\d+(?:\.\d+)?")
+REGULAR, NORMAL = 80, 100  # fontconfig's FC_WEIGHT_REGULAR / FC_WIDTH_NORMAL
+CLOSE_CUTOFF = 0.85
+
+
+def norm(s: str) -> str:
+    """Fold a font name to its matchable form: case, accents, punctuation."""
+    return re.sub(r"[^a-z0-9]+", "", unicodedata.normalize("NFKD", s).casefold())
+
+
+def _numbers(value: str, default: float) -> list[float]:
+    return [float(n) for n in NUMBER_RE.findall(value)] or [default]
+
+
+class Face:
+    __slots__ = ("families", "postscript", "index", "weights", "slants", "widths", "file")
+
+    def __init__(self, families: str, postscript: str, index: str, weight: str,
+                 slant: str, width: str, file: str):
+        self.families = [f.strip() for f in families.split(",") if f.strip()]
+        self.postscript = postscript.strip()
+        self.index = int(index or 0)
+        # Variable fonts report ranges, e.g. weight "[0 205]"; keep every value.
+        self.weights = _numbers(weight, REGULAR)
+        self.slants = _numbers(slant, 0)
+        self.widths = _numbers(width, NORMAL)
+        self.file = file.strip()
+
+
+def find_fc_list() -> str | None:
+    """fc-list by absolute path first: Alfred runs scripts with a sanitized PATH."""
+    for candidate in ("/opt/homebrew/bin/fc-list", "/usr/local/bin/fc-list"):
+        if Path(candidate).is_file():
+            return candidate
+    return shutil.which("fc-list")
+
+
+def faces_from_fontconfig(fc_list: str) -> list[Face]:
+    out = subprocess.run(
+        [fc_list, "--format",
+         "%{family}\t%{postscriptname}\t%{index}\t%{weight}\t%{slant}\t%{width}\t%{file}\n"],
+        capture_output=True, text=True, check=True,
+    ).stdout
+    faces = []
+    for line in out.splitlines():
+        parts = line.split("\t")
+        if len(parts) == 7 and parts[6]:
+            faces.append(Face(*parts))
+    return faces
+
+
+def face_rank(face: Face) -> tuple:
+    """Prefer the family's plain Regular face: upright, regular weight, normal
+    width, then a static (non-collection, non-variable-instance) file."""
+    base = Path(face.file).name.casefold()
+    return (
+        min(abs(s) for s in face.slants) != 0,
+        min(abs(w - REGULAR) for w in face.weights),
+        min(abs(w - NORMAL) for w in face.widths),
+        face.index != 0,
+        Path(face.file).suffix.casefold() == ".dfont",
+        "[" in base,
+        base,
+    )
+
+
+class Resolver:
+    def __init__(self, faces: list[Face]):
+        self.faces = faces
+        self.by_family: dict[str, list[Face]] = {}
+        self.family_names: dict[str, str] = {}
+        self.by_postscript: dict[str, list[Face]] = {}
+        for face in faces:
+            for family in face.families:
+                n = norm(family)
+                # norm() drops non-Latin names entirely; they can never match
+                # an ASCII query and would otherwise act as a prefix wildcard.
+                if not n:
+                    continue
+                self.by_family.setdefault(n, []).append(face)
+                current = self.family_names.get(n)
+                if current is None or len(family) < len(current):
+                    self.family_names[n] = family
+            n = norm(face.postscript)
+            if n:
+                self.by_postscript.setdefault(n, []).append(face)
+
+    def _best(self, candidates: list[Face]) -> Face:
+        return min(candidates, key=face_rank)
+
+    def resolve(self, name: str):
+        """-> (face | None, family | None, kind, suggestion | None).
+
+        kind: "exact" (family/PostScript match) | "fuzzy" (prefix guess) |
+        "none" (not installed; suggestion is the closest installed family).
+        """
+        qn = norm(name)
+        if len(qn) < 4:
+            return None, None, "none", None
+
+        candidates = self.by_family.get(qn)
+        if candidates:
+            return self._best(candidates), self.family_names[qn], "exact", None
+
+        candidates = self.by_postscript.get(qn)
+        if candidates:
+            family = candidates[0].families[0] if candidates[0].families else name
+            return self._best(candidates), family, "exact", None
+
+        prefixes = [
+            f for f in self.family_names
+            if len(f) >= 4 and (f.startswith(qn) or qn.startswith(f))
+        ]
+        if len(prefixes) == 1:
+            family = self.family_names[prefixes[0]]
+            return self._best(self.by_family[prefixes[0]]), family, "fuzzy", None
+
+        close = difflib.get_close_matches(qn, self.family_names, n=1, cutoff=CLOSE_CUTOFF)
+        return None, None, "none", self.family_names[close[0]] if close else None
+
+
+def error_item(title: str, subtitle: str) -> str:
+    """Single invalid row, for problems the user must fix (missing list, fc-list)."""
+    return json.dumps({"items": [{"title": title, "subtitle": subtitle, "valid": False}]})
+
+
+def read_font_names(path: Path) -> list[str]:
+    """One family per line; ghostty configs yield their font-family values."""
+    names: list[str] = []
+    seen: set[str] = set()
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        match = FONT_FAMILY_RE.match(line)
+        if match:
+            name = match.group(1)
+        elif line.startswith("#") or "=" in line:
+            continue
+        else:
+            name = line
+        name = name.strip().strip("'\"")
+        key = norm(name) or name.casefold()
+        if not name or key in seen:
+            continue
+        seen.add(key)
+        names.append(name)
+    return names
+
+
+def cache_directory(override: str | None) -> Path:
+    if override:
+        return Path(override).expanduser()
+    if os.environ.get("ALFRED_FONTS_CACHE"):
+        return Path(os.environ["ALFRED_FONTS_CACHE"]).expanduser()
+    if os.environ.get("alfred_workflow_data"):
+        return Path(os.environ["alfred_workflow_data"]).expanduser() / "font-thumbs"
+    return Path.home() / "Library" / "Caches" / "alfred-fonts"
+
+
+def thumbnail_path(face: Face, cache: Path) -> Path:
+    stat = Path(face.file).stat()
+    key = "|".join((
+        str(THUMB_VERSION), THUMBS, str(ICON_SIZE),
+        face.file, str(face.index), str(stat.st_mtime_ns), str(stat.st_size),
+    ))
+    return cache / f"{hashlib.sha1(key.encode()).hexdigest()[:20]}.png"
+
+
+def render_thumbnail(face: Face, dest: Path) -> None:
+    from PIL import Image, ImageDraw, ImageFont
+
+    canvas = ICON_SIZE * RENDER_SCALE
+    inset, radius = round(canvas * 0.05), round(canvas * 0.24)
+    max_w, max_h = canvas * 0.78, canvas * 0.56  # ink target inside the card
+
+    def load(size: int) -> "ImageFont.FreeTypeFont":
+        try:
+            font = ImageFont.truetype(face.file, size, index=face.index)
+        except Exception:
+            font = ImageFont.truetype(face.file, size)  # e.g. named-instance index
+        try:
+            if b"Regular" in font.get_variation_names():
+                font.set_variation_by_name("Regular")
+        except Exception:
+            pass
+        return font
+
+    # Fit using the font's layout box (computed by FreeType, so it cannot be
+    # clipped, unlike measuring a drawing that may overflow its canvas).
+    _, top, right, bottom = load(canvas).getbbox(THUMBS)
+    scale = min(max_w / max(right, 1), max_h / max(bottom - top, 1))
+    size = max(8, int(canvas * scale))
+    font = load(size)
+    left, top, right, bottom = font.getbbox(THUMBS)
+
+    # Draw, then crop to the ink box so the glyphs can be centred exactly.
+    layer = Image.new("RGBA", (right - left + 4, bottom - top + 4), (0, 0, 0, 0))
+    ImageDraw.Draw(layer).text((2 - left, 2 - top), THUMBS, font=font, fill=INK)
+    layer = layer.crop(layer.getbbox())
+
+    image = Image.new("RGBA", (canvas, canvas), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(image)
+    draw.rounded_rectangle(
+        (inset, inset, canvas - inset, canvas - inset), radius, fill=CARD, outline=BORDER, width=2,
+    )
+    image.alpha_composite(
+        layer,
+        (round((canvas - layer.width) / 2), round((canvas - layer.height) / 2)),
+    )
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    image.resize((ICON_SIZE, ICON_SIZE), Image.LANCZOS).save(dest, "PNG", optimize=True)
+
+
+def build_item(name: str, face: Face | None, family: str | None, kind: str,
+               suggestion: str | None, icon: Path | None, list_path: Path) -> dict:
+    item: dict = {"title": name}
+    if kind == "none":
+        item["subtitle"] = (
+            f"Not installed · closest: {suggestion}" if suggestion
+            else f"Not installed · no match in fontconfig ({list_path})"
+        )
+        item["arg"] = name
+        item["autocomplete"] = suggestion or name
+        item["match"] = " ".join(dict.fromkeys(filter(None, (name, suggestion))))
+        item["valid"] = False
+        return item
+
+    file = Path(face.file)
+    display = str(file).replace(str(Path.home()), "~", 1)
+    item["subtitle"] = display if family == name else f"{family} · {display}"
+    if kind == "fuzzy":
+        item["subtitle"] = f"≈ {item['subtitle']}"
+    item["arg"] = family
+    item["autocomplete"] = family
+    item["match"] = " ".join(dict.fromkeys((name, family)))
+    item["valid"] = True
+    item["quicklookurl"] = face.file
+    item["variables"] = {"font_family": family, "font_file": face.file}
+    if icon:
+        item["icon"] = {"path": str(icon)}
+    return item
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("query", nargs="?", default="", help="search query (Alfred's {query})")
+    default_list = Path(os.environ.get("ALFRED_FONTS_FILE")
+                        or Path(os.environ.get("DOTFILES", Path.home() / "code" / "dotfiles")) / "fonts.txt")
+    parser.add_argument("--fonts-file", default=str(default_list), help="list of font families (default %(default)s)")
+    parser.add_argument("--cache-dir", default=None, help="where thumbnails are cached")
+    parser.add_argument("--rebuild", action="store_true", help="re-render every thumbnail")
+    args = parser.parse_args()
+
+    list_path = Path(args.fonts_file).expanduser()
+    if not list_path.is_file():
+        print(error_item("font list not found", str(list_path)))
+        return 0
+
+    names = read_font_names(list_path)
+    cache = cache_directory(args.cache_dir)
+
+    fc_list = find_fc_list()
+    if not fc_list:
+        print(error_item("fc-list not found", "brew install fontconfig"))
+        return 0
+    try:
+        resolver = Resolver(faces_from_fontconfig(fc_list))
+    except (OSError, subprocess.SubprocessError) as error:
+        print(error_item("fc-list failed", f"{error} — try brew reinstall fontconfig"))
+        return 0
+
+    query_tokens = [norm(t) for t in args.query.split()]
+    items, unresolved, icon_failures = [], [], []
+    for name in names:
+        face, family, kind, suggestion = resolver.resolve(name)
+        searchable = norm(f"{name} {family or suggestion or ''}")
+        if query_tokens and not all(token in searchable for token in query_tokens):
+            continue
+
+        icon = None
+        if face:
+            icon = thumbnail_path(face, cache)
+            if args.rebuild or not icon.exists():
+                try:
+                    render_thumbnail(face, icon)
+                except Exception as error:  # no Pillow, unreadable font, ...
+                    icon_failures.append(f"{name}: {error}")
+                    icon = None
+        elif kind == "none":
+            unresolved.append(f"{name}{f' -> {suggestion}' if suggestion else ''}")
+
+        items.append(build_item(name, face, family, kind, suggestion, icon, list_path))
+
+    if unresolved:
+        print(f"alfred-fonts: not installed: {', '.join(unresolved)}", file=sys.stderr)
+    for failure in icon_failures:
+        print(f"alfred-fonts: no thumbnail for {failure}", file=sys.stderr)
+
+    print(json.dumps({"items": items}, ensure_ascii=False))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

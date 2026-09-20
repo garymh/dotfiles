@@ -1,0 +1,46 @@
+0xProto
+3270 Condensed
+APL385 Unicode
+Ac437 ToshibaSat 9x14
+Adwaita Mono
+Adwaita Mono
+Atari Classic
+Berkeley Mono
+CommitMono-gary
+D2CodingLigature Nerd Font Mono
+Departure Mono
+Dispatch Mono
+EnvyCodeR Nerd Font Mono
+FixedsysExcelsiorIIIb Nerd Font
+Hack Nerd Font Propo
+Hermit
+IBM Plex Mono
+Input Mono Condensed
+IntelOne Mono
+Iosevka Comfy
+Iosevka Comfy Wide
+Iosevka SS08
+IosevkaTermSlab Nerd Font Mono
+Iosvmata
+Ioveska Comfy Wide Motion Duo
+Lemonade
+Liberation Mono
+Lotion
+Luculent
+Lyth Mono Term
+Maple Mono
+Maple Mono NF
+Martian Mono
+Monaspace Argon Var
+Monaspace Radon
+Necto Mono
+Recursive
+SF Mono
+Sergamon
+SpaceMono Nerd Font Mono
+TamzenForPowerline
+VictorMono Nerd Font
+Vulf Mono
+cozette
+m PLUS 1 Code
+scientifica
