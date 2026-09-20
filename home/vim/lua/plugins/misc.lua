@@ -2,6 +2,16 @@ s_nmap("<space>l", vim.cmd.Lazy, {}, "Lazy plugins")
 
 HighlightDuration = 300
 
+-- gtfo (replaces justinmk/vim-gtfo): mirrors its macOS `open` invocations exactly.
+s_nmap("got", function() vim.system({ "open", "-a", "Ghostty", vim.fn.expand("%:p:h") }) end,
+  "go to current directory in terminal")
+s_nmap("goT", function() vim.system({ "open", "-a", "Ghostty", vim.fn.getcwd() }) end,
+  "go to current working directory in terminal")
+s_nmap("gof", function() vim.system({ "open", "--reveal", vim.fn.expand("%:p") }) end,
+  "go to current file in Finder")
+s_nmap("goF", function() vim.system({ "open", vim.fn.getcwd() }) end,
+  "go to current working file in Finder")
+
 return {
   -- ./blink-cmp.lua
 
@@ -9,15 +19,9 @@ return {
 
   -- ./colors.lua
 
-  -- ./comment.lua
-
   -- ./conform.lua
 
   -- ./debugprint.lua
-
-  -- ./easy-align.lua
-
-  -- ./edgy.lua
 
   -- ./flash.lua
 
@@ -49,17 +53,13 @@ return {
 
   -- ./switch.lua
 
-  -- ./todo-comments.lua
-
   -- ./treesitter-like.lua
-
-  -- ./unimpaired.lua
 
   -- ./whichkey.lua
 
   {
     "ghostty",
-    dir = "/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/",
+    dir  = "/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/",
     lazy = false,
   },
 
@@ -82,35 +82,6 @@ return {
       vim.keymap.del({ "n" }, "<leader>bt")
       vim.keymap.del({ "n" }, "<C-S-t>")
       s_nmap("<space><space>", "<CMD>BufferHistory reopen<CR>", "undo close last buffer")
-    end,
-  },
-
-  {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    enabled = true,
-    config = function()
-      require("nvim-autopairs").setup({
-        check_ts = true,
-        --   return true
-        -- end,                        -- control if auto-pairs should be enabled when attaching to a buffer
-        -- disable_filetype = { "TelescopePrompt", "spectre_panel", "snacks_picker_input" },
-        -- disable_in_macro = true,    -- disable when recording or executing a macro
-        -- disable_in_visualblock = false, -- disable when insert after visual block mode
-        -- disable_in_replace_mode = true,
-        -- ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=],
-        -- enable_moveright = true,
-        -- enable_afterquote = true,     -- add bracket pairs after quote
-        -- enable_check_bracket_line = true, --- check bracket in same line
-        -- enable_bracket_in_quote = true, --
-        -- enable_abbr = false,          -- trigger abbreviation
-        -- break_undo = true,            -- switch for basic rule break undo sequence
-        -- check_ts = false,
-        -- map_cr = true,
-        -- map_bs = true, -- map the <BS> key
-        -- map_c_h = false, -- Map the <C-h> key to delete a pair
-        -- map_c_w = false, -- map <c-w> to delete a pair if possible
-      })
     end,
   },
 
@@ -202,8 +173,8 @@ return {
         },
       },
       presets = {
-        bottom_search = false,
-        command_palette = true,
+        bottom_search         = false,
+        command_palette       = true,
         long_message_to_split = true,
       },
     },
@@ -232,6 +203,13 @@ return {
   },
 
   {
+    "rachartier/tiny-cmdline.nvim",
+    init = function()
+      vim.o.cmdheight = 0
+    end,
+  },
+
+  {
     "gbprod/yanky.nvim",
     enabled = true,
     dependencies = { "kkharji/sqlite.lua" },
@@ -247,9 +225,9 @@ return {
           storage = "sqlite",
         },
         highlight = {
-          on_put = true,
+          on_put  = true,
           on_yank = true,
-          timer = HighlightDuration,
+          timer   = HighlightDuration,
         },
       })
       s_nmap("p", "<Plug>(YankyPutAfter)")
@@ -312,19 +290,6 @@ return {
   },
 
   {
-    "justinmk/vim-gtfo",
-    keys = {
-      { "got", desc = "go to current directory in terminal" },
-      { "goT", desc = "go to current working directory in terminal" },
-      { "gof", desc = "go to current file in Finder" },
-      { "goF", desc = "go to current working file in Finder" },
-    },
-    config = function()
-      vim.g["gtfo#terminals"] = { ["mac"] = "ghostty" }
-    end,
-  },
-
-  {
     "chrisgrieser/nvim-scissors",
     cmd = { "Esnippets", "Asnippet" },
     config = function()
@@ -333,8 +298,8 @@ return {
       scissors.setup({
         snippetDir = vim.fn.stdpath("config") .. "/snippets",
         editSnippetPopup = {
-          height = 0.95,
-          width = 0.95,
+          height  = 0.95,
+          width   = 0.95,
           keymaps = {
             saveChanges = "<leader>w",
           },
@@ -342,16 +307,10 @@ return {
         jsonFormatter = "jq",
       })
 
-      User("Esnippets", function()
-        scissors.editSnippet()
-      end, {})
-      User("Asnippet", function()
-        scissors.addNewSnippet()
-      end, {})
+      User("Esnippets", function() scissors.editSnippet() end, {})
+      User("Asnippet", function() scissors.addNewSnippet() end, {})
 
-      s_vmap("<leader>n", function()
-        scissors.addNewSnippet()
-      end, {}, "Add Snippet")
+      s_vmap("<leader>n", function() scissors.addNewSnippet() end, {}, "Add Snippet")
     end,
   },
 
@@ -416,37 +375,8 @@ return {
   -- ALT: https://github.com/neovim-idea/switcher-nvim
   -- ALT: https://github.com/voxelprismatic/rabbit.nvim
 
-  {
-    "m4xshen/hardtime.nvim",
-    enabled = false,
-    lazy = false,
-    dependencies = { "MunifTanjim/nui.nvim" },
-    opts = function(_, opts)
-      opts.restriction_mode      = "hint"
-      opts.hints                 = {
-        ["v[{}]"] = {
-          message = function(keys)
-            return "Try to select with motions instead of " .. keys
-          end,
-          length = 3,
-        },
-        ["[dcyvV][ia][%(%)]"] = {
-          message = function(keys)
-            return "Use " .. keys:sub(1, 2) .. "b instead of " .. keys
-          end,
-          length = 3,
-        },
-      }
-
-      opts.restricted_keys       = opts.restricted_keys or {}
-      opts.restricted_keys["gj"] = false
-      opts.restricted_keys["gk"] = false
-      opts.restricted_keys["j"]  = false
-      opts.restricted_keys["k"]  = false
-    end,
-  },
-
-
+  -- https://github.com/emrearmagan/atlas.nvim
+  -- https://github.com/m4xshen/hardtime.nvim
   -- https://github.com/tpope/vim-apathy
   -- https://github.com/kana/vim-niceblock
   -- https://github.com/rbong/vim-buffest
@@ -458,7 +388,6 @@ return {
   -- https://github.com/folke/trouble.nvim
   -- https://github.com/jokajak/keyseer.nvim
   -- https://github.com/yujinyuz/gitpad.nvim
-
   -- https://github.com/jay-babu/mason-nvim-dap.nvim
   -- https://github.com/igorlfs/nvim-dap-view
 }

@@ -132,6 +132,7 @@ return {
 
       s_nmap("<leader>ts", "<CMD>GoTestFunc -s -F -v<CR>", "Test visit")
       s_nmap("grR", "<CMD>GoRename<CR>", "GoRename")
+      s_nmap("<m-cr>", vim.cmd.GoRun)
     end,
   },
 }

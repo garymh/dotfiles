@@ -128,9 +128,63 @@ function M.config()
   require("mini.misc").setup({
     make_global = { 'put', 'put_text' },
   })
-  MiniMisc.setup_auto_root()
   MiniMisc.setup_termbg_sync()
   MiniMisc.setup_restore_cursor()
+
+  -- mini.align (replaces vim-easy-align; 'ga' operator/visual are the defaults)
+  require("mini.align").setup()
+
+  -- mini.bracketed (replaces tpope/vim-unimpaired's [x/]x family)
+  require("mini.bracketed").setup({
+    buffer     = { suffix = 'b' },
+    comment    = { suffix = 'c' },
+    conflict   = { suffix = 'x' },
+    diagnostic = { suffix = '' },  -- already on [!/]! (mason_lsp.lua)
+    file       = { suffix = 'f' }, -- Prev/Next File in Directory
+    indent     = { suffix = 'i' },
+    jump       = { suffix = 'j' },
+    location   = { suffix = 'l' },
+    oldfile    = { suffix = '' }, -- [o/]o already owns option-toggle group
+    quickfix   = { suffix = 'q' },
+    treesitter = { suffix = '' }, -- [t/]t already owns tab nav
+    undo       = { suffix = 'u' },
+    window     = { suffix = 'w' },
+    yank       = { suffix = '' }, -- yanky.nvim already owns [y/]y
+  })
+
+  -- [e/]e: exchange line(s) with the one above/below (vim-unimpaired parity).
+  -- foldmethod is forced to 'manual' during the move because ':move' corrupts
+  -- foldexpr-based folds (we use treesitter foldexpr, see foldmethod=expr).
+  local function move_lines(dir)
+    return function()
+      local count = vim.v.count1
+      local fdm = vim.wo.foldmethod
+      if fdm ~= "manual" then vim.wo.foldmethod = "manual" end
+      vim.cmd("normal! m`")
+      pcall(vim.cmd, "move" .. (dir < 0 and "--" or "+") .. count)
+      vim.cmd("normal! ``")
+      if fdm ~= "manual" then vim.wo.foldmethod = fdm end
+    end
+  end
+
+  local function move_selection(dir)
+    return function()
+      local count = vim.v.count1
+      local fdm = vim.wo.foldmethod
+      if fdm ~= "manual" then vim.wo.foldmethod = "manual" end
+      if dir < 0 then
+        vim.cmd("'<,'>move'<--" .. count)
+      else
+        vim.cmd("'<,'>move'>+" .. count)
+      end
+      if fdm ~= "manual" then vim.wo.foldmethod = fdm end
+    end
+  end
+
+  s_nmap("[e", move_lines(-1), "Move line(s) up")
+  s_nmap("]e", move_lines(1), "Move line(s) down")
+  s_vmap("[e", move_selection(-1), "Move selection up")
+  s_vmap("]e", move_selection(1), "Move selection down")
 
   -- mini.ai + mini.extra
   local ai              = require("mini.ai")

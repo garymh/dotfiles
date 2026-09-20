@@ -3,19 +3,6 @@ local M = {
   event = "VeryLazy",
 }
 
--- {
---   "tpope/vim-projectionist",
---   config = function()
---     s_nmap("<leader>e", function()
---       if string.match(vim.fn.expand('%'), "ee/") then
---         vim.cmd.Ece()
---       else
---         vim.cmd.Eee()
---       end
---     end, {}, "toggle between CE and EE")
---   end,
--- },
-
 function M.config()
   require("other-nvim").setup({
     rememberBuffers = false,

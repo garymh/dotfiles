@@ -144,6 +144,7 @@ function M.config()
   s_nmap("<space>y", vim.cmd.YankyRingHistory, "yank history")
   s_nmap("<space>d", function() fzflua.files({ cwd = "~/code/dotfiles", prompt = "Dotfiles ❯ " }) end, {}, "dotfiles")
   s_nmap("<space>o", function() fzflua.files({ cwd = "~/.config/opencode", prompt = "OpenCode ❯ " }) end, {}, "opencode")
+  s_nmap("<space>i", function() fzflua.files({ cwd = "~/.config/stories", prompt = "Dotfiles ❯ " }) end, {}, "dotfiles")
 
   s_nmap(
     "<space>G",
