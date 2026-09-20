@@ -4,7 +4,7 @@
 !/home/zsh/private/.keep
 /home/zsh/bundle/*
 *.zwc
-/home/hammerspoon/node_modules
+node_modules
 .lsp
 Brewfile.lock.json
 .clj-kondo
