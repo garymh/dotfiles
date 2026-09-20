@@ -35,6 +35,7 @@ return {
         'python',
         'query',
         'regex',
+        'ruby',
         'scss',
         'svelte',
         'toml',
@@ -47,8 +48,7 @@ return {
         'yaml',
       },
       allow_vim_regex = {
-        "csv",
-        "ruby"
+        "csv"
       },
     },
     dependencies = {
