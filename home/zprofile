@@ -59,10 +59,14 @@ for d (
     $HOME/Library/pnpm/bin
     $HOME/.spicetify
     $HOME/.yarn/bin
-    $HOME/.cargo/bin) {
+    $HOME/.cargo/bin
+    $HOME/.bun/bin
+    "/Applications/Nvmm.app/Contents/bin/nvmm"
+    $HOME/.agentmemory/bin) {
     _dir_exists $d && path=($d $path)
 }
 
+export PRIVATE_FILE="$HOME/.zsh/private/private.zsh"
 for f in ~/.zsh/private/*.zsh(N); do
     [ -e "$f" ] && source $f || break
 done
