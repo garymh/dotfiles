@@ -121,6 +121,7 @@ vim.opt.smartcase     = true
 vim.opt.smartindent   = true
 vim.opt.smoothscroll  = true
 vim.opt.spell         = true
+vim.opt.spellcapcheck = ""
 vim.opt.spelllang     = "en_us"
 vim.opt.synmaxcol     = 180
 vim.opt.tabstop       = 2
@@ -162,6 +163,10 @@ end
 vim.g.loaded_python_provider = 0
 vim.g.loaded_ruby_provider   = 0
 vim.g.loaded_perl_provider   = 0
+
+if InGui() then
+  vim.opt.guifont = "BlexMono Nerd Font Mono:h28"
+end
 
 if InNeovide() then
   require("neovide")
