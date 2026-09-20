@@ -2,16 +2,6 @@ s_nmap("<space>l", vim.cmd.Lazy, {}, "Lazy plugins")
 
 HighlightDuration = 300
 
--- gtfo (replaces justinmk/vim-gtfo): mirrors its macOS `open` invocations exactly.
-s_nmap("got", function() vim.system({ "open", "-a", "Ghostty", vim.fn.expand("%:p:h") }) end,
-  "go to current directory in terminal")
-s_nmap("goT", function() vim.system({ "open", "-a", "Ghostty", vim.fn.getcwd() }) end,
-  "go to current working directory in terminal")
-s_nmap("gof", function() vim.system({ "open", "--reveal", vim.fn.expand("%:p") }) end,
-  "go to current file in Finder")
-s_nmap("goF", function() vim.system({ "open", vim.fn.getcwd() }) end,
-  "go to current working file in Finder")
-
 return {
   -- ./blink-cmp.lua
 

@@ -66,7 +66,16 @@ for _, mode in ipairs(vim_modes) do
   end
 end
 
-s_nmap("<C-]>", "<C-]>", "check definition")
+-- command-line alias: Alias("rc", "edit", "$MYVIMRC") makes `:rc` mean `:edit $MYVIMRC`
+function Alias(name, ...)
+  local args = { ... }
+  vim.keymap.set("ca", name, function()
+    if vim.fn.getcmdtype() == ':' and vim.fn.getcmdline():find("^" .. name) then
+      return table.concat(args, " ")
+    end
+    return name
+  end, { noremap = true, expr = true, replace_keycodes = true })
+end
 
 local borders = {
   none = { '', '', '', '', '', '', '', '' },

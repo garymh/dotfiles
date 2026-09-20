@@ -44,7 +44,7 @@ function Google(pat, lucky)
   fn.system(fn.printf("open 'https://%s%s'", url, query))
 end
 
--- Bracket motion helper
+-- bracket motion helper
 function BracketMotion(motion, count)
   local bracket, direction, commands
   if motion == "down" then
