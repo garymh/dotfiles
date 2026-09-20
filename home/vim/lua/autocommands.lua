@@ -40,3 +40,26 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
+
+-- auto-change cwd to nearest project root, unless we're inside an ignored subtree
+local ignore_roots = {
+  vim.fn.expand('~/code/dotfiles'),
+  vim.fn.expand('~/.config'),
+}
+local function is_ignored(path)
+  for _, r in ipairs(ignore_roots) do
+    if path == r or path:sub(1, #r + 1) == r .. '/' then return true end
+  end
+  return false
+end
+vim.api.nvim_create_autocmd('BufEnter', {
+  group = Augroup("auto_root"),
+  callback = function()
+    if is_ignored(vim.fn.getcwd()) then return end
+    local found = vim.fs.find({ '.git', 'Makefile' }, { upward = true })[1]
+    if found then
+      local root = vim.fs.dirname(found)
+      if root ~= vim.fn.getcwd() then vim.cmd.cd(root) end
+    end
+  end,
+})
