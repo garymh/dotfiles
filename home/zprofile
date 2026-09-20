@@ -13,6 +13,10 @@ export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
 [ -n "${MANPATH-}" ] && export MANPATH=":${MANPATH#:}"
 export MANPATH="/opt/homebrew/share/man:${MANPATH:-}"
 
+# use brew ruby for the moment
+export PATH="/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH"
+export PATH="$(brew --prefix ruby)/bin:$PATH"
+
 # Dotfiles
 export DOTFILES="$HOME/code/dotfiles"
 export HOME_DIR="$DOTFILES/home"
