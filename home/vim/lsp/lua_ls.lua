@@ -1,3 +1,12 @@
+-- workspace globals live in .luarc.json (single source of truth): the file configures
+-- any client, the settings sent here cover Lua files opened outside the repo too.
+local function repo_globals()
+  local ok, luarc = pcall(function()
+    return vim.json.decode(table.concat(vim.fn.readfile(D .. "/.luarc.json"), "\n"))
+  end)
+  return ok and luarc["diagnostics.globals"] or nil
+end
+
 return {
   cmd = { "lua-language-server" },
   filetypes = { "lua" },
@@ -24,28 +33,7 @@ return {
         -- }
       },
       diagnostics = {
-        globals = {
-          "Augroup",
-          "User",
-          "cmap",
-          "icons",
-          "nmap",
-          "nxmap",
-          "omap",
-          "s_cmap",
-          "s_imap",
-          "s_map",
-          "s_nmap",
-          "s_omap",
-          "s_oxmap",
-          "s_tmap",
-          "s_vmap",
-          "s_xmap",
-          "tools",
-          "vim",
-          "vmap",
-          "xmap",
-        },
+        globals = repo_globals(),
         disable = { "missing-parameters", "missing-fields" }
 
       },
