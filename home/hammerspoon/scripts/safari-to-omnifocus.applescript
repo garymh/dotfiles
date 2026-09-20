@@ -1,7 +1,7 @@
 on run argv
 	set openQuickEntry to (count of argv) = 0
 	
-	set ofLib to load script POSIX file (POSIX path of (path to home folder) & ".hammerspoon/scripts/of_library.scpt")
+	set ofLib to load script POSIX file (POSIX path of (path to home folder) & ".config/Hammerspoon2/scripts/of_library.scpt")
 	
 	tell application "Safari"
 		set tabURL to URL of current tab of front window

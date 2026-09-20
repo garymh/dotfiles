@@ -1,5 +1,0 @@
-require("watchers.audio")
-require("watchers.mqtt")
-require("watchers.camera")
-require("watchers.swiftbar")
-require("watchers.screens")
