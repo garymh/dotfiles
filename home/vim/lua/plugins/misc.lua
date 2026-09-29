@@ -65,11 +65,11 @@ return {
 
   {
     "iamyoki/buffer-reopen.nvim",
-    keys = {
+    keys   = {
       { "<space><space>", "<CMD>BufferHistory reopen<CR>", desc = "undo close last buffer" },
     },
-    cmd  = { "BufferHistory" },
-    opts = {},
+    cmd    = { "BufferHistory" },
+    opts   = {},
     config = function()
       require("buffer-reopen").setup()
 
@@ -323,8 +323,8 @@ return {
 
   {
     "mrshmllow/open-handlers.nvim",
-    event = "VeryLazy",
-    cond  = vim.ui.open ~= nil,
+    event  = "VeryLazy",
+    cond   = vim.ui.open ~= nil,
     config = function()
       local oh = require("open-handlers")
 
@@ -352,7 +352,7 @@ return {
     end,
   },
 
-  { "tpope/vim-abolish", keys = { { "cr", mode = { "n", "x" } } } },
+  { "tpope/vim-abolish",   keys = { { "cr", mode = { "n", "x" } } } },
   {
     "tpope/vim-eunuch",
     cmd = {
