@@ -6,11 +6,15 @@ Adwaita Mono
 Adwaita Mono
 Atari Classic
 Berkeley Mono
+Cartograph CF
 CommitMono-gary
+Courier Prime
+Crisp
 D2CodingLigature Nerd Font Mono
 Departure Mono
 Dispatch Mono
 EnvyCodeR Nerd Font Mono
+Fixedsys Core
 FixedsysExcelsiorIIIb Nerd Font
 Hack Nerd Font Propo
 Hermit
@@ -28,6 +32,8 @@ Liberation Mono
 Lotion
 Luculent
 Lyth Mono Term
+Lyth Mono Term Round
+Lyth Mono Square
 Maple Mono
 Maple Mono NF
 Martian Mono
@@ -37,6 +43,7 @@ Necto Mono
 Recursive
 SF Mono
 Sergamon
+Share Tech Mono
 SpaceMono Nerd Font Mono
 TamzenForPowerline
 VictorMono Nerd Font
