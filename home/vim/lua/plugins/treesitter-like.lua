@@ -2,7 +2,6 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     enabled = true,
-    lazy = false,
     build = ":TSUpdate",
     opts = {
       ensure_install = {
@@ -83,29 +82,41 @@ return {
           vim.bo.syntax = "on"
         end
 
-        vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+        -- don't shadow a deliberate 'foldmethod' (after/ftplugin/vim.vim uses "marker")
+        if vim.wo[0][0].foldmethod == "expr" then
+          vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+        end
 
         return true
       end
 
+      local function load_pending()
+        if #parsers_pending == 0 then
+          return
+        end
+        for _, data in ipairs(parsers_pending) do
+          if vim.api.nvim_win_is_valid(data.winnr) and vim.api.nvim_buf_is_valid(data.bufnr) then
+            vim._with({ buf = data.bufnr }, function()
+              if start(data.lang) then
+                parsers_loaded[data.lang] = true
+              else
+                parsers_failed[data.lang] = true
+              end
+            end)
+          end
+        end
+        parsers_pending = {}
+      end
+
       vim.api.nvim_set_decoration_provider(ns, {
-        on_start = vim.schedule_wrap(function()
+        -- runs on every redraw: only pay for a scheduled callback when work is queued
+        on_start = function()
           if #parsers_pending == 0 then
             return false
           end
-          for _, data in ipairs(parsers_pending) do
-            if vim.api.nvim_win_is_valid(data.winnr) and vim.api.nvim_buf_is_valid(data.bufnr) then
-              vim._with({ buf = data.bufnr }, function()
-                if start(data.lang) then
-                  parsers_loaded[data.lang] = true
-                else
-                  parsers_failed[data.lang] = true
-                end
-              end)
-            end
-          end
-          parsers_pending = {}
-        end),
+          vim.schedule(load_pending)
+          return false
+        end,
       })
 
       vim.api.nvim_create_autocmd("FileType", {
@@ -205,6 +216,8 @@ return {
   {
     "chrisgrieser/nvim-various-textobjs",
     enabled = true,
+    -- operator-pending text objects: loaded on first buffer read instead of at startup
+    event = "BufReadPost",
     dependencies = {
       "coderifous/textobj-word-column.vim",
     },

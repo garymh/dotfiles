@@ -1,7 +1,7 @@
 return {
   {
     "OXY2DEV/markview.nvim",
-    lazy = false, -- Recommended
+    ft = { "markdown" }, -- preview is off; only attach for markdown buffers
 
     -- dependencies = { "nvim-treesitter/nvim-treesitter" },
     init = function()

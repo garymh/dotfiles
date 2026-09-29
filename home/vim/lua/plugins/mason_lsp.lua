@@ -1,6 +1,9 @@
 return {
   {
     "neovim/nvim-lspconfig",
+    -- 0.13: load on first buffer instead of at startup; BufReadPre fires before
+    -- FileType, so vim.lsp.enable's autocmds are still registered in time.
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "mason.nvim",
       { "mason-org/mason-lspconfig.nvim", config = function() end },
@@ -63,8 +66,20 @@ return {
         diag.config({ virtual_lines = new_config })
       end, "Toggle diagnostic virtual_lines")
       s_nmap("<localleader>e", diag.open_float, "[LSP] line diagnostics")
-      s_nmap("]!", function() diag.jump({ float = true, count = 1 }) end, "Next diagnostic issue")
-      s_nmap("[!", function() diag.jump({ float = true, count = -1 }) end, "Previous diagnostic issue")
+      -- 0.13: `float` is deprecated in favor of `on_jump`
+      local function jump_diag(count)
+        local jump = { count = count }
+        if Nv13() then
+          jump.on_jump = function(_, bufnr)
+            vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+          end
+        else
+          jump.float = true
+        end
+        diag.jump(jump)
+      end
+      s_nmap("]!", function() jump_diag(1) end, "Next diagnostic issue")
+      s_nmap("[!", function() jump_diag(-1) end, "Previous diagnostic issue")
 
       s_xmap('<A-o>', function()
         vim.lsp.buf.selection_range(1)

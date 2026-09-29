@@ -35,10 +35,19 @@ vim.opt.runtimepath:prepend(lazypath)
 
 -- nvim built in plugins
 if Nv12() then
-  vim.cmd("packadd justify")
-  vim.cmd("packadd nohlsearch")
-  vim.cmd("packadd nvim.undotree")
-  s_nmap("<space>u", require("undotree").open, {}, "Undo tree")
+  -- defer the optional builtin packages off the startup path
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "VeryLazy",
+    callback = function()
+      vim.cmd("packadd justify")
+      vim.cmd("packadd nohlsearch")
+    end,
+  })
+
+  s_nmap("<space>u", function()
+    vim.cmd("packadd nvim.undotree")
+    require("undotree").open()
+  end, {}, "Undo tree")
 end
 
 require("lazy").setup("plugins", {
@@ -144,10 +153,10 @@ vim.opt.wildignore    = {
   "*.min.js",
   "*.sock",
   ".git/*",
-  "*./log/*",
-  "./tmp/*",
+  "*/log/*",
+  "*/tmp/*",
+  "*/dotbot/*",
   ".keep",
-  "./dotbot/*",
 }
 
 for _, mod in ipairs({

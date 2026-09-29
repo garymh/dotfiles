@@ -49,8 +49,8 @@ return {
 
   {
     "ghostty",
-    dir  = "/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/",
-    lazy = false,
+    dir   = "/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/",
+    event = { "BufReadPre */ghostty/config", "BufNewFile */ghostty/config" },
   },
 
   {
@@ -65,13 +65,16 @@ return {
 
   {
     "iamyoki/buffer-reopen.nvim",
+    keys = {
+      { "<space><space>", "<CMD>BufferHistory reopen<CR>", desc = "undo close last buffer" },
+    },
+    cmd  = { "BufferHistory" },
     opts = {},
     config = function()
       require("buffer-reopen").setup()
 
       vim.keymap.del({ "n" }, "<leader>bt")
       vim.keymap.del({ "n" }, "<C-S-t>")
-      s_nmap("<space><space>", "<CMD>BufferHistory reopen<CR>", "undo close last buffer")
     end,
   },
 
@@ -320,7 +323,8 @@ return {
 
   {
     "mrshmllow/open-handlers.nvim",
-    cond = vim.ui.open ~= nil,
+    event = "VeryLazy",
+    cond  = vim.ui.open ~= nil,
     config = function()
       local oh = require("open-handlers")
 
@@ -348,14 +352,36 @@ return {
     end,
   },
 
-  { "tpope/vim-abolish" },
-  { "tpope/vim-eunuch" },
+  { "tpope/vim-abolish", keys = { { "cr", mode = { "n", "x" } } } },
+  {
+    "tpope/vim-eunuch",
+    cmd = {
+      "Unlink",
+      "Remove",
+      "Delete",
+      "Copy",
+      "Move",
+      "Duplicate",
+      "Rename",
+      "Chmod",
+      "Mkdir",
+      "Cfind",
+      "Clocate",
+      "Lfind",
+      "Llocate",
+      "SudoEdit",
+      "SudoWrite",
+      "Wall",
+      "W",
+    },
+  },
   { "tpope/vim-repeat" },
   { "tpope/vim-rsi" },
 
   {
     "serhez/bento.nvim",
-    opts = { ui = {} }
+    cmd  = { "BentoToggle", "BentoCycleMinimalMenu" },
+    opts = { ui = {} },
   }, -- buffer management
   -- ALT: "aidancz/buvvers.nvim",
   -- come back when https://github.com/neovim/neovim/issues/29365 is fixed
