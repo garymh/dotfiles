@@ -9,13 +9,19 @@ vim.api.nvim_create_autocmd("ColorScheme", { -- consistent git colors for my san
 })
 
 if InGui() == false and Nv12() then
-  require("vim._core.ui2").enable {
-    enable = true,
-    msg = {
-      target = "cmd",
-      timeout = 4000,
-    },
-  }
+  if Nv13() then
+    -- 0.13: `msg.target` -> `msg.targets`; `msg.timeout` -> 'messagesopt'
+    vim.opt.messagesopt:append("timeout:4000")
+    require("vim._core.ui2").enable { enable = true, msg = { targets = "cmd" } }
+  else
+    require("vim._core.ui2").enable {
+      enable = true,
+      msg = {
+        target = "cmd",
+        timeout = 4000,
+      },
+    }
+  end
 end
 
 vim.api.nvim_create_autocmd('BufReadPost', {

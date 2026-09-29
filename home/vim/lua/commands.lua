@@ -87,8 +87,9 @@ if Nv12() then
   })
 
   User("LspLog", function(_)
-    local state_path = vim.fn.stdpath("state")
-    local log_path = vim.fs.joinpath(state_path, "lsp.log")
+    -- 0.13 moved the LSP log to stdpath("log"), i.e. stdpath("state") .. "/logs"
+    local log_path = Nv13() and vim.lsp.log.get_filename()
+        or vim.fs.joinpath(vim.fn.stdpath("state"), "lsp.log")
 
     vim.cmd(string.format("edit %s", log_path))
   end, {

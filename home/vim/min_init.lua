@@ -115,7 +115,7 @@ local function on_attach(client, bufnr)
       return pumvisible() and '<C-y>' or '<cr>'
     end, { expr = true }, 'i')
 
-    vim.diagnostic.config { virtual_line = true }
+    vim.diagnostic.config { virtual_lines = true }
 
     -- Use slash to dismiss the completion menu.
     keymap('/', function()

@@ -5,6 +5,8 @@ User = vim.api.nvim_create_user_command
 
 function Nv12() return vim.fn.has("nvim-0.12") == 1 end
 
+function Nv13() return vim.fn.has("nvim-0.13") == 1 end
+
 function InNeovide() return vim.g.neovide == true end
 
 function InVimr() return vim.fn.exists("g:gui_vimr") == 1 end
