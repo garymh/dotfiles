@@ -18,9 +18,9 @@ return {
       vim.api.nvim_set_hl(0, "SymbolUsageImpl", { fg = h("@keyword").fg, bg = h("CursorLine").bg, italic = true })
 
       local function text_format(symbol)
-        local res = {}
+        local res         = {}
         local round_start = { "", "SymbolUsageRounding" }
-        local round_end = { "", "SymbolUsageRounding" }
+        local round_end   = { "", "SymbolUsageRounding" }
 
         if symbol.references then
           local usage = symbol.references <= 1 and "usage" or "usages"
