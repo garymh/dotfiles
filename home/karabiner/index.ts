@@ -35,7 +35,6 @@ import misc from "./rules/misc.ts";
 import moom from "./rules/moom.ts";
 import modifiers from "./rules/modifiers.ts";
 import omnifocus from "./rules/omnifocus.ts";
-import onepassword from "./rules/onepassword.ts";
 import pikatea from "./rules/pikatea.ts";
 import terminal from "./rules/terminal.ts";
 import vimArrows from "./rules/vim-arrows.ts";
@@ -60,7 +59,6 @@ writeToProfile(
     ...mail,
     ...browsers,
     ...ghostty,
-    ...onepassword,
     ...terminal,
     ...omnifocus,
     ...vimArrows,

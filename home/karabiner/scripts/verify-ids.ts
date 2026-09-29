@@ -1,12 +1,31 @@
+import { $ } from "bun";
+
 import { apps } from "../apps.ts";
-import { extractIdentifier } from "./resolve-mac.ts";
 
 // Cross-checks apps.ts's hardcoded bundle-id regexes against what's actually
-// installed right now, via `mdfind`/`mdls` (resolve-mac.ts). Only checks
+// installed right now, via `mdfind`/`mdls`. Only checks
 // single-app entries where the macOS display name is known — group
 // entries (terminals, escapeApps, firefoxes) aren't checked.
 //
 // Run with: bun run scripts/verify-ids.ts
+
+// Inlined from the retired resolve-mac.ts (the file is not in the tree).
+async function extractIdentifier(appName: string): Promise<string> {
+  const paths =
+    await $`mdfind "kMDItemKind == 'Application' && kMDItemFSName == '${appName}.app'"`.text();
+  const appPath = paths.trim().split("\n")[0];
+  if (!appPath) {
+    throw new Error(`Application ${appName} not found`);
+  }
+
+  const output = await $`mdls -name kMDItemCFBundleIdentifier ${appPath}`.text();
+  const identifier = output.match(/"(.*)"/)?.[1]?.trim();
+  if (!identifier) {
+    throw new Error(`Failed to extract bundle identifier for ${appName}`);
+  }
+
+  return identifier;
+}
 
 const appNameByKey: Partial<Record<keyof typeof apps, string>> = {
   calendar: "Calendar",
