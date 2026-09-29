@@ -1,1 +1,1 @@
-au BufNewFile,BufRead Dangerifle,Brewfile,.Brewfile set filetype=ruby syntax=brewfile
+au BufNewFile,BufRead Dangerfile,Brewfile,.Brewfile set filetype=ruby syntax=brewfile

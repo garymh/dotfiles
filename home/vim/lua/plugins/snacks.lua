@@ -233,13 +233,6 @@ local M = {
         Snacks.toggle.dim():map("yoD")
 
         Snacks.toggle
-            .option("background", {
-              off = "light",
-              on = "dark",
-              name = "Dark Background",
-            })
-            :map("yob")
-        Snacks.toggle
             .option("conceallevel", {
               off = 0,
               on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2,

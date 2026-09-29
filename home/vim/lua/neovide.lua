@@ -38,7 +38,6 @@ vim.keymap.set("v", "<D-c>", copy, { silent = true, desc = "Copy" })
 vim.keymap.set({ "n", "i", "v", "c", "t" }, "<D-v>", paste, { silent = true, desc = "Paste" })
 vim.keymap.set("n", "<D-[>", "<C-w>w")
 vim.keymap.set("n", "<D-]>", "<C-w>W")
-vim.keymap.set("n", "<D-s>", ":w<CR>")
 vim.keymap.set("n", "<D-k>", "<M-k>", { remap = true })
 vim.keymap.set({ 'i', 'n' }, '<D-w>', vim.cmd.quit)
 

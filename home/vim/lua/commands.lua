@@ -92,13 +92,9 @@ if Nv12() then
         or vim.fs.joinpath(vim.fn.stdpath("state"), "lsp.log")
 
     vim.cmd(string.format("edit %s", log_path))
-  end, {
-    desc = "Show LSP log",
-  })
+  end, { desc = "Show LSP log", })
 
-  User("LspRestart", "lsp restart", {
-    desc = "Restart LSP",
-  })
+  User("LspRestart", "lsp restart", { desc = "Restart LSP", })
 end
 
 function _G.___gdc(motion)

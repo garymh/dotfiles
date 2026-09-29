@@ -1,9 +1,7 @@
 local M = {
   "ibhagwan/fzf-lua",
   opts = {},
-  dependencies = {
-    "rktjmp/lush.nvim",
-    "elanmed/fzf-lua-frecency.nvim" },
+  dependencies = { "elanmed/fzf-lua-frecency.nvim" },
   enabled = true,
   init = function()
     vim.ui.select = function(items, opts, on_choice)

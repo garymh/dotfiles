@@ -6,6 +6,8 @@ return {
   opts = {
     keymap = { preset = "super-tab" },
 
+    snippets = { preset = "luasnip" },
+
     cmdline = {
       keymap = { ['<Tab>'] = { 'show', 'accept' }, },
       completion = {

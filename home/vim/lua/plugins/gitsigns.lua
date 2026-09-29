@@ -49,13 +49,13 @@ function M.config()
         if vim.wo.diff then return "]g" end
         vim.schedule(function() gitsigns.next_hunk() end)
         return "<Ignore>"
-      end, "next git chunk", { expr = true })
+      end, { expr = true }, "next git chunk")
 
       nmap("[g", function()
         if vim.wo.diff then return "[g" end
         vim.schedule(function() gitsigns.prev_hunk() end)
         return "<Ignore>"
-      end, "previous git chunk", { expr = true })
+      end, { expr = true }, "previous git chunk")
 
       s_nmap("gld", [[<CMD>silent exec "!git -C %:p:h ksdiff"<CR>]], {}, "git diff in gui")
 
