@@ -13,10 +13,6 @@ export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
 [ -n "${MANPATH-}" ] && export MANPATH=":${MANPATH#:}"
 export MANPATH="/opt/homebrew/share/man:${MANPATH:-}"
 
-# use brew ruby for the moment
-export PATH="/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH"
-export PATH="$(brew --prefix ruby)/bin:$PATH"
-
 # Dotfiles
 export DOTFILES="$HOME/code/dotfiles"
 export HOME_DIR="$DOTFILES/home"
@@ -70,7 +66,13 @@ for d (
     _dir_exists $d && path=($d $path)
 }
 
+if (( ${+commands[rbenv]} )); then
+    eval "$(rbenv init -)"
+fi
+
 export PRIVATE_FILE="$HOME/.zsh/private/private.zsh"
 for f in ~/.zsh/private/*.zsh(N); do
     [ -e "$f" ] && source $f || break
 done
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
