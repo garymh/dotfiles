@@ -12,6 +12,7 @@ export const apps = {
   safari: ["^com\\.apple\\.Safari"],
   helium: ["^net\\.imput\\.helium"],
   brave: ["^com\\.brave\\.Browser\\.beta$"],
+  markview: ["^com\\.markviewer\\.markviewer$"],
   neovide: ["^com\\.neovide\\.neovide"],
   omnifocus: ["^com\\.omnigroup\\.OmniFocus3$"],
   preview: ["^com\\.apple\\.Preview$"],
