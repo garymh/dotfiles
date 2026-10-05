@@ -6,6 +6,12 @@
 *.zwc
 node_modules
 .lsp
+# .claude/ is ignored globally (home/gitignore_global); re-include only the
+# shared agent config so skills/ and agents/ can be committed.
+!.claude/
+.claude/*
+!.claude/skills/
+!.claude/agents/
 Brewfile.lock.json
 .clj-kondo
 vim_bugs.md
