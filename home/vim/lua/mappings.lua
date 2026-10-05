@@ -83,7 +83,9 @@ s_nmap("}", function() BracketMotion("down", vim.v.count) end)
 s_nmap("gp", [['`[' . strpart(getregtype(), 0, 1) . '`]']], expr, "go to last paste")
 
 -- keep the default jump list / tag jumps
-s_nmap("<C-I>", "<C-I>", noremap)
+-- ghostty sends 0x1f for ctrl-i: nvim hardcodes <C-i> == <Tab> internally
+-- (neovim/neovim#14400), so <C-I> itself can't be mapped distinctly from <Tab>
+s_nmap("<C-_>", "<C-I>", noremap)
 s_nmap("<C-]>", "<C-]>", "check definition")
 
 -- windows, buffers, tabs ------------------------------------------------------

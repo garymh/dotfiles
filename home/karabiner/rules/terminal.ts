@@ -2,14 +2,6 @@ import { map, rule } from "karabiner.ts";
 
 import { inApp } from "../apps.ts";
 
-const terminalsVimHistoryFixRule = rule(
-  "|terminals| vim history fix",
-  inApp("terminals"),
-).manipulators([
-  map("i", "left_control")
-    .to("f6"),
-]);
-
 const terminalOptDeleteRule = rule("|terminal| ⌥ delete", inApp("terminals"))
   .manipulators([
     map("delete_or_backspace", "left_option")
@@ -46,7 +38,6 @@ const terminalCmdRightRule = rule(
 ]);
 
 export default [
-  terminalsVimHistoryFixRule,
   terminalOptDeleteRule,
   terminalsCmdDeleteRule,
   terminalsCmdReturnRule,
