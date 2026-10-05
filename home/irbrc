@@ -1,4 +1,7 @@
 Reline::Face.force_truecolor if defined?(Reline::Face)
+Reline::Unicode.define_singleton_method(:word_character?) do |s|
+  s&.match?(%r{[\p{Word}\-/:]})
+end
 
 IRB.conf[:EVAL_HISTORY] = 10
 
