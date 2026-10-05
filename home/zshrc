@@ -105,7 +105,3 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
         e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"
     fi
 fi
-
-# >>> oh-my-opencode-slim background subagents >>>
-export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true
-# <<< oh-my-opencode-slim background subagents <<<

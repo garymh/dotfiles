@@ -5,6 +5,7 @@ typeset -U PATH path
 source $HOME/.zsh/misc/utility.zsh
 
 # Homebrew
+# this does: eval "$(/opt/homebrew/bin/brew shellenv)"
 export HOMEBREW_PREFIX="/opt/homebrew"
 export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
 export HOMEBREW_REPOSITORY="/opt/homebrew"
@@ -61,18 +62,15 @@ for d (
     $HOME/.yarn/bin
     $HOME/.cargo/bin
     $HOME/.bun/bin
-    "/Applications/Nvmm.app/Contents/bin/nvmm"
     $HOME/.agentmemory/bin) {
     _dir_exists $d && path=($d $path)
 }
-
-if (( ${+commands[rbenv]} )); then
-    eval "$(rbenv init -)"
-fi
 
 export PRIVATE_FILE="$HOME/.zsh/private/private.zsh"
 for f in ~/.zsh/private/*.zsh(N); do
     [ -e "$f" ] && source $f || break
 done
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if (( ${+commands[rbenv]} )); then
+    eval "$(rbenv init -)"
+fi
