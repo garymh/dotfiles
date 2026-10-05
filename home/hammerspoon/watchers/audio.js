@@ -13,10 +13,14 @@ const DEVICE_ACTIONS = {
   "MacBook Pro Speakers": MBSPEAKERS,
 };
 
-hs.audiodevice.addWatcher((event, device) => {
+// ponytail: 0.0.13 replaced addWatcher(cb) with on(event, cb), and the listener no longer receives
+// the changed device — resolve the current default output when the debounce fires. "dOut" is the
+// default-output-changed event; dev+ in particular fires for devices that never become the output.
+hs.audiodevice.on("dOut", () => {
   if (audioDebounceTimer) audioDebounceTimer.stop();
   audioDebounceTimer = hs.timer.doAfter(1.5, () => {
     audioDebounceTimer = null;
+    const device = hs.audiodevice.defaultOutputDevice();
     const shortcut =
       (device && DEVICE_ACTIONS[device.name]) || DEFAULT_SHORTCUT;
     hs.shortcuts

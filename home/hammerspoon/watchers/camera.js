@@ -2,10 +2,11 @@
 // Continuity camera ("Cam Phone Camera") in use → Meeting focus + wallpaper swap; restore on release.
 // ponytail: hs.screen.wallpaper gone — HS2 exposes screen.desktopImage (settable path or file:// URL).
 //
-// Fully event-driven. Verified against a patched Hammerspoon 2 (hs-camera-emitter-fix.patch):
-// attaching the per-camera watcher inside the "connected" notification works and native
-// in-use callbacks fire. Unpatched builds throw inside HSCamera.addWatcher() for hot-plugged
-// Continuity cameras, so a single delayed retry remains as a cheap safety net.
+// Fully event-driven: attaching the per-camera watcher inside the "connected" notification works
+// and native in-use callbacks fire (verified against a patched Hammerspoon 2; 0.0.13 upstreamed
+// the camera watcher and renamed the APIs to hs.camera.on(event, fn) / cam.on(fn)). Builds that
+// throw while attaching a hot-plugged Continuity camera keep a single delayed retry as a cheap
+// safety net.
 
 hs.permissions.requestCamera().catch(() => {});
 
@@ -100,15 +101,17 @@ function scheduleAttachRetry() {
 function attachToCamera(cam) {
   if (cameraState.hasWatcher) return true;
 
-  const addWatcher = cam && cam.addWatcher;
-  if (typeof addWatcher !== "function") {
+  // ponytail: 0.0.13 replaced the per-camera addWatcher(fn) with on(fn) (listener still gets a
+  // single isInUse boolean).
+  const on = cam && cam.on;
+  if (typeof on !== "function") {
     scheduleAttachRetry();
     return false;
   }
 
   try {
     cameraState.perCameraWatcher = handleCameraState;
-    addWatcher.call(cam, cameraState.perCameraWatcher);
+    on.call(cam, cameraState.perCameraWatcher);
   } catch (e) {
     cameraState.perCameraWatcher = null;
     log("Could not attach in-use watcher: " + e);
@@ -150,7 +153,9 @@ function disconnectFromCamera() {
   if (cameraState.activeByUs) handleCameraState(false);
 }
 
-hs.camera.addWatcher((event, lightCam) => {
+// ponytail: 0.0.13 replaced the single addWatcher(event, camera) callback with one on() per event;
+// the listener now receives only the camera.
+function onCameraEvent(event, lightCam) {
   if (!lightCam) {
     log(event + ": camera descriptor missing");
     return;
@@ -178,7 +183,10 @@ hs.camera.addWatcher((event, lightCam) => {
       return;
     disconnectFromCamera();
   }
-});
+}
+
+hs.camera.on("connected", (cam) => onCameraEvent("connected", cam));
+hs.camera.on("disconnected", (cam) => onCameraEvent("disconnected", cam));
 
 const initialCam = hs.camera.findByName(cameraState.cameraName);
 if (initialCam) {

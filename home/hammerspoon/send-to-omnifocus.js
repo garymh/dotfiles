@@ -47,8 +47,9 @@ globalThis.setHandler = function setHandler(appName, p) {
 // user's source app is the one that *was* frontmost (Safari, Mail, etc.).
 // The cache is updated on every didActivate event for any app that isn't HS2.
 let lastSourceApp = null;
-hs.application.addWatcher((event, app) => {
-  if (event !== "didActivate" || !app) return;
+// ponytail: 0.0.13 replaced hs.application.addWatcher(cb) with one on(event, cb) per event.
+hs.application.on("didActivate", (app) => {
+  if (!app) return;
   const name = app.title;  // HSApplication has .title; .name is undefined
   if (!name || /Hammerspoon/i.test(name)) return;
   lastSourceApp = app;

@@ -40,76 +40,111 @@ async function mqttPublish(topic, message) {
     );
 }
 
-async function dostuff(app, override) {
-  if (override != null) {
-    await mqttPublish("minimon", override);
-    return;
-  }
+// Resolve what to mirror for `app`, or null when there is nothing to publish.
+function minimonValue(app, override) {
+  if (override != null) return override;
 
   const win = app.focusedWindow;
-  if (!win) return;
+  if (!win) return null;
 
-  const title = win.title;
+  const parts = win.title.split(" ");
   if (app.title === "Ghostty") {
-    const parts = title.split(" ");
-    if (parts[0] === "vim") {
-      await mqttPublish("minimon", "vim");
-    } else if (
-      parts[0] === "irb" ||
-      (parts[0] === "rails" && parts[1] === "c")
-    ) {
-      await mqttPublish("minimon", "IRB");
-    } else {
-      await mqttPublish("minimon", "Terminal");
+    if (parts[0] === "vim") return "vim";
+    if (parts[0] === "irb" || (parts[0] === "rails" && parts[1] === "c")) {
+      return "IRB";
     }
-  } else if (
+    return "Terminal";
+  }
+  if (
     app.title === "Neovide" ||
     app.title === "VimR" ||
     app.title === "Nvmm"
   ) {
-    await mqttPublish("minimon", "vim");
-  } else {
-    await mqttPublish("minimon", app.title);
+    return "vim";
   }
+  return app.title;
 }
 
-// ponytail: hs.uielement.watcher is gone — hs.ax.addWatcher(app, notification, listener) replaces it.
-// Register with the raw name ("AXTitleChanged") but the callback receives the camelCase key
-// ("titleChanged"), because HSAXModule maps it back through notificationTypes before invoking us.
-// Watchers are keyed "<pid>:<notification>" in Swift, so we track the process, not the app object,
-// and re-register when Ghostty restarts. AX keeps delivering while backgrounded, so we gate on
-// isActive instead of v1's applicationDeactivated-stops-the-watcher pattern.
-const TITLE_CHANGED = hs.ax.notificationTypes.titleChanged;
-
-let titleApp = null;
-let titleHandler = null;
-let titleDebounce = null;
-
-function unwatchTitles() {
-  if (titleApp && titleHandler)
-    hs.ax.removeWatcher(titleApp, TITLE_CHANGED, titleHandler);
-  if (titleDebounce) titleDebounce.stop();
-  titleDebounce = null;
-  titleApp = null;
-  titleHandler = null;
+// `force` republishes an unchanged value, for app switches where the retained topic is the whole
+// point. Title changes skip it: one window title can change several times a second (spinners), and
+// re-publishing the same payload for each of those is pure noise on the broker.
+async function dostuff(app, override, force) {
+  const value = minimonValue(app, override);
+  if (value == null) return;
+  if (!force && value === lastPublished) return;
+  lastPublished = value;
+  await mqttPublish("minimon", value);
 }
 
-function watchTitles(app) {
-  if (titleApp && titleApp.pid === app.pid) return;
-  unwatchTitles();
+// ponytail: event-driven since 2026-09-29 — hooking AXTitleChanged is the only way to see a title
+// change that happens while the app is already frontmost (switching a Ghostty tab, vim renaming
+// itself, a browser tab change), and it needs no polling. Two bugs had to be fixed for this to be
+// usable:
+//   - AXSwift hashed the UIElement wrapper instead of the AXUIElement it wraps (CFHash(self) vs
+//     CFHash(element)), which made equal elements hash unequally and, inside this app, recursed
+//     through -[SwiftObject hash] into hashValue until the stack died.
+//   - HSAXModule._removeWatcher's AXUIElement validity check was inverted, so notifications were
+//     never actually removed from a live element's observer.
+// Hammerspoon 2 0.0.13 upstreamed both fixes ("hs.ax watcher now actually works") and renamed the
+// watcher API to hs.ax.on()/off().
+// Registering on the *application* element is enough: AX delivers AXTitleChanged for the window and
+// for descendant elements that carry a title (Ghostty's tab buttons), so filter on role.
+//
+// Callbacks and timers passed to native code die with JS reachability, and a module-scope binding is
+// not enough (a timer handle here lost its callback ~2s after load: "hs.timer: callback is not a
+// function"), so the handler and the debounce handle are pinned on globalThis, as urlevent handlers
+// here are too.
+const TITLE_DEBOUNCE = 0.3;
 
-  titleApp = app;
-  titleHandler = () => {
-    if (!titleApp || !titleApp.isActive || !isDocked()) return;
-    if (titleDebounce) titleDebounce.stop();
-    titleDebounce = hs.timer.doAfter(0.3, () => {
-      titleDebounce = null;
-      dostuff(titleApp).catch((e) => console.log("[mqtt] title change: " + e));
-    });
-  };
+// Only apps whose *window title* carries the payload need an AX watcher; every other app's value
+// is its own name (or a constant like "vim"), neither of which changes while the app stays
+// frontmost, so didActivate below is enough for them. That makes this the same coverage the old
+// 0.5s Ghostty-only poll had.
+const TITLE_WATCH_APPS = ["Ghostty"];
 
-  hs.ax.addWatcher(app, TITLE_CHANGED, titleHandler);
-  console.log("[mqtt] watching Ghostty title changes (pid " + app.pid + ")");
+const watchedApps = new Map();
+let lastPublished = null;
+
+globalThis.titleDebounce = null;
+
+globalThis.mqttTitleChanged = function (notification, element) {
+  // Application-element watchers also receive descendant title changes (e.g. Ghostty's tab
+  // buttons), which say the same thing as the window's own title.
+  if (element.role !== "AXWindow") return;
+
+  const app = hs.application.fromPID(element.pid);
+  if (!app || !app.isActive || !isDocked()) return;
+
+  if (globalThis.titleDebounce) globalThis.titleDebounce.stop();
+  globalThis.titleDebounce = hs.timer.doAfter(TITLE_DEBOUNCE, () => {
+    globalThis.titleDebounce = null;
+    dostuff(app).catch((e) => console.log("[mqtt] title change: " + e));
+  });
+};
+
+function watchAppTitles(app) {
+  const name = app && app.title;
+  if (!name || !TITLE_WATCH_APPS.includes(name) || watchedApps.has(name)) return;
+
+  const element = app.axElement();
+  if (!element) return;
+
+  hs.ax.on(
+    element,
+    hs.ax.notificationTypes.titleChanged,
+    globalThis.mqttTitleChanged,
+  );
+  watchedApps.set(name, app);
+}
+
+function unwatchAppTitles(app) {
+  const name = app && app.title;
+  if (!name || !watchedApps.delete(name)) return;
+  hs.ax.off(
+    app.axElement(),
+    hs.ax.notificationTypes.titleChanged,
+    globalThis.mqttTitleChanged,
+  );
 }
 
 const MAIL_JUNK_SCRIPT = `
@@ -125,22 +160,22 @@ const MAIL_JUNK_SCRIPT = `
   end tell
 `;
 
-hs.application.addWatcher(async (eventName, app) => {
-  // ponytail: HS2 uses didActivate/didDeactivate, not activated/deactivated like HS1.
+// ponytail: 0.0.13 replaced the single addWatcher(event, app) callback with one on() registration
+// per event; the listener now receives only the app.
+function onAppDidLaunch(app) {
+  if (!app) return;
+  watchAppTitles(app);
+}
+
+function onAppDidTerminate(app) {
+  if (!app) return;
+  unwatchAppTitles(app);
+}
+
+// ponytail: HS2 uses didActivate/didDeactivate, not activated/deactivated like HS1.
+async function onAppDidActivate(app) {
   try {
     if (!app) return;
-
-    if (app.title === "Ghostty") {
-      if (eventName === "didLaunch") watchTitles(app);
-      else if (
-        eventName === "didTerminate" &&
-        titleApp &&
-        titleApp.pid === app.pid
-      )
-        unwatchTitles();
-    }
-
-    if (eventName !== "didActivate") return;
     const name = app.title;
 
     if (name === "Mail") {
@@ -156,20 +191,21 @@ hs.application.addWatcher(async (eventName, app) => {
     if (!isDocked()) return;
 
     if (name === "Firefox Developer Edition") {
-      await dostuff(app, "Work");
-    } else if (name === "Neovide" || name === "Ghostty") {
-      await dostuff(app);
+      await dostuff(app, "Work", true);
     } else {
-      await dostuff(app);
+      await dostuff(app, null, true);
     }
   } catch (e) {
     console.log("[mqtt] " + e);
   }
-});
+}
 
-// ponytail: hs.ax.addWatcher() silently no-ops (logs an error) without Accessibility permission.
+hs.application.on("didLaunch", onAppDidLaunch);
+hs.application.on("didTerminate", onAppDidTerminate);
+hs.application.on("didActivate", onAppDidActivate);
+
+// Apps already running when the config loads never fire didLaunch.
+hs.application.runningApplications().forEach(watchAppTitles);
+
+// ponytail: hs.window titles come from AX, so both the payload lookup and the title watchers need this.
 hs.permissions.requestAccessibility();
-
-// HS2 emits no launch event for already-running apps, so attach on load too.
-const runningGhostty = hs.application.matchingName("Ghostty");
-if (runningGhostty) watchTitles(runningGhostty);
