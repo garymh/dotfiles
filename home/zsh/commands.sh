@@ -8,7 +8,9 @@
 alias debug_nvim="NVIM_APPNAME=rawnvim nvim"
 alias debug_nvimrc='NVIM_APPNAME=rawnvim nvim $HOME/code/dotfiles/home/vim/min_init.lua'
 
-alias ezshenv='v $DOTFILES/home/zprofile'
+alias ezshenv='v $DOTFILES/home/zshenv'
+alias ezprofile='v $DOTFILES/home/zprofile'
+alias ezlogin='v $DOTFILES/home/zlogin'
 alias ekar='v $DOTFILES/home/karabiner.js'
 alias ealias='v $DOTFILES/home/zsh/commands.sh'
 alias efunction='v $DOTFILES/home/zsh/commands.sh'
@@ -40,7 +42,7 @@ alias oo='open .'
 alias plistbuddy="/usr/libexec/PlistBuddy"
 
 alias ezshrc="zshrc"
-alias ezpro="ezshenv"
+alias ezpro="ezprofile"
 alias eenv="ezshenv"
 alias zshenv="ezshenv"
 alias please='sudo $SHELL -c "$(fc -ln -1)"'

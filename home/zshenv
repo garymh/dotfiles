@@ -1,0 +1,19 @@
+# vim: set ft=zsh:
+
+# Read by every zsh, including scripts and `zsh -c` run by other tools.
+# Cheap, static environment only: no output, no subprocesses, no aliases.
+# PATH lives in zprofile: on macOS /etc/zprofile runs path_helper after this
+# file and would reorder anything set here.
+
+# Must be set before /etc/zshrc runs (Debian/Ubuntu global compinit)
+skip_global_compinit=1
+
+export DOTFILES="$HOME/code/dotfiles"
+export HOME_DIR="$DOTFILES/home"
+export XDG_CONFIG_HOME="$HOME/.config"
+
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+
+export PAGER="bat"
+export LESS="FrX"

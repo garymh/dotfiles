@@ -1,3 +1,16 @@
+# Shell wrapper from `rbenv init -`: `rbenv shell`/`rbenv rehash` must eval in
+# this shell. Shims and RBENV_SHELL are set in zprofile.
+if (( ${+commands[rbenv]} )); then
+  rbenv() {
+    local command=${1:-}
+    (( $# )) && shift
+    case $command in
+      rehash|shell) eval "$(command rbenv "sh-$command" "$@")" ;;
+      *) command rbenv "$command" "$@" ;;
+    esac
+  }
+fi
+
 alias gin="gem install"
 alias gli="gem list"
 alias gun="gem uninstall"

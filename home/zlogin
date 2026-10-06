@@ -1,0 +1,11 @@
+# vim: set ft=zsh:
+
+# Login shells, read after zshrc: the shell is fully set up.
+# External commands only; nothing here may change shell behavior.
+
+# zshrc (and its e_success helper) only ran if the shell is interactive
+if [[ -o interactive && -t 0 && -t 1 && -z $GHOSTTY_QUICK_TERMINAL ]]; then
+    sh $DOTFILES/home/zsh/misc/thisisfine.sh
+    echo ""
+    e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"
+fi

@@ -1,4 +1,4 @@
-if _file_exists ~/.fzf.zsh; then
+if _exists fzf; then
 
     _fzf_git_branches_checkout() {
         _fzf_git_check || return

@@ -1,8 +1,9 @@
 # vim: set ft=zsh:
 
-typeset -U PATH path
+# Login shells only, before zshrc. PATH, tool configuration, and anything slow;
+# exports here are inherited by every child process.
 
-source $HOME/.zsh/misc/utility.zsh
+typeset -U PATH path
 
 # Homebrew
 # this does: eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -14,10 +15,6 @@ export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
 [ -n "${MANPATH-}" ] && export MANPATH=":${MANPATH#:}"
 export MANPATH="/opt/homebrew/share/man:${MANPATH:-}"
 
-# Dotfiles
-export DOTFILES="$HOME/code/dotfiles"
-export HOME_DIR="$DOTFILES/home"
-
 # Tool config
 export HOMEBREW_BAT=1
 export HOMEBREW_BUNDLE_FILE_PATH="$DOTFILES/Brewfile"
@@ -25,15 +22,11 @@ export HOMEBREW_DOWNLOAD_CONCURRENCY="auto"
 export HOMEBREW_CASK_OPTS="--fontdir=~/Library/Fonts"
 export HOMEBREW_DISPLAY_INSTALL_TIMES=1
 export HOMEBREW_NO_ANALYTICS=1
+export BAT_CONFIG_PATH="$DOTFILES/home/batconfig"
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
 export STARSHIP_LOG="error"
 export NAVI_PATH="$DOTFILES/home/doc"
 export NEXTWORD_DATA_PATH="$HOME/.config/nextword-data"
-export XDG_CONFIG_HOME="$HOME/.config"
-export PAGER="bat"
-export LESS="FrX"
-export LANG="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
 export BOB_CONFIG="$HOME/.config/bob/config.json"
 
 # App-specific
@@ -41,7 +34,6 @@ export OPENCODE_DISABLE_SHARE="true"
 export NEOVIDE_FRAME="transparent"
 export NEOVIDE_FORK=1
 export GF_BRANCH_SKIP_REMOTE_BRANCHES="yes"
-export COMPLETION_WAITING_DOTS="true"
 export QMK_HOME="$HOME/code/qmk/qmk_firmware"
 export DICT_DEV_KIT_BIN="$HOME/code/Dictionary Development Kit/bin/build_dict.sh"
 
@@ -63,14 +55,27 @@ for d (
     $HOME/.cargo/bin
     $HOME/.bun/bin
     $HOME/.agentmemory/bin) {
-    _dir_exists $d && path=($d $path)
+    [[ -d $d ]] && path=($d $path)
 }
+
+# After PATH: nvim may come from bob's nvim-bin
+if (( ${+commands[nvim]} )); then
+    export VISUAL='nvim'
+else
+    export VISUAL='vim'
+fi
+export EDITOR="$VISUAL"
+export GIT_EDITOR="$VISUAL"
 
 export PRIVATE_FILE="$HOME/.zsh/private/private.zsh"
 for f in ~/.zsh/private/*.zsh(N); do
     [ -e "$f" ] && source $f || break
 done
 
+# Equivalent of `rbenv init -` (~60 ms) minus its per-login `rbenv rehash`:
+# rbenv's gem-rehash hook and `rbenv install` already rehash. The `rbenv`
+# shell wrapper is interactive-only and lives in zsh/ruby.sh.
 if (( ${+commands[rbenv]} )); then
-    eval "$(rbenv init -)"
+    path=($HOME/.rbenv/shims $path)
+    export RBENV_SHELL=zsh
 fi

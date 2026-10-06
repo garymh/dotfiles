@@ -5,7 +5,6 @@ if _exists btop; then
 fi
 
 if _exists bat; then
-  export BAT_CONFIG_PATH="$DOTFILES/home/batconfig"
   alias cat='bat'
 fi
 

@@ -1,9 +1,14 @@
+# vim: set ft=zsh:
+
+# Interactive shells only. Aliases, functions, history, plugins, completion,
+# prompt, key bindings. Environment belongs in zshenv/zprofile.
+
 typeset -F4 SECONDS=0
 
-skip_global_compinit=1
+source $DOTFILES/home/zsh/misc/utility.zsh
 
-# always loads
-# aliases, functions, env — safe for scripts/non-TTY shells
+# every interactive shell, incl. non-TTY `zsh -i` from agents
+# aliases, functions, history
 
 for f (
     $DOTFILES/home/zsh/commands.sh
@@ -29,10 +34,6 @@ setopt SHARE_HISTORY
 
 hash -d dotfiles=~/code/dotfiles
 
-_exists nvim && export VISUAL='nvim' || export VISUAL='vim'
-export EDITOR="$VISUAL"
-export GIT_EDITOR="$VISUAL"
-
 # tty only
 # plugins, completions, keybindings, fzf, prompt — skip for agents/scripts
 
@@ -53,6 +54,7 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     source $DOTFILES/home/zsh/_after_zsh.sh
 
     setopt ALWAYS_TO_END
+    COMPLETION_WAITING_DOTS="true"
     setopt AUTO_MENU
     setopt COMPLETE_IN_WORD
 
@@ -66,7 +68,7 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     autoload -U select-word-style
     select-word-style bash
 
-    export GPG_TTY=$(tty)
+    export GPG_TTY=$TTY
 
     export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
     zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
@@ -98,10 +100,4 @@ if [[ -t 0 ]] && [[ -t 1 ]]; then
     fi
 
     source ~/.orbstack/shell/init.zsh 2>/dev/null || :
-
-    if [[ -z "${GHOSTTY_QUICK_TERMINAL}" ]]; then
-        sh $DOTFILES/home/zsh/misc/thisisfine.sh
-        echo ""
-        e_success "${SHELL} ${ZSH_VERSION} loaded in ${(M)$(( SECONDS * 1000 ))#*.?} ms"
-    fi
 fi
