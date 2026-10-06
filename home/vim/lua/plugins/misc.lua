@@ -50,7 +50,12 @@ return {
   {
     "ghostty",
     dir   = "/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/",
-    event = { "BufReadPre */ghostty/config", "BufNewFile */ghostty/config" },
+    event = {
+      "BufReadPre */ghostty/config",
+      "BufNewFile */ghostty/config",
+      "BufReadPre */home/ghostty",
+      "BufNewFile */home/ghostty",
+    },
   },
 
   {
@@ -61,6 +66,13 @@ return {
       require("fundo").install()
     end,
     opts = {},
+  },
+
+  {
+    "azabiong/vim-highlighter",
+    init = function()
+      -- settings
+    end,
   },
 
   {
@@ -380,9 +392,58 @@ return {
 
   {
     "serhez/bento.nvim",
-    cmd  = { "BentoToggle", "BentoCycleMinimalMenu" },
-    opts = { ui = {} },
-  }, -- buffer management
+    config = function()
+      require("bento").setup({
+        -- your config options here
+      })
+
+      local api = require("bento.api")
+
+      -- Register menu keymaps
+      api.register_expand_key(";")       -- Open/expand menu
+      api.register_last_buffer_key(";")  -- Label for last-accessed buffer
+      api.register_collapse_key("<Esc>") -- Collapse/close menu
+      api.register_prev_page_key("[")    -- Previous page (pagination)
+      api.register_next_page_key("]")    -- Next page (pagination)
+
+      -- Register built-in actions (using built-in action functions)
+      -- with example keymaps and highlights
+      api.register_action("open", {
+        key = "<CR>",
+        action = api.actions.open,
+        hl = "DiagnosticVirtualTextHint",
+      })
+      api.register_action("delete", {
+        key = "<BS>",
+        action = api.actions.delete,
+        hl = "DiagnosticVirtualTextError",
+      })
+      api.register_action("vsplit", {
+        key = "|",
+        action = api.actions.vsplit,
+        hl = "DiagnosticVirtualTextInfo",
+      })
+      api.register_action("split", {
+        key = "_",
+        action = api.actions.split,
+        hl = "DiagnosticVirtualTextInfo",
+      })
+      api.register_action("lock", {
+        key = "*",
+        action = api.actions.lock,
+        hl = "DiagnosticVirtualTextWarn",
+      })
+
+      -- Set default action
+      api.set_default_action("open")
+    end,
+  }
+
+  -- {
+  --   "serhez/bento.nvim",
+  --   cmd  = { "BentoToggle", "BentoCycleMinimalMenu" },
+  --   opts = { ui = {} },
+  -- }, -- buffer management
   -- ALT: "aidancz/buvvers.nvim",
   -- come back when https://github.com/neovim/neovim/issues/29365 is fixed
   -- ALT: https://github.com/otavioschwanck/arrow.nvim
