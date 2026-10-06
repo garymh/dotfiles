@@ -51,6 +51,7 @@ brew 'noti'
 brew 'nowplaying-cli'
 brew 'opencode'
 brew 'oven-sh/bun/bun', trusted: true
+brew 'pandoc'
 brew 'pinentry-mac'
 brew 'pkgconf'
 brew 'prettyping'
@@ -74,10 +75,10 @@ brew 'zsh'
 brew 'zsh-patina'
 
 # eventually managed elsewhere?
-brew "go"
-brew "gopls"
-brew "lua-language-server"
-brew "ruby-lsp"
+brew 'go'
+brew 'gopls'
+brew 'lua-language-server'
+brew 'ruby-lsp'
 
 cask '1password'
 cask '1password-cli'
@@ -112,7 +113,6 @@ cask 'openscad@snapshot'
 cask 'orbstack'
 cask 'orcaslicer'
 cask 'tonisives/tap/ovim', trusted: true
-cask 'pacifist'
 cask 'permute'
 cask 'rapidapi'
 cask 'selfcontrol'
@@ -128,9 +128,16 @@ cask 'swiftbar'
 cask 'syntax-highlight'
 cask 'tableplus'
 cask 'telegram-desktop'
-cask 'the-unarchiver'
 cask 'ungoogled-chromium'
 cask 'vlc'
+
+cask 'pacifist'
+cask 'the-unarchiver'
+
+cask 'macpacker'
+cask 'vorssaint'
+cask 'clop'
+brew 'mole'
 
 mas '1Password for Safari', id: 1_569_813_296
 mas 'ABDiff', id: 6_757_188_997
