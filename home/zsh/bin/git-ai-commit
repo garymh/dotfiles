@@ -21,13 +21,15 @@ git diff --staged -- ':!*.min.*' ':!*.lock' ':!package-lock.json' ':!pnpm-lock.y
     fi
 } > /tmp/staged_diff.patch
 
-# Ephemeral, tool-less, single-shot run on the cheapest working model.
+# Ephemeral, tool-less, single-shot run on a cheap Copilot model (gpt-4.1: 128K
+# context, included in the Copilot subscription). stdin is closed because omp -p
+# blocks forever on an inherited open pipe (git hooks, lazygit, scripts).
 # omp can exit 0 with empty output on API errors, so check the output too.
 if ! /Users/gary/.bun/bin/omp -p \
     --no-session --no-title --no-tools --no-lsp --no-skills --no-rules --no-extensions \
-    --model anthropic/claude-haiku-5-5 --thinking off \
+    --model github-copilot/gpt-4.1 --thinking off \
     --system-prompt 'You write git commit messages.' \
-    "$PROMPT" @/tmp/staged_diff.patch > /tmp/commit_msg 2> /tmp/commit_msg.err ||
+    "$PROMPT" @/tmp/staged_diff.patch < /dev/null > /tmp/commit_msg 2> /tmp/commit_msg.err ||
     [ ! -s /tmp/commit_msg ]; then
     echo "omp produced no commit message (see ~/.omp/logs/http-400-requests for API errors):" >&2
     cat /tmp/commit_msg.err >&2
