@@ -3,45 +3,34 @@ set -euo pipefail
 
 PROMPT='Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations.'
 if [ -f .git/commit-msg ] && grep -q 'Changelog:' .git/commit-msg; then
-  PROMPT="$PROMPT Use GitLab commit style with a Changelog trailer (e.g. 'Changelog: fixed' or 'Changelog: added'). Valid values: added, fixed, changed, deprecated, removed, security, performance, other."
+    PROMPT="$PROMPT Use GitLab commit style with a Changelog trailer (e.g. 'Changelog: fixed' or 'Changelog: added'). Valid values: added, fixed, changed, deprecated, removed, security, performance, other."
 else
-  PROMPT="$PROMPT Use conventional commit format."
+    PROMPT="$PROMPT Use conventional commit format."
 fi
 
-git diff --staged > /tmp/staged_diff.patch
+# Stat overview + diff without minified/lock files, capped so huge staged
+# changes (vendored bundles etc.) stay well inside the model's context.
+MAX_DIFF_BYTES=100000
+git diff --staged -- ':!*.min.*' ':!*.lock' ':!package-lock.json' ':!pnpm-lock.yaml' > /tmp/staged_diff.full
+{
+    git diff --staged --stat
+    echo
+    head -c "$MAX_DIFF_BYTES" /tmp/staged_diff.full
+    if [ "$(wc -c < /tmp/staged_diff.full)" -gt "$MAX_DIFF_BYTES" ]; then
+        printf '\n[diff truncated at %s bytes; see stat above for all files]\n' "$MAX_DIFF_BYTES"
+    fi
+} > /tmp/staged_diff.patch
 
-RAW=$(opencode run "$PROMPT" -f /tmp/staged_diff.patch --format json 2>/dev/null) || true
-
-echo "--- opencode raw output ---"
-echo "$RAW"
-echo "--- end raw output ---"
-
-SID=$(python3 -c "
-import json, sys
-for line in sys.stdin:
-    line = line.strip()
-    if not line: continue
-    try:
-        obj = json.loads(line)
-        if obj.get('type') == 'step_start':
-            print(obj['sessionID'])
-            sys.exit(0)
-    except: pass
-sys.exit(1)
-" <<< "$RAW") || true
-
-python3 -c "
-import json, sys
-for line in sys.stdin:
-    line = line.strip()
-    if not line: continue
-    try:
-        obj = json.loads(line)
-        if obj.get('type') == 'text':
-            sys.stdout.write(obj['part']['text'])
-    except: pass
-" <<< "$RAW" > /tmp/commit_msg
+# Ephemeral, tool-less, single-shot run on the cheapest working model.
+# omp can exit 0 with empty output on API errors, so check the output too.
+if ! /Users/gary/.bun/bin/omp -p \
+    --no-session --no-title --no-tools --no-lsp --no-skills --no-rules --no-extensions \
+    --model anthropic/claude-haiku-5-5 --thinking off \
+    --system-prompt 'You write git commit messages.' \
+    "$PROMPT" @/tmp/staged_diff.patch > /tmp/commit_msg 2> /tmp/commit_msg.err ||
+    [ ! -s /tmp/commit_msg ]; then
+    echo "omp produced no commit message (see ~/.omp/logs/http-400-requests for API errors):" >&2
+    cat /tmp/commit_msg.err >&2
+fi
 
 git commit -e -F /tmp/commit_msg
-
-[ -n "$SID" ] && opencode session delete "$SID" >/dev/null 2>&1 || true
