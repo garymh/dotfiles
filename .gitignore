@@ -13,5 +13,6 @@ node_modules
 !.claude/skills/
 !.claude/agents/
 Brewfile.lock.json
+home/vim/lazy-lock.json
 .clj-kondo
 vim_bugs.md
