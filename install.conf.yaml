@@ -33,12 +33,16 @@
     ~/.tidyrc: home/tidyrc
     ~/.vale.ini: home/vale.ini
     ~/.config/nvim/init.lua: home/vim/init.lua
+    ~/.zshenv: home/zshenv
     ~/.zprofile: home/zprofile
     ~/.zshrc: home/zshrc
+    ~/.zlogin: home/zlogin
     ~/.zimrc: home/zimrc
     ~/.zsh: home/zsh/
     ~/.local/bin/pi-local: home/bin/pi-local
     ~/.local/bin/alfred-fonts: home/bin/alfred-fonts
+    ~/.local/bin/md2pdf: home/bin/md2pdf
+    ~/.local/bin/md2html: home/bin/md2html
     ~/.config/lazygit/config.yml: home/lazygit.yml
     ~/.config/alacritty/alacritty.toml: home/alacritty.toml
     ~/.config/atuin/config.toml: home/atuin.toml

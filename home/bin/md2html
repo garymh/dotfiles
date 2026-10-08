@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#
+# md2html - render a Markdown file to self-contained HTML with the MDSS
+# stylesheet (screen and print rules in one file, so the result reads well in a
+# browser and prints the way md2pdf prints).
+#
+# This is the HTML half of md2pdf: same pipeline, same flags, minus the step
+# that prints the HTML to PDF. Everything after -- still goes to pandoc.
+set -euo pipefail
+
+# Both scripts are linked into the same directory (~/.local/bin, or home/bin
+# when run from the repo), so the sibling path is enough.
+MD2PDF_PROG=md2html exec "$(dirname "$0")/md2pdf" --html "$@"

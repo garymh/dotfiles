@@ -1,0 +1,369 @@
+#!/usr/bin/env bash
+#
+# md2pdf - render Markdown to PDF (or to the HTML it would print) with the MDSS
+# stylesheet.
+#
+# Markdown goes through pandoc to standalone HTML; in PDF mode that HTML is
+# printed by headless Chromium, which is the engine MDSS is written against
+# (@page rules, flex/column containers, page-break hints). --html stops after
+# the HTML step, which is what the md2html front end does.
+#
+# The stylesheet is mdss.css next to this script (the published mdss 2.1.0
+# bundle build plus a few local additions, see the file's header);
+# -s/--stylesheet replaces it outright, -c/--css appends extra stylesheets after
+# whichever one is in use. Documents with mermaid fences also get the vendored
+# mermaid.min.js injected, so their diagrams render.
+set -euo pipefail
+
+prog=${MD2PDF_PROG:-${0##*/}}
+die() {
+  printf '%s: %s\n' "$prog" "$*" >&2
+  exit 1
+}
+usage() {
+  cat <<EOF
+Usage: $prog [options] FILE.md [FILE2.md ...] [-- PANDOC_ARGS...]
+
+Render Markdown with the MDSS stylesheet. Without --html the result is printed
+to PDF; with it you get the self-contained HTML (also available as md2html).
+Multiple inputs are concatenated into one document. Mermaid fences ("mermaid"
+or "{.mermaid}") are rendered with the vendored mermaid.js.
+
+Options:
+  -o, --output FILE       output path. Default: <first input>.pdf, or
+                          <first input>.html with --html. "-" writes the HTML
+                          to stdout (--html only)
+      --html              stop after HTML, skipping the PDF step
+  -p, --page-size SIZE    CSS page size, e.g. A4, Letter, Legal
+                          (default: Letter on US locales, A4 elsewhere)
+  -m, --page-margin CSS   page margins. MDSS supplies the horizontal margins as
+                          1.2cm of body padding, so by default only the vertical
+                          ones are set here (default: 1.5cm 0). The page box
+                          only matters when printing, whether that is done by
+                          md2pdf or by a browser printing the HTML
+  -s, --stylesheet FILE   use FILE instead of the MDSS stylesheet. -p/-m are
+                          then only applied when given explicitly, so FILE's
+                          own @page rule stays in charge otherwise
+  -c, --css FILE          extra stylesheet, applied after the main one
+  -k, --keep-html         also write the intermediate HTML next to the PDF
+  -O, --open              open the output when done
+  -h, --help              show this help
+
+Anything after -- is passed to pandoc verbatim, e.g.:
+  $prog -o report.pdf report.md -- --toc --toc-depth=2
+EOF
+}
+
+# Resolve the script through its symlink (~/.local/bin/md2pdf) to find mdss.css.
+script_path=$0
+while [ -L "$script_path" ]; do
+  link_target=$(readlink "$script_path")
+  case $link_target in
+  /*) script_path=$link_target ;;
+  *) script_path=$(dirname "$script_path")/$link_target ;;
+  esac
+done
+script_dir=$(cd "$(dirname "$script_path")" && pwd)
+mdss_stylesheet=$script_dir/mdss.css
+mermaid_js=$script_dir/mermaid.min.js
+
+case $(defaults read -g AppleLocale 2>/dev/null || true) in
+*_US*) default_page_size=Letter ;;
+*) default_page_size=A4 ;;
+esac
+
+page_size=$default_page_size
+page_margin='1.5cm 0'
+page_size_set=false
+page_margin_set=false
+stylesheet=
+output=
+html_mode=false
+open_after=false
+keep_html=false
+declare -a inputs=() extra_css=() pandoc_extra=()
+
+while [ $# -gt 0 ]; do
+  case $1 in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  -o | --output)
+    [ $# -ge 2 ] || die "$1 needs an argument"
+    output=$2
+    shift 2
+    ;;
+  --html)
+    html_mode=true
+    shift
+    ;;
+  -p | --page-size)
+    [ $# -ge 2 ] || die "$1 needs an argument"
+    page_size=$2
+    page_size_set=true
+    shift 2
+    ;;
+  -m | --page-margin)
+    [ $# -ge 2 ] || die "$1 needs an argument"
+    page_margin=$2
+    page_margin_set=true
+    shift 2
+    ;;
+  -s | --stylesheet)
+    [ $# -ge 2 ] || die "$1 needs an argument"
+    stylesheet=$2
+    shift 2
+    ;;
+  -c | --css)
+    [ $# -ge 2 ] || die "$1 needs an argument"
+    extra_css+=("$2")
+    shift 2
+    ;;
+  -k | --keep-html)
+    keep_html=true
+    shift
+    ;;
+  -O | --open)
+    open_after=true
+    shift
+    ;;
+  --)
+    shift
+    pandoc_extra+=("$@")
+    break
+    ;;
+  -*)
+    die "unknown option: $1 (see --help; use -- to pass pandoc options)"
+    ;;
+  *)
+    inputs+=("$1")
+    shift
+    ;;
+  esac
+done
+
+if [ "$html_mode" = true ]; then
+  [ "$keep_html" = false ] || die "--html already writes HTML; -k is for PDF mode"
+else
+  [ "$output" != - ] || die "'-o -' needs --html (PDF output is binary)"
+fi
+
+[ ${#inputs[@]} -gt 0 ] || die "no input file before -- (everything after -- goes to pandoc, see --help)"
+for input in "${inputs[@]}"; do
+  [ -f "$input" ] || die "no such file: $input"
+done
+if [ -n "$stylesheet" ]; then
+  [ -f "$stylesheet" ] || die "no such stylesheet: $stylesheet"
+  replaced_stylesheet=true
+else
+  stylesheet=$mdss_stylesheet
+  [ -r "$stylesheet" ] || die "stylesheet not found: $stylesheet"
+  replaced_stylesheet=false
+fi
+if [ ${#extra_css[@]} -gt 0 ]; then
+  for css in "${extra_css[@]}"; do
+    [ -f "$css" ] || die "no such stylesheet: $css"
+  done
+fi
+
+# A stray brace or semicolon in these would break out of the injected <style>.
+for value in "$page_size" "$page_margin"; do
+  case $value in
+  *[\;\{\}\<\>]*) die "invalid page geometry: $value" ;;
+  esac
+done
+
+command -v pandoc >/dev/null 2>&1 || die "pandoc not found (brew install pandoc)"
+
+# mermaid diagrams (```mermaid, ```{.mermaid}, ::: {.mermaid}) are just code
+# blocks to pandoc; they need mermaid.js in the page to become diagrams, so pull
+# it in only for documents that ask for it.
+mermaid_used=false
+if grep -qE '^[[:space:]]*(`{3,}|~{3,}|:{3,})[[:space:]]*(\{[^}]*mermaid[^}]*\}|\.?mermaid[^[:alnum:]]*$)' \
+  -- "${inputs[@]}"; then
+  mermaid_used=true
+  [ -r "$mermaid_js" ] || die "mermaid not found: $mermaid_js"
+fi
+
+chromium=
+if [ "$html_mode" = false ]; then
+  for candidate in \
+    "/Applications/Chromium.app/Contents/MacOS/Chromium" \
+    "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" \
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"; do
+    if [ -x "$candidate" ]; then
+      chromium=$candidate
+      break
+    fi
+  done
+  [ -n "$chromium" ] || die "no Chromium-based browser found in /Applications"
+fi
+
+if [ -z "$output" ]; then
+  output=${inputs[0]%.*}
+  output=${output##*/}
+  if [ "$html_mode" = true ]; then
+    output=$output.html
+  else
+    output=$output.pdf
+  fi
+fi
+if [ "$output" != - ]; then
+  mkdir -p "$(dirname "$output")"
+fi
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+
+# Pandoc's default standalone template brings its own stylesheet, which fights
+# MDSS (body max-width, padding, colours, page breaks), so use a minimal one
+# instead. The missing $highlighting-css$ is deliberate: mdss.css colours
+# pandoc's syntax classes with the MDSS palette.
+cat >"$tmp/template.html" <<'TPLEOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>$pagetitle$</title>
+$for(css)$
+<link rel="stylesheet" href="$css$">
+$endfor$
+$for(header-includes)$
+$header-includes$
+$endfor$
+</head>
+<body>
+$for(include-before)$
+$include-before$
+$endfor$
+$if(toc)$
+<nav id="TOC" role="doc-toc">
+$if(toc-title)$
+<h2 id="$idprefix$TOC-title">$toc-title$</h2>
+$endif$
+$toc$
+</nav>
+$endif$
+$body$
+$for(include-after)$
+$include-after$
+$endfor$
+</body>
+</html>
+TPLEOF
+
+# mdss.css already carries the same @page rule as a default; repeating it here
+# with the requested geometry keeps one source of truth for "what was asked".
+# A replacement stylesheet brings its own page box (and the 0 horizontal margin
+# default only makes sense with MDSS's body padding), so then only the
+# properties given on the command line are forced.
+page_rule=
+if [ "$replaced_stylesheet" = false ] || [ "$page_size_set" = true ]; then
+  page_rule="size: $page_size;"
+fi
+if [ "$replaced_stylesheet" = false ] || [ "$page_margin_set" = true ]; then
+  page_rule="${page_rule:+$page_rule }margin: $page_margin;"
+fi
+if [ -n "$page_rule" ]; then
+  printf '<style>\n@page { %s }\n</style>\n' "$page_rule" >"$tmp/overrides.html"
+else
+  : >"$tmp/overrides.html"
+fi
+
+resource_path=.
+for input in "${inputs[@]}"; do
+  resource_path="$resource_path:$(cd "$(dirname "$input")" && pwd)"
+done
+
+declare -a pandoc_args=(
+  --from=markdown
+  --to=html5
+  --standalone
+  --embed-resources
+  --template="$tmp/template.html"
+  --include-in-header="$tmp/overrides.html"
+  --css="$stylesheet"
+  --resource-path="$resource_path"
+  --output="$tmp/input.html"
+)
+if [ ${#extra_css[@]} -gt 0 ]; then
+  for css in "${extra_css[@]}"; do
+    pandoc_args+=(--css="$css")
+  done
+fi
+
+if [ "$mermaid_used" = true ]; then
+  {
+    printf '<script>\n'
+    cat "$mermaid_js"
+    printf '\n</script>\n'
+    # pandoc wraps a code block's text in <code>, but mermaid reads the diagram
+    # definition off the element itself and chokes on that child element, so
+    # lift the text out before mermaid runs.
+    printf '<script>\ndocument.querySelectorAll("pre.mermaid > code").forEach(function (el) {\n  el.parentNode.textContent = el.textContent;\n});\nmermaid.initialize({ startOnLoad: true });\n</script>\n'
+  } >"$tmp/mermaid.html"
+  pandoc_args+=(--include-after-body="$tmp/mermaid.html")
+fi
+
+if [ ${#pandoc_extra[@]} -gt 0 ]; then
+  pandoc "${pandoc_args[@]}" "${pandoc_extra[@]}" "${inputs[@]}"
+else
+  pandoc "${pandoc_args[@]}" "${inputs[@]}"
+fi
+
+if [ "$html_mode" = true ]; then
+  if [ "$output" = - ]; then
+    cat "$tmp/input.html"
+  else
+    cp "$tmp/input.html" "$output"
+    printf 'html: %s\n' "$output"
+    [ "$open_after" = true ] && open "$output"
+  fi
+  exit 0
+fi
+
+# Headless Chromium on macOS writes the PDF but never exits, so wait for its
+# completion marker on stderr and then stop it. The virtual time budget makes
+# --print-to-pdf wait until async work (mermaid diagrams in particular) has
+# settled, instead of printing whatever is laid out at load time.
+"$chromium" \
+  --headless \
+  --disable-gpu \
+  --disable-extensions \
+  --no-first-run \
+  --no-default-browser-check \
+  --user-data-dir="$tmp/profile" \
+  --virtual-time-budget=15000 \
+  --no-pdf-header-footer \
+  --print-to-pdf="$output" \
+  "file://$tmp/input.html" >"$tmp/chromium.log" 2>&1 &
+chromium_pid=$!
+
+deadline=$((SECONDS + 60))
+while :; do
+  grep -q 'bytes written to file' "$tmp/chromium.log" 2>/dev/null && break
+  kill -0 "$chromium_pid" 2>/dev/null || break
+  if [ "$SECONDS" -ge "$deadline" ]; then
+    kill "$chromium_pid" 2>/dev/null || true
+    cat "$tmp/chromium.log" >&2
+    die "pdf rendering timed out"
+  fi
+  sleep 0.1
+done
+kill "$chromium_pid" 2>/dev/null || true
+wait "$chromium_pid" 2>/dev/null || true
+
+[ -s "$output" ] || {
+  cat "$tmp/chromium.log" >&2
+  die "pdf rendering failed"
+}
+
+if [ "$keep_html" = true ]; then
+  html_output=${output%.pdf}.html
+  cp "$tmp/input.html" "$html_output"
+  printf 'html: %s\n' "$html_output"
+fi
+printf 'pdf:  %s\n' "$output"
+[ "$open_after" = true ] && open "$output"
+exit 0
