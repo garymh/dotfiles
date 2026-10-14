@@ -1,4 +1,4 @@
-#!/opt/homebrew/bin/python3
+#!/opt/homebrew/opt/python@3/libexec/bin/python3
 """Alfred Script Filter over a list of font families.
 
 Emits Script Filter JSON (https://www.alfredapp.com/help/workflows/inputs/script-filter/json/)
