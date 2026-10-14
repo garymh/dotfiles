@@ -10,8 +10,7 @@ function useLayout(name) {
   else if (name === "game") caffeine.enable();
 }
 
-// Exported so pre-0.0.14 HS2 doesn't GC the handler (upstream-issues.md HS2-1).
-const __layoutHandler = (eventName, params, senderPID, fullURL) => {
+hs.urlevent.bind("layout", (eventName, params) => {
   const name = params && params.name;
   if (!name) {
     hs.notify.show("Layout", "Missing name (use ?name=work|superwork|chill|game)");
@@ -22,7 +21,6 @@ const __layoutHandler = (eventName, params, senderPID, fullURL) => {
     return;
   }
   useLayout(name);
-};
-hs.urlevent.bind("layout", __layoutHandler);
+});
 
-module.exports = { useLayout, __layoutHandler };
+module.exports = { useLayout };

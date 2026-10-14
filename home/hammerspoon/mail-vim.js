@@ -2,8 +2,6 @@
 // 1 while Mail is frontmost, its focused window is a message viewer and keyboard focus is outside
 // the search field; 0 otherwise. Karabiner alone only knows the frontmost app, which is also Mail
 // in compose windows and the search field. This module is the only writer of `mail_viewer`.
-// Callbacks, timers and the karabiner_cli task live on globalThis so pre-0.0.14 HS2 doesn't GC
-// them (upstream-issues.md HS2-1, HS2-3).
 const MAIL_BUNDLE_ID = "com.apple.mail";
 const KARABINER_VAR = "mail_viewer";
 const KARABINER_CLI =
@@ -31,27 +29,25 @@ function debug(line) {
 }
 
 let published = null;
+let cliTask = null;
+let focusTimer = null;
+let coalesceTimer = null;
+let watchedElement = null;
 
 // One long-lived `karabiner_cli --set-variables-from-stdin` reads a JSON object per line; if it
 // exits, the next publish() respawns it. The optional create() slots are omitted, not null
 // (upstream-issues.md HS2-2).
-globalThis.__mailVimCliExit = function mailVimCliExit(exitCode, reason) {
-  globalThis.__mailVimCli = null;
+function onCliExit(exitCode, reason) {
+  cliTask = null;
   published = null;
   console.error("[mail-vim] karabiner_cli exited: " + exitCode + " " + reason);
-};
+}
 
 function cli() {
-  const existing = globalThis.__mailVimCli;
-  if (existing && existing.isRunning) return existing;
-  const task = hs.task.create(
-    KARABINER_CLI,
-    ["--set-variables-from-stdin"],
-    globalThis.__mailVimCliExit,
-  );
-  globalThis.__mailVimCli = task;
-  task.start();
-  return task;
+  if (cliTask && cliTask.isRunning) return cliTask;
+  cliTask = hs.task.create(KARABINER_CLI, ["--set-variables-from-stdin"], onCliExit);
+  cliTask.start();
+  return cliTask;
 }
 
 function publish(value) {
@@ -132,43 +128,38 @@ function focusMessageList() {
   debug("focused message list");
 }
 
-globalThis.__mailVimFocusList = function mailVimFocusList() {
+function focusListHotkey() {
   const front = hs.application.frontmost();
   debug("focus hotkey, front=" + (front && front.bundleID));
   if (!front || front.bundleID !== MAIL_BUNDLE_ID) return;
   // Let Mail handle the escape that came with this F20 first.
-  if (globalThis.__mailVimFocusTimer) globalThis.__mailVimFocusTimer.stop();
-  globalThis.__mailVimFocusTimer = hs.timer.doAfter(0.1, () => {
-    globalThis.__mailVimFocusTimer = null;
+  if (focusTimer) focusTimer.stop();
+  focusTimer = hs.timer.doAfter(0.1, () => {
+    focusTimer = null;
     focusMessageList();
   });
-};
+}
 
 // F20 rather than F19: upstream-issues.md HK-1.
-globalThis.__mailVimHotkey = hs.hotkey.bind(
-  [],
-  "f20",
-  globalThis.__mailVimFocusList,
-);
-if (!globalThis.__mailVimHotkey) {
+if (!hs.hotkey.bind([], "f20", focusListHotkey)) {
   console.error("[mail-vim] could not bind the F20 focus-list hotkey");
 }
 
-globalThis.__mailVimAxEvent = function mailVimAxEvent() {
-  if (globalThis.__mailVimCoalesce) return;
-  globalThis.__mailVimCoalesce = hs.timer.doAfter(COALESCE, () => {
-    globalThis.__mailVimCoalesce = null;
+function onAxEvent() {
+  if (coalesceTimer) return;
+  coalesceTimer = hs.timer.doAfter(COALESCE, () => {
+    coalesceTimer = null;
     evaluate();
   });
-};
+}
 
 function watchMail(app) {
-  if (globalThis.__mailVimWatched) return;
+  if (watchedElement) return;
   const element = app && app.axElement();
   if (!element) return;
   try {
-    hs.ax.on(element, AX_EVENTS, globalThis.__mailVimAxEvent);
-    globalThis.__mailVimWatched = element;
+    hs.ax.on(element, AX_EVENTS, onAxEvent);
+    watchedElement = element;
     debug("watching Mail");
   } catch (e) {
     console.error("[mail-vim] hs.ax.on failed: " + e);
@@ -176,34 +167,28 @@ function watchMail(app) {
 }
 
 function unwatchMail() {
-  const element = globalThis.__mailVimWatched;
+  const element = watchedElement;
   if (!element) return;
-  globalThis.__mailVimWatched = null;
+  watchedElement = null;
   try {
-    hs.ax.off(element, AX_EVENTS, globalThis.__mailVimAxEvent);
+    hs.ax.off(element, AX_EVENTS, onAxEvent);
   } catch (e) {
     console.error("[mail-vim] hs.ax.off failed: " + e);
   }
 }
 
-globalThis.__mailVimActivate = function mailVimActivate(app) {
+hs.application.on("didActivate", (app) => {
   if (app && app.bundleID === MAIL_BUNDLE_ID) watchMail(app);
   evaluate();
-};
-
-globalThis.__mailVimLaunch = function mailVimLaunch(app) {
+});
+hs.application.on("didLaunch", (app) => {
   if (app && app.bundleID === MAIL_BUNDLE_ID) watchMail(app);
-};
-
-globalThis.__mailVimTerminate = function mailVimTerminate(app) {
+});
+hs.application.on("didTerminate", (app) => {
   if (app && app.bundleID !== MAIL_BUNDLE_ID) return;
   unwatchMail();
   publish(0);
-};
-
-hs.application.on("didActivate", globalThis.__mailVimActivate);
-hs.application.on("didLaunch", globalThis.__mailVimLaunch);
-hs.application.on("didTerminate", globalThis.__mailVimTerminate);
+});
 
 // Mail is usually already running when the config loads.
 watchMail(hs.application.matchingBundleID(MAIL_BUNDLE_ID));

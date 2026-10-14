@@ -1,26 +1,19 @@
-// caffeine.js — menubar toggle for display-sleep prevention.
+// caffeine.js — keep-awake toggle: sends hyper+7 to the app bound to that hotkey.
+// isActive is only our bookkeeping; the hotkey is a blind toggle, so it drifts if that app is
+// toggled by hand.
 let isActive = false;
-let menubarItem = null;
-const ICON_DIR = hs.appinfo.configDir;
 
 function setState(on) {
   if (on === isActive) return;
   isActive = on;
-  on ? hs.power.preventSleep("display") : hs.power.allowSleep("display");
-  if (!menubarItem) {
-    menubarItem = hs.menubar.create();
-    menubarItem.setClickCallback(() => caffeine.toggle());
-  }
-  // ponytail: HS2 setIcon requires an HSImage, not a path string.
-  menubarItem.setIcon(HSImage.fromPath(ICON_DIR + (on ? "/caffeine-on.pdf" : "/caffeine-off.pdf")));
+  hs.eventtap.keyStroke(["ctrl", "cmd", "shift", "alt"], "7");
 }
 
-// ponytail: HS2 require() wraps modules in an IIFE, so only globals are reachable from
-// layout.js and from the console (which evaluates via JSEngine.shared.eval on the same
-// JSContext as this config). isActive/menubarItem stay module-private.
-globalThis.caffeine = {
+const caffeine = {
   get isActive() { return isActive; },
   enable: () => setState(true),
   disable: () => setState(false),
   toggle: () => setState(!isActive),
 };
+
+module.exports = { caffeine };

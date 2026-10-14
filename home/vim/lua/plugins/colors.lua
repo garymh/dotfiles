@@ -5,6 +5,8 @@ local M = {
   priority = 1000
 }
 
+-- alternatives: 'vague-theme/vague.nvim',
+
 function M.config()
   require("rose-pine").setup({
     variant = "auto",      -- auto, main, moon, or dawn

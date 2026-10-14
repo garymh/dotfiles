@@ -26,11 +26,11 @@ macos-option-as-alt               = true
 background-opacity                = 0.95
 
 theme       = Vague
-font-family = Px437 ApricotXenC
+font-family = Input Mono Compressed
 
-font-size             = 28
+font-size             = 25
 font-thicken-strength = 255
-font-thicken          = true
+font-thicken          = false
 font-feature          = -calt
 font-feature          = -dlig
 font-feature          = -liga
@@ -39,5 +39,5 @@ font-feature          = cv04
 font-feature          = ss05
 font-feature          = zero
 
-adjust-cell-height    = 9%
-adjust-cell-width     = 4%
+adjust-cell-height    = 0%
+adjust-cell-width     = 0%

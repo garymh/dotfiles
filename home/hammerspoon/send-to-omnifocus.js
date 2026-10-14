@@ -81,10 +81,8 @@ async function send() {
 
 hs.permissions.requestNotifications().catch(() => {});
 
-// Exported so pre-0.0.14 HS2 doesn't GC the handler (upstream-issues.md HS2-1).
-const __omnifocusHandler = () => {
+hs.urlevent.bind("omnifocus", () => {
   send().catch((e) => console.log("[omnifocus] " + e));
-};
-hs.urlevent.bind("omnifocus", __omnifocusHandler);
+});
 
-module.exports = { send, setHandler, __omnifocusHandler };
+module.exports = { send, setHandler };
