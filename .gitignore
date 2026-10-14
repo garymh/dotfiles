@@ -16,3 +16,4 @@ Brewfile.lock.json
 home/vim/lazy-lock.json
 .clj-kondo
 vim_bugs.md
+home/hammerspoon/upstream-issues.md
