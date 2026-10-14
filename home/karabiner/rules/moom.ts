@@ -2,9 +2,9 @@ import { rule, withModifier } from "karabiner.ts";
 
 import { toRunAction } from "../applescripts.ts";
 
-// right_command + h/j/k/l → Moom "Move Left/Down/Up/Right".
-// Moom must have actions with these exact names (AppleScript `run` takes
-// the action's display name as a string). Rename either side to match.
+// right_command + h/j/k/l → Moom "Move Left/Down/Up/Right", + s → "Embiggen",
+// + f → "Toggle Full Screen".
+// Moom needs actions with these exact names.
 export default [
   rule("right_command + hjkl → Moom move").manipulators([
     withModifier("right_command")({

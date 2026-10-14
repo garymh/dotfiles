@@ -1,12 +1,6 @@
-// watchers/camera.js — port of watchers/camera.lua
-// Continuity camera ("Cam Phone Camera") in use → Meeting focus + wallpaper swap; restore on release.
-// ponytail: hs.screen.wallpaper gone — HS2 exposes screen.desktopImage (settable path or file:// URL).
-//
-// Fully event-driven: attaching the per-camera watcher inside the "connected" notification works
-// and native in-use callbacks fire (verified against a patched Hammerspoon 2; 0.0.13 upstreamed
-// the camera watcher and renamed the APIs to hs.camera.on(event, fn) / cam.on(fn)). Builds that
-// throw while attaching a hot-plugged Continuity camera keep a single delayed retry as a cheap
-// safety net.
+// watchers/camera.js — Continuity Camera ("Cam Phone Camera") in use → Meeting focus (+ optional
+// wallpaper swap); restored on release. Attaching to a hot-plugged camera can fail, so it retries
+// once after ATTACH_RETRY_DELAY.
 
 hs.permissions.requestCamera().catch(() => {});
 
@@ -29,28 +23,34 @@ function log(msg) {
   console.log("[camera] " + msg);
 }
 
+// Off by default; flip at runtime: require("./watchers/camera.js").wallpaper.enabled = true
+const wallpaper = { enabled: false };
+
 function setWallpaper(path) {
-  // hs.screen.all().forEach((s) => {
-  //   s.desktopImage = path;
-  // });
+  if (!wallpaper.enabled) return;
+  hs.screen.all().forEach((s) => {
+    s.desktopImage = path;
+  });
 }
 
 function handleCameraState(inUse) {
   if (inUse && !cameraState.activeByUs) {
-    log("Camera in use — enabling Meeting focus + wallpaper");
+    log("Camera in use — enabling Meeting focus" + (wallpaper.enabled ? " + wallpaper" : ""));
     hs.shortcuts
       .run("AUTO: Turn on Meeting focus")
       .catch((e) => log("focus shortcut failed: " + e));
-    cameraState.previousWallpaper =
-      hs.screen.main() && hs.screen.main().desktopImage;
-    setWallpaper(cameraState.meetingWallpaper);
+    if (wallpaper.enabled) {
+      cameraState.previousWallpaper =
+        hs.screen.main() && hs.screen.main().desktopImage;
+      setWallpaper(cameraState.meetingWallpaper);
+    }
     cameraState.activeByUs = true;
   } else if (!inUse && cameraState.activeByUs) {
-    log("Camera no longer in use — disabling Meeting focus + wallpaper");
+    log("Camera no longer in use — disabling Meeting focus" + (wallpaper.enabled ? " + wallpaper" : ""));
     hs.shortcuts
       .run("AUTO: Turn off Meeting focus")
       .catch((e) => log("focus shortcut failed: " + e));
-    if (cameraState.previousWallpaper)
+    if (wallpaper.enabled && cameraState.previousWallpaper)
       setWallpaper(cameraState.previousWallpaper);
     cameraState.activeByUs = false;
   }
@@ -101,8 +101,6 @@ function scheduleAttachRetry() {
 function attachToCamera(cam) {
   if (cameraState.hasWatcher) return true;
 
-  // ponytail: 0.0.13 replaced the per-camera addWatcher(fn) with on(fn) (listener still gets a
-  // single isInUse boolean).
   const on = cam && cam.on;
   if (typeof on !== "function") {
     scheduleAttachRetry();
@@ -153,8 +151,6 @@ function disconnectFromCamera() {
   if (cameraState.activeByUs) handleCameraState(false);
 }
 
-// ponytail: 0.0.13 replaced the single addWatcher(event, camera) callback with one on() per event;
-// the listener now receives only the camera.
 function onCameraEvent(event, lightCam) {
   if (!lightCam) {
     log(event + ": camera descriptor missing");
@@ -196,3 +192,5 @@ if (initialCam) {
 }
 
 log("watcher initialized — event-driven mode");
+
+module.exports = { wallpaper };

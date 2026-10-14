@@ -26,12 +26,8 @@ const mouseTest2Rule = rule("mousetest?2").manipulators([
   map("keypad_2").to("f15", "left_shift").condition(onDevice("mouse")),
 ]);
 
-// Launch-app layer: hold both shifts simultaneously, then tap a letter to
-// open an app. Inspired by the launch-apps-modifier example in
-// karabiner.ts docs. duoLayer() forbids modifier keys as the trigger, so
-// we roll the toggle manually: mapSimultaneous sets launch-app=1 while
-// both shifts are held, to_after_key_up resets it on release. Letter
-// manipulators below are conditioned on that variable.
+// Hold both shifts, then tap a letter to open an app. duoLayer() rejects modifier keys, so the
+// layer variable is set by hand.
 const launchAppLayer = rule("double shift → launch apps").manipulators([
   mapSimultaneous(
     ["left_shift", "right_shift"],
@@ -80,8 +76,7 @@ const launchAppLayer = rule("double shift → launch apps").manipulators([
     .condition(ifVar("launch-app", 1)),
 ]);
 
-// Hold spacebar, then tap a letter to launch an app. Different from the
-// launchAppLayer (double-shift) so that finger is free for the home row.
+// Unwired (not exported): hold space + h/j/k/l/s for Moom actions.
 const spaceLayer = simlayer("spacebar", "space-mode", 800).manipulators([
   map("h").to(toRunAction("Moom", "Move Left")),
   map("j").to(toRunAction("Moom", "Move Down")),

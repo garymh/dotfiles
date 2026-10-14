@@ -14,7 +14,7 @@ disable-model-invocation: true
 cd home/karabiner && bun index.ts --dry-run   # prints the profile JSON, exit 0
 ```
 
-- Deps live in `home/karabiner/node_modules`; there is **no `package.json`/`tsconfig.json`** in the tree, so the `npm run build|dry-run|verify` scripts older docs mention don't exist — call bun directly. (If you ever want npm scripts back: `git show d54e444:home/karabiner/package.json`, same for `tsconfig.json`, `bun.lock`, `scripts/tsconfig.json`.)
+- Deps live in `home/karabiner/node_modules`, pinned by the tracked `package.json` (`build` = `tsx index.ts`, `dry-run`, `verify`) and `tsconfig.json`; `bun index.ts` / `bun index.ts --dry-run` work the same as the npm scripts.
 - `rules/onepassword.ts`, `hyper.ts`, and `scripts/resolve-mac.ts` were dropped from the tree on 2026-09-29: the 1Password-specific rule is intentionally gone (its `onep` app entry lives on in `apps.ts` for `action-dispatch.ts`), `hyperMods` was recreated in `hyper.ts`, and `extractIdentifier` is inlined in `scripts/verify-ids.ts`. Don't re-add imports for deleted files.
 - `bun run scripts/verify-ids.ts` must exit 0 with "All checked bundle ids match." before you touch `apps.ts`.
 

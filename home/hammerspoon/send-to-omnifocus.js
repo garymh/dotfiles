@@ -1,7 +1,10 @@
-// send-to-omnifocus.js — Hyper+O files the current item to OmniFocus via per-app AppleScript.
+// send-to-omnifocus.js — files the frontmost app's current item to OmniFocus via per-app AppleScript.
+// Primary trigger: Karabiner's Hyper+O runs send() over hs.ipc (`hs2`), which doesn't activate HS2,
+// so frontmost() is the source app. Fallback: `open hammerspoon2://omnifocus`, which does activate
+// HS2, so the source app comes from lastSourceApp instead.
 
-// ponytail: resolve relative paths against hs.appinfo.configDir — CWD is not guaranteed to be the config dir.
 const DIR = hs.appinfo.configDir;
+// Resolve against configDir, not the CWD (hs.fs.chdir() can move it).
 const resolvePath = (p) => (p.startsWith("/") ? p : DIR + "/" + p);
 
 const BUILTIN = {
@@ -36,31 +39,21 @@ function resolve(appName) {
   return h ? (typeof h === "string" ? { path: h } : h) : null;
 }
 
-// ponytail: HS2 require() wraps modules in an IIFE; setHandler must be on globalThis for init.js to see it.
-globalThis.setHandler = function setHandler(appName, p) {
+function setHandler(appName, p) {
   overrides[appName] = resolvePath(p);
-};
+}
 
-// Cache the most recent non-HS2 active app. The URL path (Karabiner → `open
-// hammerspoon2://…` → urlevent callback) activates HS2 to handle the URL, so
-// `hs.application.frontmost()` inside send() returns "Hammerspoon 2" — the
-// user's source app is the one that *was* frontmost (Safari, Mail, etc.).
-// The cache is updated on every didActivate event for any app that isn't HS2.
+// Last non-HS2 app to activate: the source app on the URL route.
 let lastSourceApp = null;
-// ponytail: 0.0.13 replaced hs.application.addWatcher(cb) with one on(event, cb) per event.
 hs.application.on("didActivate", (app) => {
-  if (!app) return;
-  const name = app.title;  // HSApplication has .title; .name is undefined
-  if (!name || /Hammerspoon/i.test(name)) return;
+  if (!app || /Hammerspoon/i.test(app.title || "")) return;
   lastSourceApp = app;
 });
 
 async function send() {
-  // Prefer the cached source app; fall back to frontmost() only if the cache
-  // is empty AND frontmost isn't HS2 itself.
   const fm = hs.application.frontmost();
   const fmIsHs2 = fm && /Hammerspoon/i.test(fm.title || "");
-  const app = lastSourceApp || (!fmIsHs2 ? fm : null);
+  const app = fmIsHs2 ? lastSourceApp : fm;
   const appName = app ? app.title : null;
   const h = resolve(appName);
   if (!h) {
@@ -74,11 +67,9 @@ async function send() {
         .replace(/\$\{quickentry_open\}/g, "")
         .replace(/\$\{quickentry_close\}/g, "")
         .replace(/\$\{item\}/g, '');
-      // ponytail: hs.osascript returns {success, result, raw} — no .stderr.
       const r = await hs.osascript.applescript(tpl);
       if (!r.success) throw new Error(r.raw || 'osascript failed');
     } else {
-      // ponytail: hs.task.shell takes a string; use runAsync with argv array.
       const r = await hs.task.runAsync('/usr/bin/osascript', [h.path]);
       if (r.exitCode !== 0) throw new Error(r.stderr || `exit ${r.exitCode}`);
     }
@@ -89,17 +80,11 @@ async function send() {
 }
 
 hs.permissions.requestNotifications().catch(() => {});
-// Trigger: Karabiner's Hyper+O rule (in rules/hammerspoon-ports.ts) opens
-// `hammerspoon2://omnifocus`, which HS2's urlevent module dispatches to the
-// handler below. The URL dispatch activates HS2 to receive the Apple Event,
-// so frontmost() in send() returns HS2; the application watcher above caches
-// the user's source app on every didActivate, and send() uses that cache.
-// (HS2 urlevent: see the pin note further down — the JSFunction otherwise GC's
-// within ~60-90s of bind.)
-//
-// (Same pattern as the `layout` binding in layout.js — and same GC pin.)
-globalThis.__omnifocusHandler = () => {
-  console.log("[omnifocus] url received, calling send()");
-  send();
+
+// Exported so pre-0.0.14 HS2 doesn't GC the handler (upstream-issues.md HS2-1).
+const __omnifocusHandler = () => {
+  send().catch((e) => console.log("[omnifocus] " + e));
 };
-hs.urlevent.bind("omnifocus", globalThis.__omnifocusHandler);
+hs.urlevent.bind("omnifocus", __omnifocusHandler);
+
+module.exports = { send, setHandler, __omnifocusHandler };

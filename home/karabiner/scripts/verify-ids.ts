@@ -2,14 +2,8 @@ import { $ } from "bun";
 
 import { apps } from "../apps.ts";
 
-// Cross-checks apps.ts's hardcoded bundle-id regexes against what's actually
-// installed right now, via `mdfind`/`mdls`. Only checks
-// single-app entries where the macOS display name is known — group
-// entries (terminals, escapeApps, firefoxes) aren't checked.
-//
-// Run with: bun run scripts/verify-ids.ts
-
-// Inlined from the retired resolve-mac.ts (the file is not in the tree).
+// Cross-checks apps.ts bundle-id regexes against installed apps (mdfind/mdls). Group entries
+// (terminals, escapeApps, firefoxes) aren't checked. Run: bun run scripts/verify-ids.ts
 async function extractIdentifier(appName: string): Promise<string> {
   const paths =
     await $`mdfind "kMDItemKind == 'Application' && kMDItemFSName == '${appName}.app'"`.text();

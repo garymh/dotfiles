@@ -6,16 +6,14 @@ const GAIRPODS = "AUTO: Gairpods";
 const STEELSERIES = "AUTO: Steelseries";
 const MBSPEAKERS = "AUTO: Macbook Speakers";
 
-// ponytail: edit the right-hand string per device to override the default.
+// Output device name → shortcut; any other device runs DEFAULT_SHORTCUT.
 const DEVICE_ACTIONS = {
   "RODECaster Pro II Secondary": STEELSERIES,
   "Gairpods Pro": GAIRPODS,
   "MacBook Pro Speakers": MBSPEAKERS,
 };
 
-// ponytail: 0.0.13 replaced addWatcher(cb) with on(event, cb), and the listener no longer receives
-// the changed device — resolve the current default output when the debounce fires. "dOut" is the
-// default-output-changed event; dev+ in particular fires for devices that never become the output.
+// dOut = default output changed. The listener gets no device, so read it when the debounce fires.
 hs.audiodevice.on("dOut", () => {
   if (audioDebounceTimer) audioDebounceTimer.stop();
   audioDebounceTimer = hs.timer.doAfter(1.5, () => {

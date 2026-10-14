@@ -1,17 +1,13 @@
-// watchers/swiftbar.js — port of watchers/swiftbar.lua
-// 09:00 opens SwiftBar / 17:00 kills it, only if HA workday_sensor is on
-// (token from $PRIVATE_FILE in ~/.zprofile; $HASS_SERVER provides the URL root).
-// ponytail: hs.http.asyncGet → hs.http.get(url, headers) Promise; always resolves, check status.
-// ponytail: hs.application.open(name) gone — launchOrFocus() takes a bundleID (com.ameba.SwiftBar).
-// ponytail: hs.timer.doAt takes seconds-since-midnight, not a "09:00" string.
+// watchers/swiftbar.js — 09:00 opens SwiftBar / 17:00 quits it, only when Home Assistant's
+// workday_sensor is on. HA_TOKEN comes from $PRIVATE_FILE, the URL root from $HASS_SERVER.
 
-// Toggle for the 09:00/17:00 SwiftBar automation; flip to true to re-enable.
+// Disabled; set to true to re-enable.
 const ENABLED = false;
 
 let envCache = null;
 async function loadEnv() {
   if (envCache) return envCache;
-  // ponytail: hs.task.shell uses /bin/sh; explicit /bin/zsh to source ~/.zprofile.
+  // zsh, not hs.task.shell's /bin/sh: ~/.zprofile is zsh syntax.
   const r = await hs.task.runAsync("/bin/zsh", ["-c",
     'source "$HOME/.zprofile" && printf "%s\\n%s" "${(e)PRIVATE_FILE}" "${(e)HASS_SERVER}"',
   ]);
@@ -59,7 +55,6 @@ async function openSwiftBar() {
       console.log("[swiftbar] workday sensor is on, opening SwiftBar");
       const app = hs.application.matchingName("SwiftBar");
       if (app) app.activate();
-      // ponytail: HS2 launchOrFocus returns a Promise; await to surface failures.
       else await hs.application.launchOrFocus("com.ameba.SwiftBar");
     } else {
       console.log("[swiftbar] workday sensor is off, skipping");

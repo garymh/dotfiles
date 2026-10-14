@@ -25,18 +25,7 @@ const doubleTapOptionRule = rule('Double-tap option ⌘ → omnifocus').manipula
     }),
 ])
 
-// fn -> hyper+f if tapped alone, hyper if held (left_control too). QMK-based
-// keyboards only. caps_lock/f15's own "action key" dispatch moved to
-// action-key.ts — see the comment there for why.
-//
-// Note: toIfAlone() targets hyper+f directly rather than relaying through a
-// synthetic f16 for misc.ts's "F16 -> hyper+f" rule to catch — Karabiner
-// doesn't re-run complex_modifications against its own synthetic output
-// within one pass, so that relay never fired. Same root cause as the
-// caps_lock/f15 fix in action-key.ts.
-//
-// Timing parameters aren't set here — they match index.ts's global
-// to_if_alone/to_if_held_down defaults already.
+// qmkless: fn → hyper+f when tapped, hyper when held; left_control → hyper, hyper+f when tapped.
 const fnHyperLayerRule = rule('fn key -> hyper key or hyper+f if alone').manipulators([
   map('fn', 'optionalAny')
     .toIfAlone(toKey('f', [...hyperMods]))
@@ -49,12 +38,7 @@ const fnHyperLayerRule = rule('fn key -> hyper key or hyper+f if alone').manipul
     .condition(onDevice('qmkless')),
 ])
 
-// Backup copy of the pre-fold caps_lock/f15 -> left_control (alone: f15)
-// relay, kept for reference/rollback but NOT wired into index.ts (not part
-// of the default export below). This is what action-key.ts's per-app
-// dispatch replaced, since a synthetic f15 produced here is never seen by
-// another complex_modifications rule in the same pass (see action-key.ts's
-// comment for the full explanation).
+// Unwired backup of the old caps_lock/f15 → f15 relay that action-key.ts replaced.
 export const legacyCapsLockF15RelayRule = rule(
   '[unused backup] caps_lock/f15 -> left_control, alone: f15',
 ).manipulators([

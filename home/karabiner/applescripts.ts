@@ -13,9 +13,8 @@ export function toHideApp(name: string) {
   );
 }
 
-// Run a saved action by display name on an AppleScriptable app
-// (e.g. Moom, Keyboard Maestro). Wrap the action name in quotes yourself
-// if it contains spaces or shell metacharacters.
+// Run a saved action by display name on an AppleScriptable app (Moom, Keyboard Maestro).
+// The name must not contain ' or ".
 export function toRunAction(app: string, actionName: string) {
   return to$(`osascript -e 'tell application "${app}" to run "${actionName}"'`);
 }
