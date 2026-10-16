@@ -49,8 +49,9 @@ function minimonValue(app, override) {
   const win = app.focusedWindow;
   if (!win) return null;
 
-  const parts = win.title.split(" ");
   if (app.title === "Ghostty") {
+    // `title` is undefined when the AX title read fails (window without AXTitle, app busy).
+    const parts = (win.title || "").split(" ");
     if (parts[0] === "vim") return "vim";
     if (parts[0] === "irb" || (parts[0] === "rails" && parts[1] === "c")) {
       return "IRB";
