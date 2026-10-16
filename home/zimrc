@@ -5,7 +5,6 @@
 
 zmodule environment
 zmodule input
-zmodule skywind3000/z.lua --cmd 'eval "$(lua {}/z.lua --init zsh enhanced once)"'
 zmodule zshzoo/macos
 zmodule joke/zim-starship
 zmodule fzf
@@ -28,6 +27,13 @@ if [[ -d /opt/homebrew/share/zsh ]] && [[ $(uname) == Darwin ]] ; then
 fi
 
 zmodule completion
+
+zmodule zoxide-init --use mkdir --if-command zoxide \
+  --cmd 'if [[ ! {}/init.zsh -nt ${commands[zoxide]} ]]; then
+  zoxide init zsh >| {}/init.zsh
+  zcompile -UR {}/init.zsh
+  fi' \
+  --source init.zsh
 
 zmodule zsh-patina --use mkdir --cmd 'eval "$(zsh-patina activate)"'
 zmodule zsh-users/zsh-history-substring-search
