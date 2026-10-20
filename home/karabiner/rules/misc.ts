@@ -18,6 +18,18 @@ const clearNotificationsRule = rule("clear notifications").manipulators([
   ),
 ]);
 
+const copySafariURL = rule("emojis").manipulators([
+  map("c", [...hyperMods]).to$(
+    'osascript -e \'tell application id "com.runningwithcrayons.Alfred" to run trigger "copysafari" in workflow "com.garys.stuff"\'',
+  ),
+]);
+
+const emojiRule = rule("emojis").manipulators([
+  map("t", [...hyperMods]).to$(
+    'osascript -e \'tell application id "com.runningwithcrayons.Alfred" to run trigger "emojis" in workflow "com.garys.stuff"\'',
+  ),
+]);
+
 const mouseTestRule = rule("mousetest?").manipulators([
   map("keypad_1").to("f15").condition(onDevice("mouse")),
 ]);
@@ -103,6 +115,8 @@ const f16HyperFRule = rule("F16").manipulators([
 
 export default [
   clearNotificationsRule,
+  copySafariURL,
+  emojiRule,
   mouseTestRule,
   mouseTest2Rule,
   launchAppLayer,
