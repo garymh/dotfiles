@@ -174,7 +174,7 @@ vim.g.loaded_ruby_provider   = 0
 vim.g.loaded_perl_provider   = 0
 
 if InGui() then
-  vim.opt.guifont = "BlexMono Nerd Font Mono:h28"
+  vim.opt.guifont = "SF Mono:h28"
 end
 
 if InNeovide() then

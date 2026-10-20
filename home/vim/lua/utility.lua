@@ -11,7 +11,15 @@ function InNeovide() return vim.g.neovide == true end
 
 function InVimr() return vim.fn.exists("g:gui_vimr") == 1 end
 
-function InGui() return InVimr() or InNeovide() end
+function InNvmm()
+  for _, ui in ipairs(vim.api.nvim_list_uis()) do
+    local client = vim.api.nvim_get_chan_info(ui.chan).client
+    if client and client.name == "Nvmm" then return true end
+  end
+  return false
+end
+
+function InGui() return InVimr() or InNeovide() or InNvmm() end
 
 function Notifier(text) vim.notify(text, vim.log.levels.INFO, { title = "Info" }) end
 

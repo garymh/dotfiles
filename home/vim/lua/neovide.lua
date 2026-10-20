@@ -11,7 +11,7 @@ local change_scale_factor =
 vim.keymap.set({ "n", "i" }, "<D-=>", function() change_scale_factor(1.25) end)
 vim.keymap.set({ "n", "i" }, "<D-->", function() change_scale_factor(1 / 1.25) end)
 
-vim.o.guifont                                = "FixedsysModernV05 Nerd Font Mono:h28:w1:#e-subpixelantialias:#h-none"
+vim.o.guifont                                = "SF Mono:h28"
 vim.opt.number                               = false
 vim.opt.relativenumber                       = false
 
