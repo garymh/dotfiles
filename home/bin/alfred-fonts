@@ -1,5 +1,21 @@
-#!/opt/homebrew/opt/python@3/libexec/bin/python3
-"""Alfred Script Filter over a list of font families.
+#!/bin/sh
+''':'
+# sh trampoline; Python sees this block as a string. Run the newest Homebrew
+# python3.N that the Pillow formula is built for: python3 and python@3/libexec
+# are aliases that move or disappear on python@3.x bumps, but versioned
+# python3.N links stay while their formula is installed.
+py= best=-1
+for d in /opt/homebrew/opt/pillow/lib/python3.*/site-packages; do
+  v=${d#/opt/homebrew/opt/pillow/lib/python3.}; v=${v%%/*}
+  case $v in *[!0-9]* | '') continue ;; esac
+  [ "$v" -gt "$best" ] && [ -x "/opt/homebrew/bin/python3.$v" ] &&
+    best=$v py=/opt/homebrew/bin/python3.$v
+done
+[ -n "$py" ] || { echo "alfred-fonts: no Homebrew python3.N with Pillow" >&2; exit 1; }
+exec "$py" "$0" "$@"
+'''
+
+__doc__ = """Alfred Script Filter over a list of font families.
 
 Emits Script Filter JSON (https://www.alfredapp.com/help/workflows/inputs/script-filter/json/)
 for every family in the list file. Each installed family gets a cached "Aa"
@@ -22,8 +38,6 @@ ignored). Resolution is exact -> PostScript name -> unique prefix -> closest
 match; entries that only fuzzily resolve are marked in the subtitle, and
 entries with no installed font at all come back invalid with a suggestion.
 """
-
-from __future__ import annotations
 
 import argparse
 import difflib
