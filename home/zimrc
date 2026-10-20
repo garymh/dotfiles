@@ -9,7 +9,13 @@ zmodule zshzoo/macos
 zmodule joke/zim-starship
 zmodule fzf
 zmodule magic-enter
-zmodule MichaelAquilina/zsh-you-should-use
+# you-should-use runs `tput` 5x at load for its colours; route them to the
+# zsh/terminfo builtin `echoti` (same bytes) instead of exec'ing tput.
+zmodule MichaelAquilina/zsh-you-should-use \
+  --cmd 'zmodload zsh/terminfo
+  tput() { echoti "$@" 2>/dev/null }
+  source {}/zsh-you-should-use.plugin.zsh
+  unfunction tput'
 
 zmodule atuin-init --use mkdir --if-command atuin \
   --cmd 'if [[ ! {}/init.zsh -nt ${commands[atuin]} ]]; then
