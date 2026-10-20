@@ -3,24 +3,23 @@
 APL385 Unicode
 Ac437 ToshibaSat 9x14
 Adwaita Mono
+Annotation Mono
+Ark Pixel 10px Mono latin
+Ark Pixel 12px Mono latin
 Atari Classic
 Berkeley Mono
 Bront
 CamingoCode
 Cartograph CF
-CommitMono-gary
 Coder's Crux
+CommitMono-gary
 Courier Prime
 Crisp
-D2CodingLigature Nerd Font Mono
 Departure Mono
 Dispatch Mono
-EnvyCodeR Nerd Font Mono
 Fisa Code
 Fixedsys Core
 FixedsysExcelsiorIIIb Nerd Font
-GoMono Nerd Font
-Hack Nerd Font Propo
 Hermit
 IBM Plex Mono
 Input Mono Compressed
@@ -30,30 +29,33 @@ Iosevka Comfy
 Iosevka Comfy Wide
 Iosevka Comfy Wide Motion
 Iosevka SS08
-IosevkaTermSlab Nerd Font Mono
 Iosvmata
+League Mono
 Lemonade
+Lexsa
 Liberation Mono
 Lotion
 Luculent
+Lyth Mono Square
 Lyth Mono Term
 Lyth Mono Term Round
-Lyth Mono Square
-Maple Mono
 Maple Mono NF
 Martian Mono
-Monaspace Argon Var
-Monaspace Radon
+Monaspace Argon NF
+Monaspace Radon NF
+Monocode
+Monofoki
 Necto Mono
+Overpass Mono
 Px437 ApricotXenC
 Recursive
 SF Mono
 Sergamon
 Share Tech Mono
-SpaceMono Nerd Font Mono
+Sometype Mono
 TamzenForPowerline
-VictorMono Nerd Font
 Vulf Mono
-cozette
+Zx Proto
 m PLUS 1 Code
+mononoki
 scientifica
