@@ -77,9 +77,6 @@
       path: ~/iCloud/Internal/custom/screens.js
       relative: false
       if: "[ `uname` = Darwin ]"
-    ~/.gitconfig.local:
-      path: home/zsh/private/gitconfig.local
-      if: "[ `uname` = Darwin ]"
     ~/.agents:
       path: home/zsh/private/agents/
       if: "[ `uname` = Darwin ]"

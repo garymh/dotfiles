@@ -25,8 +25,19 @@
   ours                  = "!f() { git co --ours $@ && git add $@; }; f"
   theirs                = "!f() { git co --theirs $@ && git add $@; }; f"
 
-[include]
-  path = ~/.gitconfig.local
+[user]
+  name       = Gary Holtz
+  email      = 235202+garymh@users.noreply.github.com
+  signingkey = 50C016BA7F79A409
+
+[gpg]
+  program = gpg
+
+[github]
+  user = garymh
+
+[credential]
+  helper = osxkeychain
 
 [includeIf "gitdir:~/code/work/"]
   path = ~/.gitconfig.work
@@ -73,6 +84,7 @@
 
 [commit]
   template = commit-msg
+  gpgsign  = true
 
 [apply]
   whitespace = nowarn
