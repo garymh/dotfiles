@@ -137,6 +137,12 @@ mkp() { mkdir -p "$@"; }
 
 mkwarn() { sed "s/.*'\(.*\)'.*/\1/" | xargs -I{} mkdir -p "{}"; }
 
+function fwfonts {
+    fc-list -f '%{file}\t%{family[0]}\t%{spacing}\n' \
+        | awk -F'\t' -v d="$HOME/Library/Fonts/" 'index($1,d)==1 && ($3==100 || $3==90) {print $2}' \
+        | sort -u
+}
+
 # https://www.alfredforum.com/topic/21438-reveal-universal-actions-from-the-terminal/
 function ua {
     # Verify all paths are valid
