@@ -13,7 +13,8 @@ const DEVICE_ACTIONS = {
   "MacBook Pro Speakers": MBSPEAKERS,
 };
 
-// dOut = default output changed. The listener gets no device, so read it when the debounce fires.
+// dOut = default output changed. The listener is passed the new device, but a switch can fire several
+// events, so the device is read once the debounce settles.
 hs.audiodevice.on("dOut", () => {
   if (audioDebounceTimer) audioDebounceTimer.stop();
   audioDebounceTimer = hs.timer.doAfter(1.5, () => {

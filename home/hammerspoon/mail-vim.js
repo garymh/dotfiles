@@ -166,27 +166,28 @@ function watchMail(app) {
   }
 }
 
-function unwatchMail() {
-  const element = watchedElement;
-  if (!element) return;
-  watchedElement = null;
-  try {
-    hs.ax.off(element, AX_EVENTS, onAxEvent);
-  } catch (e) {
-    console.error("[mail-vim] hs.ax.off failed: " + e);
-  }
-}
+// Between willLaunch and didLaunch: Mail activates before it has finished launching, and
+// hs.ax.on() on it then fails (upstream-issues.md AX-3), so didActivate leaves it to didLaunch.
+let mailLaunching = false;
 
+hs.application.on("willLaunch", (app) => {
+  if (app && app.bundleID === MAIL_BUNDLE_ID) mailLaunching = true;
+});
 hs.application.on("didActivate", (app) => {
-  if (app && app.bundleID === MAIL_BUNDLE_ID) watchMail(app);
+  if (app && app.bundleID === MAIL_BUNDLE_ID && !mailLaunching) watchMail(app);
   evaluate();
 });
 hs.application.on("didLaunch", (app) => {
-  if (app && app.bundleID === MAIL_BUNDLE_ID) watchMail(app);
+  if (!app || app.bundleID !== MAIL_BUNDLE_ID) return;
+  mailLaunching = false;
+  watchMail(app);
 });
+// No hs.ax.off(): hs.ax drops the watchers of a quit app itself, and an off() from here runs
+// before it does and fails against the dead process (upstream-issues.md AX-2).
 hs.application.on("didTerminate", (app) => {
-  if (app && app.bundleID !== MAIL_BUNDLE_ID) return;
-  unwatchMail();
+  if (!app || app.bundleID !== MAIL_BUNDLE_ID) return;
+  mailLaunching = false;
+  watchedElement = null;
   publish(0);
 });
 

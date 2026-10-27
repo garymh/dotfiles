@@ -49,8 +49,8 @@ function minimonValue(app, override) {
   const win = app.focusedWindow;
   if (!win) return null;
 
-  if (app.title === "Ghostty") {
-    // `title` is undefined when the AX title read fails (window without AXTitle, app busy).
+  if (app.name === "Ghostty") {
+    // `title` is null when the AX title read fails (window without AXTitle, app busy).
     const parts = (win.title || "").split(" ");
     if (parts[0] === "vim") return "vim";
     if (parts[0] === "irb" || (parts[0] === "rails" && parts[1] === "c")) {
@@ -59,13 +59,13 @@ function minimonValue(app, override) {
     return "Terminal";
   }
   if (
-    app.title === "Neovide" ||
-    app.title === "VimR" ||
-    app.title === "Nvmm"
+    app.name === "Neovide" ||
+    app.name === "VimR" ||
+    app.name === "Nvmm"
   ) {
     return "vim";
   }
-  return app.title;
+  return app.name;
 }
 
 // `force` republishes an unchanged value (app switches). Title changes don't: a spinner can retitle
@@ -105,21 +105,30 @@ function onTitleChanged(notification, element) {
   });
 }
 
+// Apps between willLaunch and didLaunch: they activate before their AX answers, so didActivate
+// leaves the first attach to didLaunch (upstream-issues.md AX-3) and only retries after that.
+const launchingApps = new Set();
+
 function watchAppTitles(app) {
-  const name = app && app.title;
+  const name = app && app.name;
   if (!name || !TITLE_WATCH_APPS.includes(name) || watchedApps.has(name)) return;
 
   const element = app.axElement();
   if (!element) return;
 
-  hs.ax.on(element, hs.ax.notificationTypes.titleChanged, onTitleChanged);
-  watchedApps.set(name, app);
+  try {
+    hs.ax.on(element, hs.ax.notificationTypes.titleChanged, onTitleChanged);
+    watchedApps.set(name, app);
+  } catch (e) {
+    console.error("[mqtt] hs.ax.on failed for " + name + ": " + e);
+  }
 }
 
+// No hs.ax.off(): hs.ax drops the watchers of a quit app itself, and an off() from didTerminate
+// runs before it does and fails against the dead process (upstream-issues.md AX-2).
 function unwatchAppTitles(app) {
-  const name = app && app.title;
-  if (!name || !watchedApps.delete(name)) return;
-  hs.ax.off(app.axElement(), hs.ax.notificationTypes.titleChanged, onTitleChanged);
+  const name = app && app.name;
+  if (name) watchedApps.delete(name);
 }
 
 const MAIL_JUNK_SCRIPT = `
@@ -135,20 +144,27 @@ const MAIL_JUNK_SCRIPT = `
   end tell
 `;
 
+function onAppWillLaunch(app) {
+  if (app && app.name) launchingApps.add(app.name);
+}
+
 function onAppDidLaunch(app) {
   if (!app) return;
+  launchingApps.delete(app.name);
   watchAppTitles(app);
 }
 
 function onAppDidTerminate(app) {
   if (!app) return;
+  launchingApps.delete(app.name);
   unwatchAppTitles(app);
 }
 
 async function onAppDidActivate(app) {
   try {
     if (!app) return;
-    const name = app.title;
+    const name = app.name;
+    if (!launchingApps.has(name)) watchAppTitles(app);
 
     if (name === "Mail") {
       hs.osascript
@@ -171,6 +187,7 @@ async function onAppDidActivate(app) {
   }
 }
 
+hs.application.on("willLaunch", onAppWillLaunch);
 hs.application.on("didLaunch", onAppDidLaunch);
 hs.application.on("didTerminate", onAppDidTerminate);
 hs.application.on("didActivate", onAppDidActivate);

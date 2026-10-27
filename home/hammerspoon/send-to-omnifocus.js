@@ -46,15 +46,15 @@ function setHandler(appName, p) {
 // Last non-HS2 app to activate: the source app on the URL route.
 let lastSourceApp = null;
 hs.application.on("didActivate", (app) => {
-  if (!app || /Hammerspoon/i.test(app.title || "")) return;
+  if (!app || /Hammerspoon/i.test(app.name || "")) return;
   lastSourceApp = app;
 });
 
 async function send() {
   const fm = hs.application.frontmost();
-  const fmIsHs2 = fm && /Hammerspoon/i.test(fm.title || "");
+  const fmIsHs2 = fm && /Hammerspoon/i.test(fm.name || "");
   const app = fmIsHs2 ? lastSourceApp : fm;
-  const appName = app ? app.title : null;
+  const appName = app ? app.name : null;
   const h = resolve(appName);
   if (!h) {
     hs.notify.show("OmniFocus", `No handler for ${appName}`);
