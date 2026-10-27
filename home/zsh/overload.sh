@@ -1,45 +1,48 @@
 if _exists btop; then
-  alias cpu="btop"
-  alias htop="btop"
-  alias top="btop"
+    alias cpu="btop"
+    alias htop="btop"
+    alias top="btop"
 fi
 
 if _exists bat; then
-  alias cat='bat'
+    alias cat='bat'
 fi
 
 if _exists trash; then
-  alias rm=trash
+    alias rm=trash
 else
-  alias rm="rm -i"
+    alias rm="rm -i"
 fi
 
 if _exists prettyping; then
-  alias ping='prettyping --nolegend'
+    alias ping='prettyping --nolegend'
 fi
 
 if _exists lsd; then
-  alias ls='lsd'
-  alias ll='lsd -al'
-  alias lsl='lsd *(@)' # only symlinks
-  alias lsx='lsd *(*)' # only executables
+    alias ls='lsd'
+    alias ll='lsd -al'
+    alias lsl='lsd *(@)' # only symlinks
+    alias lsx='lsd *(*)' # only executables
 fi
 
+# One host argument tagged `# Features: mosh` in ~/.ssh/config connects with
+# mosh; everything else goes through ssh, wrapped by `ghostty +ssh` inside
+# Ghostty (terminfo install + env forwarding on the remote host).
 function ssh {
-  if [ "$2" = "" ]; then
-    conn="$1"
-    sshhost=$(printf "%s" "$conn" | cut -d '@' -f2)
-    if rg -U -i "^#.*Features:.*mosh.*\nHost $sshhost" "$HOME/.ssh/config" >/dev/null; then
-      e_success "connecting with mosh ...\n"
-      command mosh --no-init "$conn"
-    else
-      e_header "connecting with ssh ...\n"
-      command ssh "$conn"
+    local -a ssh_cmd=(command ssh)
+    [[ $TERM == xterm-ghostty ]] && ssh_cmd=(ghostty +ssh --)
+
+    if [[ $# -eq 1 ]]; then
+        local sshhost=${1#*@}
+        if rg -U -i "^#.*Features:.*mosh.*\nHost $sshhost" "$HOME/.ssh/config" >/dev/null; then
+            e_success "connecting with mosh ...\n"
+            command mosh --no-init "$1"
+            return
+        fi
     fi
-  else
+
     e_header "connecting with ssh ...\n"
-    command ssh "$@"
-  fi
+    "${ssh_cmd[@]}" "$@"
 }
 
 # Clever thing from wincent: https://github.com/wincent/wincent/blob/main/aspects/dotfiles/files/.zsh/functions
@@ -53,43 +56,43 @@ function ssh {
 #     - `git ARG...` = behaves just like normal `git` command.
 #
 function git() {
-  if [ $# -eq 0 ]; then
-    command git status
-  elif [ "$1" = root ]; then
-    shift
-    local ROOT
-    if [ "$(command git rev-parse --is-inside-git-dir 2>/dev/null)" = true ]; then
-      if [ "$(command git rev-parse --is-bare-repository)" = true ]; then
-        ROOT="$(command git rev-parse --absolute-git-dir)"
-      else
-        # Note: This is a good-enough, rough heuristic, which ignores
-        # the possibility that GIT_DIR might be outside of the worktree;
-        # see:
-        # https://stackoverflow.com/a/38852055/2103996
-        ROOT="$(command git rev-parse --git-dir)/.."
-      fi
-    else
-      # Git 2.13.0 and above:
-      ROOT="$(command git rev-parse --show-superproject-working-tree 2>/dev/null)"
-      if [ -z "$ROOT" ]; then
-        ROOT="$(command git rev-parse --show-toplevel 2>/dev/null)"
-      fi
-    fi
-    if [ -z "$ROOT" ]; then
-      ROOT="$PWD"
-    fi
     if [ $# -eq 0 ]; then
-      if [ -t 1 ]; then
-        cd "$ROOT"
-      else
-        echo "$ROOT"
-      fi
+        command git status
+    elif [ "$1" = root ]; then
+        shift
+        local ROOT
+        if [ "$(command git rev-parse --is-inside-git-dir 2>/dev/null)" = true ]; then
+            if [ "$(command git rev-parse --is-bare-repository)" = true ]; then
+                ROOT="$(command git rev-parse --absolute-git-dir)"
+            else
+                # Note: This is a good-enough, rough heuristic, which ignores
+                # the possibility that GIT_DIR might be outside of the worktree;
+                # see:
+                # https://stackoverflow.com/a/38852055/2103996
+                ROOT="$(command git rev-parse --git-dir)/.."
+            fi
+        else
+            # Git 2.13.0 and above:
+            ROOT="$(command git rev-parse --show-superproject-working-tree 2>/dev/null)"
+            if [ -z "$ROOT" ]; then
+                ROOT="$(command git rev-parse --show-toplevel 2>/dev/null)"
+            fi
+        fi
+        if [ -z "$ROOT" ]; then
+            ROOT="$PWD"
+        fi
+        if [ $# -eq 0 ]; then
+            if [ -t 1 ]; then
+                cd "$ROOT"
+            else
+                echo "$ROOT"
+            fi
+        else
+            (cd "$ROOT" && eval "$@")
+        fi
     else
-      (cd "$ROOT" && eval "$@")
+        command git "$@"
     fi
-  else
-    command git "$@"
-  fi
 }
 
 alias youtube-dl="yt-dlp"

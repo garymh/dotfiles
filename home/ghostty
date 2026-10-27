@@ -11,19 +11,20 @@ keybind = global:cmd+f12=toggle_quick_terminal
 # and map it directly in nvim's mappings.lua (<C-_>).
 keybind = ctrl+i=text:\x1f
 
+background-blur-radius            = 10
+background-opacity                = 0.95
 clipboard-read                    = allow
 confirm-close-surface             = false
 cursor-opacity                    = 0.5
+macos-option-as-alt               = true
 progress-style                    = true
 quick-terminal-animation-duration = 0.1
 quick-terminal-position           = right
 quick-terminal-size               = 45%,50%
-shell-integration-features        = ssh-env,ssh-terminfo,cursor,title,sudo,path
+shell-integration-features        = cursor,title,sudo,path
 window-padding-x                  = 10
 window-theme                      = system
 window-vsync                      = false
-macos-option-as-alt               = true
-background-opacity                = 0.95
 
 theme       = Vague
 font-family = Input Mono Compressed
@@ -41,3 +42,5 @@ font-feature          = zero
 
 adjust-cell-height    = 0%
 adjust-cell-width     = 0%
+
+config-file = ?auto/theme.ghostty
