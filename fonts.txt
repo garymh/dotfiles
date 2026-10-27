@@ -25,6 +25,7 @@ IBM Plex Mono
 Input Mono Compressed
 Input Mono Condensed
 IntelOne Mono
+IoskeleyMonoTerm Nerd Font Mono
 Iosevka Comfy
 Iosevka Comfy Wide
 Iosevka Comfy Wide Motion
@@ -46,8 +47,10 @@ Monaspace Radon NF
 Monocode
 Monofoki
 Necto Mono
+Nordwand Mono
 Overpass Mono
 Px437 ApricotXenC
+Pragmasevka Nerd Font
 Recursive
 SF Mono
 Sergamon
