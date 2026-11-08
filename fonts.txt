@@ -57,6 +57,7 @@ Sergamon
 Share Tech Mono
 Sometype Mono
 TamzenForPowerline
+Terminess Nerd Font
 Vulf Mono
 Zx Proto
 m PLUS 1 Code
