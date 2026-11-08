@@ -196,7 +196,10 @@ ignored_commands = [
   "vi",
   "vim",
   "gs",
-  "cd"
+  "cd",
+  "exit",
+  "clear",
+  "pwd"
 ]
 
 [keys]
